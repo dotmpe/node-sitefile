@@ -11,8 +11,16 @@ rst2html = ( out, ctx={} )->
 	_.defaults ctx,
 		format: 'pseudoxml'
 		docpath: 'index'
+		link_stylesheet: false
+		stylesheets: []
 
-	cmd = "rst2#{ctx.format}.py '#{ctx.docpath}.rst'"
+	flags = []
+	if ctx.stylesheets? and !_.isEmpty ctx.stylesheets
+		sheets = ctx.stylesheets.join(',')
+		flags.push "--stylesheet-path '#{sheets}'"
+	cmdflags = flags.join(' ')
+
+	cmd = "rst2#{ctx.format}.py #{cmdflags} '#{ctx.docpath}.rst'"
 
 	if ctx.format == 'source'
 		out.type 'text'
@@ -36,7 +44,18 @@ rst2html = ( out, ctx={} )->
 			out.end()
 
 
-module.exports =
+module.exports = ( ctx={} )->
+
+	_.defaults ctx, 
+
+		# base-url / prefix for local routes
+		base_url: null
+
+	name: 'rst2html'
+	label: 'Docutils rst-to-html'
+	default:
+		# default rst2html: action
+		'single_name_handler'
 
 	generate:
 		single_name_handler: ( path )->
@@ -45,7 +64,7 @@ module.exports =
 					format: 'html',
 					docpath: path
 				try
-					rst2html res, req.query
+					rst2html res, _.merge {}, ctx.specs.rst2html, req.query
 				catch error
 					console.log error
 					res.type('text/plain')
@@ -53,20 +72,19 @@ module.exports =
 					res.write("exec error: "+error)
 					res.end()
 
+	route:
+		base: ctx.base_url
+		rst2html:
+			get: (req, res, next)->
+			
+				req.query = _.defaults res.query || {}, format: 'xml' 
 
-	meta:
-		route:
-			rst2html:
-				get: (req, res, next)->
-				
-					req.query = _.defaults res.query || {}, format: 'xml' 
-
-					try
-						rst2html res, req.query
-					catch error
-						console.log error
-						res.type('text/plain')
-						res.status(500)
-						res.write("exec error: "+error)
-					res.end()
+				try
+					rst2html res, _.merge {}, ctx.specs.rst2html, req.query
+				catch error
+					console.log error
+					res.type('text/plain')
+					res.status(500)
+					res.write("exec error: "+error)
+				res.end()
 

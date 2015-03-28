@@ -29,6 +29,9 @@ get_local_sitefile = (ctx={})->
 		sitefile = require lfn
 	else if ctx.ext in [ '.yaml', '.yml' ]
 		sitefile = yaml.safeLoad fs.readFileSync lfn, 'utf8'
+	_.defaults sitefile, 
+		routes: {}
+		specs: {}
 	sitefile
 
 redir = ( app, r, p )->
@@ -42,6 +45,7 @@ apply_routes = ( sitefile, app, ctx={} )->
 
 	if not _.isEmpty sitefile.routes
 		for route, strspec of sitefile.routes
+			# FIXME: iterate routers and move spec parse to router
 			r = ctx.base + route
 			p = null
 			if strspec.startsWith 'static:'

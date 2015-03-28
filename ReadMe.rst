@@ -28,13 +28,22 @@ Installation
 ------------
 ::
 
-  npm isntall -g
+  npm install -g
 
-Or make ``bin/sitefile`` available on your path.
+Or make ``bin/sitefile`` available on your path, and install locally (w/o ``-q``).
+
+Testing
+-------
+::
+
+  npm install
+  npm test
+
+Test specifications are in ``test/jasmin/``.
 
 Usage
 ------
-In a directory containing a ``Sitefile.*``, run sitefile to start the server.
+In a directory containing a ``Sitefile.*``, run `sitefile` to start the server.
 
 There are no further command line options.
 

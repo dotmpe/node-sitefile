@@ -1,7 +1,13 @@
 sitefile: 0.1
-routes: 
+routes:
   media: 'static:public/media'
   ReadMe: 'rst2html:ReadMe'
   '': 'redir:ReadMe'
   index: 'redir:ReadMe'
   todo: 'todo-app:TODO.list'
+specs:
+  rst2html:
+    stylesheets:
+        - 'public/media/style/default.css'
+
+

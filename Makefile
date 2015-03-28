@@ -1,4 +1,4 @@
-TRGTS := install update build build-clients info test
+TRGTS := install update build build-clients info test global
 
 empty := 
 space := $(empty) $(empty)
@@ -7,12 +7,14 @@ default:
 	@echo '# npm [start|test|run build]'
 	@echo '# make [$(subst $(space),|,$(TRGTS))]'
 
-install:
+install: test
 	npm install
-	bower install
 
 test:
 	npm test
+
+global: test
+	npm install -g
 
 update:
 	npm update
