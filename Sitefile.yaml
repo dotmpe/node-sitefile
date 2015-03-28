@@ -1,10 +1,11 @@
+# Sitefile for node-sitefile document server
 sitefile: 0.1
 routes:
   media: 'static:public/media'
   ReadMe: 'rst2html:ReadMe'
   '': 'redir:ReadMe'
   index: 'redir:ReadMe'
-  todo: 'todo-app:TODO.list'
+#  todo: 'todo-app:TODO.list'
 specs:
   rst2html:
     stylesheets:

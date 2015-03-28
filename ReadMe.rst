@@ -1,6 +1,39 @@
 Node Sitefile
 =============
-Sitefile enables an Express HTTP server to set up from a local configuration file.
+Sitefile enables an Express server to be quickly set up from a local configuration file.
+
+It's a young project written with the intend to primarily make reStructuredText
+embedded content more (readily) accessible. In its current state it is usable 
+as a simple really simple (and dumb) rst2html HTTP server, a read-only wiki.
+
+.. role:: todo(strong)
+
+Intro
+-----
+The main filosophy is to look at a project as a set of hyperlinked documents,
+formatted in various ways as appropiate to the project. Sitefile aims to handle
+only the HTML conversion and HTTP serving of these resources, as being provided 
+by the project files.
+
+It should be useful for projects that have no webserver of their own, or that
+want to defer rendering/browsing of the project documentation and other resources.
+
+Put another way, it enables notebooks and documentation projects in general to 
+serve content through a browser with full multi-media and hyperlink capabilities 
+without the need to set up any server capabilities beyond installing sitefile.
+
+By using Docutils [Du] reStructuredText [rSt] a pretty amazing array of hyperlinked
+document possibilities emerge. :todo:`TODO:` Sitefile provides for a pre-styled CSS file
+for HTML documents published with Du. 
+
+Sitefile is pretty young, as I'm writing this the second day of its existence.
+At this point it seems it may evolve into a kind of nodemon/forever service,
+maybe inherit or mimic some grunt-linke capalities. I do intend to write forks
+for specific applications. Some other vapourware ideas right now are to mount sites
+defined with sitefiles onto each other into one larger sitefile process. And
+maybe also to distribute pluggable, modular routers using some github scenario.
+
+Some further background reading is provided in `Sitefile planet`_ section.
 
 Description
 ------------
@@ -8,17 +41,16 @@ The intended purpose is to implement generic handlers for misc. file-based
 resources that are suitable to be rendered to/accessed through HTTP and viewed 
 in a web browser. For example the ReadMe file in many projects.
 
-:TODO: The local configuration is used for further parametrization of the handlers.
-
 Currently the following resources are supported:
 
 - ``rst2html``: reStructuredText documents (depends on Python docutils)
-- ``du``: TODO: implement glob-specs
+- ``du``: :todo:`implement glob-specs`
 - ``static``
 
 and 
 
 - ``redir``\ (ect)
+
 
 Prerequisites
 -------------
@@ -76,14 +108,104 @@ Example Sitefile (json)::
     }
   }
 
-:TODO: implement handler specs
+:todo:`look for some versioning (definition, validation, comparison, migration) of Sitefile schema`
 
-:TODO: chalk
-:TODO:
-    | "compression": "^1.0.2",
+
+Misc.
+------
+- :todo:`maybe implement simple TODO app as a feature branch somday`
+- :todo:`travis-ci.org can do build testing`
+- https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
+- :todo:`add express functions:`
+    | chalk
     | "connect-flash": "latest",
     | "jade": "latest",
     | "method-override": "^2.3.2",
     | "node-uuid": "^1.4.3",
     | "notifier": "latest"
+
+
+Sitefile planet
+---------------
+Looking for alternatives or comparable projects from the Node.JS sphere.
+
+.. I don't know about many Node.JS frameworks. Express obviously, but only
+   heard a bit of Grunt and Yeoman. 
+
+   I'm biased to reStructuredText since that's been my note format for over 10
+   years, and have not really found anyting as expressive. 
+
+
+`harp <http://harpjs.com>`_
+  enables filesystem-based content for websites too, but does so in a
+  project-generator type of fashion.
+
+  Sitefile is unobtrusive, except for some configuration file.
+  Also sitefile does not focus on providing an development platform,
+  But theres no reason it should not handle the web formats used by harp,
+  personally I find LESS and Coffee-Script are very handy.
+
+  harp is far more extended. some concepts such as asset management (styles,
+  images) are interesting.
+
+  :TODO: write sitefile routers for Stylus, LESS, Markdown, Coffee-Script.
+
+`Docutils reStructuredText <http://docutils.sourceforge.net/rst.html>`_
+  It does not appear that rSt is that popular with the Node.JS crowd. 
+  Even with Sphynx and the like it looks like it has not gained much traction beyond Python.
+
+  One popular? node module is actually to `convert rst to markdown <https://nodejsmodules.org/pkg/rst2mdown>`_.
+
+`Node.JS`
+  It's so simple to aggregate rich apps with Node.JS and NPM that Sitefile unless it grows is not so much needed. 
+  Even without Express and standard libraries only: https://gist.github.com/ryanflorence/701407
+  And just for static files: http://www.sitepoint.com/serving-static-files-with-node-js/
+
+  It is the richness of the finally presented document that Sitefile aims for and Node.JS and later Bower may provide.
+  Mentioning bower, and about further client scripting: that extends beyond the scope
+  for this project right now. See [1]_.
+
+`node-static <http://harpjs.com>`_
+  Makes easy streaming of files. Would be nice to integrate with for media centers
+  with Sitefile HTML UI?
+
+`Jingo <https://github.com/claudioc/jingo>`_
+  Something to look at. Given its GIT based store and Wiki formatting this may provide for another
+  interesting file-based content router.
+
+`wiki-server <https://www.npmjs.com/package/wiki-server>`_
+  "A Federated Wiki Server"
+
+Non-NodeJS-related Topics
+''''''''''''''''''''''''''
+
+`Markdown <http://daringfireball.net/projects/markdown/>`_
+  Markdown is less well defined and in general far less capable than reStructuredText,
+  but very suited for simple marked up text to HTML conversions.
+
+  Its simplicity is only one likely cause that it is far more popular across various web-related projects.
+  Commercial suites from Atlassian elaborate on a similar plain text editor formats.
+
+
+`pandoc <http://johnmacfarlane.net/pandoc/>`_
+  A pretty heroic "swiss-army knive" doc-conv effort in Haskell.
+
+  It is not completely compatible with Python Docutils rSt, but does an pretty
+  amazing job on converting rSt and a few dozen other formats with each other.
+  Worth a mention, without it being used by sitefile (yet).
+
+`TiddlyWiki <http://tiddlywiki.com>`_
+  "a non-linear personal web notebook"
+
+  Not opened in years and never really used it, but the concept is really nice.
+  May already provide some Node.JS integration.
+
+`Jekyll <https://github.com/jekyll/jekyll>`_
+  "Jekyll is a blog-aware, static site generator in Ruby"
+
+  :via: GitHub Pages - `Using Jekyll with Pages <https://help.github.com/articles/using-jekyll-with-pages/>`_
+
+----
+
+.. [#] `nodejs-socketio-seed <http://github.com/dotmpe/nodejs-express-socketio-seed>`_.
 

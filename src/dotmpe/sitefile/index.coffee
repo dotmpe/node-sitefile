@@ -9,6 +9,7 @@ String::endsWith   ?= (s) -> s is '' or @[-s.length..] is s
 
 
 get_local_sitefile_name = ( ctx={} )->
+	# TODO: read ctx from .sitefilerc
 	fn = null
 	ext = null
 	_.defaults ctx, basename: 'Sitefile', exts: [
