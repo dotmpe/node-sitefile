@@ -1,4 +1,4 @@
-TRGTS := install update build build-clients info
+TRGTS := install update build build-clients info test
 
 empty := 
 space := $(empty) $(empty)
@@ -10,6 +10,9 @@ default:
 install:
 	npm install
 	bower install
+
+test:
+	npm test
 
 update:
 	npm update

@@ -1,1 +1,6 @@
-module.exports = {}
+module.exports = 
+	development:
+		routers: [
+			'rst2html'
+		]
+		

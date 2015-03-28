@@ -2,7 +2,7 @@
 
 path = require 'path'
 
-lib= require '../src/dotmpe/sitefile'
+lib = require '../src/dotmpe/sitefile'
 
 sitefile = lib.get_local_sitefile()
 
@@ -10,6 +10,10 @@ ctx = sitefile: sitefile, noderoot: path.dirname( __dirname )
 
 express_handler = require '../src/dotmpe/sitefile/express'
 app = express_handler ctx
+
+# TODO
+#for name in ctx.config.routers
+#	router = require '../src/dotmpe/sitefile/routers/' + name
 
 rst2html = require '../src/dotmpe/sitefile/routers/rst2html'
 ctx.rst2html = rst2html.generate.single_name_handler

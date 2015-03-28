@@ -3,23 +3,23 @@ path = require 'path'
 yaml = require 'js-yaml'
 _ = require 'lodash'
 
-get_local_sitefile_name = (ctx={})->
+get_local_sitefile_name = ( ctx={} )->
 	fn = null
 	ext = null
-	exts = [
+	_.defaults ctx, basename: 'Sitefile', exts: [
 		'.json'
 		'.yml'
 		'.yaml'
 	]
-	for ext in exts
-		fn = 'Sitefile' + ext
+	for ext in ctx.exts
+		fn = ctx.basename + ext
 		if fs.existsSync fn
 			ctx.fn = fn
 			ctx.ext = ext
 			break
 		fn = null
 	if not fn
-		throw "No sitefile. "
+		throw "No "+ctx.basename
 	ctx.lfn = path.join process.cwd(), fn
 	ctx.lfn
 
@@ -32,9 +32,9 @@ get_local_sitefile = (ctx={})->
 	sitefile
 
 redir = ( app, r, p )->
-				console.log 'redir', r, p
-				app.all r, (req, res)->
-					res.redirect p
+	console.log 'redir', r, p
+	app.all r, (req, res)->
+		res.redirect p
 
 apply_routes = ( sitefile, app, ctx={} )->
 

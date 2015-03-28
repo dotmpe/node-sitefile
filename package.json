@@ -15,7 +15,7 @@
   "licenses": [
     {
       "type": "GPLv3",
-      "url": "https://github.com/dotmpe/x-nodejs-htdocs/blob/master/LICENSE-GPLv3"
+      "url": "https://github.com/dotmpe/node-sitefile/raw/master/LICENSE"
     }
   ],
   "contributors": [],
@@ -30,23 +30,21 @@
   "main": "server.coffee",
   "scripts": {
     "start": "NODE_ENV=development nodemon server.coffee",
+    "test": "NODE_ENV=development coffee test/runner.coffee",
     "build": "make build-clients",
     "srctree": "tree -I 'node_modules|build|components'",
-    "srcloc": "find src/ -iname '*.js' -o -iname '*.coffee' -exec cat {} + | grep -v '^\\s*$' | wc -l"
+    "srcloc": "find bin/ config/ public/media src/ -iname '*.js' -o -iname '*.coffee' -exec cat {} + | grep -v '^\\s*$' | wc -l"
+  },
+  "bin": {
+    "sitefile": "bin/sitefile"
   },
   "dependencies": {
-    "chalk": "^1.0.0",
     "coffee-script": "latest",
-    "compression": "^1.0.2",
-    "connect-flash": "latest",
     "express": "^4.1.1",
-    "jade": "latest",
     "js-yaml": "^3.2.7",
-    "lodash": "^3.4.0",
-    "method-override": "^2.3.2",
-    "node-uuid": "^1.4.3",
-    "notifier": "latest"
+    "lodash": "^3.4.0"
   },
   "devDependencies": {
+    "minijasminenode2": "^1.0.0"
   }
 }
