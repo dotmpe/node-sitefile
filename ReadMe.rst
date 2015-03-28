@@ -6,6 +6,7 @@ It's a young project written with the intend to primarily make reStructuredText
 embedded content more (readily) accessible. In its current state it is usable 
 as a simple really simple (and dumb) rst2html HTTP server, a read-only wiki.
 
+
 .. role:: todo(strong)
 
 Intro
@@ -35,6 +36,7 @@ maybe also to distribute pluggable, modular routers using some github scenario.
 
 Some further background reading is provided in `Sitefile planet`_ section.
 
+
 Description
 ------------
 The intended purpose is to implement generic handlers for misc. file-based
@@ -57,6 +59,7 @@ Prerequisites
 - Python docutils is not required, but is the only document format available.
 - Installed ``coffee`` (coffee-script) globally (see ``bin/sitefile`` sha-bang).
 
+
 Installation
 ------------
 ::
@@ -64,6 +67,7 @@ Installation
   npm install -g
 
 Or make ``bin/sitefile`` available on your path, and install locally (w/o ``-q``).
+
 
 Testing
 -------
@@ -74,11 +78,13 @@ Testing
 
 Test specifications are in ``test/jasmin/``.
 
+
 Usage
 ------
 In a directory containing a ``Sitefile.*``, run `sitefile` to start the server.
 
 There are no further command line options.
+
 
 Configuration
 --------------
@@ -176,16 +182,15 @@ Looking for alternatives or comparable projects from the Node.JS sphere.
 `wiki-server <https://www.npmjs.com/package/wiki-server>`_
   "A Federated Wiki Server"
 
-Non-NodeJS-related Topics
-''''''''''''''''''''''''''
 
-`Markdown <http://daringfireball.net/projects/markdown/>`_
-  Markdown is less well defined and in general far less capable than reStructuredText,
-  but very suited for simple marked up text to HTML conversions.
+reStructured Text documenation tooling
+''''''''''''''''''''''''''''''''''''''
 
-  Its simplicity is only one likely cause that it is far more popular across various web-related projects.
-  Commercial suites from Atlassian elaborate on a similar plain text editor formats.
+`Sphynx <http://sphinx-doc.org/>`_
+  Python documentation generator based on Du (ie. rSt to HTML, LaTex, etc.)
 
+  Provides some additional reStructuredText directives and uses its own
+  publisher chain.
 
 `pandoc <http://johnmacfarlane.net/pandoc/>`_
   A pretty heroic "swiss-army knive" doc-conv effort in Haskell.
@@ -193,6 +198,31 @@ Non-NodeJS-related Topics
   It is not completely compatible with Python Docutils rSt, but does an pretty
   amazing job on converting rSt and a few dozen other formats with each other.
   Worth a mention, without it being used by sitefile (yet).
+
+`Nabu <https://bitbucket.org/blais/nabu>`_
+  Document publishing using text files.
+
+  Provides an extractor framework for regular Du transforms to turn into data
+  extractors.
+  Extractors are paired with storage instances, of which Nabu provides some SQL
+  compatible baseclasses.
+
+  Potentially, Du transforms can rewrite documents and ie. enrich references and
+  various sorts of embedded metadata. 
+  For a complete setup, That would require a reStructuredText (re)writer however. [#]_
+
+.. if they ever are usable here perhaps mention Blue-Lines, or Scrow.
+
+
+Other Non-NodeJS-related Topics
+'''''''''''''''''''''''''''''''''
+
+`Markdown <http://daringfireball.net/projects/markdown/>`_
+  Markdown is less well defined and in general far less capable than reStructuredText,
+  but very suited for simple marked up text to HTML conversions.
+
+  Its simplicity is only one likely cause that it is far more popular across various web-related projects.
+  Commercial suites from Atlassian elaborate on a similar plain text editor formats.
 
 `TiddlyWiki <http://tiddlywiki.com>`_
   "a non-linear personal web notebook"
@@ -205,7 +235,13 @@ Non-NodeJS-related Topics
 
   :via: GitHub Pages - `Using Jekyll with Pages <https://help.github.com/articles/using-jekyll-with-pages/>`_
 
+
 ----
 
-.. [#] `nodejs-socketio-seed <http://github.com/dotmpe/nodejs-express-socketio-seed>`_.
+.. [#] `nodejs-socketio-seed <http://github.com/dotmpe/nodejs-express-socketio-seed>`_
+.. [#] `docutils-ext <https://github.com/dotmpe/docutils-ext>`_
+.. [#] I know of two reStructuredText (re)writers, not considering pandoc or
+    XSLT approaches. But actual Du writer component implementations. Both are not
+    quite there yet. One is found in the Du Subversion rst lossless writer branch, the
+    other by yours truly is in [2]_.
 

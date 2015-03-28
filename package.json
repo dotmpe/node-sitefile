@@ -24,8 +24,8 @@
     "url": "https://github.com/dotmpe/node-sitefile.git"
   },
   "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
+    "node": "0.12.x",
+    "npm": "2.7.x"
   },
   "main": "server.coffee",
   "scripts": {
