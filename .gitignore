@@ -1,0 +1,15 @@
+# Installed files
+node_modules/
+public/components/
+# Build files
+public/script/pkg-*.js
+public/script/browser
+public/script/project
+public/script/x-backbone
+public/script/x-bookmarks
+www-build/
+main.sqlite3.db
+# Misc. local files
+.*sw[pon]
+*.orig
+.DS_Store

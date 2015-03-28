@@ -1,0 +1,22 @@
+#!/usr/bin/env coffee
+
+path = require 'path'
+
+lib= require '../src/dotmpe/sitefile'
+
+sitefile = lib.get_local_sitefile()
+
+ctx = sitefile: sitefile, noderoot: path.dirname( __dirname )
+
+express_handler = require '../src/dotmpe/sitefile/express'
+app = express_handler ctx
+
+rst2html = require '../src/dotmpe/sitefile/routers/rst2html'
+ctx.rst2html = rst2html.generate.single_name_handler
+
+lib.apply_routes sitefile, app, ctx
+
+ctx.server.listen ctx.port, ->
+	console.log "Express server listening on port " + ctx.port
+
+# vim:ft=coffee:
