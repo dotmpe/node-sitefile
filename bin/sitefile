@@ -5,26 +5,30 @@ path = require 'path'
 
 lib = require '../src/dotmpe/sitefile'
 
+# import the local site file
 sitefile = lib.get_local_sitefile()
 
-ctx = sitefile: sitefile, noderoot: path.dirname( __dirname )
+# prepare context and sitefile config
+ctx = lib.prepare_context sitefile: sitefile
+lib.load_config ctx
 
+# initialize Express
 express_handler = require '../src/dotmpe/sitefile/express'
 app = express_handler ctx
 
+# import handler generators
 for name in ctx.config.routers
 	router_cb = require '../src/dotmpe/sitefile/routers/' + name
-
 	router_meta = router_cb _.merge {}, ctx, sitefile
-	
 	handler_generator = router_meta.generate[ router_meta.default ]
 
 	# TODO: allow access to all generators from spec
 	ctx[ name ] = handler_generator
 
+# apply Sitefile routes
 lib.apply_routes sitefile, app, ctx
 
-
+# server forever
 ctx.server.listen ctx.port, ->
 	console.log "Express server listening on port " + ctx.port
 

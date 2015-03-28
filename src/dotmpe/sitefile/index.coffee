@@ -1,7 +1,12 @@
 fs = require 'fs'
 path = require 'path'
+glob = require 'glob'
 yaml = require 'js-yaml'
 _ = require 'lodash'
+
+String::startsWith ?= (s) -> @[...s.length] is s
+String::endsWith   ?= (s) -> s is '' or @[-s.length..] is s
+
 
 get_local_sitefile_name = ( ctx={} )->
 	fn = null
@@ -33,6 +38,27 @@ get_local_sitefile = (ctx={})->
 		routes: {}
 		specs: {}
 	sitefile
+
+prepare_context = ( ctx={} )->
+	_.defaults ctx,
+		noderoot: path.dirname path.dirname path.dirname __dirname
+		proc: 
+			name: path.basename process.argv[1]
+		envname: process.env.NODE_ENV or 'development'
+	if not ctx.sitefile?
+		ctx.sitefile = lib.get_local_sitefile ctx
+	ctx
+
+load_config = ( ctx={} )->
+	if not ctx.config_name?
+		ctx.config_name = 'config/config'
+		scriptconfig = 'config/config-#{ctx.proc.name}'
+		configs = glob.sync path.join ctx.noderoot, scriptconfig + '.*'
+		if not _.isEmpty configs
+			ctx.config_name = scriptconfig
+	ctx.configs = require path.join ctx.noderoot, ctx.config_name
+	ctx.config = ctx.configs[ctx.envname]
+	ctx.config
 
 redir = ( app, r, p )->
 	console.log 'redir', r, p
@@ -67,5 +93,7 @@ apply_routes = ( sitefile, app, ctx={} )->
 module.exports = {
 	get_local_sitefile_name: get_local_sitefile_name,
 	get_local_sitefile: get_local_sitefile,
+	prepare_context: prepare_context,
+	load_config: load_config,
 	apply_routes: apply_routes
 }

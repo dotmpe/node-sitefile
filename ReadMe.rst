@@ -13,6 +13,7 @@ in a web browser. For example the ReadMe file in many projects.
 Currently the following resources are supported:
 
 - ``rst2html``: reStructuredText documents (depends on Python docutils)
+- ``du``: TODO: implement glob-specs
 - ``static``
 
 and 
@@ -67,10 +68,10 @@ Example Sitefile (json)::
       "": "redir:ReadMe"
     },
     "specs": {
-      "static:": {
+      "static": {
       },
-      "rst2html:ReadMe": {
-        ext: 'rst'
+      "rst2html": {
+        stylesheets: [ './media/style/default.css' ]
       }
     }
   }
