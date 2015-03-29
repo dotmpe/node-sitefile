@@ -46,7 +46,7 @@ in a web browser. For example the ReadMe file in many projects.
 Currently the following resources are supported:
 
 - ``rst2html``: reStructuredText documents (depends on Python docutils)
-- ``du``: :todo:`implement glob-specs`
+- ``du``: a new version of rst2html with support for globs
 - ``static``
 
 and 
@@ -159,13 +159,26 @@ Looking for alternatives or comparable projects from the Node.JS sphere.
 
   Sitefile is unobtrusive, except for some configuration file.
   Also sitefile does not focus on providing an development platform,
-  But theres no reason it should not handle the web formats used by harp,
-  personally I find LESS and Coffee-Script are very handy.
+  .. But theres no reason it should not handle the web formats used by harp,
+     personally I find LESS and Coffee-Script are very handy.
 
   harp is far more extended. some concepts such as asset management (styles,
   images) are interesting.
 
   :TODO: write sitefile routers for Stylus, LESS, Markdown, Coffee-Script.
+
+`Meteor <https://www.meteor.com/>`_
+  Like harp, Meteor is an development platform.
+  Meteor especially promotes its generator/deploy mechanism.
+  More than I've seen with harp though, Meteor provides for an re-integration of
+  the client and backend sides, presumably using web sockets. 
+  (Meteor renders client side, presumably using some web-sockets based RPC. 
+   It needs add. components to render server-side for non-JS clients)
+
+  There is no discussion on the deployment systems, and I presume this makes the
+  only valid target servers meteor enabled servers. It would be great is the
+  server for the integrated backend/frontend environment was portable or
+  cross-compilable. See also HaXe_.
 
 `Docutils reStructuredText <http://docutils.sourceforge.net/rst.html>`_
   It does not appear that rSt is that popular with the Node.JS crowd. 
@@ -247,6 +260,19 @@ Other Non-NodeJS-related Topics
   "Jekyll is a blog-aware, static site generator in Ruby"
 
   :via: GitHub Pages - `Using Jekyll with Pages <https://help.github.com/articles/using-jekyll-with-pages/>`_
+
+.. _HaXe:
+
+`HaXe <http://haxe.org>`_
+  Has nothing to do with publishing, but looking at deployment options it has some
+  interesting feats to mention in addition to Harp, Meteor and Jekyll. 
+
+  HaXe is an ECMA-script language with compilers for a number of other
+  high-level languages, including PHP and JS. It also provides for 
+  RPC setups for use on clients, and an ORM system.
+  Its API is nearly cross-platform. Making it very interesting to use it for
+  writing not only clients, but also servers that support a certain publishing
+  stack.
 
 
 ----

@@ -68,7 +68,7 @@ module.exports = ( ctx={} )->
 					format: 'html',
 					docpath: docpath
 				try
-					rst2html res, _.merge {}, ctx.specs.rst2html, req.query
+					rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
 				catch error
 					console.log error
 					res.type('text/plain')
@@ -84,7 +84,7 @@ module.exports = ( ctx={} )->
 				req.query = _.defaults res.query || {}, format: 'xml' 
 
 				try
-					rst2html res, _.merge {}, ctx.specs.rst2html, req.query
+					rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
 				catch error
 					console.log error
 					res.type('text/plain')
