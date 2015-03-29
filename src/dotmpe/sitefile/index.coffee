@@ -29,7 +29,7 @@ get_local_sitefile_name = ( ctx={} )->
 	ctx.lfn = path.join process.cwd(), fn
 	ctx.lfn
 
-get_local_sitefile = (ctx={})->
+get_local_sitefile = ( ctx={} )->
 	lfn = get_local_sitefile_name(ctx)
 	if ctx.ext == '.json'
 		sitefile = require lfn
@@ -62,8 +62,8 @@ load_config = ( ctx={} )->
 	ctx.config = ctx.configs[ctx.envname]
 	ctx.config
 
-redir = ( app, r, p )->
-	app.all r, (req, res)->
+redir = ( app, ref, p )->
+	app.all ref, (req, res)->
 		res.redirect p
 
 parse_spec = ( strspec, ctx={} )->
@@ -79,10 +79,17 @@ apply_routes = ( sitefile, app, ctx={} )->
 	_.defaults ctx, base: '/'
 
 	if not _.isEmpty sitefile.routes
+
+		# Track all dirs for generated files
+		# TODO May want the same for regular routes. Also need to refactor, and scan for defaults across dirs rootward
+		dirs = {}
+
 		for route, strspec of sitefile.routes
-	
+
+			[ router_name, handler_name, handler_spec ] = parse_spec strspec, ctx
+
 			if route.startsWith '$'
-				[ router_name, _hn, handler_spec ] = parse_spec strspec, ctx
+				# add generated routes, track dirs/leafs
 				if router_name not in _.keys ctx.routers
 					throw "No such router: #{router_name}"
 				router = ctx.routers[ router_name ].object
@@ -91,18 +98,25 @@ apply_routes = ( sitefile, app, ctx={} )->
 				handler = router.generate[ handler_name ]
 				console.log 'Dynamic:', route, router_name, handler_name, handler_spec
 				for name in glob.sync handler_spec
-					basename = path.basename name, '.rst'
+					basename = path.basename name, '.rst' # FIXME hardcoded rst; need file type here
 					dirname = path.dirname name
-					url = '/'+dirname+'/'+basename # FIXME route.replace('$name')
+					if dirname == '.'
+						url = '/'+basename # FIXME route.replace('$name')
+					else
+						url = '/'+dirname+'/'+basename # FIXME route.replace('$name')
+						if not dirs.hasOwnProperty '/'+dirname
+							dirs[ '/'+dirname ] = [ basename ]
+						else
+							dirs[ '/'+dirname ].push basename
 					console.log 'Adding', url, name
-					redir app, url+'.rst', url
+					redir app, url+'.rst', url # XXX hardcoded rst
 					app.all url, handler '.'+url
 
 			else
+				# add route for single resource or redirection
 				url = ctx.base + route
 
-				[ router_name, handler_name, handler_spec ] = parse_spec strspec, ctx
-
+				# static and redir are built-in
 				if router_name == 'redir'
 					p = '/'+strspec.substr 6
 					redir app, url, p
@@ -114,6 +128,7 @@ apply_routes = ( sitefile, app, ctx={} )->
 					console.log ' Static:', url, p
 
 				else
+					# use another router to generate handler for resource
 					if router_name not in _.keys ctx.routers
 						throw "No such router: #{router_name}"
 					router = ctx.routers[ router_name ].object
@@ -122,6 +137,20 @@ apply_routes = ( sitefile, app, ctx={} )->
 					handler = router.generate[ handler_name ]
 					console.log "    all: #{url}, #{router_name}.#{handler_name} '#{handler_spec}'"
 					app.all url, handler handler_spec
+
+		# Add redirections for dirs to default leafs
+		for url, leafs of dirs
+			if leafs.length == 1
+				defleaf = leafs[0]
+			if leafs
+				for name in [ 'default', 'index', 'main' ]
+					if name in leafs
+						defleaf = name
+						break
+				if not defleaf
+					throw "Cannot choose default dir index for #{url}"
+				redir app, url, url+'/'+defleaf
+				console.log "Dir #{url}/{->#{defleaf}}"
 
 	else
 		console.log 'No routes'
