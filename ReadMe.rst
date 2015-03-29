@@ -116,6 +116,14 @@ Example Sitefile (json)::
 
 :todo:`look for some versioning (definition, validation, comparison, migration) of Sitefile schema`
 
+Branch docs
+------------
+master
+  - Basic functionality; rst2html, docutils.
+
+  f_odata
+    - Exploring odata for server-side API for richer document/clients.
+      Would need something Express compatible.
 
 Misc.
 ------
