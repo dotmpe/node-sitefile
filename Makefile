@@ -4,11 +4,12 @@ empty :=
 space := $(empty) $(empty)
 default:
 	@echo 'usage:'
-	@echo '# npm [start|test|run build]'
+	@echo '# npm [start|test]'
 	@echo '# make [$(subst $(space),|,$(TRGTS))]'
 
-install: test
+install:
 	npm install
+	bower install
 
 test:
 	npm test
@@ -21,11 +22,11 @@ update:
 	bower update
 
 build:
-	npm run build
 
 info:
 	npm run srctree
 	npm run srcloc
+
 
 .PHONY: $(TRGTS)
 

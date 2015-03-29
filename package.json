@@ -27,11 +27,10 @@
     "node": "0.12.x",
     "npm": "2.7.x"
   },
-  "main": "server.coffee",
+  "main": "bin/sitefile",
   "scripts": {
     "start": "NODE_ENV=development nodemon server.coffee",
     "test": "NODE_ENV=development coffee test/runner.coffee",
-    "build": "make build-clients",
     "srctree": "tree -I 'node_modules|build|components'",
     "srcloc": "find bin/ config/ public/media src/ -iname '*.js' -o -iname '*.coffee' -exec cat {} + | grep -v '^\\s*$' | wc -l"
   },

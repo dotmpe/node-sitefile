@@ -125,6 +125,9 @@ master
     - Exploring odata for server-side API for richer document/clients.
       Would need something Express compatible.
 
+  f_client
+    - Adding bower. Need to look at polymer again. And LESS/SASS et al.
+
 Misc.
 ------
 - :todo:`maybe implement simple TODO app as a feature branch somday`

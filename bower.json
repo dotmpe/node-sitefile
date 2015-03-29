@@ -1,0 +1,20 @@
+{
+  "name": "node-sitefile",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "public/components"
+  ],
+  "dependencies": {
+  },
+  "authors": [
+    "Berend (.mpe) <dev@dotmpe.com>"
+  ],
+  "main": "bin/sitefile.coffee",
+  "moduleType": [
+    "node"
+  ],
+  "license": "GPLv3",
+  "private": true
+}
