@@ -5,6 +5,9 @@ routes:
   ReadMe: 'rst2html:ReadMe'
   '': 'redir:ReadMe'
   index: 'redir:ReadMe'
+#  TODO: 
+  $name: 'du:**.rst'
+#
 #  todo: 'todo-app:TODO.list'
 specs:
   rst2html:

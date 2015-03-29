@@ -1,5 +1,6 @@
 _ = require 'lodash'
 fs = require 'fs'
+path = require 'path'
 child_process = require 'child_process'
 
 
@@ -57,12 +58,15 @@ module.exports = ( ctx={} )->
 		# default rst2html: action
 		'single_name_handler'
 
+	lib:
+		rst2html: rst2html
 	generate:
-		single_name_handler: ( path )->
+		single_name_handler: ( spec )->
+			docpath = path.join ctx.cwd, spec
 			( req, res, next )->
 				req.query = _.defaults req.query || {}, 
 					format: 'html',
-					docpath: path
+					docpath: docpath
 				try
 					rst2html res, _.merge {}, ctx.specs.rst2html, req.query
 				catch error

@@ -9,7 +9,7 @@ lib = require '../src/dotmpe/sitefile'
 sitefile = lib.get_local_sitefile()
 
 # prepare context and sitefile config
-ctx = lib.prepare_context sitefile: sitefile
+ctx = lib.prepare_context sitefile: sitefile, routers: {}
 lib.load_config ctx
 
 # initialize Express
@@ -19,10 +19,13 @@ app = express_handler ctx
 # import handler generators
 for name in ctx.config.routers
 	router_cb = require '../src/dotmpe/sitefile/routers/' + name
-	router_meta = router_cb _.merge {}, ctx, sitefile
-	handler_generator = router_meta.generate[ router_meta.default ]
+	router_obj = router_cb _.merge {}, ctx, sitefile
+
+	ctx.routers[name] = module: router_cb, object: router_obj
+	console.log "Loaded router #{name}: #{router_obj.label}"
 
 	# TODO: allow access to all generators from spec
+	handler_generator = router_obj.generate[ router_obj.default ]
 	ctx[ name ] = handler_generator
 
 # apply Sitefile routes

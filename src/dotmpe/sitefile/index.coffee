@@ -43,6 +43,7 @@ get_local_sitefile = (ctx={})->
 prepare_context = ( ctx={} )->
 	_.defaults ctx,
 		noderoot: path.dirname path.dirname path.dirname __dirname
+		cwd: process.cwd()
 		proc: 
 			name: path.basename process.argv[1]
 		envname: process.env.NODE_ENV or 'development'
@@ -62,30 +63,65 @@ load_config = ( ctx={} )->
 	ctx.config
 
 redir = ( app, r, p )->
-	console.log 'redir', r, p
 	app.all r, (req, res)->
 		res.redirect p
 
+parse_spec = ( strspec, ctx={} )->
+	[ handler_path, hspec ] = strspec.split(':')
+	if handler_path.indexOf '.' != -1
+		[ router_name, handler_name ] = handler_path.split '.'
+	else
+		router_name = handler_path
+	[ router_name, handler_name, hspec ]
+
 apply_routes = ( sitefile, app, ctx={} )->
 
-	_.defaults ctx, cwd: process.cwd(), base: '/'
+	_.defaults ctx, base: '/'
 
 	if not _.isEmpty sitefile.routes
 		for route, strspec of sitefile.routes
-			# FIXME: iterate routers and move spec parse to router
-			r = ctx.base + route
-			p = null
-			if strspec.startsWith 'static:'
-				p = path.join ctx.cwd, strspec.substr(7)
-				app.use r, ctx.static_proto p
-				console.log 'Static', r, p
-			else if strspec.startsWith 'rst2html:'
-				p = path.join ctx.cwd, strspec.substr(9)
-				app.all r, ctx.rst2html p
-				console.log 'rst2html', r, p
-			else if strspec.startsWith 'redir:'
-				p = '/'+strspec.substr 6
-				redir app, r, p
+	
+			if route.startsWith '$'
+				[ router_name, _hn, handler_spec ] = parse_spec strspec, ctx
+				if router_name not in _.keys ctx.routers
+					throw "No such router: #{router_name}"
+				router = ctx.routers[ router_name ].object
+				if not handler_name
+					handler_name = router.default
+				handler = router.generate[ handler_name ]
+				console.log 'Dynamic:', route, router_name, handler_name, handler_spec
+				for name in glob.sync handler_spec
+					basename = path.basename name, '.rst'
+					dirname = path.dirname name
+					url = '/'+dirname+'/'+basename # FIXME route.replace('$name')
+					console.log 'Adding', url, name
+					redir app, url+'.rst', url
+					app.all url, handler '.'+url
+
+			else
+				url = ctx.base + route
+
+				[ router_name, handler_name, handler_spec ] = parse_spec strspec, ctx
+
+				if router_name == 'redir'
+					p = '/'+strspec.substr 6
+					redir app, url, p
+					console.log '       :', url, '->', p
+
+				else if router_name == 'static'
+					p = path.join ctx.cwd, handler_spec
+					app.use url, ctx.static_proto p
+					console.log ' Static:', url, p
+
+				else
+					if router_name not in _.keys ctx.routers
+						throw "No such router: #{router_name}"
+					router = ctx.routers[ router_name ].object
+					if not handler_name
+						handler_name = router.default
+					handler = router.generate[ handler_name ]
+					console.log "    all: #{url}, #{router_name}.#{handler_name} '#{handler_spec}'"
+					app.all url, handler handler_spec
 
 	else
 		console.log 'No routes'

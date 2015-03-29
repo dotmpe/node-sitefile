@@ -1,14 +1,17 @@
 ###
 Work in progress docutils router for sitefile.
 
-TODO: process globs to dynamic routes somehow
 XXX: get all dependencies somehow, and route them?
 XXX: du.mpe compatible with fallback or?
 ###
 _ = require 'lodash'
+path = require 'path'
 
+librst2html = require './rst2html'
 
 module.exports = ( ctx={} )->
+
+	rst2html = librst2html(ctx).lib.rst2html
 
 	_.defaults ctx,
 		# base-url / prefix for local routes
@@ -26,7 +29,20 @@ module.exports = ( ctx={} )->
 			###
 			du.all_handler:docs/**.rst
 			###
-			console.log 'TODO map all known du extensions?'
+			docpath = path.join ctx.cwd, spec
+			( req, res, next )->
+				req.query = _.defaults req.query || {}, 
+					format: 'html',
+					docpath: docpath
+				try
+					rst2html res, _.merge {}, ctx.specs.rst2html, req.query
+				catch error
+					console.log error
+					res.type('text/plain')
+					res.status(500)
+					res.write("exec error: "+error)
+					res.end()
+
 
 	route:
 		base: ctx.base_url

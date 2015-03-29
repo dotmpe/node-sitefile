@@ -189,15 +189,8 @@ reStructured Text documenation tooling
 `Sphynx <http://sphinx-doc.org/>`_
   Python documentation generator based on Du (ie. rSt to HTML, LaTex, etc.)
 
-  Provides some additional reStructuredText directives and uses its own
+  Provides some additional reStructuredText directives, uses its own
   publisher chain.
-
-`pandoc <http://johnmacfarlane.net/pandoc/>`_
-  A pretty heroic "swiss-army knive" doc-conv effort in Haskell.
-
-  It is not completely compatible with Python Docutils rSt, but does an pretty
-  amazing job on converting rSt and a few dozen other formats with each other.
-  Worth a mention, without it being used by sitefile (yet).
 
 `Nabu <https://bitbucket.org/blais/nabu>`_
   Document publishing using text files.
@@ -206,10 +199,19 @@ reStructured Text documenation tooling
   extractors.
   Extractors are paired with storage instances, of which Nabu provides some SQL
   compatible baseclasses.
+  Indexed external metadata can then by used by other systems, such as a blog
+  publisher.
 
   Potentially, Du transforms can rewrite documents and ie. enrich references and
   various sorts of embedded metadata. 
-  For a complete setup, That would require a reStructuredText (re)writer however. [#]_
+  For a complete setup, this would require a reStructuredText (re)writer however. [#]_
+
+`pandoc <http://johnmacfarlane.net/pandoc/>`_
+  A pretty heroic "swiss-army knive" doc-conv effort in Haskell.
+
+  It is not completely compatible with Python Docutils rSt, but does an pretty
+  amazing job on converting rSt and a few dozen other formats with each other.
+  Worth a mention, without it being used by sitefile (yet).
 
 .. if they ever are usable here perhaps mention Blue-Lines, or Scrow.
 
