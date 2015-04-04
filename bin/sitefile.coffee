@@ -21,15 +21,14 @@ app = express_handler ctx
 
 # import handler generators
 for name in ctx.config.routers
-	router_cb = require '../src/dotmpe/sitefile/routers/' + name
-	router_obj = router_cb ctx
+  router_cb = require '../src/dotmpe/sitefile/routers/' + name
+  router_obj = router_cb ctx
 
-	ctx.routers[name] = module: router_cb, object: router_obj
-	console.log "Loaded router #{name}: #{router_obj.label}"
+  ctx.routers[name] = module: router_cb, object: router_obj
+  console.log "Loaded router #{name}: #{router_obj.label}"
 
-	# TODO: allow access to all generators from spec
-	handler_generator = router_obj.generate[ router_obj.default ]
-	ctx[ name ] = handler_generator
+  handler_generator = router_obj.generate[ router_obj.default ]
+  ctx[ name ] = handler_generator
 
 # apply Sitefile routes
 lib.apply_routes sitefile, app, ctx
@@ -39,6 +38,6 @@ lib.reload_on_change app, ctx
 
 # server forever
 ctx.server.listen ctx.port, ->
-	console.log "Express server listening on port " + ctx.port
+  console.log "Express server listening on port " + ctx.port
 
 # vim:ft=coffee:

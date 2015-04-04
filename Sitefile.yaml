@@ -4,7 +4,6 @@ routes:
   media: 'static:public/media'
   '': 'redir:ReadMe'
   index: 'redir:ReadMe'
-#  TODO: 
   $name: 'du:**.rst'
 #
 #  todo: 'todo-app:TODO.list'
@@ -13,17 +12,17 @@ specs:
     stylesheets:
     - 'public/media/style/default.css'
 
-#    - '~/htdocs/media/style/default.css'
-#    #- 'media/style/docutils.css'
-#    #- 'media/style/docutils-html.css'
-#    - '/srv/project-mpe/docutils-ext/var/media/style/docutils-html.css'
-#    - '/srv/project-mpe/docutils-ext/var/media/style/docutils.css'
-#    #- '/media/style/html.css'
-#    - '~/htdocs/media/style/dotmpe-com/olddefault.css'
-#    - '~/htdocs/media/style/dotmpe-com/style.css'
-#
-#    - '~/htdocs/media/style/dotmpe-com/docutils-layout.css'
-#    - '~/htdocs/media/style/dotmpe-com/dotmpe.css'
-#    - '~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css'
+    - '~/htdocs/media/style/default.css'
+    #- 'media/style/docutils.css'
+    #- 'media/style/docutils-html.css'
+    - '/srv/project-mpe/docutils-ext/var/media/style/docutils-html.css'
+    - '/srv/project-mpe/docutils-ext/var/media/style/docutils.css'
+    #- '/media/style/html.css'
+    - '~/htdocs/media/style/dotmpe-com/olddefault.css'
+    - '~/htdocs/media/style/dotmpe-com/style.css'
+
+    - '~/htdocs/media/style/dotmpe-com/docutils-layout.css'
+    - '~/htdocs/media/style/dotmpe-com/dotmpe.css'
+    - '~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css'
 
 

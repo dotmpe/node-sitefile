@@ -10,8 +10,12 @@ default:
 install: test
 	npm install
 
+lint:
+	grunt lint
+
 test:
 	npm test
+	grunt lint test
 
 global: test
 	npm install -g
