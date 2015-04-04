@@ -1,4 +1,4 @@
-TRGTS := install update build build-clients info test global
+TRGTS := install update build build-clients info test global lint
 
 empty := 
 space := $(empty) $(empty)
@@ -13,9 +13,9 @@ install: test
 lint:
 	grunt lint
 
-test:
+test: lint
 	npm test
-	grunt lint test
+	grunt test
 
 global: test
 	npm install -g
