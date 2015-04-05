@@ -31,7 +31,6 @@
   "scripts": {
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "test": "NODE_ENV=development coffee test/runner.coffee",
-    "build": "make build-clients",
     "srctree": "tree -I 'node_modules|build|components'",
     "srcloc": "find bin/ config/ public/media src/ -iname '*.js' -o -iname '*.coffee' -exec cat {} + | grep -v '^\\s*$' | wc -l"
   },

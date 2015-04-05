@@ -1,5 +1,5 @@
 # Sitefile for node-sitefile document server
-sitefile: 0.1
+sitefile: 0.2
 routes:
   media: 'static:public/media'
   '': 'redir:ReadMe'

@@ -24,8 +24,7 @@ update:
 	npm update
 	bower update
 
-build:
-	npm run build
+build: build-clients
 
 info:
 	npm run srctree

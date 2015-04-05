@@ -25,7 +25,7 @@ get_local_sitefile_name = ( ctx={} ) ->
       break
     fn = null
   if not fn
-    throw new Exception "No #{ctx.basename}"
+    throw new Error "No #{ctx.basename}"
   ctx.lfn = path.join process.cwd(), fn
   ctx.lfn
 
@@ -101,7 +101,7 @@ apply_routes = ( sitefile, app, ctx={} ) ->
       if route.startsWith '$'
         # add generated routes, track dirs/leafs
         if router_name not in _.keys ctx.routers
-          throw new Exception "No such router: #{router_name}"
+          throw new Error "No such router: #{router_name}"
         router = ctx.routers[ router_name ].object
         if not handler_name
           handler_name = router.default
@@ -141,7 +141,7 @@ apply_routes = ( sitefile, app, ctx={} ) ->
         else
           # use another router to generate handler for resource
           if router_name not in _.keys ctx.routers
-            throw new Exception "No such router: #{router_name}"
+            throw new Error "No such router: #{router_name}"
           router = ctx.routers[ router_name ].object
           if not handler_name
             handler_name = router.default
@@ -159,7 +159,7 @@ apply_routes = ( sitefile, app, ctx={} ) ->
             defleaf = name
             break
         if not defleaf
-          throw new Exception "Cannot choose default dir index for #{url}"
+          throw new Error "Cannot choose default dir index for #{url}"
         redir app, url, url+'/'+defleaf
         console.log "Dir #{url}/{->#{defleaf}}"
 
