@@ -48,7 +48,7 @@ get_local_sitefile = ( ctx={} ) ->
   lfn = get_local_sitefile_name ctx
   sitefile = libconf.load_file lfn
 
-  if not semver.satisfies ctx.version, sitefile.sitefile
+  if not semver.satisfies sitefile.sitefile, '<='+ctx.version
     throw new Error "Version #{ctx.version} does not satisfy "+
         "sitefile #{sitefile.sitefile}"
   # TODO: validate Sitefile schema
@@ -270,7 +270,7 @@ apply_routes = ( sitefile, app, ctx={} ) ->
 
         else
           # use router to generate handler for resource
-          handler = get_handler router_name, ctx
+          handler = get_handler_gen router_name, ctx
           log "Express All", id: router_name, path: handler_spec
           app.all url, handler handler_spec, ctx
 
