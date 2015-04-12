@@ -7,6 +7,8 @@ miniJasmineLib = require('minijasminenode2')
 
 # At this point, jasmine is available in the global node context.
 # Add your tests by filename.
+miniJasmineLib.addSpecs 'test/jasmine/context.coffee'
+miniJasmineLib.addSpecs 'test/jasmine/dotmpe_conf.coffee'
 miniJasmineLib.addSpecs 'test/jasmine/sitefile_index.coffee'
 miniJasmineLib.addSpecs 'test/jasmine/sitefile_express.coffee'
 miniJasmineLib.addSpecs 'test/jasmine/sitefile_router_du.coffee'
