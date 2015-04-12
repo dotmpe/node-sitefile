@@ -29,7 +29,7 @@
   "main": "bin/sitefile.coffee",
   "scripts": {
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
-    "test": "make test",
+    "test": "make lint test",
     "srctree": "tree -I 'node_modules|build|components'",
     "srcloc": "find bin/ config/ public/media lib/ -iname '*.js' -o -iname '*.coffee' -exec cat {} + | grep -v '^\\s*$' | wc -l"
   },
