@@ -3,7 +3,7 @@
 fs = require 'fs'
 
 
-# Given sitefile-context, export metadata for stylus: handlers
+# Given sitefile-context, export metadata for stylus: handler
 module.exports = ( ctx={} ) ->
 
   try

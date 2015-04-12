@@ -8,7 +8,10 @@
     "email": "dev@dotmpe.com"
   },
   "keywords": [
-    "publishing", "hypertext", "restructuredtext", "docutils"
+    "publishing",
+    "hypertext",
+    "restructuredtext",
+    "docutils"
   ],
   "license": "GPLv3",
   "licenses": [
@@ -43,6 +46,7 @@
     "glob": "^5.0.3",
     "jade": "^1.9.2",
     "js-yaml": "^3.2.7",
+    "jsonary": "0.0.16",
     "lodash": "^3.4.0",
     "markdown": "^0.5.0",
     "semver": "^4.3.3",

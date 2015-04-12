@@ -4,7 +4,7 @@ _ = require 'lodash'
 path = require 'path'
 
 
-# Given sitefile-context, export metadata for jade: handlers
+# Given sitefile-context, export metadata for jade: handler
 module.exports = ( ctx={} ) ->
 
   try

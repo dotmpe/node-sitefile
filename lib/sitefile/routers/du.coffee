@@ -13,7 +13,7 @@ path = require 'path'
 librst2html = require './rst2html'
 
 
-# Given sitefile-context, export metadata for du: handlers
+# Given sitefile-context, export metadata for du: handler
 module.exports = ( ctx={} ) ->
 
   rst2html = librst2html(ctx)
