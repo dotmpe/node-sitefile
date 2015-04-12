@@ -1,21 +1,34 @@
-TRGTS := install update build build-clients info test global lint
+# special rule targets
+STRGTS := \
+   default \
+   info \
+   lint \
+   test \
+   build \
+   install \
+   update \
+   global
 
-empty := 
+.PHONY: $(STRGTS)
+
+empty :=
 space := $(empty) $(empty)
 default:
 	@echo 'usage:'
-	@echo '# npm [start|test|run build]'
-	@echo '# make [$(subst $(space),|,$(TRGTS))]'
+	@echo '# npm [info|update|test]'
+	@echo '# grunt [lint|..]'
+	@echo '# make [$(subst $(space),|,$(STRGTS))]'
 
-install: test
+install:
 	npm install
+	make test
 
 lint:
 	grunt lint
 
+# FIXME jasmine from grunt?
 test: lint
-	npm test
-	grunt test
+	NODE_ENV=development coffee test/runner.coffee
 
 global: test
 	npm install -g
@@ -24,29 +37,13 @@ update:
 	npm update
 	bower update
 
-build: build-clients
+build: TODO.list
 
 info:
 	npm run srctree
 	npm run srcloc
 
-.PHONY: $(TRGTS)
 
-COFFEE2JS := 
-
-_CLN := \
-	$(COFFEE2JS:%.coffee=%.js)
-
-build-clients:
-	@for x in $(COFFEE2JS); \
-	do \
-		coffee --compile $$x; \
-	done
-	@for x in ./*.build.js; \
-	do \
-		echo "Found $$x, optimizing..."; \
-		r.js -o $$x; \
-		echo "$$x done"; \
-	done
-	@echo "Cleaning..";rm -v $(_CLN)
+TODO.list: Makefile bin config public src test ReadMe.rst Gruntfile.js Sitefile.yaml
+	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@
 

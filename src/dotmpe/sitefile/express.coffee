@@ -1,6 +1,7 @@
 path = require 'path'
 express = require 'express'
 
+
 init_express = ( app, ctx={} ) ->
 
   if not ctx.showStackError?
@@ -8,6 +9,7 @@ init_express = ( app, ctx={} ) ->
   app.set 'showStackError', ctx.showStackError
 
   #app.use express.static path.join ctx.noderoot, 'public'
+
 
 module.exports = (ctx={}) ->
 
@@ -20,9 +22,6 @@ module.exports = (ctx={}) ->
   app.set 'port', ctx.port
 
   ctx.server = require("http").createServer(app)
-
-  ctx.pkg_file = path.join ctx.noderoot, 'package.json'
-  ctx.pkg = require( ctx.pkg_file )
 
   init_express( app, ctx )
 

@@ -1,28 +1,38 @@
 # Sitefile for node-sitefile document server
-sitefile: 0.2
+sitefile: 0.0.2
 routes:
-  media: 'static:public/media'
-  '': 'redir:ReadMe'
-  index: 'redir:ReadMe'
-  $name: 'du:**.rst'
-#
+  media: static:public/media
+  '': redir:ReadMe
+  index: redir:ReadMe
+  example: redir:example/main
+  $_1: rst2html:**/*.rst
+  $_2: jade:example/**/*.jade
+  $_3: stylus:example/**/*.stylus
+  $_4: coffee:example/**/*.coffee
+  components: static:bower_components
+
 #  todo: 'todo-app:TODO.list'
-specs:
+params:
   rst2html:
     stylesheets:
-    - 'public/media/style/default.css'
+#      $ref: '#/defs/stylesheets/default'
 
-    - '~/htdocs/media/style/default.css'
-    #- 'media/style/docutils.css'
-    #- 'media/style/docutils-html.css'
-    - '/srv/project-mpe/docutils-ext/var/media/style/docutils-html.css'
-    - '/srv/project-mpe/docutils-ext/var/media/style/docutils.css'
-    #- '/media/style/html.css'
-    - '~/htdocs/media/style/dotmpe-com/olddefault.css'
-    - '~/htdocs/media/style/dotmpe-com/style.css'
+defs:
+  stylesheets:
+    default:
+      - public/media/style/default.css
 
-    - '~/htdocs/media/style/dotmpe-com/docutils-layout.css'
-    - '~/htdocs/media/style/dotmpe-com/dotmpe.css'
-    - '~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css'
+      - ~/htdocs/media/style/default.css
+      #- media/style/docutils.css
+      #- media/style/docutils-html.css
+      - /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
+      - /srv/project-mpe/docutils-ext/var/media/style/docutils.css
+      #- /media/style/html.css
+      - ~/htdocs/media/style/dotmpe-com/olddefault.css
+      - ~/htdocs/media/style/dotmpe-com/style.css
+
+      - ~/htdocs/media/style/dotmpe-com/docutils-layout.css
+      - ~/htdocs/media/style/dotmpe-com/dotmpe.css
+      - ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
 
 

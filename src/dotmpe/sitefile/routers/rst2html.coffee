@@ -4,28 +4,34 @@ path = require 'path'
 child_process = require 'child_process'
 
 
+rst2html_flags = ( params ) ->
+
+  flags = []
+  if params.stylesheets? and !_.isEmpty params.stylesheets
+    sheets = params.stylesheets.join ','
+    flags.push "--stylesheet-path '#{sheets}'"
+  flags.join ' '
+
+
 ###
+Take parameters
 Async rst2html writes to out or throws exception
 ###
-rst2html = ( out, ctx={} ) ->
+rst2html = ( out, params={} ) ->
 
-  _.defaults ctx,
+  prm = _.defaults params,
     format: 'pseudoxml'
     docpath: 'index'
     link_stylesheet: false
     stylesheets: []
 
-  flags = []
-  if ctx.stylesheets? and !_.isEmpty ctx.stylesheets
-    sheets = ctx.stylesheets.join ','
-    flags.push "--stylesheet-path '#{sheets}'"
-  cmdflags = flags.join ' '
+  cmdflags = rst2html_flags prm
 
-  cmd = "rst2#{ctx.format}.py #{cmdflags} '#{ctx.docpath}.rst'"
+  cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
 
-  if ctx.format == 'source'
+  if prm.format == 'source'
     out.type 'text'
-    out.write fs.readFileSync "#{ctx.docpath}.rst"
+    out.write fs.readFileSync "#{prm.docpath}.rst"
     out.end()
 
   else
@@ -33,18 +39,19 @@ rst2html = ( out, ctx={} ) ->
     child_process.exec cmd, (error, stdout, stderr) ->
       if error
         throw error
-      else if ctx.format == 'xml'
+      else if prm.format == 'xml'
         out.type 'xml'
         out.write stdout
-      else if ctx.format == 'html'
+      else if prm.format == 'html'
         out.type 'html'
         out.write stdout
-      else if ctx.format == 'pseudoxml'
+      else if prm.format == 'pseudoxml'
         out.type 'text/plain'
         out.write stdout
       out.end()
 
 
+# Given sitefile-context, export metadata for du: handlers
 module.exports = ( ctx={} ) ->
 
   _.defaults ctx,
@@ -52,29 +59,27 @@ module.exports = ( ctx={} ) ->
     # base-url / prefix for local routes
     base_url: null
 
+  ctx.resolve 'sitefile.params.rst2html'
+
   name: 'rst2html'
   label: 'Docutils rst-to-html'
-  default:
-    # default rst2html: action
-    'single_name_handler'
-
   lib:
     rst2html: rst2html
-  generate:
-    single_name_handler: ( spec ) ->
-      docpath = path.join ctx.cwd, spec
-      ( req, res, next ) ->
-        req.query = _.defaults req.query || {},
-          format: 'html',
-          docpath: docpath
-        try
-          rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
-        catch error
-          console.log error
-          res.type 'text/plain'
-          res.status 500
-          res.write "exec error: #{error}"
-          res.end()
+  generate: ( spec, ctx ) ->
+    docpath = path.join ctx.cwd, spec
+    ( req, res, next ) ->
+      req.query = _.defaults req.query || {},
+        format: 'html',
+        docpath: docpath
+      try
+        params = ctx.resolve 'sitefile.params.rst2html'
+        rst2html res, _.merge {}, params, req.query
+      catch error
+        console.log error
+        res.type 'text/plain'
+        res.status 500
+        res.write "exec error: #{error}"
+        res.end()
 
   route:
     base: ctx.base_url

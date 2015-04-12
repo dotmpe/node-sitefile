@@ -2,9 +2,10 @@
 
 module.exports = function(grunt) {
 
-  // Project configuration.
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
+
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -13,39 +14,69 @@ module.exports = function(grunt) {
         src: 'Gruntfile.js'
       },
     },
+
     coffeelint: {
       options: {
         configFile: '.coffeelint.json'
       },
-      app: [ 'bin/*.coffee', 'src/**/*.coffee', 'config/**/*.coffee' ]
+      app: [
+        'bin/*.coffee',
+        'src/**/*.coffee',
+        'config/**/*.coffee'
+      ]
     },
+
+    yamllint: {
+      all: {
+        src: [
+          'Sitefile.yaml'
+        ]
+      }
+    },
+
     //nodeunit: {
     //  files: ['test/nodeunit/**/*.coffee'],
     //},
+
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
-      //lib: {
-      //  files: '<%= jshint.lib.src %>',
-      //  tasks: ['jshint:lib', 'nodeunit']
-      //},
+      lib: {
+        files: '<%= jshint.lib.src %>',
+        tasks: [
+            'jshint:src',
+            'nodeunit'
+        ]
+      },
       test: {
         files: '<%= jshint.test.src %>',
-        tasks: [ 'jshint:test' ]
+        tasks: [
+          'jshint:test'
+        ]
       },
     },
+
   });
 
   // auto load grunt contrib tasks from package.json
   require('load-grunt-tasks')(grunt);
 
-  // auto load parts from grunt/
-  //require('load-grunt-config')(grunt);
+  grunt.registerTask('lint', [
+    'coffeelint',
+    'jshint',
+    'yamllint'
+  ]);
+
+  grunt.registerTask('test', [
+    //'make:test'
+  ]);
 
   // Default task.
-  grunt.registerTask('test', [ ]);
-  grunt.registerTask('lint', [ 'coffeelint', 'jshint' ]);
-  grunt.registerTask('default', [ 'test', 'lint' ]);
+  grunt.registerTask('default', [
+    'lint',
+    'test'
+  ]);
+
 };
