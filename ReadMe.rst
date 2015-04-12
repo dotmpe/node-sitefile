@@ -240,6 +240,9 @@ master
   f_sitebuild
     - Compiling a sitefile to a distributable package.
 
+  f_jsonary
+    - Looking at wether to include Jsonary in master.
+
 
 Versions
 --------
