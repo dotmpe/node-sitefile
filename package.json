@@ -10,7 +10,6 @@
   "keywords": [
     "express"
   ],
-  "private": true,
   "license": "GPLv3",
   "licenses": [
     {

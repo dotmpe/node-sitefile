@@ -7,7 +7,8 @@ STRGTS := \
    build \
    install \
    update \
-   global
+   global \
+   publish
 
 .PHONY: $(STRGTS)
 
@@ -30,9 +31,6 @@ lint:
 test: lint
 	NODE_ENV=development coffee test/runner.coffee
 
-global: test
-	npm install -g
-
 update:
 	npm update
 	bower update
@@ -43,6 +41,17 @@ info:
 	npm run srctree
 	npm run srcloc
 
+global:
+	npm install -g
+
+VERSION := 0.0.2
+
+publish:
+	./build.coffee $(VERSION)
+	git push
+	git push fury master
+	npm publish --tag $(VERSION)
+	npm publish
 
 TODO.list: Makefile bin config public lib test ReadMe.rst Gruntfile.js Sitefile.yaml
 	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@

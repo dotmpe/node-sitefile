@@ -1,7 +1,7 @@
 Node Sitefile
 =============
 :version: 0.0.2
-:description: (unreleased) Changelog_ `Misc.`_
+:description: Changelog_ `Misc.`_
 
   .. image:: https://badge.fury.io/js/node-sitefile.png
      :target: http://badge.fury.io/js/node-sitefile
@@ -17,7 +17,9 @@ Sitefile enables an Express server to be quickly set up from a local configurati
 
 It's a young project written with the intend to primarily make reStructuredText
 embedded content more (readily) accessible. In its current state it is usable 
-as a simple really simple (and dumb) rst2html HTTP server, a read-only wiki.
+as a simple really simple HTTP server for documentation.
+A sort of read-only wiki.
+Maybe as a sketchpad for Jade, Stylus and Coffee-Script experiments.
 
 .. contents:: 
 
