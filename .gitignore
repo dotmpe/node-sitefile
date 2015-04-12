@@ -1,8 +1,15 @@
 # Installed files
 node_modules/
 public/components/
+bower_components
 # Build files
+site-build
 public/script/pkg-*
+public/script/browser
+public/script/project
+public/script/x-backbone
+public/script/x-bookmarks
+www-build/
 main.sqlite3.db
 # Misc. local files
 .*sw[pon]

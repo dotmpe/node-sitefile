@@ -1,4 +1,4 @@
-express_handler = require '../../src/dotmpe/sitefile/express'
+express_handler = require '../../lib/sitefile/express'
 
 
 describe 'sitefile.express.', ->
