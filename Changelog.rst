@@ -21,4 +21,6 @@
 (0.0.3)
 
   - Testing project publishing scripts.
+  - Looking at jsonary.
+  - Looking at polymer.
 
