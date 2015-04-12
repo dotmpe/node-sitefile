@@ -11,6 +11,10 @@ main = ( argv ) ->
 
   console.log "Testing for", version
 
+  libsf = require './lib/sitefile'
+  if libsf.version != version
+    throw new Error "Version mismatch in lib sitefile: #{libsf.version}"
+
   pkg = require './package.json'
   if pkg.version != version
     throw new Error "Version mismatch in package.json: #{pkg.version}"

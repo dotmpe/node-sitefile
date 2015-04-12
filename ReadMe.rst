@@ -1,23 +1,33 @@
 Node Sitefile
 =============
-:version: 0.0.2
-:description: Changelog_ `Misc.`_
+:version: (0.0.3)
+:package status: Changelog_ `Misc.`_
 
   .. image:: https://badge.fury.io/js/node-sitefile.png
      :target: http://badge.fury.io/js/node-sitefile
      :alt: NPM
+
   .. image:: https://gemnasium.com/dotmpe/node-sitefile.png
      :target: https://gemnasium.com/dotmpe/node-sitefile
      :alt: Dependencies
+
   .. image:: https://secure.travis-ci.org/dotmpe/node-sitefile.png
      :target: https://travis-ci.org/dotmpe/node-sitefile
      :alt: Build
+
+:repository:
+
+  .. image:: https://badge.fury.io/gh/dotmpe%2Fnode-sitefile.png
+     :target: http://badge.fury.io/gh/dotmpe%2Fnode-sitefile
+     :alt: GIT
+
+.. This is a reStructuredText document.
 
 Sitefile enables an Express server to be quickly set up from a local configuration file.
 
 It's a young project written with the intend to primarily make reStructuredText
 embedded content more (readily) accessible. In its current state it is usable 
-as a simple really simple HTTP server for documentation.
+as a really simple HTTP server for documentation.
 A sort of read-only wiki.
 Maybe as a sketchpad for Jade, Stylus and Coffee-Script experiments.
 
@@ -65,12 +75,12 @@ routes and handlers. For example, the following is a piece of YAML formatted
 Sitefile that gives a route specification for all ``*.example`` in the pwd and
 below::
 
-  $_1: handler.name:**/*.example
+  $_1: handler:**/*.example
 
 they key gives the rule an unqiue ID. Alternatively, paths are routed
 explicitly::
 
-  /path/for/res: handler.name:dir/for/res.example
+  /path/for/res: handler:dir/for/res.example
 
 
 `sitefile` must be started from the directory where a `Sitefile.*` is located.
@@ -259,8 +269,8 @@ Misc.
 ------
 See ToDo_ document.
 
+- TODO: browser reset styles, some simple local Du/rSt styles in Stylus.
 - :todo:`maybe implement simple TODO app as a feature branch somday`
-- :todo:`travis-ci.org can do build testing`
 - https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
 - :todo:`add express functions:`
     | "connect-flash": "latest",
@@ -268,8 +278,9 @@ See ToDo_ document.
     | "node-uuid": "^1.4.3",
     | "notifier": "latest"
 
-- :todo:`TODO add YAML, JSON validators. jsonary perhaps.`
-
+- :todo:`TODO add YAML, JSON validators. tv4, jsonary. Maybe test in another
+  project first.`
+- TODO: site builds, packaging
 
 Sitefile planet
 ---------------

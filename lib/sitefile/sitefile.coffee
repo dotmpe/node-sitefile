@@ -10,7 +10,7 @@ Context = require '../context'
 
 libconf = require '../conf'
 
-version = '0.0.2'
+version = '0.0.3'
 
 c =
   sc: chalk.grey ':'
@@ -340,6 +340,7 @@ log_line = ( v, out=[] ) ->
 
 
 module.exports = {
+  version: version
   get_local_sitefile_name: get_local_sitefile_name
   get_local_sitefile: get_local_sitefile
   prepare_context: prepare_context

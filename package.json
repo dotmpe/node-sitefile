@@ -1,14 +1,14 @@
 {
   "name": "node-sitefile",
-  "description": "Bootstrap webserver for misc. resources using Sitefile",
-  "version": "0.0.2",
+  "description": "Bootstrap Express webserver for misc. resources using Sitefile",
+  "version": "0.0.3",
   "homepage": "https://github.com/dotmpe/node-sitefile",
   "author": {
     "name": "B. van Berkum",
     "email": "dev@dotmpe.com"
   },
   "keywords": [
-    "express"
+    "publishing", "hypertext", "restructuredtext", "docutils"
   ],
   "license": "GPLv3",
   "licenses": [

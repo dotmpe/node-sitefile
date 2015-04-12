@@ -3,7 +3,9 @@
   - Allow stylesheet parameters for rst2html.
   - Express based server handlers. Loading routers from modules.
 
-(0.0.2)
+0.0.2
+  :date: 2015-04-12
+
   - Added support for dynamic routes with globs.
   - Added automatic folder-default redirection.
   - Implemented some Jasmine tests.
@@ -15,4 +17,8 @@
   - Testing if docutils and other dependencies present,
     degrading functionality gracefully.
   - Added TODO file. Looking if markdown is suitable format.
+
+(0.0.3)
+
+  - Testing project publishing scripts.
 
