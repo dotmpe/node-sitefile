@@ -256,6 +256,8 @@ master
 
   f_client
     - Adding bower. Need to look at polymer again. And LESS/SASS et al.
+    - Want to get core-scaffold running. See examples_ and `Polymer Getting
+      started <doc/polymer>`_.
 
   f_sitebuild
     - Compiling a sitefile to a distributable package.
@@ -319,4 +321,5 @@ Sitefile planet
 .. _semver: https://github.com/npm/node-semver
 .. _changelog: ./Changelog.rst
 .. _ToDo: ./TODO.md
+.. _examples: /example
 

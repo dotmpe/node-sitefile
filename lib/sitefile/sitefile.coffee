@@ -266,7 +266,7 @@ apply_routes = ( sitefile, app, ctx={} ) ->
         else if router_name == 'static'
           p = path.join ctx.cwd, handler_spec
           app.use url, ctx.static_proto p
-          log 'Static', url: url, '=', path: p
+          log 'Static', url: url, '=', path: handler_spec
 
         else
           # use router to generate handler for resource

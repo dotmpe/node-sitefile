@@ -3,7 +3,7 @@ doctype html
 html.example
 
   head
-    title Sitefile Jade example
+    title Sitefile Polymer example
 
     script(type='text/javascript', src="/components/jquery/dist/jquery.js")
     script(type='text/javascript', src="/components/coffee-script/extras/coffee-script.js")
@@ -11,21 +11,14 @@ html.example
 
     script(type='text/javascript', src="/example/server-generated-javascript")
     link(rel="stylesheet", type='text/css', href="/example/server-generated-stylesheet")
+    script(src="/components/webcomponentsjs/webcomponents.js")
+    //link(rel="import", href="/example/polymer-custom-element.html")
+    link(rel="import", href="/example/polymer-custom-element")
 
   body
-    #main Main content
 
-    table.docinfo
-      colgroup
-        col.docinfo-names
-        col.docinfo-content
-      tbody
-        tr.field
-          th.docinfo-name App
-          td.field-body.app-name= pkg.name
-        tr.field
-          th.docinfo-name Description
-          td.field-body.app-name= pkg.description
+    .test-custom-element
 
+      my-element
 
 
