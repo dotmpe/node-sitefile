@@ -1,4 +1,5 @@
 fs = require 'fs'
+fsx = require 'fs-extra'
 path = require 'path'
 glob = require 'glob'
 yaml = require 'js-yaml'
@@ -282,6 +283,46 @@ apply_routes = ( sitefile, app, ctx={} ) ->
     process.exit()
 
 
+compile_site = ( ctx ) ->
+
+  _.defaults ctx,
+    package: 'site-build'
+
+  redirect = ( url, cb... ) ->
+    console.log 'XXX redir', url, cb
+  routes = {}
+  builder =
+    use: ( url, cb... ) ->
+      console.log 'XXX use', url, cb
+    all: ( url, cb... ) ->
+      if url == '/' or _.isEmpty url
+        return
+      if cb.length > 1
+        throw new Error "TODO: multiple handlers? "
+      routes[ url ] = cb
+
+  apply_routes ctx.sitefile, builder, ctx
+
+  for url, cb of routes
+    destfn = path.join ctx.package, url
+    #console.log url, destfn, path.dirname destfn
+    if not fs.existsSync path.dirname destfn
+      fsx.mkdirsSync path.dirname destfn
+    fp = fs.openSync destfn, 'w+'
+    fp.redirect = redirect
+    fp.end = -> fp.close()
+    res =
+      write: -> console.log 'write', arguments
+      redirect: -> console.log 'redirect', arguments
+      end: -> console.log 'end', arguments
+    #cb[0]( {}, res )
+    try
+      cb[0]( {}, res )
+    catch e
+      console.error e
+    console.log 'all', url, 'Done'
+
+
 expand_globs = ( patterns ) ->
   _.flattenDeep [ glob.sync p for p, i in patterns ]
 
@@ -346,6 +387,7 @@ module.exports = {
   prepare_context: prepare_context
   load_config: load_config
   apply_routes: apply_routes
+  compile_site: compile_site
   reload_on_change: reload_on_change
   load_routers: load_routers
   load_rc: load_rc

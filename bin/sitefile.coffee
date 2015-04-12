@@ -17,14 +17,23 @@ app = express_handler ctx
 # Load needed routers and parameters
 lib.load_routers ctx
 
-# apply Sitefile routes
-lib.apply_routes ctx.sitefile, app, ctx
+argv = process.argv
+interpreter = argv.shift()
+script = argv.shift()
 
-# reload ctx.{config,sitefile} whenever file changes
-lib.reload_on_change app, ctx
+if '--build' in argv
 
-# server forever
-ctx.server.listen ctx.port, ->
-  lib.log "Listening", "Express server on port #{ctx.port}. "
+  lib.compile_site ctx
+
+else
+  # apply Sitefile routes
+  lib.apply_routes ctx.sitefile, app, ctx
+
+  # reload ctx.{config,sitefile} whenever file changes
+  lib.reload_on_change app, ctx
+
+  # server forever
+  ctx.server.listen ctx.port, ->
+    lib.log "Listening", "Express server on port #{ctx.port}. "
 
 # vim:ft=coffee:

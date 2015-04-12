@@ -227,6 +227,7 @@ Routers
 
 Branch docs
 ------------
+
 master
   - Basic functionality; rst2html, docutils.
 
@@ -237,8 +238,11 @@ master
   f_client
     - Adding bower. Need to look at polymer again. And LESS/SASS et al.
 
-  f_sitebuild
+  f_sitebuild [*]_
     - Compiling a sitefile to a distributable package.
+
+
+.. [*] Current branch.
 
 
 Versions
