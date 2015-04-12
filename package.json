@@ -52,6 +52,7 @@
   "devDependencies": {
     "coffeelint": "latest",
     "grunt": "latest",
+    "grunt-cli": "latest",
     "grunt-coffeelint": "latest",
     "grunt-contrib-coffee": "latest",
     "grunt-contrib-jshint": "latest",
