@@ -13,7 +13,7 @@ module.exports = ( ctx={} ) ->
   #_.defaults ctx,
 
   name: 'coffee'
-  label: 'Server generated Coffee-Script'
+  label: 'Coffee-Script publisher'
   usage: """
     coffee:**/*.coffee
   """

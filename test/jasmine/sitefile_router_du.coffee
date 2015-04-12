@@ -1,4 +1,4 @@
-rst2html_router = require '../../src/dotmpe/sitefile/routers/rst2html'
+rst2html_router = require '../../lib/sitefile/routers/rst2html'
 
 
 describe 'sitefile.router.du.', ->

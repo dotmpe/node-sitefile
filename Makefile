@@ -44,6 +44,6 @@ info:
 	npm run srcloc
 
 
-TODO.list: Makefile bin config public src test ReadMe.rst Gruntfile.js Sitefile.yaml
+TODO.list: Makefile bin config public lib test ReadMe.rst Gruntfile.js Sitefile.yaml
 	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@
 

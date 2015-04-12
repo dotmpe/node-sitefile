@@ -16,14 +16,16 @@ librst2html = require './rst2html'
 # Given sitefile-context, export metadata for du: handlers
 module.exports = ( ctx={} ) ->
 
-  rst2html = librst2html(ctx).lib.rst2html
+  rst2html = librst2html(ctx)
+  if not rst2html
+    return
 
   _.defaults ctx,
     # base-url / prefix for local routes
     base_url: 'dotmpe'
 
   name: 'du'
-  label: 'Docutils convertor'
+  label: 'Docutils Publisher'
   usage: """
     du:**/*.rst
   """
@@ -41,7 +43,7 @@ module.exports = ( ctx={} ) ->
         docpath: docpath
       try
         params = ctx.resolve 'sitefile.params.rst2html'
-        rst2html res, _.merge {}, params, req.query
+        rst2html.lib.rst2html res, _.merge {}, params, req.query
       catch error
         console.log error
         res.type('text/plain')

@@ -1,4 +1,4 @@
-libconf = require '../../src/dotmpe/conf'
+libconf = require '../../lib/conf'
 
 
 describe "Module conf", ->

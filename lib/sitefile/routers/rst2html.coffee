@@ -13,6 +13,10 @@ rst2html_flags = ( params ) ->
   flags.join ' '
 
 
+test_for_rst2html = ->
+  child_process.exec "which rst2html.py", ( err, stdo, stde ) ->
+
+
 ###
 Take parameters
 Async rst2html writes to out or throws exception
@@ -54,6 +58,9 @@ rst2html = ( out, params={} ) ->
 # Given sitefile-context, export metadata for du: handlers
 module.exports = ( ctx={} ) ->
 
+  if not test_for_rst2html()
+    return
+
   _.defaults ctx,
 
     # base-url / prefix for local routes
@@ -62,7 +69,7 @@ module.exports = ( ctx={} ) ->
   ctx.resolve 'sitefile.params.rst2html'
 
   name: 'rst2html'
-  label: 'Docutils rst-to-html'
+  label: 'Docutils rSt to HTML publisher'
   lib:
     rst2html: rst2html
   generate: ( spec, ctx ) ->

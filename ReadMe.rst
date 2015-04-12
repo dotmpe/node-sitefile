@@ -1,5 +1,7 @@
 Node Sitefile
 =============
+:version: 0.0.2 (unreleased)
+
 Sitefile enables an Express server to be quickly set up from a local configuration file.
 
 It's a young project written with the intend to primarily make reStructuredText
@@ -242,6 +244,8 @@ See changelog_.
 
 Misc.
 ------
+See ToDo_ document.
+
 - :todo:`maybe implement simple TODO app as a feature branch somday`
 - :todo:`travis-ci.org can do build testing`
 - https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
@@ -393,4 +397,5 @@ Other Non-NodeJS-related Topics
 .. _jsonary: http://jsonary.com/
 .. _semver: https://github.com/npm/node-semver
 .. _changelog: ./Changelog.rst
+.. _ToDo: ./TODO.md
 

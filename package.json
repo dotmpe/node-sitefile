@@ -32,7 +32,7 @@
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "test": "make test",
     "srctree": "tree -I 'node_modules|build|components'",
-    "srcloc": "find bin/ config/ public/media src/ -iname '*.js' -o -iname '*.coffee' -exec cat {} + | grep -v '^\\s*$' | wc -l"
+    "srcloc": "find bin/ config/ public/media lib/ -iname '*.js' -o -iname '*.coffee' -exec cat {} + | grep -v '^\\s*$' | wc -l"
   },
   "bin": {
     "sitefile": "bin/sitefile.coffee"
@@ -45,6 +45,7 @@
     "jade": "^1.9.2",
     "js-yaml": "^3.2.7",
     "lodash": "^3.4.0",
+    "markdown": "^0.5.0",
     "semver": "^4.3.3",
     "stylus": "^0.50.0"
   },

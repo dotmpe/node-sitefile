@@ -4,9 +4,9 @@ My usecase for context is not that big at the moment.
 Just inherit the properties and add subcontexts.
 
 ###
-express_handler = require '../../src/dotmpe/sitefile/express'
+express_handler = require '../../lib/sitefile/express'
 
-Context = require '../../src/dotmpe/context'
+Context = require '../../lib/context'
 
 
 describe 'context', ->

@@ -4,14 +4,14 @@ _ = require 'lodash'
 path = require 'path'
 
 
-lib = require '../src/dotmpe/sitefile'
+lib = require '../lib/sitefile'
 
 
 # prepare context and config, load sitefile
 ctx = lib.prepare_context ctx
 
 # initialize Express
-express_handler = require '../src/dotmpe/sitefile/express'
+express_handler = require '../lib/sitefile/express'
 app = express_handler ctx
 
 # Load needed routers and parameters

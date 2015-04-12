@@ -108,7 +108,7 @@ prepare_context = ( ctx={} ) ->
 
   # Appl defaults if not present
   _.defaults ctx,
-    noderoot: path.dirname path.dirname path.dirname __dirname
+    noderoot: path.dirname path.dirname __dirname
     version: version
     routers: {}
     cwd: process.cwd()

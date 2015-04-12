@@ -1,7 +1,7 @@
 path = require 'path'
 _ = require 'lodash'
 
-lib = require '../../src/dotmpe/sitefile'
+lib = require '../../lib/sitefile'
 
 
 describe 'sitefile.get_local_sitefile_name', ->
