@@ -279,24 +279,11 @@ See ToDo_ document.
 - TODO: browser reset styles, some simple local Du/rSt styles in Stylus.
 - :todo:`maybe implement simple TODO app as a feature branch somday`
 - https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
-- :todo:`add express functions:`
+- :todo:`add express functions again`
     | "connect-flash": "latest",
     | "method-override": "^2.3.2",
     | "node-uuid": "^1.4.3",
     | "notifier": "latest"
-Misc.
-------
-- :todo:`maybe implement simple TODO app as a feature branch somday`
-- :todo:`travis-ci.org can do build testing`
-- https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
-- :todo:`add express functions:`
-    | chalk
-    | "connect-flash": "latest",
-    | "jade": "latest",
-    | "method-override": "^2.3.2",
-    | "node-uuid": "^1.4.3",
-    | "notifier": "latest"
-
 
 - :todo:`TODO add YAML, JSON validators. tv4, jsonary. Maybe test in another
   project first.`
