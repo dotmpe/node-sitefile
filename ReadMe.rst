@@ -1,25 +1,31 @@
 Node Sitefile
 =============
 :version: (0.0.3)
-:package status: Changelog_ `Misc.`_
+:package: Changelog_
 
   .. image:: https://badge.fury.io/js/node-sitefile.png
-     :target: http://badge.fury.io/js/node-sitefile
-     :alt: NPM
+    :target: http://badge.fury.io/js/node-sitefile
+    :alt: NPM
 
   .. image:: https://gemnasium.com/dotmpe/node-sitefile.png
-     :target: https://gemnasium.com/dotmpe/node-sitefile
-     :alt: Dependencies
+    :target: https://gemnasium.com/dotmpe/node-sitefile
+    :alt: Dependencies
+
+:project:  `Misc.`_
+
+  .. image:: https://coveralls.io/repos/dotmpe/node-sitefile/badge.png
+    :target: https://coveralls.io/r/dotmpe/node-sitefile
+    :alt: Coverage
 
   .. image:: https://secure.travis-ci.org/dotmpe/node-sitefile.png
-     :target: https://travis-ci.org/dotmpe/node-sitefile
-     :alt: Build
+    :target: https://travis-ci.org/dotmpe/node-sitefile
+    :alt: Build
 
 :repository:
 
   .. image:: https://badge.fury.io/gh/dotmpe%2Fnode-sitefile.png
-     :target: http://badge.fury.io/gh/dotmpe%2Fnode-sitefile
-     :alt: GIT
+    :target: http://badge.fury.io/gh/dotmpe%2Fnode-sitefile
+    :alt: GIT
 
 
 .. This is a reStructuredText document.
