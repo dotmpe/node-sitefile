@@ -255,8 +255,9 @@ master
       Would need something Express compatible.
 
   f_client
-    - Adding bower. Need to look at polymer again. And LESS/SASS et al.
-    - Want to get core-scaffold running. See examples_.
+    - Added Bower. Experimenting with polymer.
+    - Want to get Polymer core-scaffold running somehow.
+    - Working to add prism.js source-viewer.
 
   f_sitebuild
     - Compiling a sitefile to a distributable package.
@@ -277,7 +278,7 @@ See ToDo_ document.
 - TODO: browser reset styles, some simple local Du/rSt styles in Stylus.
 - :todo:`maybe implement simple TODO app as a feature branch somday`
 - https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
-- :todo:`add express functions:`
+- :todo:`add express functions again:`
     | "connect-flash": "latest",
     | "method-override": "^2.3.2",
     | "node-uuid": "^1.4.3",
