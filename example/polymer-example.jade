@@ -11,49 +11,52 @@ html.example
 
     script(type='text/javascript', src="/example/server-generated-javascript")
     link(rel="stylesheet", type='text/css', href="/example/server-generated-stylesheet")
-    script(src="/components/webcomponentsjs/webcomponents.js")
 
+    link(rel="stylesheet", type='text/css', href="/example/polymer-example.css")
+
+    // imported later by polymer script(src="/components/webcomponentsjs/webcomponents.js")
+
+    link(rel="import", href="/components/core-scaffold/core-scaffold.html")
     link(rel="import", href="/components/core-toolbar/core-toolbar.html")
     link(rel="import", href="/components/core-menu/core-menu.html")
     link(rel="import", href="/components/core-item/core-item.html")
+    link(rel="import", href="/components/paper-item/paper-item.html")
     link(rel="import", href="/components/core-header-panel/core-header-panel.html")
     link(rel="import", href="/components/core-drawer-panel/core-drawer-panel.html")
     link(rel="import", href="/components/core-icons/core-icons.html")
     link(rel="import", href="/components/paper-icon-button/paper-icon-button.html")
+    link(rel="import", href="/components/core-animated-pages/core-animated-pages.html")
+    link(rel="import", href="/components/core-animated-pages/transitions/slide-from-right.html")
 
-  body
+  body(unresolved, fullbleed)
 
-    core-drawer-panel#drawerPanel
+    template(is="auto-binding").spa
 
-      core-header-panel(drawer)
-        core-toolbar#navheader
-          span Menu
+      core-scaffold#scaffold
 
-        core-menu
-          core-item(label="One")
-          core-item(label="Two")
+        nav
+          core-toolbar Single Page Polymer
 
-      core-header-panel(main)
-        core-toolbar#mainheader
-          paper-icon-button
-            #navicon(icon="menu")
-              span(flex) Title
+          core-menu(valueattr="hash", selected="{{route}}")
+            template(repeat="{{page in pages}}")
+              paper-item(hash="{{page.hash}}", noink)
+                core-icon(icon="label-outline")
+                a(href="#{{page.hash}}") {{page.name}}
 
-        div.content
-          h1 Sitefile Polymer
+        core-toolbar(tool) Application
 
-          If drawer is hidden, press button to display drawer.
+        div(layout, horizontal, center-center, fit)
+          core-animated-pages(valueattr="hash", selected="{{route}}",
+              transitions="slide-from-right")
+            template(repeat="{{page in pages}}")
+              section(hash="{{page.hash}}", layout, vertical, center-center)
+                div {{page.name}}
 
-
-          table.docinfo
-            colgroup
-              col.docinfo-names
-              col.docinfo-content
-            tbody
-              tr.field
-                th.docinfo-name App
-                td.field-body.app-name= pkg.name
-              tr.field
-                th.docinfo-name Description
-                td.field-body.app-name= pkg.description
+    script
+      | var template = document.querySelector('template.spa[is="auto-binding"]');
+      | template.pages = [
+      |   {name: 'Single', hash: 'one'},
+      |   {name: 'page', hash: 'two'},
+      |   {name: 'app', hash: 'three'},
+      | ];
 

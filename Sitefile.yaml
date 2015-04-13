@@ -12,8 +12,11 @@ routes:
   $markdown: markdown:*.md
   $markdown_1: markdown:example/**/*.md
 
-  example/app-router: static:example/app-router.html
   components: static:public/components
+
+  example/polymer-app-router: static:example/polymer-app-router.html
+
+  example: static:example
 
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
   #components/core-menu: static:public/components/polymer-ui-menu
