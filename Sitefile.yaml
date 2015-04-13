@@ -26,7 +26,6 @@ routes:
   #components/core-header-panel: static:public/components/polymer-ui-header-panel
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
 
-#  todo: 'todo-app:TODO.list'
 params:
   rst2html:
     stylesheets:
@@ -49,5 +48,4 @@ defs:
       - ~/htdocs/media/style/dotmpe-com/docutils-layout.css
       - ~/htdocs/media/style/dotmpe-com/dotmpe.css
       - ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
-
 
