@@ -12,3 +12,8 @@ Examples
 - [ Polymer Simple Custom Element Example ](./polymer-custom)
 - [ Polymer App Router ](./polymer-app-router)
 
+***
+
+- [ Back to ReadMe ](/ReadMe)
+
+
