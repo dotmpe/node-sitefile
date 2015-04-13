@@ -230,28 +230,34 @@ apply_routes = ( sitefile, app, ctx={} ) ->
         log "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
 
-      if route.startsWith '$'
+      # process glob rule
+      if route.startsWith '_'
 
         handler = get_handler_gen router_name, ctx
 
-        log 'Dynamic', url: route, id: router_name, path: handler_spec
+        log 'Dynamic', url: route, '', id: router_name, '', path: handler_spec
 
         for name in glob.sync handler_spec
           extname = path.extname name
           basename = path.basename name, extname
           dirname = path.dirname name
           if dirname == '.'
-            url = '/' + basename # FIXME route.replace('$name')
+            url = ctx.base + basename
           else
-            url = "/#{dirname}/#{basename}" # FIXME route.replace('$name')
-            if not dirs.hasOwnProperty '/' + dirname
-              dirs[ '/'+dirname ] = [ basename ]
+            url = "#{ctx.base}#{dirname}/#{basename}"
+            if not dirs.hasOwnProperty ctx.base + dirname
+              dirs[ ctx.base+dirname ] = [ basename ]
             else
-              dirs[ '/'+dirname ].push basename
-
+              dirs[ ctx.base+dirname ].push basename
           log route, url: url, '=', path: name
           redir app, url+extname, url
           app.all url, handler '.'+url, ctx
+
+      # process parametrized rule
+      else if '$' in route
+        url = ctx.base + route.replace('$', ':')
+        log route, url: url
+        app.all url, handler '.'+url, ctx
 
       else
         # add route for single resource or redirection
@@ -259,7 +265,7 @@ apply_routes = ( sitefile, app, ctx={} ) ->
 
         # static and redir are built-in
         if router_name == 'redir'
-          p = '/'+strspec.substr 6
+          p = ctx.base + strspec.substr 6
           redir app, url, p
           log '     *', url: url, '->', url: p
 
@@ -271,7 +277,7 @@ apply_routes = ( sitefile, app, ctx={} ) ->
         else
           # use router to generate handler for resource
           handler = get_handler_gen router_name, ctx
-          log "Express All", id: router_name, path: handler_spec
+          log "Express All", url: url, '', id: router_name, '', path: handler_spec
           app.all url, handler handler_spec, ctx
 
     # redirect dirs to default dir-index resource
@@ -326,13 +332,13 @@ log_line = ( v, out=[] ) ->
         out.push chalk.magenta o
       else
         out.push o
-    else if o.path
+    else if o.path?
       out.push chalk.green o.path
-    else if o.url
+    else if o.url?
       out.push chalk.yellow o.url
-    else if o.name
+    else if o.name?
       out.push chalk.cyan o.name
-    else if o.id
+    else if o.id?
       out.push chalk.magenta o.id
     else
       throw new Error "log: unhandled " + JSON.stringify o

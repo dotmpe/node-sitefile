@@ -5,12 +5,14 @@ routes:
   '': redir:ReadMe
   index: redir:ReadMe
   example: redir:example/main
-  $rst2html: rst2html:**/*.rst
-  $jade: jade:example/**/*.jade
-  $stylus: stylus:example/**/*.styl
-  $coffee: coffee:example/**/*.coffee
-  $markdown: markdown:*.md
-  $markdown_1: markdown:example/**/*.md
+  _rst2html: rst2html:**/*.rst
+  _jade: jade:example/**/*.jade
+  _stylus: stylus:example/**/*.styl
+  _coffee: coffee:example/**/*.coffee
+  _markdown: markdown:*.md
+  _markdown_1: markdown:example/**/*.md
+
+  'src/*': 'prism:'
 
   components: static:public/components
 

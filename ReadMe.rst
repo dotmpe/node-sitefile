@@ -256,8 +256,9 @@ master
 
   f_client
     - Adding bower. Need to look at polymer again. And LESS/SASS et al.
-    - Want to get core-scaffold running. See examples_ and `Polymer Getting
-      started <doc/polymer>`_.
+    - Want to get core-scaffold running. Need to look at router maybe.
+      See examples_ and `Polymer Getting started <doc/polymer>`_.
+    - `Testing prism.js </src/example/polymer-custom>`_  but does not seem to be working correctly.
 
   f_sitebuild
     - Compiling a sitefile to a distributable package.
