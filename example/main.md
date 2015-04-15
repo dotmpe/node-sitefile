@@ -10,10 +10,10 @@ Examples
 
 - [ Polymer Example ](./polymer-example)
 - [ Polymer Simple Custom Element Example ](./polymer-custom)
+- [ Polymer Page Swipe](./polymer-page-swipe)
 - [ Polymer App Router ](./polymer-app-router)
 
 ***
 
 - [ Back to ReadMe ](/ReadMe)
-
 

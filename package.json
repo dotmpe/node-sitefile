@@ -38,12 +38,12 @@
   },
   "dependencies": {
     "chalk": "^1.0.0",
-    "coffee-script": "latest",
-    "express": "^4.1.1",
-    "glob": "^5.0.3",
+    "coffee-script": "^1.9.2",
+    "express": "^4.12.3",
+    "glob": "^5.0.5",
     "jade": "^1.9.2",
     "js-yaml": "^3.2.7",
-    "lodash": "^3.4.0",
+    "lodash": "^3.6.0",
     "markdown": "^0.5.0",
     "semver": "^4.3.3",
     "stylus": "^0.50.0"
