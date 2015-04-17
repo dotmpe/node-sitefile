@@ -42,4 +42,20 @@ describe 'context', ->
 		expect( ctx2.hasOwnProperty 'x' ).toBe true
 		expect( ctx2.x ).toBe 9
 
+	it 'should be able to get paths (for objects)', ->
+		ctx = new Context foo: bar: el: 'baz'
+		
+		expect( ctx.get 'foo' ).toEqual bar: el: 'baz'
+		expect( ctx.get 'foo.bar' ).toEqual el: 'baz'
+		expect( ctx.get 'foo.bar.el' ).toEqual 'baz'
+
+	it 'should be able to resolve JSON path references', ->
+		ctx = new Context foo: bar: el: 'baz'
+		
+		expect( ctx.resolve 'foo' ).toEqual bar: el: 'baz'
+		expect( ctx.resolve 'foo.bar' ).toEqual el: 'baz'
+		expect( ctx.resolve 'foo.bar.el' ).toEqual 'baz'
+
+
+
 

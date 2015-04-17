@@ -9,7 +9,18 @@ rst2html_flags = ( params ) ->
 
   flags = []
   if params.stylesheets? and !_.isEmpty params.stylesheets
-    sheets = params.stylesheets.join ','
+    list = []
+    for sheet in params.stylesheets
+      if not params.link_stylesheet
+        sheet = path.join( process.cwd(), sheet )
+        if not fs.existsSync sheet
+          throw new Error "Cannot find stylesheet #{sheet}"
+      list.push sheet
+    sheets = list.join ','
+  if params.link_stylesheet
+    flags.push '--link-stylesheet'
+    flags.push "--stylesheet '#{sheets}'"
+  else
     flags.push "--stylesheet-path '#{sheets}'"
   flags.join ' '
 
@@ -42,7 +53,7 @@ rst2html = ( out, params={} ) ->
     out.end()
 
   else
-    child_process.exec cmd, (error, stdout, stderr) ->
+    child_process.exec cmd, {maxBuffer : 500 * 1024}, (error, stdout, stderr) ->
       if error
         throw error
       else if prm.format == 'xml'
@@ -80,7 +91,7 @@ module.exports = ( ctx={} ) ->
         format: 'html'
         docpath: docpath
       try
-        params = ctx.resolve 'sitefile.params.rst2html'
+        params = ctx.get 'sitefile.params.rst2html'
         rst2html res, _.merge {}, params, req.query
       catch error
         console.log error

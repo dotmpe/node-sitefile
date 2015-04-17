@@ -92,7 +92,7 @@ class Context
     self = @
     # recursively replace $ref: '..' with dereferenced value
     # XXX this starts top-down, but forgets context. may need to globalize
-    merge = (result, value, key) ->
+    merge = ( result, value, key ) ->
       if _.isArray value
         for item, index in value
           merge value, item, index
@@ -101,9 +101,10 @@ class Context
           ref = value.$ref.substr(2).replace /\//g, '.'
           value = self.get ref
         else
-          for key, property of value
-            merge value, property, key
-        result[ key ] = value
+          for key2, value2 of value
+            #console.log 'merge', value, value2, key2
+            merge value, value2, key2
+      result[ key ] = value
     _.transform c, merge
 
 Context._i = 0
