@@ -84,7 +84,7 @@ load_sitefile = ( ctx ) ->
 
 
 load_rc = ( ctx ) ->
-  ctx.static = libconf.load 'sitefilerc', suffixes: [ '' ], all: true
+  ctx.static = libconf.load 'sitefilerc', get: suffixes: [ '' ], all: true
   ctx.static
 
 
@@ -317,10 +317,11 @@ warn = ->
   console.warn.apply null, log_line( v, out )
 
 log = ->
-  v = Array.prototype.slice.call( arguments )
-  header = _.padLeft v.shift(), 21
-  out = [ chalk.blue(header) + c.sc ]
-  console.log.apply null, log_line( v, out )
+  if module.exports.log_enabled
+    v = Array.prototype.slice.call( arguments )
+    header = _.padLeft v.shift(), 21
+    out = [ chalk.blue(header) + c.sc ]
+    console.log.apply null, log_line( v, out )
 
 log_line = ( v, out=[] ) ->
   while v.length
@@ -355,6 +356,7 @@ module.exports = {
   reload_on_change: reload_on_change
   load_routers: load_routers
   load_rc: load_rc
+  log_enabled: true
   log: log
 }
 

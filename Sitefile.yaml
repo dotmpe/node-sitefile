@@ -29,7 +29,7 @@ routes:
 params:
   rst2html:
     stylesheets:
-#      $ref: '#/defs/stylesheets/default'
+      $ref: '#/defs/stylesheets/default'
 
 defs:
   stylesheets:

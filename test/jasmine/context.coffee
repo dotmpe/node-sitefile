@@ -9,9 +9,13 @@ express_handler = require '../../lib/sitefile/express'
 Context = require '../../lib/context'
 
 
-describe 'context.Context', ->
+describe 'Module context', ->
 
-  it 'should numerically ID its instances', ->
+  it 'exports a class called Context', ->
+    expect( Context::constructor )
+    expect( Context::constructor.name ).toBe 'Context'
+
+  it 'should numerically Id its instances', ->
     expect( Context.count() ).toBe 0
     ctx1 = new Context {}
     expect( Context.count() ).toBe 1
@@ -65,10 +69,7 @@ describe 'context.Context', ->
       expect( ctx2.x ).toBe 9
 
 
-    describe 'have context path-reference', ->
-
-
-    describe 'get context path-reference', ->
+    describe 'get path-reference', ->
 
       describe 'which dereference', ->
 
