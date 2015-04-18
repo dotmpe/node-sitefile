@@ -30,7 +30,7 @@ lint:
 
 # FIXME jasmine from grunt?
 test:
-	NODE_ENV=development coffee test/runner.coffee
+	coffee test/runner.coffee
 
 update:
 	npm update
