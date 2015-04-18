@@ -136,9 +136,9 @@ describe 'context.Context', ->
           expect( ctx.resolve 'foo.bar' ).toEqual merged.foo.bar
           expect( ctx.resolve 'foo.bar.el' ).toEqual merged.foo.bar.el
           expect( ctx.resolve 'foo.bar.x2' ).toEqual merged.foo.bar.x2
-          expect( ctx.resolve 'foo.bar.x2.bool' ).toEqual merged.foo.bar.bool
-          expect( ctx.resolve 'foo.bar.x2.int' ).toEqual merged.foo.bar.int
-          expect( ctx.resolve 'foo.bar.x2.x3' ).toEqual merged.foo.bar.x3
+          expect( ctx.resolve 'foo.bar.x2.bool' ).toEqual merged.foo.bar.x2.bool
+          expect( ctx.resolve 'foo.bar.x2.int' ).toEqual merged.foo.bar.x2.int
+          expect( ctx.resolve 'foo.bar.x2.x3' ).toEqual merged.foo.bar.x2.x3
 
 
 
