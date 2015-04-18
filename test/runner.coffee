@@ -17,7 +17,11 @@ miniJasmineLib.addSpecs 'test/jasmine/sitefile_router_du.coffee'
 # be automatically reported to the terminal.
 #miniJasmineLib.addReporter myCustomReporter
 
-options = showColors: true, includeStackTrace: true
+env = process.env.NODE_ENV or 'development'
+if env == 'testing'
+	options = showColors: true, includeStackTrace: true, isVerbose: true
+if env == 'development'
+	options = showColors: true, isVerbose: true
 
 # Run those tests!
 miniJasmineLib.executeSpecs options

@@ -11,7 +11,8 @@ branches:
   - /^v[0-9]+.[0-9]+.[0-9]+$
 
 env:
-  - NODE_ENV=
-#  - NODE_ENV=testing
+# default env is development
+#  - NODE_ENV=
+  - NODE_ENV=testing
 #  - NODE_ENV=production
 

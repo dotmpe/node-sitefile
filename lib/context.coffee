@@ -6,6 +6,17 @@ See also dotmpe/invidia for an JS context (without dynamic inheritance?)
 ###
 _ = require 'lodash'
 
+
+ctx_prop_spec = ( desc ) ->
+  _.defaults desc,
+    enumerable: false
+    configurable: true
+
+refToPath = ( ref ) -> 
+  if not ref.match /#\/.*/
+    throw new Error "Absolute JSON ref only support"
+  ref.substr(2).replace /\//g, '.'
+
 class Context
 
   constructor: ( init, ctx=null ) ->
@@ -19,10 +30,10 @@ class Context
     @prepare_properties init
     @seed init
 
-  path: ->
+  id: ->
     if @context
-      return @context.path + '/' + @_instance
-    return '#/' + @_instance
+      return @context.id() + '.' + @_instance
+    return 'ctx:' + @_instance
 
   toString: ->
     #console.log @constructor.name
@@ -56,12 +67,12 @@ class Context
     for k, v of obj
       if k of @_data
         continue
-      Object.defineProperty @, k,
+      @ctx_property k,
         get: @_ctxGetter( k )
         set: @_ctxSetter( k )
-        enumerable: true
-        configurable: true
-        #        writable: true
+
+  subs: ->
+    return @_subs
 
   # get new subcontext:
   # create new SubContext instance that inherits from current instance
@@ -79,7 +90,7 @@ class Context
     c = @
     while p.length
       name = p.shift()
-      if c[ name ]
+      if name of c
         c = c[ name ]
       else
         throw new Error "Unable to resolve #{name} of #{path}"
@@ -88,7 +99,21 @@ class Context
   # get an object by json path reference,
   # and resolve all contained references too
   resolve: ( path ) ->
-    c = @get path
+    p = path.split '.'
+    c = @
+    while p.length
+      name = p.shift()
+      if name of c
+        c = c[ name ]
+        if _.isObject( c ) and '$ref' of c
+          c = @get refToPath c.$ref
+      else
+        throw new Error "Unable to resolve #{name} of #{path}"
+    if _.isPlainObject c
+      return @merge c
+    c
+
+  merge: ( c ) ->
     self = @
     # recursively replace $ref: '..' with dereferenced value
     # XXX this starts top-down, but forgets context. may need to globalize
@@ -96,21 +121,36 @@ class Context
       if _.isArray value
         for item, index in value
           merge value, item, index
-      else if _.isObject value
-        if value.$ref # XXX resolve absolute JSON ref
-          ref = value.$ref.substr(2).replace /\//g, '.'
-          value = self.get ref
+      else if _.isPlainObject value
+        if '$ref' of value  # XXX resolve absolute JSON ref
+          value = self.merge self.get refToPath value.$ref
         else
           for key2, value2 of value
-            #console.log 'merge', value, value2, key2
             merge value, value2, key2
+      else if _.isString( value ) or _.isNumber( value ) or _.isBoolean( value )
+        null
+      else
+        throw new Error "Unhandled value '#{value}'"
       result[ key ] = value
+
     _.transform c, merge
 
-Context._i = 0
+  ctx_property: ( prop, desc ) ->
+    ctx_prop_spec desc
+    Object.defineProperty @, prop, desc
+
+  # Class funcs
+
+  @count: ->
+    return Context._i
+
+  @reset: ->
+    Context._i = 0
+
+# Class vars
+Context.reset()
 Context.name = "context-mpe"
 Context.version = "0.0.1"
 
 
 module.exports = Context
-
