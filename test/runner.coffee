@@ -18,10 +18,15 @@ miniJasmineLib.addSpecs 'test/jasmine/sitefile_router_du.coffee'
 #miniJasmineLib.addReporter myCustomReporter
 
 env = process.env.NODE_ENV or 'development'
-#if env == 'testing'
 #if env == 'development'
-options = showColors: true, includeStackTrace: true, isVerbose: true
-#	options = showColors: true, isVerbose: true
+options =
+  showColors: true
+  includeStackTrace: true
+  isVerbose: true
+  onComplete: ( passed ) ->
+    if not passed
+      if env == 'testing'
+        process.exit 1
 
 # Run those tests!
 miniJasmineLib.executeSpecs options
