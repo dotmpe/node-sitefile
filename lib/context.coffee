@@ -12,7 +12,7 @@ ctx_prop_spec = ( desc ) ->
     enumerable: false
     configurable: true
 
-refToPath = ( ref ) -> 
+refToPath = ( ref ) ->
   if not ref.match /#\/.*/
     throw new Error "Absolute JSON ref only support"
   ref.substr(2).replace /\//g, '.'
@@ -101,29 +101,47 @@ class Context
   resolve: ( path ) ->
     p = path.split '.'
     c = @
+
     while p.length
+
+      if '$ref' of c
+        lc = c
+        c = @get refToPath c.$ref
+        if _.isPlainObject c
+          delete lc.$ref
+          _.merge lc, c
+
       name = p.shift()
+
       if name of c
         c = c[ name ]
+
         if _.isObject( c ) and '$ref' of c
+          lc = c
           c = @get refToPath c.$ref
+          if _.isPlainObject c
+            delete lc.$ref
+            c = _.merge lc, c
+
       else
         throw new Error "Unable to resolve #{name} of #{path}"
+
     if _.isPlainObject c
       return @merge c
+
     c
 
   merge: ( c ) ->
     self = @
-    # recursively replace $ref: '..' with dereferenced value
-    # XXX this starts top-down, but forgets context. may need to globalize
     merge = ( result, value, key ) ->
       if _.isArray value
         for item, index in value
           merge value, item, index
       else if _.isPlainObject value
-        if '$ref' of value  # XXX resolve absolute JSON ref
-          value = self.merge self.get refToPath value.$ref
+        if '$ref' of value 
+          merged = self.merge self.get refToPath value.$ref
+          delete value.$ref
+          value = _.merge value, merged
         else
           for key2, value2 of value
             merge value, value2, key2

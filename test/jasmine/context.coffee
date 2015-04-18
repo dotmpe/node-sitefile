@@ -118,6 +118,54 @@ describe 'Module context', ->
             refs: x: el: 'baz'
           expect( ctx.resolve 'foo.bar.el' ).toEqual 'baz'
 
+          ctx = new Context
+            foo: bar: $ref: '#/refs/x'
+            refs:
+              x: el: $ref: '#/refs/el'
+              el: 'baz'
+          expect( ctx.resolve 'foo.bar.el' ).toEqual 'baz'
+
+          ctx = new Context
+            foo: bar: $ref: '#/refs/x'
+            refs:
+              x: el: $ref: '#/refs/el'
+              el: x2: $ref: '#/refs/x2'
+              x2: 'baz'
+          expect( ctx.resolve 'foo.bar.el.x2' ).toEqual 'baz'
+
+        it 'to objects merged with reference objects', ->
+          ctx = new Context
+            foo: bar:
+              x: 1
+              x2: 1
+              $ref: '#/refs/x'
+            refs:
+              x:
+                x: 2
+                y: 2
+          expect( ctx.resolve 'foo.bar.y' ).toEqual 2
+          expect( ctx.resolve 'foo.bar.x' ).toEqual 2
+          expect( ctx.resolve 'foo.bar.x2' ).toEqual 1
+
+        it 'to objects merged with reference objects (II)', ->
+          ctx = new Context
+            foo: bar:
+              x:
+                x: 1
+                y: 1
+              y: 1
+              z: 1
+              $ref: '#/refs/x'
+            refs:
+              x:
+                y: 2
+                x:
+                  x: 2
+                  y: 2
+          expect( ctx.resolve 'foo.bar.x' ).toEqual { x: 2, y: 2 }
+          expect( ctx.resolve 'foo.bar.y' ).toEqual 2
+          expect( ctx.resolve 'foo.bar.z' ).toEqual 1
+
         it 'to fully dereferenced objects (II)', ->
           ctx = new Context
             foo: bar: $ref: '#/refs/x'
@@ -130,16 +178,31 @@ describe 'Module context', ->
                 bool: false
                 x3: $ref: '#/refs/x3'
               x3: 'test'
-          merged = foo: bar:
+          foo = bar:
             el: 'baz'
             x2: int: 0, bool: false, x3: 'test'
-          expect( ctx.resolve 'foo' ).toEqual merged.foo
-          expect( ctx.resolve 'foo.bar' ).toEqual merged.foo.bar
-          expect( ctx.resolve 'foo.bar.el' ).toEqual merged.foo.bar.el
-          expect( ctx.resolve 'foo.bar.x2' ).toEqual merged.foo.bar.x2
-          expect( ctx.resolve 'foo.bar.x2.bool' ).toEqual merged.foo.bar.x2.bool
-          expect( ctx.resolve 'foo.bar.x2.int' ).toEqual merged.foo.bar.x2.int
-          expect( ctx.resolve 'foo.bar.x2.x3' ).toEqual merged.foo.bar.x2.x3
+          refs =
+            x:
+              el: 'baz'
+              x2:
+                int: 0
+                bool: false
+                x3: 'test'
+            x2:
+              int: 0
+              bool: false
+              x3: 'test'
+            x3: 'test'
+          expect( ctx.resolve 'refs.x3' ).toEqual refs.x3
+          expect( ctx.resolve 'refs.x2' ).toEqual refs.x2
+          expect( ctx.resolve 'refs.x' ).toEqual refs.x
+          expect( ctx.resolve 'foo' ).toEqual foo
+          expect( ctx.resolve 'foo.bar' ).toEqual foo.bar
+          expect( ctx.resolve 'foo.bar.el' ).toEqual foo.bar.el
+          expect( ctx.resolve 'foo.bar.x2' ).toEqual foo.bar.x2
+          expect( ctx.resolve 'foo.bar.x2.bool' ).toEqual foo.bar.x2.bool
+          expect( ctx.resolve 'foo.bar.x2.int' ).toEqual foo.bar.x2.int
+          expect( ctx.resolve 'foo.bar.x2.x3' ).toEqual foo.bar.x2.x3
 
 
 

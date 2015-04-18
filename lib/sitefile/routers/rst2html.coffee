@@ -53,7 +53,7 @@ rst2html = ( out, params={} ) ->
     out.end()
 
   else
-    child_process.exec cmd, {maxBuffer : 500 * 1024}, (error, stdout, stderr) ->
+    child_process.exec cmd, {maxBuffer: 500 * 1024}, (error, stdout, stderr) ->
       if error
         throw error
       else if prm.format == 'xml'

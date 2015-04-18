@@ -277,7 +277,8 @@ apply_routes = ( sitefile, app, ctx={} ) ->
         else
           # use router to generate handler for resource
           handler = get_handler_gen router_name, ctx
-          log "Express All", url: url, '', id: router_name, '', path: handler_spec
+          log "Express All", url: url, '',
+            id: router_name, '', path: handler_spec
           app.all url, handler handler_spec, ctx
 
     # redirect dirs to default dir-index resource
