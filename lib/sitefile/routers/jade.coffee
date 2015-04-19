@@ -2,18 +2,11 @@
 ###
 _ = require 'lodash'
 path = require 'path'
+jade = require 'jade'
 
 
 # Given sitefile-context, export metadata for jade: handlers
 module.exports = ( ctx={} ) ->
-
-  try
-    jade = require 'jade'
-  catch
-    return
-
-
-  #_.defaults ctx,
 
   name: 'jade'
   label: 'Jade templates'

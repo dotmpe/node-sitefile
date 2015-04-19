@@ -4,11 +4,26 @@ path = require 'path'
 child_process = require 'child_process'
 
 
+
 rst2html_flags = ( params ) ->
 
   flags = []
   if params.stylesheets? and !_.isEmpty params.stylesheets
-    sheets = params.stylesheets.join ','
+    list = []
+    for sheet in params.stylesheets
+      if not params.link_stylesheet
+        if sheet.startsWith '~'
+          sheet = path.join( process.env.HOME, sheet.substr 1 )
+        if not path.isAbsolute sheet
+          sheet = path.join( process.cwd(), sheet )
+        if not fs.existsSync sheet
+          throw new Error "Cannot find stylesheet #{sheet}"
+      list.push sheet
+    sheets = list.join ','
+  if params.link_stylesheet
+    flags.push '--link-stylesheet'
+    flags.push "--stylesheet '#{sheets}'"
+  else
     flags.push "--stylesheet-path '#{sheets}'"
   flags.join ' '
 
@@ -16,6 +31,14 @@ rst2html_flags = ( params ) ->
 test_for_rst2html = ->
   child_process.exec "which rst2html.py", ( err, stdo, stde ) ->
 
+defaults =
+  rst2html:
+    # XXX see du: router
+    format: 'pseudoxml'
+    docpath: 'index'
+    # html params:
+    link_stylesheet: false
+    stylesheets: []
 
 ###
 Take parameters
@@ -23,14 +46,8 @@ Async rst2html writes to out or throws exception
 ###
 rst2html = ( out, params={} ) ->
 
-  prm = _.defaults params,
-    format: 'pseudoxml'
-    docpath: 'index'
-    link_stylesheet: false
-    stylesheets: []
-
+  prm = _.defaults params, defaults.rst2html
   cmdflags = rst2html_flags prm
-
   cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
 
   if prm.format == 'source'
@@ -39,8 +56,7 @@ rst2html = ( out, params={} ) ->
     out.end()
 
   else
-
-    child_process.exec cmd, (error, stdout, stderr) ->
+    child_process.exec cmd, {maxBuffer: 500 * 1024}, (error, stdout, stderr) ->
       if error
         throw error
       else if prm.format == 'xml'
@@ -62,21 +78,19 @@ module.exports = ( ctx={} ) ->
     return
 
   _.defaults ctx,
-
-    # base-url / prefix for local routes
     base_url: null
-
-  ctx.resolve 'sitefile.params.rst2html'
 
   name: 'rst2html'
   label: 'Docutils rSt to HTML publisher'
+  defaults:
+    defaults
   lib:
     rst2html: rst2html
   generate: ( spec, ctx ) ->
     docpath = path.join ctx.cwd, spec
     ( req, res, next ) ->
       req.query = _.defaults req.query || {},
-        format: 'html',
+        format: 'html'
         docpath: docpath
       try
         params = ctx.resolve 'sitefile.params.rst2html'
@@ -90,17 +104,14 @@ module.exports = ( ctx={} ) ->
 
   route:
     base: ctx.base_url
-    rst2html:
-      get: (req, res, next) ->
+    browser:
+      route:
+        rst: ( req, res, next ) ->
 
-        req.query = _.defaults res.query || {}, format: 'xml'
-
-        try
-          rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
-        catch error
-          console.log error
-          res.type 'text/plain'
-          res.status 500
-          res.write "exec error: #{error}"
-        res.end()
+# XXX New style routes (
+###
+  route:
+  - handler: ->
+    all: 'src/*': 'prism:'
+###
 

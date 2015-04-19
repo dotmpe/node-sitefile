@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.0.3-dev
+:Version: 0.0.3-sitebuild
 :package: Changelog_
 
   .. image:: https://badge.fury.io/js/node-sitefile.png
