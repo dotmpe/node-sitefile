@@ -34,9 +34,8 @@ install:
 lint:
 	grunt lint
 
-# FIXME jasmine from grunt?
 test:
-	NODE_ENV=development coffee test/runner.coffee
+	grunt test
 
 update:
 	./tools/cli-version.sh update

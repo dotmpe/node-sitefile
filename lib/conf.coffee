@@ -26,8 +26,12 @@ defaults =
     name: 'Sitefile'
     ext: '.yml'
 
+defaults.load =
+  get: _.clone( defaults.get )
+  load_file: _.clone( defaults.load_file )
 
-get = ( name, opts ) ->
+
+get = ( name, opts={} ) ->
 
   _.defaults opts, defaults.get
 
@@ -51,9 +55,10 @@ get = ( name, opts ) ->
     return paths
 
 
-load_file = ( fn, opts=defaults.load_file ) ->
+load_file = ( fn, opts={} ) ->
   data
 
+  _.merge opts, defaults.load_file
   if opts.ext == '.json'
     data = require fn
   else if opts.ext in [ '.yaml', '.yml' ]
@@ -69,14 +74,17 @@ load_file = ( fn, opts=defaults.load_file ) ->
 
 
 # Return merged data, loaded from one or more files
-load = ( name, opts ) ->
-  paths = get name, opts
+load = ( name, opts={} ) ->
+  _.defaults opts, defaults.load
+  paths = get name, opts.get
+  if _.isEmpty paths
+    throw new Error "Nothing to load for #{name}"
   #console.log "load #{name} found", paths, opts
   if not _.isArray paths
     paths = [ paths ]
   data = {}
-  for path in paths
-    obj = load_file path
+  for p in paths
+    obj = load_file p, opts.load_file
     _.merge data, obj
   data
 

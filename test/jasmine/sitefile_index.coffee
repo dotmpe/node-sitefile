@@ -42,7 +42,7 @@ describe 'Module sitefile', ->
 
       ctx = {}
       sitefile_fn = lib.get_local_sitefile_name ctx
-      lfn = path.join __nodepath, 'Sitefile.yaml'
+      lfn = path.join process.cwd(), 'Sitefile.yaml'
       expect( sitefile_fn ).toBe( lfn )
 
     it 'Should pick up Sitefiles for all extensions', ->
