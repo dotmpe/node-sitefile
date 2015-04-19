@@ -14,4 +14,12 @@ do
   }
 done
 
+# Check for version line in Changelog
+grep -i '^'$2 Changelog.rst >> /dev/null && {
+  echo "Changelog entry $2"
+} || { 
+  echo "Changelog no entry $2"
+  e=1
+}
+
 exit $e

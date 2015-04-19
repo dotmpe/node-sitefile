@@ -1,4 +1,7 @@
 ReadMe.rst
 package.json
+bower.json
+.sitefilerc
+Sitefile.yaml
 package.yaml
-lib/git-versioning.sh
+lib/sitefile/sitefile.coffee
