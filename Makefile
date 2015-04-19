@@ -45,7 +45,7 @@ update:
 
 build: TODO.list
 
-TODO.list: Makefile bin config public lib test ReadMe.rst Gruntfile.js Sitefile.yaml
+TODO.list: Makefile bin config doc example lib public test tools ReadMe.rst Gruntfile.js Sitefile.yaml
 	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@
 
 global:
@@ -55,6 +55,11 @@ info:
 	./tools/cli-version.sh
 	npm run srctree
 	npm run srcloc
+
+IGNORE_DIRS := components node_modules bower_components .git
+
+srclist:
+	find ./ $(addprefix -not -path ,$(IGNORE_DIRS:%='*%*'))
 
 version:
 	@./tools/cli-version.sh version

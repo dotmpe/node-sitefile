@@ -1,0 +1,205 @@
+doctype html
+
+html.example
+
+  head
+    title Prism Example
+
+    //script(type='text/javascript', src="/components/jquery/dist/jquery.js")
+    //script(type='text/javascript', src="/components/coffee-script/extras/coffee-script.js")
+    script(type='text/javascript', src="/components/prism/prism.js")
+    script(type='text/javascript', src="/components/prism/components/prism-coffeescript.js")
+    script(type='text/javascript', src="/components/prism/components/prism-ini.js")
+    script(type='text/javascript', src="/components/prism/components/prism-bash.js")
+    script(type='text/javascript', src="/components/prism/components/prism-python.js")
+    script(type='text/javascript', src="/components/prism/components/prism-php.js")
+    script(type='text/javascript', src="/components/prism/components/prism-sql.js")
+    script(type='text/javascript', src="/components/prism/components/prism-markdown.js")
+    script(type='text/javascript', src="/components/prism/components/prism-rest.js")
+    script(type='text/javascript', src="/components/prism/components/prism-jade.js")
+
+    link(rel="stylesheet", type='text/css', href="/example/server-generated-stylesheet")
+    link(rel="stylesheet", type='text/css', href="/example/polymer-example.css")
+
+    link(rel="import", href="/example/polymer-langstyle-select")
+
+    //link(rel="stylesheet", type='text/css', href="/components/prism/themes/prism.css")
+
+    // Darkest
+    //link(rel="stylesheet", type='text/css', href="/components/prism/themes/prism-twilight.css")
+
+    // Slightly Lighter Dark brown
+    //link(rel="stylesheet", type='text/css', href="/components/prism/themes/prism-tomorrow.css")
+
+    // Even Slightly Lighter Dark brown
+    //link(rel="stylesheet", type='text/css', href="/components/prism/themes/prism-dark.css")
+
+    link(id="lang-style", rel="stylesheet", type='text/css', href="/components/prism/themes/prism-coy.css")
+
+  body
+
+    lang-style-select()
+
+    script
+      | var langsel = document.querySelector('lang-style-select');
+      | langsel.styles = [
+      |   {label: 'Coy (Light)', name: 'coy'},
+      |   {label: 'Dark (Brown)', name: 'dark'},
+      |   {label: 'Tomorrow (Dark Brown)', name: 'tomorrow'},
+      |   {label: 'Twilight (Black)', name: 'twilight'},
+      | ];
+
+    pre(class="language-css")
+      code
+        | /* Comment */
+        | .container {
+        |   padding: 1em;
+        | }
+
+    pre(class="language-markup")
+      code
+        :code
+          <!DOCTYPE html>
+          <html></html>
+
+    pre(class="language-jade")
+      code
+        :code
+          doctype html
+
+          html.example
+
+            head
+              // Comment
+              title Source Browser
+
+              script(type='text/javascript', src="/components/jquery/dist/jquery.js")
+
+    pre(class="language-javascript")
+      code
+        :code
+          /* Comment */
+          $(document).ready( function() {
+             console.log('Ready');
+          });
+
+    pre(class="language-ini")
+      code
+        :code
+          ; Comment
+
+          [section]
+          property=value
+          file="name.txt"
+
+    pre(class="language-coffeescript")
+      code
+        :code
+          # Comment
+          $(document).ready ->
+             console.log 'Ready'
+
+    pre(class="language-bash")
+      code
+        :code
+          #!/bin/bash
+
+          example()
+          {
+            echo "Example: "$*
+          }
+
+          example $@
+          exit 1
+
+    pre(class="language-sql")
+      code
+        :code
+          -- Comment
+          SELECT * FROM table
+          WHERE id = '0001';
+
+    pre(class="language-python")
+      code
+        :code
+          if __name__ == '__main__':
+            import sys
+            sys.exit(1)
+
+    pre(class="language-php")
+      code
+        :code
+          <?php
+
+          class PhpClass {
+            function __construct() {
+              parent::__construct();
+              phpinfo();
+            }
+          }
+
+    pre(class="language-clike")
+      code
+        :code
+          #include <OneWire.h>
+          #include <mpelib.h>
+          
+          #define SERIAL          1   // set to 1 to enable serial interface
+          #define DEBUG       1 /* Enable trace statements */
+          							
+          #define _MEM            1   // Report free memory 
+          
+          void setup(void)
+          {
+          #if SERIAL
+          	mpeser.begin();
+          #if DEBUG || _MEM
+          	Serial.print(F("Free RAM: "));
+          	Serial.println(freeRam());
+          #endif
+          	serialFlush();
+          #endif
+          }
+          
+          void loop(void)
+          {
+          }
+
+    pre(class="language-markdown")
+      code
+        :code
+          Title
+          =====
+          - [ Link lable ](./link-url-path)
+
+          # Section
+
+          Paragraph.
+
+          > Quote.
+
+          ***
+
+    pre(class="language-rest")
+      code
+        :code
+          Title
+          =====
+          :Version: 0.x.y
+
+          - List item.
+
+          First. `Reference <#>`_
+          Paragraph text.
+
+          .. contents:: Table of Contents
+             :depth: 3
+
+          .. Comment
+
+          .. _refname: ./refpath
+
+          Section
+          -------
+          Paragraph.
+

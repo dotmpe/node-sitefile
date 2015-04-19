@@ -4,6 +4,11 @@ _ = require 'lodash'
 path = require 'path'
 jade = require 'jade'
 
+escape = require 'escape-html'
+
+jade.filters.code = ( block ) ->
+	escape block
+
 
 # Given sitefile-context, export metadata for jade: handlers
 module.exports = ( ctx={} ) ->

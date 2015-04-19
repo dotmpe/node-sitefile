@@ -299,6 +299,7 @@ See ToDo_ document.
     | "connect-flash": "latest",
     | "method-override": "^2.3.2",
     | "node-uuid": "^1.4.3",
+    | "fs-extra": "^0.18.0",
     | "notifier": "latest"
 
 - :todo:`TODO add YAML, JSON validators. tv4, jsonary. Maybe test in another

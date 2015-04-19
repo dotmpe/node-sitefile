@@ -1,0 +1,13 @@
+
+link(rel="import", href="/components/polymer/polymer.html")
+
+polymer-element(name="lang-style-select")
+  template
+    span Style selector
+    ul
+      template(repeat="{{style in styles}}")
+        li(on-click="{{setStyle}}", value="{{style.name}}")
+          a {{style.label}}
+  script(src="/example/polymer-lang-style.js")
+
+

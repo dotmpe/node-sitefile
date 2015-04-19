@@ -9,6 +9,7 @@ Examples
 # Polymer
 
 - [ Polymer Example ](./polymer-example)
+- [ Prism Examples with Polymer Style Selector ](./prism)
 - [ Polymer Simple Custom Element Example ](./polymer-custom)
 - [ Polymer Page Swipe](./polymer-page-swipe)
 - [ Polymer App Router ](./polymer-app-router)

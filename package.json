@@ -8,7 +8,10 @@
     "email": "dev@dotmpe.com"
   },
   "keywords": [
-    "publishing", "hypertext", "restructuredtext", "docutils"
+    "publishing",
+    "hypertext",
+    "restructuredtext",
+    "docutils"
   ],
   "license": "GPLv3",
   "licenses": [
@@ -30,7 +33,7 @@
   "scripts": {
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "test": "make lint test",
-    "srctree": "tree -I 'node_modules|build|components'",
+    "srctree": "tree -I 'node_modules|build|components|bower_components'",
     "srcloc": "find bin/ config/ public/media lib/ -iname '*.js' -o -iname '*.coffee' -exec cat {} + | grep -v '^\\s*$' | wc -l"
   },
   "bin": {
@@ -39,6 +42,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "coffee-script": "^1.9.2",
+    "escape-html": "^1.0.1",
     "express": "^4.12.3",
     "glob": "^5.0.5",
     "jade": "^1.9.2",
