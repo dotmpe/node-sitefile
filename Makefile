@@ -2,10 +2,12 @@
 STRGTS := \
    default \
    info \
+   lint \
    test \
    build \
    install \
    update \
+   global \
    version \
    check \
    increment \
@@ -21,17 +23,27 @@ space := $(empty) $(empty)
 default: info
 	@echo 'usage:'
 	@echo '# npm [info|update|test]'
+	@echo '# grunt [lint|..]'
 	@echo '# make [$(subst $(space),|,$(STRGTS))]'
 
 install:
 	npm install
+	bower install
 	make test
 
-test: check
+lint:
+	grunt lint
+
+# FIXME jasmine from grunt?
+test:
+	NODE_ENV=development coffee test/runner.coffee
 
 update:
 	npm update
 	bower update
+
+global:
+	npm install -g
 
 build: TODO.list
 
@@ -39,7 +51,9 @@ TODO.list: Makefile lib ReadMe.rst reader.rst package.yaml Sitefile.yaml
 	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@
 
 info:
-	@./tools/cli-version.sh
+	./tools/cli-version.sh
+	npm run srctree
+	npm run srcloc
 
 version:
 	@./tools/cli-version.sh version
