@@ -49,7 +49,7 @@ applyVersion()
       ;;
       *.sitefilerc )
         VER_LINE="\"sitefilerc\":\ \"$VER_STR\""
-        sed -i .applyVersion-bak 's/^\ \ "sitefilerc":.*/'  "$VER_LINE"'/' $V_TOP_PATH/$doc
+        sed -i .applyVersion-bak 's/^\ \ "sitefilerc":.*/  '"$VER_LINE"'/' $V_TOP_PATH/$doc
       ;;
       *Sitefile.yaml | *Sitefile.yml  )
         VER_LINE="sitefile:\ $VER_STR"
@@ -62,7 +62,7 @@ applyVersion()
       ;;
       *.yaml | *.yml )
         VER_LINE="version:\ $VER_STR"
-        sed -i .applyVersion-bak 's/^  version:.*/'"  $VER_LINE"'/' $V_TOP_PATH/$doc
+        sed -i .applyVersion-bak 's/^  version:.*/  '"$VER_LINE"'/' $V_TOP_PATH/$doc
       ;;
       *.js )
         VER_LINE="var version\ =\ '$VER_STR';"
