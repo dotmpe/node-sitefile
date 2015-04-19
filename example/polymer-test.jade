@@ -3,18 +3,9 @@ doctype html
 html.example
 
   head
-    title Source Browser
+    title Polymer Testing
 
-    script(type='text/javascript', src="/components/jquery/dist/jquery.js")
-    script(type='text/javascript', src="/components/coffee-script/extras/coffee-script.js")
-    //script(src="/components/webcomponentsjs/webcomponents.js")
     //script(type='text/javascript', src="/components/polymer-platform/platform.js")
-
-    link(type='text/coffeescript', href="/example/script.coffee")
-    script(type='text/javascript', src="/example/server-generated-javascript")
-
-    link(rel="stylesheet", type='text/css', href="/example/server-generated-stylesheet")
-    link(rel="stylesheet", type='text/css', href="/example/polymer-example.css")
 
     link(rel="import", href="/components/core-scaffold/core-scaffold.html")
     link(rel="import", href="/components/core-toolbar/core-toolbar.html")
@@ -29,23 +20,30 @@ html.example
     link(rel="import", href="/components/core-animated-pages/core-animated-pages.html")
     link(rel="import", href="/components/core-animated-pages/transitions/slide-from-right.html")
 
-  body(unresolved, fullbleed)
+  body(fullbleed, layout, vertical)
 
-    core-scaffold#scaffold
+    core-scaffold(rightDrawer,mode="")
+      div(tool, flex).tall Title Tall
+      div(tool, horizontal, layout, flex, center-justified).middle Title-middle
+      div(tool, horizontal, layout, flex, end-justified).bottom Title Bottom
 
-      nav
-        core-toolbar
-        label Path
-        input(value=source)
+      core-header-panel( navigation, flex, mode="seamed" )
+        core-toolbar Application
+        core-menu( theme="core-light-theme" )
+          core-item( icon="settings" label="item1" )
+          core-item( icon="settings" label="item2" )
 
-      core-toolbar(tool)
-        div Source View
+        core-menu(theme="core-light-theme")
+          core-item(icon="settings", label="Settings") 
 
-      div(layout, horizontal, center-center, fit)
-        .container
-          pre(class="language-"+format)
-            - for line in lines
-                code(class="language-"+format)= line +'\n'
-
-
+      div.content 
+        core-toolbar.tall
+          div Hello World!
+        div.body
+          :lorem-ipsum-filler-body
+          :lorem-ipsum-filler-body
+          :lorem-ipsum-filler-body
+          :lorem-ipsum-filler-body
+          :lorem-ipsum-filler-body
+          :lorem-ipsum-filler-body
 
