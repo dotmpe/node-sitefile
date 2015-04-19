@@ -6,13 +6,16 @@ routes:
   '': redir:ReadMe
   index: redir:ReadMe
   example: redir:example/main
-  $rst2html: rst2html:**/*.rst
-  $jade: jade:example/**/*.jade
-  $stylus: stylus:example/**/*.styl
-  $coffee: coffee:example/**/*.coffee
-  $markdown: markdown:*.md
-  $markdown_1: markdown:example/**/*.md
-  components: static:bower_components
+  _rst2html: rst2html:**/*.rst
+  _jade: jade:example/**/*.jade
+  _stylus: stylus:example/**/*.styl
+  _coffee: coffee:example/**/*.coffee
+  _markdown: markdown:*.md
+  _markdown_1: markdown:example/**/*.md
+
+  components: static:public/components
+
+  example: static:example
 
 #  todo: 'todo-app:TODO.list'
 params:
@@ -37,7 +40,6 @@ defs:
       - ~/htdocs/media/style/dotmpe-com/docutils-layout.css
       - ~/htdocs/media/style/dotmpe-com/dotmpe.css
       - ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
-
 
 
 
