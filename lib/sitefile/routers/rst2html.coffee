@@ -12,7 +12,10 @@ rst2html_flags = ( params ) ->
     list = []
     for sheet in params.stylesheets
       if not params.link_stylesheet
-        sheet = path.join( process.cwd(), sheet )
+        if sheet.startsWith '~'
+          sheet = path.join( process.env.HOME, sheet.substr 1 )
+        if not path.isAbsolute sheet
+          sheet = path.join( process.cwd(), sheet )
         if not fs.existsSync sheet
           throw new Error "Cannot find stylesheet #{sheet}"
       list.push sheet
