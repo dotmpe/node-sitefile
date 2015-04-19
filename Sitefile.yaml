@@ -1,3 +1,4 @@
+#!/usr/bin/env sitefile
 # Sitefile for node-sitefile document server
 sitefile: 0.0.3-dev
 routes:
@@ -36,6 +37,7 @@ defs:
       - ~/htdocs/media/style/dotmpe-com/docutils-layout.css
       - ~/htdocs/media/style/dotmpe-com/dotmpe.css
       - ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
+
 
 
 
