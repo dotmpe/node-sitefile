@@ -1,6 +1,36 @@
 Node Sitefile
 =============
-.. include:: doc/include/project-docinfo.rst
+:Version: 0.0.3-dev
+:package: Changelog_
+
+  .. image:: https://badge.fury.io/js/node-sitefile.png
+    :target: http://badge.fury.io/js/node-sitefile
+    :alt: NPM
+
+  .. image:: https://gemnasium.com/dotmpe/node-sitefile.png
+    :target: https://gemnasium.com/dotmpe/node-sitefile
+    :alt: Dependencies
+
+  .. image:: https://david-dm.org/dotmpe/node-sitefile.svg?style=flat-square
+    :target: https://david-dm.org/dotmpe/node-sitefile
+    :alt: Dependencies
+
+:project:  `Misc.`_
+
+  .. image:: https://coveralls.io/repos/dotmpe/node-sitefile/badge.png
+    :target: https://coveralls.io/r/dotmpe/node-sitefile
+    :alt: Coverage
+
+  .. image:: https://secure.travis-ci.org/dotmpe/node-sitefile.png
+    :target: https://travis-ci.org/dotmpe/node-sitefile
+    :alt: Build
+
+:repository:
+
+  .. image:: https://badge.fury.io/gh/dotmpe%2Fnode-sitefile.png
+    :target: http://badge.fury.io/gh/dotmpe%2Fnode-sitefile
+    :alt: GIT
+
 
 .. This is a reStructuredText document.
 
@@ -236,10 +266,21 @@ master
       Would need something Express compatible.
 
   f_client
-    - Adding bower. Need to look at polymer again. And LESS/SASS et al.
+    - Added Bower. Experimenting with polymer.
+    - Want to get Polymer core-scaffold running somehow.
+    - Working to add prism.js source-viewer.
 
   f_sitebuild [*]_
     - Compiling a sitefile to a distributable package.
+
+  f_jsonary
+    - Looking at wether to include Jsonary in master.
+
+  demo
+    - Merging experimental features. Should keep master clean.
+
+  stating_git_versioning
+    - Merging versioning seed into master.
 
 
 .. [*] Current branch.
@@ -257,7 +298,7 @@ See ToDo_ document.
 - TODO: browser reset styles, some simple local Du/rSt styles in Stylus.
 - :todo:`maybe implement simple TODO app as a feature branch somday`
 - https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
-- :todo:`add express functions:`
+- :todo:`add express functions again:`
     | "connect-flash": "latest",
     | "method-override": "^2.3.2",
     | "node-uuid": "^1.4.3",
@@ -287,4 +328,7 @@ Sitefile planet
 .. _semver: https://github.com/npm/node-semver
 .. _changelog: ./Changelog.rst
 .. _ToDo: ./TODO.md
+.. _examples: /example
+
+
 

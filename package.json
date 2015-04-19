@@ -1,7 +1,7 @@
 {
   "name": "node-sitefile",
   "description": "Bootstrap Express webserver for misc. resources using Sitefile",
-  "version": "0.0.3",
+  "version": "0.0.3-dev",
   "homepage": "https://github.com/dotmpe/node-sitefile",
   "author": {
     "name": "B. van Berkum",
@@ -41,13 +41,13 @@
   },
   "dependencies": {
     "chalk": "^1.0.0",
-    "coffee-script": "latest",
-    "express": "^4.1.1",
+    "coffee-script": "^1.9.2",
+    "express": "^4.12.3",
     "fs-extra": "^0.18.0",
-    "glob": "^5.0.3",
+    "glob": "^5.0.5",
     "jade": "^1.9.2",
     "js-yaml": "^3.2.7",
-    "lodash": "^3.4.0",
+    "lodash": "^3.6.0",
     "markdown": "^0.5.0",
     "semver": "^4.3.3",
     "stylus": "^0.50.0"

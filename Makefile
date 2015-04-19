@@ -8,13 +8,19 @@ STRGTS := \
    install \
    update \
    global \
+   version \
+   check \
+   increment \
    publish
 
 .PHONY: $(STRGTS)
 
+# BSD weirdness
+echo = /bin/echo
+
 empty :=
 space := $(empty) $(empty)
-default:
+default: info
 	@echo 'usage:'
 	@echo '# npm [info|update|test]'
 	@echo '# grunt [lint|..]'
@@ -33,30 +39,40 @@ test:
 	NODE_ENV=development coffee test/runner.coffee
 
 update:
+	./tools/cli-version.sh update
 	npm update
 	bower update
 
 global:
 	npm install -g
 
+build: TODO.list
+
+TODO.list: Makefile lib ReadMe.rst reader.rst package.yaml Sitefile.yaml
+	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@
+
 info:
+	./tools/cli-version.sh
 	npm run srctree
 	npm run srcloc
 
-build: TODO.list
+version:
+	@./tools/cli-version.sh version
 
-TODO.list: Makefile bin config public lib test ReadMe.rst Gruntfile.js Sitefile.yaml
-	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@
+check:
+	@$(echo) -n "Checking for version "
+	@./tools/cli-version.sh check
 
+patch: m :=
+patch:
+	@./tools/cli-version.sh increment
+	@./tools/prep-version.sh
+	@git add -u && git ci -m '$(m)'
 
-VERSION :=
-
+# XXX: GIT publish
 publish: DRY := yes
-publish:
-	@[ -z "$(VERSION)" ] && exit 1 || echo Publishing $(VERSION)
-	grep version..$(VERSION) ReadMe.rst
-	@./check.coffee $(VERSION)
-	grep '^$(VERSION)' Changelog.rst
+publish: check
+	@[ -z "$(VERSION)" ] && exit 1 || echo Publishing $(./tools/cli-version.sh version)
 	git push
 	@if [ $(DRY) = 'no' ]; \
 	then \

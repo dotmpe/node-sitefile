@@ -11,7 +11,7 @@ Context = require '../context'
 
 libconf = require '../conf'
 
-version = '0.0.3'
+version = '0.0.3-dev'
 
 c =
   sc: chalk.grey ':'
