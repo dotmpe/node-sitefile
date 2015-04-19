@@ -1,28 +1,37 @@
 libconf = require '../../lib/conf'
 
+pkg = require '../../package.json'
+
 
 describe "Module conf", ->
 
+  describe ".get:", ->
 
-  it "Should get the name of the nearest Sitefile", ->
+    it "Should get the name of the nearest Sitefile", ->
+      rc = libconf.get 'Sitefile', paths: [ '.' ]
+      expect( rc ).toBe "Sitefile.yaml"
 
-    rc = libconf.get 'Sitefile', paths: [ '.' ]
+    it "Should get the path of the nearest sitefilerc", ->
+      rc = libconf.get 'sitefilerc', suffixes: [ '' ]
+      expect( rc ).toBe ".sitefilerc"
 
-    expect( rc ).toBe "Sitefile.yaml"
-
-
-  it "Should get the name of the nearest sitefilerc", ->
-
-    rc = libconf.get 'sitefilerc', suffixes: [ '' ]
-
-    expect( rc ).toBe ".sitefilerc"
+    it "Should get the names of all the sitefilerc", ->
+      rcs = libconf.get 'sitefilerc', suffixes: [ '' ], all: true
+      expect( rcs ).toEqual [ '.sitefilerc' ]
 
 
-  it "Should load the data of the nearest sitefilerc", ->
+  describe ".load_file:", ->
 
-    rc = libconf.get 'sitefilerc', suffixes: [ '' ]
-    data = libconf.load_file rc
+    it "Should load the data of a sitefilerc", ->
+      rc = libconf.get 'sitefilerc', suffixes: [ '' ]
+      data = libconf.load_file rc
+      expect( data ).toEqual { sitefilerc: pkg.version }
 
-    expect( data ).toEqual {}
+
+  describe ".load", ->
+
+    it "Should load the data of the nearest sitefilerc", ->
+      data = libconf.load 'sitefilerc', get: suffixes: [ '' ]
+      expect( data ).toEqual { sitefilerc: pkg.version }
 
 

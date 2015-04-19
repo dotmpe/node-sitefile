@@ -37,6 +37,13 @@ module.exports = function(grunt) {
     //nodeunit: {
     //  files: ['test/nodeunit/**/*.coffee'],
     //},
+    jasmine_node: {
+      forceExit: true,
+      extensions: 'coffee',
+      projectRoot: 'test/jasmine/',
+      matchall: true,
+      specNameMatches: ''
+    },
 
     watch: {
       gruntfile: {
@@ -53,7 +60,8 @@ module.exports = function(grunt) {
       test: {
         files: '<%= jshint.test.src %>',
         tasks: [
-          'jshint:test'
+          'jshint:test',
+          'jasmine_node'
         ]
       },
     },
@@ -70,7 +78,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('test', [
-    //'make:test'
+    'jasmine_node'
   ]);
 
   // Default task.
