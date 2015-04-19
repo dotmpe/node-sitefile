@@ -16,13 +16,22 @@ Polymer('lang-style-select', {
     link.setAttribute('type', 'text/css');
     var head = document.querySelector('head');
     head.appendChild(link);
+    console.log('initLink', head, link);
+  },
+
+  // Polymer
+
+  created: function() {
+  },
+
+  ready: function() {
+    var link = document.querySelector('link#'+this.linkId);
+    if (typeof link === 'undefined' || link === null) {
+      this.initLink();
+    }
   },
 
   init: function() {
-    var link = document.querySelector('link#'+this.linkId);
-    if (typeof link === 'undefined') {
-      this.initLink();
-    }
     this.styles = [
       {label: 'Coy (Light)', name: 'coy'},
       {label: 'Dark (Brown)', name: 'dark'},

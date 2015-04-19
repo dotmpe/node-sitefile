@@ -10,8 +10,9 @@ html.example
     //script(src="/components/webcomponentsjs/webcomponents.js")
     //script(type='text/javascript', src="/components/polymer-platform/platform.js")
     script(type='text/javascript', src="/components/prism/prism.js")
+
     script(type='text/javascript', src="/components/prism/components/prism-coffeescript.js")
-    script(type='text/javascript', src="/components/prism/components/prism-html.js")
+    script(type='text/javascript', src="/components/prism/components/prism-markup.js")
     script(type='text/javascript', src="/components/prism/components/prism-cpp.js")
     script(type='text/javascript', src="/components/prism/components/prism-jade.js")
     script(type='text/javascript', src="/components/prism/components/prism-"+format+".js")
@@ -22,7 +23,6 @@ html.example
     link(rel="stylesheet", type='text/css', href="/example/server-generated-stylesheet")
     link(rel="stylesheet", type='text/css', href="/example/polymer-example.css")
     link(rel="stylesheet", type='text/css', href="/components/prism/themes/prism.css")
-    //link(rel="stylesheet", type='text/css', href="/components/prism/themes/prism-dark.css")
 
     link(rel="import", href="/components/core-scaffold/core-scaffold.html")
     link(rel="import", href="/components/core-toolbar/core-toolbar.html")
@@ -35,16 +35,30 @@ html.example
     link(rel="import", href="/components/paper-icon-button/paper-icon-button.html")
     link(rel="import", href="/components/core-animated-pages/core-animated-pages.html")
     link(rel="import", href="/components/core-animated-pages/transitions/slide-from-right.html")
+    link(rel="import", href="/example/polymer-langstyle-select")
 
   body(unresolved, fullbleed)
 
     core-scaffold#scaffold
+
       nav
         core-toolbar
         label Path
         input(value=source)
+        div
+          lang-style-select()
+          script
+            | var langsel = document.querySelector('lang-style-select');
+            | langsel.styles = [
+            |   {label: 'Coy (Light)', name: 'coy'},
+            |   {label: 'Dark (Brown)', name: 'dark'},
+            |   {label: 'Tomorrow (Dark Brown)', name: 'tomorrow'},
+            |   {label: 'Twilight (Black)', name: 'twilight'},
+            | ];
+
       core-toolbar(tool)
         div Source View
+
       div(layout, horizontal, center-center, fit)
         .container
           pre(class="language-"+format)
