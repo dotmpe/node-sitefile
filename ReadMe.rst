@@ -275,6 +275,9 @@ master
   f_jsonary
     - Looking at wether to include Jsonary in master.
 
+  demo
+    - Merging experimental features. Should keep master clean.
+
   stating_git_versioning
     - Merging versioning seed into master.
 
