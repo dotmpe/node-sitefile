@@ -4,3 +4,4 @@ bower.json
 lib/sitefile/sitefile.coffee
 .sitefilerc
 Sitefile.yaml
+package.yaml

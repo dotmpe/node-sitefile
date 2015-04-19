@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.2.0-dev
+:Version: 0.0.3-dev
 :package: Changelog_
 
   .. image:: https://badge.fury.io/js/node-sitefile.png
@@ -276,6 +276,9 @@ master
   f_jsonary
     - Looking at wether to include Jsonary in master.
 
+  stating_git_versioning
+    - Merging versioning seed into master.
+
 
 Versions
 --------
@@ -320,4 +323,5 @@ Sitefile planet
 .. _changelog: ./Changelog.rst
 .. _ToDo: ./TODO.md
 .. _examples: /example
+
 

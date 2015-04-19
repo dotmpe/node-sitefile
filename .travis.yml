@@ -8,10 +8,8 @@ branches:
   - master
   - f_sitebuild
   - f_client
-  - /^v[0-9]+.[0-9]+.[0-9]+$
 
 env:
-# default env is development
 #  - NODE_ENV=
   - NODE_ENV=testing
 #  - NODE_ENV=production

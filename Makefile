@@ -8,13 +8,19 @@ STRGTS := \
    install \
    update \
    global \
+   version \
+   check \
+   increment \
    publish
 
 .PHONY: $(STRGTS)
 
+# BSD weirdness
+echo = /bin/echo
+
 empty :=
 space := $(empty) $(empty)
-default:
+default: info
 	@echo 'usage:'
 	@echo '# npm [info|update|test]'
 	@echo '# grunt [lint|..]'
@@ -45,18 +51,26 @@ global:
 	npm install -g
 
 info:
+	./tools/cli-version.sh
 	npm run srctree
 	npm run srcloc
 
+version:
+	@./tools/cli-version.sh version
 
-VERSION :=
+check:
+	@$(echo) -n "Checking for version "
+	@./tools/cli-version.sh check
 
+patch: m :=
+patch:
+	@./tools/cli-version.sh increment
+	@git add -u && git ci -m '$(m)'
+
+# XXX: GIT publish
 publish: DRY := yes
-publish:
-	@[ -z "$(VERSION)" ] && exit 1 || echo Publishing $(VERSION)
-	grep version..$(VERSION) ReadMe.rst
-	@./check.coffee $(VERSION)
-	grep '^$(VERSION)' Changelog.rst
+publish: check
+	@[ -z "$(VERSION)" ] && exit 1 || echo Publishing $(./tools/cli-version.sh version)
 	git push
 	@if [ $(DRY) = 'no' ]; \
 	then \

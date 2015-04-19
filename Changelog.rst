@@ -18,6 +18,9 @@
     degrading functionality gracefully.
   - Added TODO file. Looking if markdown is suitable format.
 
+0.0.3-dev
+  - Added versioning scripts. 
+
 (0.0.3)
 
   - Testing project publishing scripts.
