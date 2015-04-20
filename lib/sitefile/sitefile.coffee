@@ -5,8 +5,10 @@ yaml = require 'js-yaml'
 _ = require 'lodash'
 chalk = require 'chalk'
 semver = require 'semver'
-Context = require '../context'
+nodelib = require 'nodelib'
 
+
+Context = nodelib.Context
 
 libconf = require '../conf'
 
