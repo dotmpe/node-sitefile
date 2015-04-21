@@ -1,3 +1,5 @@
+main: node-sitefile
+
 - type: application/x-project-mpe
   version: 0.0.3-dev
   environments: [ 'development' ]
