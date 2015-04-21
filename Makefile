@@ -8,12 +8,15 @@ APP_ID              :=
 VERSION              = 0.0.3-dev # node-sitefile
 
 # See GIT versioning project for more complete APP_ID heuristic
-ifneq ($(wildcard package.yml),)
-APP_ID := $(shell grep '^main: ' package.yaml)
+ifneq ($(wildcard package.yml package.yaml),)
+APP_ID := $(shell grep '^main: ' $(wildcard package.yml package.yaml) | sed 's/^main: //' )
 endif
 ifeq ($(APP_ID),)
 APP_ID := $(notdir $(BASE))
 endif
+
+# BSD weirdness
+echo = /bin/echo
 
 #      ------------ --
 
