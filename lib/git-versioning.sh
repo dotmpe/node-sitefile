@@ -1,6 +1,14 @@
 #!/bin/bash
+V_SH_SOURCED=$_
+V_SH_MAIN=$0
+V_SH_LIB=$BASH_SOURCE
+
+
+# Id: git-versioning/0.0.13 lib/git-versioning.sh
 
 source lib/util.sh
+
+version=0.0.13 # git-versioning
 
 [ -n "$V_TOP_PATH" ] || {
   V_TOP_PATH=.
@@ -14,11 +22,64 @@ source lib/util.sh
   V_CHECK=$V_TOP_PATH/tools/version-check.sh
 }
 
-# git-versioning package version
-version=0.0.6-master
+[ -n "$V_META_NAMES" ] || {
+  V_META_NAMES="module.meta package.yaml package.yml package.json bower.json"
+}
 
+# Determine package metafile
+module_meta_list() # $one
+{
+  for name in $V_META_NAMES
+  do
+    [ ! -e "./$name" ] || { echo $name; [ "$1" ] && return; }
+  done
+}
+
+load_app_id()
+{
+  META_FILES=$(module_meta_list)
+  for META_FILE in $META_FILES
+  do
+    if [ "${META_FILE:0:9}" = "package.y" ] || [ "$META_FILE" = "module.meta" ]
+    then
+      APP_ID=$(grep '^main:' $META_FILE | awk '{print $2}')
+      [ -n "$APP_ID" ] && {
+        break;
+      } || {
+        echo "Module with $META_FILE does not contain 'main:' entry,"
+        echo "looking further for APP_ID. "
+      }
+    else if [ "${META_FILE:-5}" = ".json" ]
+    then
+      # assume first "name": key is package name, not some nested object
+      APP_ID=$(grep '"name":' $META_FILE | sed 's/.*"name"[^"]*"\(.*\)".*/\1/')
+      [ -n "$APP_ID" ] && {
+        echo "Cannot get APP_ID from $META_FILE 'name': key";
+      }
+    fi; fi
+  done
+  [ -n "$APP_ID" ] || {
+     echo basename $PWD
+  }
+}
+
+# Set git-versioning vars
 load()
 {
+  [ "$V_SH_LIB" == "./lib/git-versioning.sh" ] || {
+    echo "This script should be named ./lib/git-versioning.sh"
+    echo "So that PWD is be the module metadata dir. "
+    echo "Untested usage: Aborting. "
+    exit 3
+  }
+
+  load_app_id
+
+  [ -n "$APP_ID" ] || {
+    echo "Cannot get APP_ID from any metadata file. Aborting git-versioning. "
+    exit 3
+  }
+
   V_PATH_LIST=$(cat $V_DOC_LIST)
   V_MAIN_DOC=$(head -n 1 $V_DOC_LIST)
 
@@ -37,15 +98,31 @@ load()
   VER_META=$(echo $VER_TAGS | awk -F+ '{print $2}')
 }
 
+commonCLikeComment()
+{
+  VER_LINE="# version: $VER_STR $APP_ID"
+  sed -i .applyVersion-bak 's/^#\ version:\ .* '$APP_ID'/'"$VER_LINE"'/' $V_TOP_PATH/$1
+
+  [ -n "$APP_ID" ] || return;
+
+  ID_LINE="# Id: $APP_ID\/$VER_STR "$(echo $1 | sed 's/\//\\\//g')
+  sed -i .applyVersion-bak 's/^# Id: '$APP_ID'.*/'"$ID_LINE"'/' $V_TOP_PATH/$1
+}
+
 applyVersion()
 {
   for doc in $V_PATH_LIST
   do
     case $doc in
 
-      *ReadMe.rst )
-        VER_LINE=":Version:\ $VER_STR"
-        sed -i .applyVersion-bak 's/^:Version:.*/'"$VER_LINE"'/' $V_TOP_PATH/$doc
+      *.rst )
+        if [ "$doc" = "$V_MAIN_DOC" ]
+        then
+          VER_LINE=":Version:\ $VER_STR"
+          sed -i .applyVersion-bak 's/^:Version:.*/'"$VER_LINE"'/' $V_TOP_PATH/$doc
+        fi
+        ID_LINE=".. Id: $APP_ID\/$VER_STR "$(echo $doc | sed 's/\//\\\//g')
+        sed -i .applyVersion-bak 's/^\.\. Id: '$APP_ID'.*/'"$ID_LINE"'/' $V_TOP_PATH/$doc
       ;;
       *.sitefilerc )
         VER_LINE="\"sitefilerc\":\ \"$VER_STR\""
@@ -56,29 +133,39 @@ applyVersion()
         sed -i .applyVersion-bak 's/^sitefile:.*/'"$VER_LINE"'/' $V_TOP_PATH/$doc
       ;;
 
+      *.mk | *Makefile )
+        commonCLikeComment $doc
+        VER_LINE="VERSION\1= $VER_STR # $APP_ID"
+        sed -i .applyVersion-bak 's/^VERSION\(\ *\)=.* # '$APP_ID'/'"$VER_LINE"'/' $V_TOP_PATH/$doc
+        ;;
+
       *.sh )
-        VER_LINE="version=$VER_STR"
-        sed -i .applyVersion-bak 's/^version=.*/'"$VER_LINE"'/' $V_TOP_PATH/$doc
+        commonCLikeComment $doc
+        VER_LINE="version=$VER_STR # $APP_ID"
+        sed -i .applyVersion-bak 's/^version=.* # '$APP_ID'/'"$VER_LINE"'/' $V_TOP_PATH/$doc
       ;;
       *.yaml | *.yml )
-        VER_LINE="version:\ $VER_STR"
-        sed -i .applyVersion-bak 's/^  version:.*/  '"$VER_LINE"'/' $V_TOP_PATH/$doc
+        commonCLikeComment $doc
+        VER_LINE="version:\ $VER_STR # $APP_ID"
+        sed -i .applyVersion-bak 's/^\([\ \t]*\)version:.* # '$APP_ID'/'"\1$VER_LINE"'/' $V_TOP_PATH/$doc
       ;;
       *.js )
-        VER_LINE="var version\ =\ '$VER_STR';"
-        sed -i .applyVersion-bak 's/^var version =.*/'"$VER_LINE"'/' $V_TOP_PATH/$doc
+        VER_LINE="var version\ =\ '$VER_STR'; \/\/ $APP_ID"
+        sed -i .applyVersion-bak 's/^var version =.* \/\/ '$APP_ID'/'"$VER_LINE"'/' $V_TOP_PATH/$doc
       ;;
       *.json )
         VER_LINE="\"version\":\ \"$VER_STR\","
-        sed -i .applyVersion-bak 's/^\ \ "version":.*/  '"$VER_LINE"'/' $V_TOP_PATH/$doc
+        sed -i .applyVersion-bak 's/^\([\ \t]*\)"version":.*/\1'"$VER_LINE"'/' $V_TOP_PATH/$doc
       ;;
       *.coffee )
-        VER_LINE="version\ =\ '$VER_STR'"
-        sed -i .applyVersion-bak 's/^version =.*/'"$VER_LINE"'/' $V_TOP_PATH/$doc
+        commonCLikeComment $doc
+        VER_LINE="version = '$VER_STR' # $APP_ID"
+        sed -i .applyVersion-bak 's/^version =.* # '$APP_ID'/'"$VER_LINE"'/' $V_TOP_PATH/$doc
       ;;
 
-      * ) echo $0 Unable to version $doc;
-      ;;
+      * )
+        echo "$: Unable to version $doc"
+        exit 2;;
 
     esac
 
@@ -87,7 +174,6 @@ applyVersion()
     echo "$doc @$VER_STR"
 
   done
-  # for post-commit: git commit -m "version update: "$VER_STR
 }
 
 buildVER()
@@ -131,11 +217,6 @@ incrVPAT()
   applyVersion
 }
 
-version()
-{
-  echo $VER_STR
-}
-
 check()
 {
   buildVER
@@ -163,7 +244,7 @@ increment()
   }
 }
 
-pre-release()
+pre_release()
 {
   VER_PRE=$(echo $* | tr ' ' '.')
   update
@@ -174,3 +255,26 @@ build()
   VER_META=$(echo $* | tr ' ' '.')
   update
 }
+
+info()
+{
+  echo "Running git-versioning/"$version
+  echo "Application name/version: "$(app_id)
+}
+
+app_id()
+{
+  echo $APP_ID/$VER_STR
+}
+
+name()
+{
+  echo $APP_ID
+}
+
+version()
+{
+  echo $VER_STR
+}
+
+

@@ -5,6 +5,7 @@ BASE                := $(shell cd $(DIR);pwd)
 HOST                := $(shell hostname|tr '.' '-')
 
 APP_ID              := 
+VERSION              = 0.0.3-dev # node-sitefile
 
 # See GIT versioning project for more complete APP_ID heuristic
 ifneq ($(wildcard package.yml),)
@@ -82,5 +83,7 @@ clean:: .
 	rm -rf $(CLN)
 
 info::
+	@echo "Id: $(APP_ID)/$(VERSION)"
 	@echo "Name: $(APP_ID)"
+	@echo "Version: $(VERSION)"
 

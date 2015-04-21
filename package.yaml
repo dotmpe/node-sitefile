@@ -1,5 +1,24 @@
 main: node-sitefile
 
 - type: application/x-project-mpe
+  name: node-sitefile
   version: 0.0.3-dev
   environments: [ 'development' ]
+
+# Id: git-versioning/0.0.13 package.yaml
+# Start
+
+- type: application/x-project-mpe
+  id: git-versioning
+  version: 0.0.13 # git-versioning
+  environments: [ 'development' ]
+
+# End
+# Id: git-versioning/0.0.13 package.yaml
+
+
+
+
+
+
+

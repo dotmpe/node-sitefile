@@ -5,3 +5,4 @@ bower.json
 Sitefile.yaml
 package.yaml
 lib/sitefile/sitefile.coffee
+Makefile

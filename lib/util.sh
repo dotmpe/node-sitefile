@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Id: git-versioning/0.0.13 lib/util.sh
+
 gitAddAll()
 {
   for doc in $V_PATH_LIST

@@ -26,7 +26,7 @@
     "url": "https://github.com/dotmpe/node-sitefile.git"
   },
   "bugs": {
-    "url": "https://github.com/dotmpe/nodelib/issues"
+    "url": "https://github.com/dotmpe/node-sitefile/issues"
   },
   "engines": {
     "node": "0.12.x",
