@@ -15,7 +15,7 @@ space := $(empty) $(empty)
 usage:
 	@echo 'usage:'
 	@echo '# npm [info|update|test]'
-	@echo '# make [$(subst $(space),|,$(STRGTS))]'
+	@echo '# make [$(subst $(space),|,$(STRGT))]'
 
 install::
 	npm install

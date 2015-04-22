@@ -1,4 +1,5 @@
 # Id: git-versioning/0.0.14 Rules.git-versioning.shared.mk
+
 # special rule targets
 STRGT += \
    version \
