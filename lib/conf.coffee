@@ -46,6 +46,9 @@ get = ( name, opts={} ) ->
           p1 = pwd
         p = path.join p1, p2 + name + s
 
+        if p.startsWith '~'
+          p = process.env.HOME + p.substr(1)
+
         if fs.existsSync p
           paths.push path.relative( pwd, p )
           if not opts.all
