@@ -1,7 +1,7 @@
 Node Sitefile
 =============
-:Version: 0.0.3-dev+20150430-2203
-:Status: dev
+:Version: 0.0.3-dev+20150430-2226
+:Status: Development
 :package: Changelog_
 
   .. image:: https://badge.fury.io/js/node-sitefile.png

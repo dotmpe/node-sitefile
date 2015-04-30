@@ -1,6 +1,6 @@
 #!/usr/bin/env sitefile
 # Sitefile for node-sitefile document server
-sitefile: 0.0.3-dev+20150430-2203
+sitefile: 0.0.3-dev+20150430-2226
 routes:
   media: static:public/media
   '': redir:ReadMe

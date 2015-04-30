@@ -7,9 +7,9 @@ chalk = require 'chalk'
 semver = require 'semver'
 nodelib = require 'nodelib'
 
-
 Context = nodelib.Context
 
+liberror = require '../error'
 libconf = require '../conf'
 
 
@@ -88,7 +88,13 @@ load_sitefile = ( ctx ) ->
 
 
 load_rc = ( ctx ) ->
-  ctx.static = libconf.load 'sitefilerc', get: suffixes: [ '' ], all: true
+  try
+    ctx.static = libconf.load 'sitefilerc', get: suffixes: [ '' ], all: true
+  catch error
+    if error instanceof liberror.types.NoFilesException
+      ctx.static = null
+    else
+      throw error
   ctx.static
 
 
