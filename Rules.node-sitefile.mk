@@ -1,5 +1,5 @@
 # special rule targets
-STRGT := \
+STRGT += \
    lint \
    test \
    update \

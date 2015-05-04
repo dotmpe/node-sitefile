@@ -66,8 +66,6 @@ module.exports = ( ctx={} ) ->
     # base-url / prefix for local routes
     base_url: null
 
-  ctx.resolve 'sitefile.params.rst2html'
-
   name: 'rst2html'
   label: 'Docutils rSt to HTML publisher'
   lib:
@@ -80,6 +78,10 @@ module.exports = ( ctx={} ) ->
         docpath: docpath
       try
         params = ctx.resolve 'sitefile.params.rst2html'
+      catch
+        params = {}
+
+      try
         rst2html res, _.merge {}, params, req.query
       catch error
         console.log error

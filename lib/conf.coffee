@@ -3,6 +3,7 @@ fs = require 'fs'
 yaml = require 'js-yaml'
 
 _ = require 'lodash'
+liberror = require './error'
 
 
 defaults =
@@ -46,6 +47,9 @@ get = ( name, opts={} ) ->
           p1 = pwd
         p = path.join p1, p2 + name + s
 
+        if p.startsWith '~'
+          p = process.env.HOME + p.substr(1)
+
         if fs.existsSync p
           paths.push path.relative( pwd, p )
           if not opts.all
@@ -78,7 +82,7 @@ load = ( name, opts={} ) ->
   _.defaults opts, defaults.load
   paths = get name, opts.get
   if _.isEmpty paths
-    throw new Error "Nothing to load for #{name}"
+    throw new liberror.types.NoFilesException "Nothing to load for #{name}"
   #console.log "load #{name} found", paths, opts
   if not _.isArray paths
     paths = [ paths ]
