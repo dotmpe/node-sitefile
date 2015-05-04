@@ -1,20 +1,20 @@
-main: node-sitefile
+# git-versioning main: node-sitefile
 
 - type: application/x-project-mpe
   name: node-sitefile
   version: 0.0.3-dev
   environments: [ 'development' ]
 
-# Id: git-versioning/0.0.16-dev+20150430-2153 package.yaml
+# Id: git-versioning/0.0.16-dev-master+20150504-0251 package.yaml
 # Start
 
 - type: application/x-project-mpe
   id: git-versioning
-  version: 0.0.16-dev+20150430-2153 # git-versioning
+  version: 0.0.16-dev-master+20150504-0251 # git-versioning
   environments: [ 'development' ]
 
 # End
-# Id: git-versioning/0.0.16-dev+20150430-2153 package.yaml
+# Id: git-versioning/0.0.16-dev-master+20150504-0251 package.yaml
 
 
 
