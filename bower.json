@@ -1,6 +1,6 @@
 {
   "name": "node-sitefile",
-  "version": "0.0.3-master+20150617-0132",
+  "version": "0.0.3-master",
   "homepage": "https://github.com/dotmpe/node-sitefile",
   "authors": [
     "B. van Berkum <dev@dotmpe.com>"
