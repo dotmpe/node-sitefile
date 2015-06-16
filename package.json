@@ -1,6 +1,6 @@
 {
   "name": "node-sitefile",
-  "version": "0.0.3-dev+20150504-0256",
+  "version": "0.0.3-master+20150617-0132",
   "description": "Bootstrap Express webserver for misc. resources using Sitefile",
   "homepage": "https://github.com/dotmpe/node-sitefile",
   "author": {
@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
-    "test": "grunt lint test",
+    "test": "./configure && grunt lint test",
     "src-tree": "tree -I 'node_modules|build|components'",
     "src-files": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' ",
     "src-loc": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' -not -path '*.log' | xargs cat | grep -v '^\\s*$' | wc -l | awk '{print $1}'",

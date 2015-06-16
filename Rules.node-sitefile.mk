@@ -28,7 +28,9 @@ install::
 lint:
 	grunt lint
 
-test:
+TEST += jasmine
+
+jasmine:
 	grunt test
 
 update:

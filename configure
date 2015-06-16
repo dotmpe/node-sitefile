@@ -1,0 +1,10 @@
+#!/bin/bash
+
+[ -n "$ENV" ] || ENV=development
+
+#[ "$ENV" == "testing" ] && {
+#}
+
+version=0.0.3-master # node-sitefile
+
+echo '{ "sitefilerc": "'$version'" }' > .sitefilerc

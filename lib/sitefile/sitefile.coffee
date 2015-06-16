@@ -13,7 +13,7 @@ liberror = require '../error'
 libconf = require '../conf'
 
 
-version = '0.0.3-dev'
+version = '0.0.3-master' # sitefile
 
 
 c =
@@ -52,9 +52,12 @@ get_local_sitefile = ( ctx={} ) ->
   lfn = get_local_sitefile_name ctx
   sitefile = libconf.load_file lfn
 
-  if not semver.satisfies sitefile.sitefile, '<='+ctx.version
-    throw new Error "Version #{ctx.version} does not satisfy "+
-        "sitefile #{sitefile.sitefile}"
+  sf_version = sitefile.sitefile
+  if not semver.valid sf_version
+    throw new Error "Not valid semver: #{sf_version}"
+  if not ( semver.satisfies( ctx.version, sf_version ) or semver.gt( ctx.version, sf_version ) )
+    throw new Error "Version #{ctx.version} cannot satisfy "+
+        "sitefile #{sf_version}"
   # TODO: validate Sitefile schema
 
   sitefile.path = path.relative process.cwd(), lfn
@@ -165,6 +168,8 @@ get_handler_gen = ( router_name, ctx={} ) ->
   # return route-handler generator
   router.generate
 
+try_builtin_handler_gen = ( router_name, ctx={} ) ->
+
 
 # load routers and parameters onto context
 load_routers = ( ctx ) ->
@@ -216,9 +221,10 @@ add_dir_redirs = ( dirs, app, ctx ) ->
       log "Dir", url: "#{url}/{->#{defleaf}}"
 
 
-
 # Apply routes in sitefile to Express
-apply_routes = ( sitefile, app, ctx={} ) ->
+apply_routes = ( sitefile, ctx={} ) ->
+
+  app = ctx.app
 
   _.defaults ctx, base: '/',
     dir: defaults: [ 'default', 'index', 'main' ]
@@ -273,6 +279,9 @@ apply_routes = ( sitefile, app, ctx={} ) ->
       else
         # add route for single resource or redirection
         url = ctx.base + route
+
+        #if not try_builtin_handler_gen router_name, spec
+        #  null
 
         # static and redir are built-in
         if router_name == 'redir'

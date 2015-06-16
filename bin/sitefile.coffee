@@ -12,16 +12,16 @@ ctx = lib.prepare_context ctx
 
 # initialize Express
 express_handler = require '../lib/sitefile/express'
-app = express_handler ctx
+ctx.app = express_handler ctx
 
 # Load needed routers and parameters
 lib.load_routers ctx
 
 # apply Sitefile routes
-lib.apply_routes ctx.sitefile, app, ctx
+lib.apply_routes ctx.sitefile, ctx
 
 # reload ctx.{config,sitefile} whenever file changes
-lib.reload_on_change app, ctx
+lib.reload_on_change ctx.app, ctx
 
 # server forever
 ctx.server.listen ctx.port, ->

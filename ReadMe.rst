@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.0.3-dev+20150504-0256
+:Version: 0.0.3-master+20150617-0132
 :Status: Development
 :package: Changelog_
 
