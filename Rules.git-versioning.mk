@@ -24,7 +24,7 @@ install::
 test: check
 
 update:
-	./bin/cli-version.sh update
+	git-versioning update
 	npm update
 	bower update
 

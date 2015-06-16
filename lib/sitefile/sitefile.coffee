@@ -13,7 +13,7 @@ liberror = require '../error'
 libconf = require '../conf'
 
 
-version = '0.0.3-master' # sitefile
+version = '0.0.3-test' # sitefile
 
 
 c =
