@@ -13,6 +13,8 @@ echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
 cat <<HEREDOC
 module.exports =
   development: {}
+  testing: {}
+  production: {}
 HEREDOC
 ) > config/config.coffee
 
