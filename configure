@@ -8,3 +8,11 @@
 version=0.0.3-test # node-sitefile
 
 echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
+
+(
+cat <<HEREDOC
+module.exports =
+  development: {}
+HEREDOC
+) > config/config.coffee
+
