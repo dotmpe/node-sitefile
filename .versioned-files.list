@@ -6,3 +6,7 @@ package.yaml
 lib/sitefile/sitefile.coffee
 Makefile
 configure
+test/mocha/dotmpe_conf.coffee
+test/mocha/sitefile_express.coffee
+test/mocha/sitefile_index.coffee
+test/mocha/sitefile_router_du.coffee

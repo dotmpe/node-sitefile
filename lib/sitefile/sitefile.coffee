@@ -13,7 +13,7 @@ liberror = require '../error'
 libconf = require '../conf'
 
 
-version = '0.0.3-master' # sitefile
+version = "0.0.3-master" # node-sitefile
 
 
 c =
@@ -55,7 +55,8 @@ get_local_sitefile = ( ctx={} ) ->
   sf_version = sitefile.sitefile
   if not semver.valid sf_version
     throw new Error "Not valid semver: #{sf_version}"
-  if not ( semver.satisfies( ctx.version, sf_version ) or semver.gt( ctx.version, sf_version ) )
+  if not ( semver.satisfies( ctx.version, sf_version ) or \
+      semver.gt( ctx.version, sf_version ) )
     throw new Error "Version #{ctx.version} cannot satisfy "+
         "sitefile #{sf_version}"
   # TODO: validate Sitefile schema

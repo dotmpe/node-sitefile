@@ -1,3 +1,6 @@
+# Id: node-sitefile/0.0.3-master test/mocha/sitefile_index.coffee
+chai = require 'chai'
+expect = chai.expect
 path = require 'path'
 _ = require 'lodash'
 
@@ -11,10 +14,10 @@ describe 'Module sitefile', ->
 
   describe '.version', ->
     it 'Should be valid semver', ->
-      expect( lib.version ).toMatch /^[0-9]+\.[0-9]+\.[0-9]+/
+      expect( lib.version ).to.match /^[0-9]+\.[0-9]+\.[0-9]+/
     it 'Should equal package versions', ->
-      expect( lib.version ).toEqual pkg.version
-      expect( lib.version ).toEqual bwr.version
+      expect( lib.version ).to.eql pkg.version
+      expect( lib.version ).to.eql bwr.version
 
   describe '.get_local_sitefile_name', ->
 
@@ -22,17 +25,17 @@ describe 'Module sitefile', ->
 
       ctx = {}
       sitefile_fn = lib.get_local_sitefile_name ctx
-      expect( _.keys( ctx) ).toEqual [ 'basename', 'exts', 'fn', 'ext', 'lfn' ]
+      expect( _.keys( ctx) ).to.eql [ 'basename', 'exts', 'fn', 'ext', 'lfn' ]
 
     it 'Should export default option values', ->
 
       ctx = {}
       sitefile_fn = lib.get_local_sitefile_name ctx
-      expect( ctx.lfn ).toBe sitefile_fn
-      expect( ctx.fn ).toBe 'Sitefile.yaml'
-      expect( ctx.basename ).toBe 'Sitefile'
-      expect( ctx.ext ).toBe '.yaml'
-      expect( ctx.exts ).toEqual [
+      expect( ctx.lfn ).to.eql sitefile_fn
+      expect( ctx.fn ).to.eql 'Sitefile.yaml'
+      expect( ctx.basename ).to.eql 'Sitefile'
+      expect( ctx.ext ).to.eql '.yaml'
+      expect( ctx.exts ).to.eql [
         '.json'
         '.yml'
         '.yaml'
@@ -43,7 +46,7 @@ describe 'Module sitefile', ->
       ctx = {}
       sitefile_fn = lib.get_local_sitefile_name ctx
       lfn = path.join process.cwd(), 'Sitefile.yaml'
-      expect( sitefile_fn ).toBe( lfn )
+      expect( sitefile_fn ).to.eql( lfn )
 
     it 'Should pick up Sitefiles for all extensions', ->
 
@@ -55,9 +58,9 @@ describe 'Module sitefile', ->
 
     it 'Should return an object', ->
       ctx = lib.prepare_context()
-      expect( ctx ).toBeDefined()
-      expect( ctx ).toBeTruthy()
-      expect( ctx ).toEqual( jasmine.any Object )
+      #expect( ctx ).to.eqlDefined()
+      #expect( ctx ).to.eqlTruthy()
+      expect( ctx ).to.be.an.object
 
     describe 'accepts options', ->
       it 'object', ->
@@ -73,20 +76,20 @@ describe 'Module sitefile', ->
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()
-      expect( ctxkys ).toEqual sfctx
+      expect( ctxkys ).to.eql sfctx
 
     it 'Should load the config', ->
       ctx = lib.prepare_context()
-      expect( ctx.config ).toEqual jasmine.any Object
+      expect( ctx.config ).to.be.an.object
 
     it 'Should load rc ', ->
       ctx = lib.prepare_context()
-      expect( ctx.sitefilerc ).toEqual pkg.version
+      expect( ctx.sitefilerc ).to.eql pkg.version
 
     it 'Should load the sitefile', ->
       ctx = lib.prepare_context()
-      expect( ctx.sitefile ).toEqual jasmine.any Object
-      expect( ctx.sitefile.sitefile ).toEqual pkg.version
+      expect( ctx.sitefile ).to.be.an.object
+      expect( ctx.sitefile.sitefile ).to.eql pkg.version
 
 
   describe 'local Sitefile', ->
@@ -94,10 +97,11 @@ describe 'Module sitefile', ->
     it 'contains references, globalized after loading', ->
 
       ctx = lib.prepare_context()
-      expect( ctx.get 'sitefile.params.rst2html.stylesheets' ).toEqual {
+      expect( ctx.get 'sitefile.params.rst2html.stylesheets' ).to.eql {
         $ref: '#/sitefile/defs/stylesheets/default'
       }
-      obj = ctx.resolve 'sitefile.params.rst2html.stylesheets' 
-      expect( obj ).toEqual jasmine.any Array
+      obj = ctx.resolve 'sitefile.params.rst2html.stylesheets'
+      expect( obj ).to.be.an.array
+
 
 
