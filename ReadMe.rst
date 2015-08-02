@@ -105,11 +105,11 @@ handler 'handler' is::
 
   _1: handler:**/*.example
 
-The key is freeform but needs to start with a '_' and it will be replaced
+The key is simply a unique string, except it needs to start with a '_' and it will be replaced
 by the URL determined for each handler instance at runtime.
 
-More elementary, the following makes sure a handler 'handler' gets initialized
-for using one argument 'dir/for/res.example', and will be called for requests at
+More elementary, the following makes so a handler 'handler' gets initialized
+using one argument 'dir/for/res.example', and that will be called for requests at
 the given URL path::
 
   /path/for/res: handler:dir/for/res.example
@@ -119,6 +119,7 @@ the given URL path::
 
 TODO: load schema not just to validate Sitefile but to specify/generate/validate
 resource handler paremeters? cf. jsonary_
+
 
 See Configuration_ and Specs_ for further details.
 
@@ -145,7 +146,7 @@ Testing
   npm install
   npm test
 
-Test specifications are in ``test/jasmin/``.
+Test specifications are in ``test/mocha/``.
 
 
 Usage
@@ -157,7 +158,7 @@ There are no further command line options.
 
 Configuration
 --------------
-First an example in JSON format. The an identical YAML format is also
+First an example in JSON format. The identical YAML format is also
 supported::
 
   { 
@@ -165,7 +166,7 @@ supported::
     "routes": {
       "ReadMe": "rst2html:ReadMe",
       "media": "static:public/media",
-      "$docs": "du:doc/**/*.rst",
+      "_docs": "du:doc/**/*.rst",
       "": "redir:ReadMe"
     },
     "specs": {
