@@ -71,6 +71,7 @@
     "load-grunt-config": "latest",
     "load-grunt-tasks": "latest",
     "path": "^0.11.14",
+    "request": "^2.60.0",
     "text-table": "^0.2.0"
   }
 }

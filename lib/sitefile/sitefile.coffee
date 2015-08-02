@@ -112,6 +112,7 @@ load_config = ( ctx={} ) ->
     #  ctx.config_name = scriptconfig
   ctx.config_envs = require path.join ctx.noderoot, ctx.config_name
   ctx.config = ctx.config_envs[ctx.envname]
+  _.defaults ctx, ctx.config
   ctx.config
 
 
