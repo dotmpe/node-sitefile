@@ -307,7 +307,8 @@ Routers
 
 Branch docs
 ------------
-master
+
+master [*]_
   - Basic functionality; rst2html, docutils.
 
   f_odata
@@ -321,6 +322,10 @@ master
 
   f_sitebuild
     - Compiling a sitefile to a distributable package.
+      Trying to call handers directly, not usable yet.
+
+      Maybe scraping from some edit-decision-list [EDL] generated from sitefile is faster.
+      But need to build and test EDL export, and have no EDL reader.
 
   f_jsonary
     - Looking at wether to include Jsonary in master.
@@ -330,6 +335,9 @@ master
 
   stating_git_versioning
     - Merging versioning seed into master.
+
+
+.. [*] Current branch.
 
 
 Versions
