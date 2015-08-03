@@ -14,6 +14,9 @@ Examples
 - [ Polymer Page Swipe](./polymer-page-swipe)
 - [ Polymer App Router ](./polymer-app-router)
 
+- [ Polymer + Prism ](./prism)
+- [ Polymer + Prism-JS ](./prism-js)
+
 ***
 
 - [ Back to ReadMe ](/ReadMe)

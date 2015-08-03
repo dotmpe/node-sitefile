@@ -29,6 +29,7 @@
     "paper-item": "Polymer/paper-item#~0.5.5",
     "core-scaffold": "Polymer/core-scaffold#~0.5.5",
     "core-animated-pages": "Polymer/core-animated-pages#~0.5.5",
+    "prism-js": "git@github.com:dotmpe/prism-js.git#dev",
     "prism": "*",
     "polymer-platform": "~0.4.2",
     "swipe-pages": "~0.2.0",
