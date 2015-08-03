@@ -13,7 +13,7 @@ module.exports = ( ctx={} ) ->
   _.defaults ctx, lazyCompile: true
 
   if not ctx.lazyCompile
-    tpl = jade.compileFile './lib/sitefile/routers/prism-view.jade'
+    tpl = jade.compileFile './lib/sitefile/routers/prism-js-view.jade'
 
   name: 'prism'
   label: 'Source browser with Prism Syntax Highlighter'
@@ -31,7 +31,7 @@ module.exports = ( ctx={} ) ->
       ctx.code = data.toString()
       ctx.lines = ctx.code.split('\n')
       if ctx.lazyCompile
-        tpl = jade.compileFile './lib/sitefile/routers/prism-view.jade'
+        tpl = jade.compileFile './lib/sitefile/routers/prism-js-view.jade'
       res.write tpl ctx
       res.end()
 

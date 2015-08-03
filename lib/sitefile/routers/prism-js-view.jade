@@ -1,0 +1,16 @@
+doctype html
+
+html.example
+
+  head
+    title Source Browser
+
+    link(rel="import", href="/components/prism-js/prism-js.html")
+
+  body(unresolved, fullbleed)
+
+    .container
+      .span.format= format
+      prism-js(language=format, inputValue=code)
+
+
