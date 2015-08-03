@@ -225,9 +225,7 @@ add_dir_redirs = ( dirs, app, ctx ) ->
 
 
 # Apply routes in sitefile to Express
-apply_routes = ( sitefile, ctx={} ) ->
-
-  app = ctx.app
+apply_routes = ( sitefile, app, ctx={} ) ->
 
   _.defaults ctx, base: '/',
     dir: defaults: [ 'default', 'index', 'main' ]
@@ -335,12 +333,20 @@ compile_site = ( ctx ) ->
   for url, cb of routes
     destfn = path.join ctx.package, url
     #console.log url, destfn, path.dirname destfn
+    if fs.existsSync destfn
+      stats = fs.statSync destfn
+      if stats.isDirectory
+        #console.log "destfn exists and isdir #{destfn}, skipping.."
+        continue
     if not fs.existsSync path.dirname destfn
       fsx.mkdirsSync path.dirname destfn
+    # XXX mock uobjects as if some middlewre?
     fp = fs.openSync destfn, 'w+'
-    fp.redirect = redirect
-    fp.end = -> fp.close()
+    _.defaults fp,
+      redirect: redirect
+      end: -> fp.close()
     res =
+      type: ( format ) ->
       write: -> console.log 'write', arguments
       redirect: -> console.log 'redirect', arguments
       end: -> console.log 'end', arguments

@@ -321,6 +321,10 @@ master
 
   f_sitebuild [*]_
     - Compiling a sitefile to a distributable package.
+      Trying to call handers directly, not usable yet.
+
+      Maybe scraping from some edit-decision-list [EDL] generated from sitefile is faster.
+      But need to build and test EDL export, and have no EDL reader.
 
   f_jsonary
     - Looking at wether to include Jsonary in master.

@@ -17,10 +17,7 @@ init = ->
   lib.load_routers ctx
 
   # apply Sitefile routes
-  lib.apply_routes ctx.sitefile, ctx
-
-  # reload ctx.{config,sitefile} whenever file changes
-  lib.reload_on_change ctx.app, ctx
+  lib.apply_routes ctx.sitefile, ctx.app, ctx
 
   ctx
 
@@ -34,6 +31,9 @@ module.exports =
   run: ( done ) ->
 
     ctx = module.exports.init()
+
+    # reload ctx.{config,sitefile} whenever file changes
+    lib.reload_on_change ctx.app, ctx
 
     # serve forever
     proc = ctx.server.listen ctx.port, ->
