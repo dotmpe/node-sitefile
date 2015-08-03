@@ -13,3 +13,6 @@ test/mocha/lib_sitefile_router_du.coffee
 test/mocha/Sitefile_yaml.coffee
 bin/sitefile.coffee
 lib/sitefile/index.coffee
+example/server-generated-javascript.coffee
+example/server-generated-page.jade
+example/server-generated-stylesheet.styl
