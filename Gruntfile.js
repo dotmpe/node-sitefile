@@ -13,6 +13,9 @@ module.exports = function(grunt) {
       gruntfile: {
         src: 'Gruntfile.js'
       },
+      "package": {
+        src: 'package.json'
+      }
     },
 
     coffeelint: {
@@ -22,7 +25,8 @@ module.exports = function(grunt) {
       app: [
         'bin/*.coffee',
         'lib/**/*.coffee',
-        'config/**/*.coffee'
+        'config/**/*.coffee',
+        'test/**/*.coffee'
       ]
     },
 
@@ -34,29 +38,18 @@ module.exports = function(grunt) {
       }
     },
 
-    //nodeunit: {
-    //  files: ['test/nodeunit/**/*.coffee'],
-    //},
-
-    watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
-      },
-      lib: {
-        files: '<%= jshint.lib.src %>',
-        tasks: [
-          'jshint:src',
-          'nodeunit'
-        ]
-      },
+    mochaTest: {
       test: {
-        files: '<%= jshint.test.src %>',
-        tasks: [
-          'jshint:test'
-        ]
-      },
-    },
+        options: {
+          reporter: 'spec',
+          require: 'coffee-script/register',
+          captureFile: 'mocha.out',
+          quiet: false,
+          clearRequireCache: false
+        },
+        src: ['test/mocha/*.coffee']
+      }
+    }
 
   });
 
@@ -70,10 +63,9 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('test', [
-    //'make:test'
+    'mochaTest'
   ]);
 
-  // Default task.
   grunt.registerTask('default', [
     'lint',
     'test'

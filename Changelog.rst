@@ -21,7 +21,7 @@
 0.0.3-dev
   - Added versioning scripts. 
 
-(0.0.3)
+(0.0.4)
 
   - Testing project publishing scripts.
   - Looking at jsonary.

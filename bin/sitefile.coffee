@@ -1,39 +1,68 @@
 #!/usr/bin/env coffee
 
-_ = require 'lodash'
-path = require 'path'
-
-
 lib = require '../lib/sitefile'
 
 
-# prepare context and config, load sitefile
-ctx = lib.prepare_context ctx
+# prepare server context
+init = ->
 
-# initialize Express
-express_handler = require '../lib/sitefile/express'
-app = express_handler ctx
+  # prepare context and config, load sitefile
+  ctx = lib.prepare_context ctx
 
-# Load needed routers and parameters
-lib.load_routers ctx
+  # initialize Express
+  express_handler = require '../lib/sitefile/express'
+  ctx.app = express_handler ctx
 
-argv = process.argv
-interpreter = argv.shift()
-script = argv.shift()
+  # Load needed routers and parameters
+  lib.load_routers ctx
 
-if '--build' in argv
-
-  lib.compile_site ctx
-
-else
   # apply Sitefile routes
-  lib.apply_routes ctx.sitefile, app, ctx
+  lib.apply_routes ctx.sitefile, ctx
 
   # reload ctx.{config,sitefile} whenever file changes
-  lib.reload_on_change app, ctx
+  lib.reload_on_change ctx.app, ctx
 
-  # server forever
-  ctx.server.listen ctx.port, ->
-    lib.log "Listening", "Express server on port #{ctx.port}. "
+  ctx
 
+
+
+# export server
+module.exports =
+  port: null
+  proc: null
+  init: init
+  run: ( done ) ->
+
+    ctx = module.exports.init()
+
+    # serve forever
+    proc = ctx.server.listen ctx.port, ->
+      lib.log "Listening", "Express server on port #{ctx.port}. "
+
+    console.log "Starting server at localhost:#{ctx.port}"
+
+    module.exports.port = ctx.port
+    module.exports.proc = proc
+
+    !done || done()
+    proc
+
+
+argv = process.argv
+
+# start if directly executed
+if argv.length > 1 \
+    and argv.shift() == 'coffee' \
+    and argv.shift() == require.resolve './sitefile.coffee'
+
+  if '--build' in argv
+
+    ctx = module.exports.init()
+    lib.compile_site ctx
+
+  else
+    module.exports.run()
+
+
+# Id: node-sitefile/0.0.3-sitebuild bin/sitefile.coffee
 # vim:ft=coffee:
