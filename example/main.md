@@ -10,7 +10,7 @@ Examples
 
 - [ Polymer Example ](./polymer-example)
 - [ Polymer Simple Custom Element Example ](./polymer-custom)
-- [ Polymer App Router ](./polymer-app-router)
+- [ Polymer App Router ](./polymer-app-router.html)
 
 ***
 
