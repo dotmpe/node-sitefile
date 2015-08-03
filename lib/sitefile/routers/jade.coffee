@@ -7,11 +7,11 @@ jade = require 'jade'
 escape = require 'escape-html'
 
 jade.filters.code = ( block ) ->
-	escape block
+  escape block
 
 jade.filters['lorem-ipsum-filler-body'] = ( block ) ->
-	# not really LI but need a filler
-	"""
+  # not really LI but need a filler
+  """
  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
  doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
  veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim

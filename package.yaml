@@ -1,3 +1,7 @@
+# git-versioning main: node-sitefile
+
 - type: application/x-project-mpe
-  version: 0.0.3-dev
+  name: node-sitefile
+  version: 0.0.3-master
   environments: [ 'development' ]
+

@@ -1,6 +1,6 @@
 #!/usr/bin/env sitefile
 # Sitefile for node-sitefile document server
-sitefile: 0.0.3-dev
+sitefile: 0.0.3-client
 routes:
   media: static:public/media
   '': redir:ReadMe
@@ -27,6 +27,10 @@ routes:
   #components/core-header-panel: static:public/components/polymer-ui-header-panel
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
 
+  Sitefile.yaml: static:Sitefile.yaml
+
+#  todo: 'todo-app:TODO.list'
+
 params:
   rst2html:
     stylesheets:
@@ -37,18 +41,17 @@ defs:
     default:
       - public/media/style/default.css
 
-      - ~/htdocs/media/style/default.css
+      #- ~/htdocs/media/style/default.css
       #- media/style/docutils.css
       #- media/style/docutils-html.css
       - /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
       - /srv/project-mpe/docutils-ext/var/media/style/docutils.css
       #- /media/style/html.css
-      - ~/htdocs/media/style/dotmpe-com/olddefault.css
-      - ~/htdocs/media/style/dotmpe-com/style.css
+      #- ~/htdocs/media/style/dotmpe-com/olddefault.css
+      #- ~/htdocs/media/style/dotmpe-com/style.css
 
-      - ~/htdocs/media/style/dotmpe-com/docutils-layout.css
-      - ~/htdocs/media/style/dotmpe-com/dotmpe.css
-      - ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
-
+      #- ~/htdocs/media/style/dotmpe-com/docutils-layout.css
+      #- ~/htdocs/media/style/dotmpe-com/dotmpe.css
+      #- ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
 
 

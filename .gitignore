@@ -11,4 +11,4 @@ public/script/x-bookmarks
 www-build/
 main.sqlite3.db
 # Misc. local files
-.*sw[pon]
+.git

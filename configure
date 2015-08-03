@@ -1,0 +1,21 @@
+#!/bin/bash
+
+[ -n "$ENV" ] || ENV=development
+
+#[ "$ENV" == "testing" ] && {
+#}
+
+version=0.0.3-client # node-sitefile
+
+echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
+
+(
+cat <<HEREDOC
+module.exports =
+  port: 7011
+  development: port: 7011
+  testing: port: 7012
+  production: port: 7013
+HEREDOC
+) > config/config.coffee
+
