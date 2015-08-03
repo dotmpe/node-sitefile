@@ -9,7 +9,7 @@ rst2html_flags = ( params ) ->
 
   flags = []
   if params.stylesheets? and !_.isEmpty params.stylesheets
-    sheets = params.stylesheets.join ','
+    sheets = _.values(params.stylesheets).join ','
     flags.push "--stylesheet-path '#{sheets}'"
   flags.join ' '
 
@@ -81,9 +81,14 @@ module.exports = ( ctx={} ) ->
         docpath: docpath
       try
         params = ctx.resolve 'sitefile.params.rst2html'
+      catch
+        params = {}
+
+      try
         rst2html res, _.merge {}, params, req.query
       catch error
-        console.log error
+        console.trace error
+        console.log error.stack
         res.type 'text/plain'
         res.status 500
         res.write "exec error: #{error}"
@@ -91,14 +96,18 @@ module.exports = ( ctx={} ) ->
 
   route:
     base: ctx.base_url
-    browser:
-      route:
-        rst: ( req, res, next ) ->
+    rst2html:
+      get: (req, res, next) ->
 
-# XXX New style routes (
-###
-  route:
-  - handler: ->
-    all: 'src/*': 'prism:'
-###
+        req.query = _.defaults res.query || {}, format: 'xml'
+
+        try
+          rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
+        catch error
+          console.trace error
+          console.log error.stack
+          res.type 'text/plain'
+          res.status 500
+          res.write "exec error: #{error}"
+        res.end()
 

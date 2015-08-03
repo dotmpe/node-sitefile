@@ -1,5 +1,6 @@
+#!/usr/bin/env sitefile
 # Sitefile for node-sitefile document server
-sitefile: 0.0.3
+sitefile: 0.0.3-demo
 routes:
   media: static:public/media
   '': redir:ReadMe
@@ -12,40 +13,32 @@ routes:
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
 
-  'src/*': 'prism:'
-
   components: static:public/components
-
-  example/polymer-app-router: static:example/polymer-app-router.html
-
   example: static:example
+  Sitefile.yaml: static:Sitefile.yaml
 
-  #components/core-toolbar: static:public/components/polymer-ui-toolbar
-  #components/core-menu: static:public/components/polymer-ui-menu
-  #components/core-item: static:public/components/polymer-ui-item
-  #components/core-header-panel: static:public/components/polymer-ui-header-panel
-  #components/core-toolbar: static:public/components/polymer-ui-toolbar
-
+#  todo: 'todo-app:TODO.list'
 params:
   rst2html:
     stylesheets:
-#      $ref: '#/defs/stylesheets/default'
+      $ref: '#/defs/stylesheets/default'
 
 defs:
   stylesheets:
     default:
       - public/media/style/default.css
 
-      - ~/htdocs/media/style/default.css
+      #- ~/htdocs/media/style/default.css
       #- media/style/docutils.css
       #- media/style/docutils-html.css
       - /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
       - /srv/project-mpe/docutils-ext/var/media/style/docutils.css
       #- /media/style/html.css
-      - ~/htdocs/media/style/dotmpe-com/olddefault.css
-      - ~/htdocs/media/style/dotmpe-com/style.css
+      #- ~/htdocs/media/style/dotmpe-com/olddefault.css
+      #- ~/htdocs/media/style/dotmpe-com/style.css
 
-      - ~/htdocs/media/style/dotmpe-com/docutils-layout.css
-      - ~/htdocs/media/style/dotmpe-com/dotmpe.css
-      - ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
+      #- ~/htdocs/media/style/dotmpe-com/docutils-layout.css
+      #- ~/htdocs/media/style/dotmpe-com/dotmpe.css
+      #- ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
+
 
