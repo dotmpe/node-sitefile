@@ -25,7 +25,8 @@ module.exports = function(grunt) {
       app: [
         'bin/*.coffee',
         'lib/**/*.coffee',
-        'config/**/*.coffee'
+        'config/**/*.coffee',
+        'test/**/*.coffee'
       ]
     },
 
@@ -37,37 +38,18 @@ module.exports = function(grunt) {
       }
     },
 
-    //nodeunit: {
-    //  files: ['test/nodeunit/**/*.coffee'],
-    //},
-    jasmine_node: {
-      forceExit: true,
-      extensions: 'coffee',
-      projectRoot: 'test/jasmine/',
-      matchall: true,
-      specNameMatches: ''
-    },
-
-    watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
-      },
-      lib: {
-        files: '<%= jshint.lib.src %>',
-        tasks: [
-          'jshint:src',
-          'nodeunit'
-        ]
-      },
+    mochaTest: {
       test: {
-        files: '<%= jshint.test.src %>',
-        tasks: [
-          'jshint:test',
-          'jasmine_node'
-        ]
-      },
-    },
+        options: {
+          reporter: 'spec',
+          require: 'coffee-script/register',
+          captureFile: 'mocha.out',
+          quiet: false,
+          clearRequireCache: false
+        },
+        src: ['test/mocha/*.coffee']
+      }
+    }
 
   });
 
@@ -81,10 +63,9 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('test', [
-    'jasmine_node'
+    'mochaTest'
   ]);
 
-  // Default task.
   grunt.registerTask('default', [
     'lint',
     'test'

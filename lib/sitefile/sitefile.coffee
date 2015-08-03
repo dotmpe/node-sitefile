@@ -55,7 +55,8 @@ get_local_sitefile = ( ctx={} ) ->
   sf_version = sitefile.sitefile
   if not semver.valid sf_version
     throw new Error "Not valid semver: #{sf_version}"
-  if not ( semver.satisfies( ctx.version, sf_version ) or semver.gt( ctx.version, sf_version ) )
+  if not ( semver.satisfies( ctx.version, sf_version ) or \
+      semver.gt( ctx.version, sf_version ) )
     throw new Error "Version #{ctx.version} cannot satisfy "+
         "sitefile #{sf_version}"
   # TODO: validate Sitefile schema
@@ -111,6 +112,7 @@ load_config = ( ctx={} ) ->
     #  ctx.config_name = scriptconfig
   ctx.config_envs = require path.join ctx.noderoot, ctx.config_name
   ctx.config = ctx.config_envs[ctx.envname]
+  _.defaults ctx, ctx.config
   ctx.config
 
 
