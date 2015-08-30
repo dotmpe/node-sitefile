@@ -8,7 +8,7 @@ rst2html_flags = ( params ) ->
 
   flags = []
   if params.stylesheets? and !_.isEmpty params.stylesheets
-    sheets = params.stylesheets.join ','
+    sheets = _.values(params.stylesheets).join ','
     flags.push "--stylesheet-path '#{sheets}'"
   flags.join ' '
 
@@ -66,8 +66,6 @@ module.exports = ( ctx={} ) ->
     # base-url / prefix for local routes
     base_url: null
 
-  ctx.resolve 'sitefile.params.rst2html'
-
   name: 'rst2html'
   label: 'Docutils rSt to HTML publisher'
   lib:
@@ -80,9 +78,14 @@ module.exports = ( ctx={} ) ->
         docpath: docpath
       try
         params = ctx.resolve 'sitefile.params.rst2html'
+      catch
+        params = {}
+
+      try
         rst2html res, _.merge {}, params, req.query
       catch error
-        console.log error
+        console.trace error
+        console.log error.stack
         res.type 'text/plain'
         res.status 500
         res.write "exec error: #{error}"
@@ -98,7 +101,8 @@ module.exports = ( ctx={} ) ->
         try
           rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
         catch error
-          console.log error
+          console.trace error
+          console.log error.stack
           res.type 'text/plain'
           res.status 500
           res.write "exec error: #{error}"

@@ -18,7 +18,8 @@ module.exports = (ctx={}) ->
   #ctx.envname = app.get 'env'
   app.set 'env', ctx.envname
 
-  ctx.port = process.env.PORT || 3000
+  if not ctx.port
+    ctx.port = process.env.PORT || 3000
   app.set 'port', ctx.port
 
   ctx.server = require("http").createServer(app)

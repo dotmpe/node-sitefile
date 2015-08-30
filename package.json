@@ -1,7 +1,7 @@
 {
   "name": "node-sitefile",
+  "version": "0.0.3-master",
   "description": "Bootstrap Express webserver for misc. resources using Sitefile",
-  "version": "0.0.3",
   "homepage": "https://github.com/dotmpe/node-sitefile",
   "author": {
     "name": "B. van Berkum",
@@ -25,45 +25,54 @@
     "type": "git",
     "url": "https://github.com/dotmpe/node-sitefile.git"
   },
+  "bugs": {
+    "url": "https://github.com/dotmpe/node-sitefile/issues"
+  },
   "engines": {
     "node": "0.12.x",
     "npm": "2.7.x"
   },
   "main": "bin/sitefile.coffee",
-  "scripts": {
-    "start": "NODE_ENV=development coffee bin/sitefile.coffee",
-    "test": "make lint test",
-    "srctree": "tree -I 'node_modules|build|components'",
-    "srcloc": "find bin/ config/ public/media lib/ -iname '*.js' -o -iname '*.coffee' -exec cat {} + | grep -v '^\\s*$' | wc -l"
-  },
   "bin": {
     "sitefile": "bin/sitefile.coffee"
   },
+  "scripts": {
+    "start": "NODE_ENV=development coffee bin/sitefile.coffee",
+    "test": "./configure && grunt --force lint test",
+    "src-tree": "tree -I 'node_modules|build|components'",
+    "src-files": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' ",
+    "src-loc": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' -not -path '*.log' | xargs cat | grep -v '^\\s*$' | wc -l | awk '{print $1}'",
+    "dep-local": "echo node_modules/* | xargs basename | sort -u | awk '{print $1}'",
+    "dep-local-all": "find node_modules/ -iname node_modules | xargs /bin/ls -w1 | grep -v '^$' | grep -v 'node_modules' | sort -u | awk '{print $1}'"
+  },
   "dependencies": {
     "chalk": "^1.0.0",
-    "coffee-script": "latest",
-    "express": "^4.1.1",
-    "glob": "^5.0.3",
+    "coffee-script": "^1.9.2",
+    "express": "^4.12.3",
+    "glob": "^5.0.5",
     "jade": "^1.9.2",
     "js-yaml": "^3.2.7",
     "jsonary": "0.0.16",
-    "lodash": "^3.4.0",
+    "lodash": "^3.6.0",
     "markdown": "^0.5.0",
+    "nodelib": "git://github.com/dotmpe/nodelib",
     "semver": "^4.3.3",
     "stylus": "^0.50.0"
   },
   "devDependencies": {
+    "chai": "^3.1.0",
     "coffeelint": "latest",
     "grunt": "latest",
     "grunt-cli": "latest",
     "grunt-coffeelint": "latest",
     "grunt-contrib-coffee": "latest",
     "grunt-contrib-jshint": "latest",
-    "grunt-contrib-watch": "latest",
+    "grunt-mocha-test": "^0.12.7",
     "grunt-yamllint": "^0.2.0",
     "load-grunt-config": "latest",
     "load-grunt-tasks": "latest",
-    "minijasminenode2": "^1.0.0",
+    "path": "^0.11.14",
+    "request": "^2.60.0",
     "text-table": "^0.2.0"
   }
 }

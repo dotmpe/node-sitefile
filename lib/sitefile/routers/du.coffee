@@ -43,6 +43,10 @@ module.exports = ( ctx={} ) ->
         docpath: docpath
       try
         params = ctx.resolve 'sitefile.params.rst2html'
+      catch
+        params = {}
+
+      try
         rst2html.lib.rst2html res, _.merge {}, params, req.query
       catch error
         console.log error

@@ -1,16 +1,49 @@
 Node Sitefile
 =============
-.. include:: doc/include/project-docinfo.rst
+:Version: 0.0.3-master
+:Status: Development
+:package: Changelog_
 
-.. This is a reStructuredText document.
+  .. image:: https://badge.fury.io/js/node-sitefile.png
+    :target: http://badge.fury.io/js/node-sitefile
+    :alt: NPM
 
-Sitefile enables an Express server to be quickly set up from a local configuration file.
+  .. image:: https://gemnasium.com/dotmpe/node-sitefile.png
+    :target: https://gemnasium.com/dotmpe/node-sitefile
+    :alt: Dependencies
+
+  .. image:: https://david-dm.org/dotmpe/node-sitefile.svg?style=flat-square
+    :target: https://david-dm.org/dotmpe/node-sitefile
+    :alt: Dependencies
+
+:project:  `Misc.`_
+
+  .. image:: https://coveralls.io/repos/dotmpe/node-sitefile/badge.png
+    :target: https://coveralls.io/r/dotmpe/node-sitefile
+    :alt: Coverage
+
+  .. image:: https://secure.travis-ci.org/dotmpe/node-sitefile.png
+    :target: https://travis-ci.org/dotmpe/node-sitefile
+    :alt: Build
+
+:repository:
+
+  .. image:: https://badge.fury.io/gh/dotmpe%2Fnode-sitefile.png
+    :target: http://badge.fury.io/gh/dotmpe%2Fnode-sitefile
+    :alt: GIT
+
+
+Sitefile enables an Express server to be quickly set up from a single configuration file called the Sitefile.
 
 It's a young project written with the intend to primarily make reStructuredText
 embedded content more (readily) accessible. In its current state it is usable 
-as a really simple HTTP server for documentation.
-A sort of read-only wiki.
+as a really simple HTTP server to use for example to read documentation of a project.
+
+Or a sort of mixed content-type wiki.
+
 Maybe as a sketchpad for Jade, Stylus and Coffee-Script experiments.
+
+
 
 .. contents:: 
 
@@ -19,15 +52,15 @@ Maybe as a sketchpad for Jade, Stylus and Coffee-Script experiments.
 
 Intro
 -----
-The main filosophy is to look at a (project) folder as a set of hyperlinked documents,
-formatted in various ways as appropiate to the project. Sitefile aims to handle
-only the HTML conversion and HTTP serving of these resources, as being provided 
-by the project files.
+The primary idea is to to look at a file folder as a set of hyperlinked documents,
+formatted in various ways as appropiate to the task ie. some project. 
+Sitefile aims to turn each file it find into a URL and a handler, based on
+filepath and name patterns specified in the Sitefile.
 
 It should be useful for projects that have no webserver of their own, or that
 want to defer rendering/browsing of the project documentation and other resources.
 
-Put another way, it enables notebooks and documentation projects in general to 
+Put another way, it leverages notebooks and documentation projects in general to 
 serve content through a browser with full multi-media and hyperlink capabilities 
 without the need to set up any server capabilities beyond installing sitefile.
 
@@ -35,14 +68,23 @@ By using Docutils [Du] reStructuredText [rSt] a pretty amazing array of hyperlin
 document possibilities emerge. :todo:`TODO:` Sitefile provides for a pre-styled CSS file
 for HTML documents published with Du. 
 
-Sitefile is pretty young, as I'm writing this the second day of its existence.
-At this point it seems it may evolve into a kind of nodemon/forever service,
-maybe inherit or mimic some grunt-linke capalities. I do intend to write forks
-for specific applications. Some other vapourware ideas right now are to mount sites
-defined with sitefiles onto each other into one larger sitefile process. And
-maybe also to distribute pluggable, modular routers using some github scenario.
+Alternative solutions are explored in `Sitefile planet`_ section.
 
-Some further background reading is provided in `Sitefile planet`_ section.
+
+Plan
+----
+There are many possible useful directions:
+
+- provide an in-browser IDE experience, possibly enabling Makefiles and other
+  buildformats. Excuberant CTags.
+- embedded issue browser/editor.
+- 3D file viewer.
+- transliterature browser.
+- other web-related files: browse bookmarks, references.
+- some simple URL carroussel.
+
+Sitefile is pretty young, most is geared towards viewing as of right now--no
+editors.
 
 
 Description
@@ -51,15 +93,24 @@ The intended purpose is to implement generic handlers for misc. file-based
 resources that are suitable to be rendered to/accessed through HTTP and viewed 
 in a web browser. For example the ReadMe file in many projects.
 
-Its main feature is a metadatafile called the Sitefile, which specifies the
-routes and handlers. For example, the following is a piece of YAML formatted
-Sitefile that gives a route specification for all ``*.example`` in the pwd and
-below::
+To do this, sitefile comes with built-in handlers that take various file formats
+and publish usually a HTML equavalent over HTTP. These handlers are simply
+Express middleware.
 
-  $_1: handler:**/*.example
+TODO: test this:
 
-they key gives the rule an unqiue ID. Alternatively, paths are routed
-explicitly::
+Sitefile keeps a single 'routes' object with a mapping of all URL, handlers.
+The generic syntax to serve all files of a certain extension using the example
+handler 'handler' is::
+
+  _1: handler:**/*.example
+
+The key is simply a unique string, except it needs to start with a '_' and it will be replaced
+by the URL determined for each handler instance at runtime.
+
+More elementary, the following makes so a handler 'handler' gets initialized
+using one argument 'dir/for/res.example', and that will be called for requests at
+the given URL path::
 
   /path/for/res: handler:dir/for/res.example
 
@@ -68,6 +119,7 @@ explicitly::
 
 TODO: load schema not just to validate Sitefile but to specify/generate/validate
 resource handler paremeters? cf. jsonary_
+
 
 See Configuration_ and Specs_ for further details.
 
@@ -84,7 +136,7 @@ Installation
 
   npm install -g
 
-Or make ``bin/sitefile`` available on your path, and install locally (w/o ``-q``).
+Or make ``bin/sitefile`` available on your path, and install locally (w/o ``-g``).
 
 
 Testing
@@ -94,7 +146,7 @@ Testing
   npm install
   npm test
 
-Test specifications are in ``test/jasmin/``.
+Test specifications are in ``test/mocha/``.
 
 
 Usage
@@ -106,7 +158,7 @@ There are no further command line options.
 
 Configuration
 --------------
-First an example in JSON format. The an identical YAML format is also
+First an example in JSON format. The identical YAML format is also
 supported::
 
   { 
@@ -114,7 +166,7 @@ supported::
     "routes": {
       "ReadMe": "rst2html:ReadMe",
       "media": "static:public/media",
-      "$docs": "du:doc/**/*.rst",
+      "_docs": "du:doc/**/*.rst",
       "": "redir:ReadMe"
     },
     "specs": {
@@ -133,6 +185,34 @@ Supported Sitefile extensions/formats:
 \*.yaml \*.yml   YAML
 \*.json          JSON
 ================ =======
+
+Examples
+--------
+This section works with the handlers from the `Sitefile for this project <./Sitefile.yaml>`_.
+
+The root redirects to this ReadMe file. So does ``/index``.
+There is another redirect for `./example </example>`_ to `example/main`.
+Also, there are static Express middleware handlers for the following folders:
+
+-  `public/media </media/>`_
+-  `public/components </components/>`_
+-  `public/example </example/>`_
+
+The other routes are dynamic, they are expanded at run-time for any files that
+exists::
+
+  _rst2html: rst2html:**/*.rst
+
+  _markdown: markdown:*.md
+
+  _jade: jade:example/**/*.jade
+  _stylus: stylus:example/**/*.styl
+  _coffee: coffee:example/**/*.coffee
+  _markdown_1: markdown:example/**/*.md
+
+E.g. `TODO <./TODO.md>`_ or `example/script.coffee <example/script>`_.
+See examples_.
+
 
 Details
 '''''''''
@@ -227,7 +307,8 @@ Routers
 
 Branch docs
 ------------
-master
+
+master [*]_
   - Basic functionality; rst2html, docutils.
 
   f_odata
@@ -235,13 +316,28 @@ master
       Would need something Express compatible.
 
   f_client
-    - Adding bower. Need to look at polymer again. And LESS/SASS et al.
+    - Added Bower. Experimenting with polymer.
+    - Want to get Polymer core-scaffold running somehow.
+    - Working to add prism.js source-viewer.
 
   f_sitebuild
     - Compiling a sitefile to a distributable package.
+      Trying to call handers directly, not usable yet.
+
+      Maybe scraping from some edit-decision-list [EDL] generated from sitefile is faster.
+      But need to build and test EDL export, and have no EDL reader.
 
   f_jsonary
     - Looking at wether to include Jsonary in master.
+
+  demo
+    - Merging experimental features. Should keep master clean.
+
+  stating_git_versioning
+    - Merging versioning seed into master.
+
+
+.. [*] Current branch.
 
 
 Versions
@@ -256,7 +352,7 @@ See ToDo_ document.
 - TODO: browser reset styles, some simple local Du/rSt styles in Stylus.
 - :todo:`maybe implement simple TODO app as a feature branch somday`
 - https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
-- :todo:`add express functions:`
+- :todo:`add express functions again:`
     | "connect-flash": "latest",
     | "method-override": "^2.3.2",
     | "node-uuid": "^1.4.3",
@@ -286,4 +382,10 @@ Sitefile planet
 .. _semver: https://github.com/npm/node-semver
 .. _changelog: ./Changelog.rst
 .. _ToDo: ./TODO.md
+.. _examples: /example
+
+
+.. This is a reStructuredText document.
+
+.. Id: node-sitefile/0.0.3-master ReadMe.rst
 
