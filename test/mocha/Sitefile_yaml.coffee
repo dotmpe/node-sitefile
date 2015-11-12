@@ -9,7 +9,7 @@ lib = require '../../lib/sitefile'
 describe "The local Sitefile.yaml serves the local documentation, and
 doubles is an example for all handlers. ", ->
 
-  this.timeout 4000
+  this.timeout 6000
 
   # FIXME: should abstract test to more simpler format
 
