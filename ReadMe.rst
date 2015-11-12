@@ -36,7 +36,7 @@ Node Sitefile
 Sitefile enables an Express server to be quickly set up from a single configuration file called the Sitefile.
 
 It's a young project written with the intend to primarily make reStructuredText
-embedded content more (readily) accessible. In its current state it is usable 
+embedded content more (readily) accessible. In its current state it is usable
 as a really simple HTTP server to use for example to read documentation of a project.
 
 Or a sort of mixed content-type wiki.
@@ -45,7 +45,7 @@ Maybe as a sketchpad for Jade, Stylus and Coffee-Script experiments.
 
 
 
-.. contents:: 
+.. contents::
 
 
 .. role:: todo(strong)
@@ -53,20 +53,20 @@ Maybe as a sketchpad for Jade, Stylus and Coffee-Script experiments.
 Intro
 -----
 The primary idea is to to look at a file folder as a set of hyperlinked documents,
-formatted in various ways as appropiate to the task ie. some project. 
+formatted in various ways as appropiate to the task ie. some project.
 Sitefile aims to turn each file it find into a URL and a handler, based on
 filepath and name patterns specified in the Sitefile.
 
 It should be useful for projects that have no webserver of their own, or that
 want to defer rendering/browsing of the project documentation and other resources.
 
-Put another way, it leverages notebooks and documentation projects in general to 
-serve content through a browser with full multi-media and hyperlink capabilities 
+Put another way, it leverages notebooks and documentation projects in general to
+serve content through a browser with full multi-media and hyperlink capabilities
 without the need to set up any server capabilities beyond installing sitefile.
 
 By using Docutils [Du] reStructuredText [rSt] a pretty amazing array of hyperlinked
 document possibilities emerge. :todo:`TODO:` Sitefile provides for a pre-styled CSS file
-for HTML documents published with Du. 
+for HTML documents published with Du.
 
 Alternative solutions are explored in `Sitefile planet`_ section.
 
@@ -90,7 +90,7 @@ editors.
 Description
 ------------
 The intended purpose is to implement generic handlers for misc. file-based
-resources that are suitable to be rendered to/accessed through HTTP and viewed 
+resources that are suitable to be rendered to/accessed through HTTP and viewed
 in a web browser. For example the ReadMe file in many projects.
 
 To do this, sitefile comes with built-in handlers that take various file formats
@@ -161,7 +161,7 @@ Configuration
 First an example in JSON format. The identical YAML format is also
 supported::
 
-  { 
+  {
     "sitefile": { "version": "0.1" },
     "routes": {
       "ReadMe": "rst2html:ReadMe",
@@ -223,8 +223,8 @@ and also available as `context.static`.
 XXX: sitefilerc will be described later, if Sitefile schema (documentation) is set up.
 Also sitefilerc format is fixed to yaml for now.
 
-The context will have some further program defaults set, and 
-then the sitefile config is loaded from ``config/config``. 
+The context will have some further program defaults set, and
+then the sitefile config is loaded from ``config/config``.
 XXX the sitefile config itself can go, be replaced by external
 default context rc. There is no real use case or test spec here yet.
 
@@ -239,8 +239,8 @@ routes (required)
   A map or table of route-id -> router-spec.
 
   Keys containing a '$' indicate the spec contains a glob pattern,
-  instead of these keys the basename of the paths resulting from the 
-  glob pattern is used as URL. 
+  instead of these keys the basename of the paths resulting from the
+  glob pattern is used as URL.
   are not used.
   But otherwise they are used as the URL route.
 
@@ -260,7 +260,7 @@ where each router should have a default handler name, given a shorter spec::
 
   router_name:<handler-spec>
 
-What follows after the semicolon (':') is either a opaque string to be passed 
+What follows after the semicolon (':') is either a opaque string to be passed
 directly to the handler implementation, or an glob pattern.
 
 XXX specs contain as little embedded metadata as possible, focus is on
@@ -273,18 +273,18 @@ Currently the following routers are provided:
 - ``rst2html``: reStructuredText documents (depends on Python docutils)
 - ``du``: a new version of rst2html with support for globs and
   TODO: all docutils output formats (pxml, xml, latex, s5, html)
-- ``jade``: 
-- ``coffee``: 
-- ``stylus``: 
+- ``jade``:
+- ``coffee``:
+- ``stylus``:
 - ``static`` use expres.static to serve instance(s) from path/glob spec
 
-and 
+and
 
 - ``redir``\ specify a redirect FIXME glob behaviour?
 
 For details writing your own router see Routers_.
 
- 
+
 :todo:`look for some versioning (definition, validation, comparison, migration) of Sitefile schema`
 
 
@@ -307,7 +307,8 @@ Routers
 
 Branch docs
 ------------
-master
+
+master [*]_
   - Basic functionality; rst2html, docutils.
 
   f_odata
@@ -321,6 +322,10 @@ master
 
   f_sitebuild
     - Compiling a sitefile to a distributable package.
+      Trying to call handers directly, not usable yet.
+
+      Maybe scraping from some edit-decision-list [EDL] generated from sitefile is faster.
+      But need to build and test EDL export, and have no EDL reader.
 
   f_jsonary
     - Looking at wether to include Jsonary in master.
@@ -330,6 +335,11 @@ master
 
   stating_git_versioning
     - Merging versioning seed into master.
+
+  test
+    ..
+
+.. [*] Current branch.
 
 
 Versions
