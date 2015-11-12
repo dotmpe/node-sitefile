@@ -1,40 +1,45 @@
+#!/usr/bin/env sitefile
 # Sitefile for node-sitefile document server
-sitefile: 0.0.3
+# Id: node-sitefile/0.0.3-jsonary
+sitefile: 0.0.3-jsonary
 routes:
   media: static:public/media
   '': redir:ReadMe
   index: redir:ReadMe
   example: redir:example/main
-  $rst2html: rst2html:**/*.rst
-  $jade: jade:example/**/*.jade
-  $stylus: stylus:example/**/*.styl
-  $coffee: coffee:example/**/*.coffee
-  $markdown: markdown:*.md
-  $markdown_1: markdown:example/**/*.md
-  components: static:bower_components
+  _rst2html: rst2html:**/*.rst
+  _jade: jade:example/**/*.jade
+  _stylus: stylus:example/**/*.styl
+  _coffee: coffee:example/**/*.coffee
+  _markdown: markdown:*.md
+  _markdown_1: markdown:example/**/*.md
+  components: static:public/components
   jsonary: jsonary:test
+  example: static:example
+  Sitefile.yaml: static:Sitefile.yaml
 
 params:
   rst2html:
     stylesheets:
-#      $ref: '#/defs/stylesheets/default'
+      $ref: '#/defs/stylesheets/default'
 
 defs:
   stylesheets:
     default:
       - public/media/style/default.css
 
-      - ~/htdocs/media/style/default.css
+      #- ~/htdocs/media/style/default.css
       #- media/style/docutils.css
       #- media/style/docutils-html.css
       - /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
       - /srv/project-mpe/docutils-ext/var/media/style/docutils.css
       #- /media/style/html.css
-      - ~/htdocs/media/style/dotmpe-com/olddefault.css
-      - ~/htdocs/media/style/dotmpe-com/style.css
+      #- ~/htdocs/media/style/dotmpe-com/olddefault.css
+      #- ~/htdocs/media/style/dotmpe-com/style.css
 
-      - ~/htdocs/media/style/dotmpe-com/docutils-layout.css
-      - ~/htdocs/media/style/dotmpe-com/dotmpe.css
-      - ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
+      #- ~/htdocs/media/style/dotmpe-com/docutils-layout.css
+      #- ~/htdocs/media/style/dotmpe-com/dotmpe.css
+      #- ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
+
 
 

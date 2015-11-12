@@ -1,30 +1,52 @@
 #!/usr/bin/env coffee
 
-_ = require 'lodash'
-path = require 'path'
-
-
 lib = require '../lib/sitefile'
 
 
-# prepare context and config, load sitefile
-ctx = lib.prepare_context ctx
+# prepare server context
+init = ->
 
-# initialize Express
-express_handler = require '../lib/sitefile/express'
-app = express_handler ctx
+  # prepare context and config, load sitefile
+  ctx = lib.prepare_context ctx
 
-# Load needed routers and parameters
-lib.load_routers ctx
+  # initialize Express
+  express_handler = require '../lib/sitefile/express'
+  ctx.app = express_handler ctx
 
-# apply Sitefile routes
-lib.apply_routes ctx.sitefile, app, ctx
+  # Load needed routers and parameters
+  lib.load_routers ctx
 
-# reload ctx.{config,sitefile} whenever file changes
-lib.reload_on_change app, ctx
+  # apply Sitefile routes
+  lib.apply_routes ctx.sitefile, ctx
 
-# server forever
-ctx.server.listen ctx.port, ->
-  lib.log "Listening", "Express server on port #{ctx.port}. "
+  # reload ctx.{config,sitefile} whenever file changes
+  lib.reload_on_change ctx.app, ctx
 
+  ctx
+
+
+# export server
+module.exports =
+  port: null
+  proc: null
+  init: init
+  run: ( done ) ->
+    ctx = module.exports.init()
+    # serve forever
+    proc = ctx.server.listen ctx.port, ->
+      lib.log "Listening", "Express server on port #{ctx.port}. "
+    console.log "Starting server at localhost:#{ctx.port}"
+    module.exports.port = ctx.port
+    module.exports.proc = proc
+    !done || done()
+    proc
+
+
+# start if directly executed
+if process.argv.join(' ') == 'coffee '+require.resolve './sitefile.coffee'
+
+  module.exports.run()
+
+
+# Id: node-sitefile/0.0.3-jsonary bin/sitefile.coffee
 # vim:ft=coffee:
