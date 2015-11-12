@@ -2,6 +2,6 @@
 
 - type: application/x-project-mpe
   name: node-sitefile
-  version: 0.0.3-master
+  version: 0.0.3-test
   environments: [ 'development' ]
 
