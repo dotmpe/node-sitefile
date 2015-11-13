@@ -1,6 +1,6 @@
 #!/usr/bin/env sitefile
 # Sitefile for node-sitefile document server
-# Id: node-siteifle/0.0.3-client
+# Id: node-sitefile/0.0.3-client
 sitefile: 0.0.3-client
 routes:
   media: static:public/media
