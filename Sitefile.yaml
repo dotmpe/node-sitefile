@@ -19,6 +19,9 @@ routes:
 
 #  todo: 'todo-app:TODO.list'
 params:
+  du:
+    stylesheets:
+      $ref: '#/defs/stylesheets/default'
   rst2html:
     stylesheets:
       $ref: '#/defs/stylesheets/default'
