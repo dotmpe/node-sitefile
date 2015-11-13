@@ -19,6 +19,9 @@ routes:
   Sitefile.yaml: static:Sitefile.yaml
 
 params:
+  du:
+    stylesheets:
+      $ref: '#/defs/stylesheets/default'
   rst2html:
     stylesheets:
       $ref: '#/defs/stylesheets/default'

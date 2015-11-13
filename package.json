@@ -37,7 +37,7 @@
     "sitefile": "bin/sitefile.coffee"
   },
   "scripts": {
-    "start": "NODE_ENV=development coffee bin/sitefile.coffee",
+    "start": "grunt prep-site && NODE_ENV=development coffee bin/sitefile.coffee",
     "test": "./configure && grunt --force lint test",
     "src-tree": "tree -I 'node_modules|build|components'",
     "src-files": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' ",
@@ -52,7 +52,7 @@
     "glob": "^5.0.5",
     "jade": "^1.9.2",
     "js-yaml": "^3.2.7",
-    "jsonary": "0.0.16",
+    "jsonary": "latest",
     "lodash": "^3.6.0",
     "markdown": "^0.5.0",
     "nodelib": "git://github.com/dotmpe/nodelib#dev",
@@ -67,6 +67,7 @@
     "grunt-coffeelint": "latest",
     "grunt-contrib-coffee": "latest",
     "grunt-contrib-jshint": "latest",
+    "grunt-exec": "^0.4.6",
     "grunt-mocha-test": "^0.12.7",
     "grunt-yamllint": "^0.2.0",
     "load-grunt-config": "latest",

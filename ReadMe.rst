@@ -329,6 +329,7 @@ master [*]_
 
   f_jsonary
     - Looking at wether to include Jsonary in master.
+      doc/jsonary
 
   demo
     - Merging experimental features. Should keep master clean.

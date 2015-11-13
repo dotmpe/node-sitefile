@@ -6,6 +6,12 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
+    exec: {
+        compile_jsonary: {
+            cmd: 'cd public/components/jsonary; test -e jsonary.js || php jsonary.js.php'
+        }
+    },
+
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -64,6 +70,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', [
     'mochaTest'
+  ]);
+
+  grunt.registerTask('prep-site', [
+    'exec:compile_jsonary',
   ]);
 
   grunt.registerTask('default', [
