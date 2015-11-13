@@ -54,7 +54,7 @@
     "js-yaml": "^3.2.7",
     "lodash": "^3.6.0",
     "markdown": "^0.5.0",
-    "nodelib": "git://github.com/dotmpe/nodelib",
+    "nodelib": "git://github.com/dotmpe/nodelib#dev",
     "semver": "^4.3.3",
     "stylus": "^0.50.0"
   },
