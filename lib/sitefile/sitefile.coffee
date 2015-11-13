@@ -12,16 +12,14 @@ Context = nodelib.Context
 liberror = require '../error'
 libconf = require '../conf'
 
+# register String:: exts
+require './util'
 
 version = "0.0.3-client" # node-sitefile
 
 
 c =
   sc: chalk.grey ':'
-
-
-String::startsWith ?= (s) -> @[...s.length] is s
-String::endsWith   ?= (s) -> s is '' or @[-s.length..] is s
 
 
 builtin = [ 'redir', 'static' ]

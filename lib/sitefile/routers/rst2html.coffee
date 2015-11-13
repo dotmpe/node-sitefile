@@ -10,7 +10,7 @@ rst2html_flags = ( params ) ->
   flags = []
   if params.stylesheets? and !_.isEmpty params.stylesheets
     list = []
-    for sheet in params.stylesheets
+    for sheet in params.stylesheets # [0].default
       if not params.link_stylesheet
         if sheet.startsWith '~'
           sheet = path.join( process.env.HOME, sheet.substr 1 )
@@ -93,9 +93,11 @@ module.exports = ( ctx={} ) ->
       req.query = _.defaults req.query || {},
         format: 'html'
         docpath: docpath
-      try
+
+      # FIXME ctx.resolve 'sitefile.params.du'
+      if ctx.sitefile.params and 'rst2html' of ctx.sitefile.params
         params = ctx.resolve 'sitefile.params.rst2html'
-      catch
+      else
         params = {}
 
       try
