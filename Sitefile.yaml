@@ -35,6 +35,8 @@ params:
     stylesheets:
       $ref: '#/defs/stylesheets/default'
   rst2html:
+    flags:
+    - "--no-toc-backlinks"
     stylesheets:
       $ref: '#/defs/stylesheets/default'
 

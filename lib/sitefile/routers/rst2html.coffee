@@ -10,6 +10,8 @@ rst2html_flags = ( params ) ->
   if params.stylesheets? and !_.isEmpty params.stylesheets
     sheets = _.values(params.stylesheets).join ','
     flags.push "--stylesheet-path '#{sheets}'"
+  if params.flags? and !_.isEmpty params.flags
+    flags = flags.concat params.flags
   flags.join ' '
 
 
