@@ -19,6 +19,7 @@ routes:
   Sitefile.yaml: static:Sitefile.yaml
 
   jsonary: redir:components/jsonary/index.html
+  _ph7: ph7:example/**/*.php
 
 params:
   du:
