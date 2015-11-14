@@ -332,6 +332,11 @@ master [*]_
   f_jsonary
     - Looking at jsonary as a client-side JSON schema renderer/editor.
 
+  f_ph7{,_node}
+    - Wanted to run simple PHP files using sitefile.
+      Tested ph7-darwin NPM packages. Seems to perform same as ph7.
+      No stdout reroute yet so unusable, but functional.
+
   demo
     - Merging experimental features. Should keep master clean.
 
