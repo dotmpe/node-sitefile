@@ -14,12 +14,21 @@ routes:
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
   _sh: sh:**/*.sh
+
   components: static:public/components
+  'components/jsonary/test': redir:components/jsonary/test/index
+  'components/jsonary/test/index': static:public/components/jsonary/test/index.html
+
   jsonary_test: jsonary:test
   example: static:example
   Sitefile.yaml: static:Sitefile.yaml
 
-  jsonary: redir:components/jsonary/index.html
+  jsonary: redir:example/jsonary
+
+  api: jsonary-rest-api:example/jsonary-rest-api/bookmarks
+  api/$action: jsonary-rest-api:example/jsonary-rest-api/bookmarks
+
+  api/elegant/: jsonary-rest-api:example/jsonary-rest-api/elegant
 
 params:
   du:

@@ -1,0 +1,22 @@
+// Content-Type: application/json; profile=http://json-schema.org/hyper-schema
+{
+  "properties": {
+    "Title": {
+      "title": "Sitefile JSON store REST api"
+    }
+  },
+  "links": [
+    {
+      "href": "update",
+      "rel": "update",
+      "method": "POST",
+      "schema": {
+        "$ref": "update?schema"
+      }
+    },
+    {
+      "href": "view",
+      "rel": "data"
+    }
+  ]
+}

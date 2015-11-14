@@ -17,7 +17,8 @@ module.exports = ( ctx={} ) ->
   # generators for Sitefile route handlers
   generate: ( spec, ctx={} ) ->
 
-    fn = spec + '.sh'
+    fn = spec + ".sh"
+    #console.log("Sh #{fn}")
 
     ( req, res ) ->
 
