@@ -18,6 +18,8 @@ routes:
   example: static:example
   Sitefile.yaml: static:Sitefile.yaml
 
+  _json-editor: json-editor:example/json-editor/schema/*.json
+
 #  todo: 'todo-app:TODO.list'
 params:
   du:
