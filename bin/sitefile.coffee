@@ -48,5 +48,5 @@ if process.argv.join(' ') == 'coffee '+require.resolve './sitefile.coffee'
   module.exports.run()
 
 
-# Id: node-sitefile/0.0.3-demo bin/sitefile.coffee
+# Id: node-sitefile/0.0.4-demo+20151116-0604 bin/sitefile.coffee
 # vim:ft=coffee:

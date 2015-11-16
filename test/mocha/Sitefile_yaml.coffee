@@ -1,4 +1,4 @@
-# Id: node-sitefile/0.0.3-demo test/mocha/Sitefile_yaml.coffee
+# Id: node-sitefile/0.0.4-demo+20151116-0604 test/mocha/Sitefile_yaml.coffee
 chai = require 'chai'
 expect = chai.expect
 request = require 'request'
