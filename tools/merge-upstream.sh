@@ -1,4 +1,8 @@
 
+# GIT Merge --theirs.
+# Useful after embedded version strings or other branch-specific
+# boilerplate has been regenerated.
+
 set -xe
 
 current_branch()
@@ -26,3 +30,6 @@ git-versioning update
 git-versioning check
 git add -u
 #
+
+# Id: node-sitefile/0.0.4-master tools/merge-upstream.sh
+
