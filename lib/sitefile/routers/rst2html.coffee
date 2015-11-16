@@ -35,6 +35,8 @@ rst2html = ( out, params={} ) ->
 
   cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
 
+  console.log cmd
+
   if prm.format == 'source'
     out.type 'text'
     out.write fs.readFileSync "#{prm.docpath}.rst"
