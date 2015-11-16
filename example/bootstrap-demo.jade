@@ -1,26 +1,21 @@
 doctype html
 
-html.basic
+html
   head
-    title Basic JSON Editor
+    title Bootstrap testing
 
     script(type="text/javascript", src="/components/jquery/dist/jquery.js")
 
-    script(type="text/javascript", src="/components/select2/dist/js/select2.full.js")
-    link(rel="stylesheet", type="text/css", href="/components/select2/dist/css/select2.css")
-    script(type="text/javascript", src="/components/lodash/lodash.js")
-    script(type="text/javascript", src="/components/coffee-script/extras/coffee-script.js")
-    script(type="text/javascript", src="/components/json-editor/dist/jsoneditor.js")
+    //script(type="text/javascript", src="/components/select2/dist/js/select2.full.js")
+    //link(rel="stylesheet", type="text/css", href="/components/select2/dist/css/select2.css")
+    script(type="text/javascript", src="/components/underscore/underscore.js")
+    //script(type="text/javascript", src="/components/lodash/lodash.js")
+    //script(type="text/javascript", src="/components/coffee-script/extras/coffee-script.js")
 
     //script(type="text/javascript", src="/components/jquery-hashchange/jquery.ba-hashchange.js")
 
-    link(rel='stylesheet', type="text/javascript", href="/components/font-awesome/css/font-awesome.css")
+    //link(rel='stylesheet', type="text/javascript", href="/components/font-awesome/css/font-awesome.css")
 
-    //script(type='text/javascript') JSONEditor.defaults.options.theme = 'foundation5';
-    //link(rel='stylesheet', type='text/javascript', href="/components/foundation/css/foundation.css")
-    //script(type='text/javascript', src="/components/foundation/js/foundation.js")
-
-    script(type="text/javascript") JSONEditor.defaults.options.theme = 'bootstrap2';
     link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap.css")
     link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap-theme.css")
     script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.js")
@@ -29,10 +24,8 @@ html.basic
     //script(type="text/javascript", src="/components/EpicEditor/epiceditor/js/epiceditor.js")
 
   body
-
     .container
-      nav.navbar.navbar-default
-        //.navbar-fixed-top
+      nav.navbar.navbar-default.navbar-fixed-top
 
         .container-fluid
           .navbar-header
@@ -78,44 +71,15 @@ html.basic
                   li
                     a(href="#") Separated Link
 
-            p.navbar-text.navbar-right NavBar text
-
           //.collapse.navbar-collapse#bs-example-navbar-collapse-1
         //.container-fluid
       //nav.navbar.navbar-default
 
-      //.jumbotron
-      .container
+      .jumbotron
+        h1 Bootstrap navbar
 
-        h1 JSON editor
+        p Testing some bootstrap stuff with Sitefile.
 
-        p
-          | See demo page for all options: 
-          a(href="http://jeremydorn.com/json-editor/") interactive demo
-          | .
-
-        #editor_holder
-
-    script(type='text/javascript').
-      function start_editor(schema) {
-        var element = document.getElementById('editor_holder');
-        var editor = new JSONEditor(element, {
-          schema: schema,
-          iconlib: 'fontawesome4'
-        });
-      }
-
-    script(type='text/coffeescript').
-      jQuery(document).ready ->
-        if window.location.query
-          path = window.location.query
-        else
-          path = '/example/json-editor/schema/Person.json'
-        jQuery.ajax path,
-          error: ->
-            console.error 'Error loading schema', path
-          success: ( schema ) ->
-            console.log 'Loaded schema', schema
-            start_editor schema
-
+    //.container
+  //body
 

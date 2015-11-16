@@ -22,7 +22,7 @@
     "select2": "~4.0.0",
     "lodash": "~3.10.1",
     "EpicEditor": "epiceditor#~0.2.3",
-    "bootstrap": "bootstrap.css#~2.3.2",
+    "bootstrap": "~3.3.5",
     "foundation": "~5.5.3",
     "font-awesome": "fontawesome#~4.4.0",
     "jquery-hashchange": "*"
