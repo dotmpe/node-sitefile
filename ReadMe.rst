@@ -188,6 +188,9 @@ Supported Sitefile extensions/formats:
 \*.json          JSON
 ================ =======
 
+
+
+
 Examples
 --------
 This section works with the handlers from the `Sitefile for this project <./Sitefile.yaml>`_.
@@ -229,6 +232,7 @@ The context will have some further program defaults set, and
 then the sitefile config is loaded from ``config/config``.
 XXX the sitefile config itself can go, be replaced by external
 default context rc. There is no real use case or test spec here yet.
+
 
 Properties
 '''''''''''
