@@ -5,6 +5,7 @@ Examples
 - [ Server generated stylesheet ](./server-generated-stylesheet) - [(stylus)](./server-generated-stylesheet.styl)
 - [ Server generated script ](./server-generated-javascript) - [(coffee-script)](./server-generated-javascript.coffee)
 
+
 Also see browser JavaScript console for proof of concept.
 Extensions are mapped to one handler, no content negotiation.
 Also paths with extensions may be forcefully redirected to the published
@@ -21,4 +22,10 @@ handling.
 - The [media/](/media/), [public/components/](/components/) and [example/](/example/) directories are served directly from filesystem paths using the static router. The static router does not create indices, but redirects to the 'index' or 'main' files if present.
 
 - [ Sh ](./sh-script) - [(script)](./sh-script.sh)
+
+
+***
+
+- [ Back to ReadMe ](/ReadMe)
+
 
