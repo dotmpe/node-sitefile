@@ -13,14 +13,19 @@ routes:
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
-
+  _sh: sh:**/*.sh
   components: static:public/components
   example: static:example
   Sitefile.yaml: static:Sitefile.yaml
 
 #  todo: 'todo-app:TODO.list'
 params:
+  du:
+    stylesheets:
+      $ref: '#/defs/stylesheets/default'
   rst2html:
+    flags:
+    - "--no-toc-backlinks"
     stylesheets:
       $ref: '#/defs/stylesheets/default'
 

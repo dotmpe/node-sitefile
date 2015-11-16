@@ -11,6 +11,8 @@ rst2html_flags = ( params ) ->
   if params.stylesheets? and !_.isEmpty params.stylesheets
     sheets = _.values(params.stylesheets).join ','
     flags.push "--stylesheet-path '#{sheets}'"
+  if params.flags? and !_.isEmpty params.flags
+    flags = flags.concat params.flags
   flags.join ' '
 
 
@@ -80,14 +82,10 @@ module.exports = ( ctx={} ) ->
         format: 'html'
         docpath: docpath
 
-      # FIXME ctx.resolve 'sitefile.params.du'
-      if ctx.sitefile.params and 'du' of ctx.sitefile.params
-        params = ctx.sitefile.params.du
+      if ctx.sitefile.params and 'rst2html' of ctx.sitefile.params
+        params = ctx.resolve 'sitefile.params.rst2html'
       else
         params = {}
-
-      if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
-        params.stylesheets = ( params.stylesheets || [] ).concat ctx.sitefile.defs.stylesheets
 
       try
         rst2html res, _.merge {}, params, req.query
