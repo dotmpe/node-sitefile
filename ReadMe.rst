@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.0.3-master
+:Version: 0.0.4-master
 :Status: Development
 :package: Changelog_
 
@@ -412,5 +412,5 @@ Sitefile planet
 
 .. This is a reStructuredText document.
 
-.. Id: node-sitefile/0.0.3-master ReadMe.rst
+.. Id: node-sitefile/0.0.4-master ReadMe.rst
 

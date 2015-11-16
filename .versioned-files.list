@@ -1,8 +1,8 @@
 ReadMe.rst
+package.yaml
+Sitefile.yaml
 package.json
 bower.json
-Sitefile.yaml
-package.yaml
 lib/sitefile/sitefile.coffee
 Makefile
 configure
