@@ -1,0 +1,122 @@
+doctype html
+
+html.basic
+  head
+    title Basic JSON Editor
+
+    script(type="text/javascript", src="/components/jquery/dist/jquery.js")
+
+    script(type="text/javascript", src="/components/select2/dist/js/select2.full.js")
+    link(rel="stylesheet", type="text/css", href="/components/select2/dist/css/select2.css")
+    script(type="text/javascript", src="/components/lodash/lodash.js")
+    script(type="text/javascript", src="/components/coffee-script/extras/coffee-script.js")
+    script(type="text/javascript", src="/components/json-editor/dist/jsoneditor.js")
+
+    //script(type="text/javascript", src="/components/jquery-hashchange/jquery.ba-hashchange.js")
+
+    link(rel='stylesheet', type="text/javascript", href="/components/font-awesome/css/font-awesome.css")
+
+    //script(type='text/javascript') JSONEditor.defaults.options.theme = 'foundation5';
+    //link(rel='stylesheet', type='text/javascript', href="/components/foundation/css/foundation.css")
+    //script(type='text/javascript', src="/components/foundation/js/foundation.js")
+
+    script(type="text/javascript") JSONEditor.defaults.options.theme = 'bootstrap2';
+    link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap.css")
+    //link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap-theme.css")
+    script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.js")
+
+    // XXX: tryout markdown editor
+    //script(type="text/javascript", src="/components/EpicEditor/epiceditor/js/epiceditor.js")
+
+  body
+
+    nav.navbar.navbar-default.navbar-fixed-top
+
+      .container
+        .navbar-header
+          button(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1", aria-expanded="false").navbar-toggle.collapsed
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="#") Brand
+
+        .collapse.navbar-collapse#bs-example-navbar-collapse-1
+          ul.nav.navbar-nav
+            li.active
+              a(href="#") Link 
+                span.sr-only (current)
+            li.dropdown
+              a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false").dropdown-toggle Dropdown
+                span.caret
+              ul.dropdown-menu
+                li
+                  a(href="#") Action
+                li
+                  a(href="#") Action 2
+                li.divider(role="separator") 
+                li
+                  a(href="#") Separated Link
+
+          form(role="search").navbar-form.navbar-left
+            .form-group
+              input(type="text", placeholder="Search").form-control
+            button(type="submit").btn.btn-default Submit
+
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href="#") Link
+            li.dropdown
+              a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="true").dropdown-toggle Dropdown
+                span.caret
+              ul.dropdown-menu
+                li
+                  a(href="#") Action
+                li.divider(role="separator") 
+                li
+                  a(href="#") Separated Link
+
+          p.navbar-text.navbar-right NavBar text
+
+        //.collapse.navbar-collapse#bs-example-navbar-collapse-1
+      //.container-fluid
+    //nav.navbar.navbar-default
+    //nav.navbar.navbar-default.navbar-fixed-top
+
+    .container
+      .jumbotron
+
+        h1 JSON editor
+
+        p
+          | See demo page for all options: 
+          a(href="http://jeremydorn.com/json-editor/") interactive demo
+          | .
+
+    .container
+      #editor_holder
+
+    script(type='text/javascript').
+      function start_editor(schema) {
+        var element = document.getElementById('editor_holder');
+        var editor = new JSONEditor(element, {
+          schema: schema,
+          iconlib: 'fontawesome4'
+        });
+      }
+
+    script(type='text/coffeescript').
+      jQuery(document).ready ->
+        if window.location.query
+          path = window.location.query
+        else
+          path = '/example/json-editor/schema/Person.json'
+        jQuery.ajax path,
+          error: ->
+            console.error 'Error loading schema', path
+          success: ( schema ) ->
+            console.log 'Loaded schema', schema
+            start_editor schema
+
+  //body
+//html
