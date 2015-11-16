@@ -50,6 +50,7 @@ Possibilities for future development are maybe a sort of mixed content-type wiki
 .. contents::
 
 
+
 .. role:: todo(strong)
 
 Intro
@@ -63,6 +64,7 @@ It should be useful for projects that have no webserver of their own, or that
 want to defer rendering/browsing of the project documentation and other resources.
 
 Alternative solutions are explored in `Sitefile planet`_ section.
+
 
 
 Plan
@@ -90,6 +92,7 @@ Next:
   likely introduce domain or site attribute (ie. specify a 'docuverse', or 'linking space' within which the hyperlinks/references can act, and which in other ways determines presentation, as apposed to the content which is in principle a set of plain text human readable and processable files).
 
 - make some guards to determine version increment, maybe some gherkin specs.
+
 
 
 Description
@@ -126,10 +129,12 @@ the given URL path::
 See Configuration_ and Specs_ for further details.
 
 
+
 Prerequisites
 -------------
 - Python docutils is not required, but is the only document format available.
 - Installed ``coffee`` (coffee-script) globally (see ``bin/sitefile`` sha-bang).
+
 
 
 Installation
@@ -139,6 +144,7 @@ Installation
   npm install -g
 
 Or make ``bin/sitefile`` available on your path, and install locally (w/o ``-g``).
+
 
 
 Testing
@@ -151,11 +157,13 @@ Testing
 Test specifications are in ``test/mocha/``.
 
 
+
 Usage
 ------
 In a directory containing a ``Sitefile.*``, run `sitefile` to start the server.
 
 There are no further command line options.
+
 
 
 Configuration
@@ -187,6 +195,8 @@ Supported Sitefile extensions/formats:
 \*.yaml \*.yml   YAML
 \*.json          JSON
 ================ =======
+
+
 
 Examples
 --------
@@ -230,6 +240,7 @@ then the sitefile config is loaded from ``config/config``.
 XXX the sitefile config itself can go, be replaced by external
 default context rc. There is no real use case or test spec here yet.
 
+
 Properties
 '''''''''''
 
@@ -249,6 +260,7 @@ routes (required)
 specs
   Additional parameters for for each handler.
   TODO: see also sitefilerc
+
 
 Specs
 '''''
@@ -290,11 +302,14 @@ For details writing your own router see Routers_.
 :todo:`look for some versioning (definition, validation, comparison, migration) of Sitefile schema`
 
 
+
 Extensions
 -----------
 
+
 Routers
 ''''''''
+
 - Place file in src/dotmpe/routers/
 - module.export callback receives sitefile context, XXX should return::
 
@@ -305,6 +320,7 @@ Routers
         # ...
         res.write ...
         # call res.end or res.next, etc.
+
 
 
 Branch docs
@@ -339,11 +355,11 @@ master [*]_
       No stdout reroute yet so unusable, but functional.
 
   f_json_editor
-    - Added JSON-Editor with one schema, no server-side api yet.
+    - Added JSON-Editor_ with one schema, no server-side api yet.
       Need to look at hyper-schema.
 
   f_bootstrap
-    - Added bower things for bootstra, testing with server-side Jade pages.
+    - Added bower things for bootstrap, testing with server-side Jade pages.
 
   f_gv
     - Adding graphviz to render dot diagrams.
@@ -362,9 +378,11 @@ master [*]_
 .. [*] Current branch.
 
 
+
 Versions
 --------
 See changelog_.
+
 
 
 Misc.
@@ -383,12 +401,15 @@ See ToDo_ document.
 - :todo:`TODO add YAML, JSON validators. tv4, jsonary. Maybe test in another
   project first.`
 - TODO: site builds, packaging
-
+- TODO: JSON editor with backend, supporting schema and hyper-schema
+- Book `Understanding JSON Schema`_
+- Article `Elegant APIs with JSON Schema`_
 
 Sitefile planet
 ---------------
 .. include:: doc/sitefile-planet.rst
    :start-line: 3
+
 
 
 ----
@@ -402,11 +423,12 @@ Sitefile planet
 
 .. _jsonary: http://jsonary.com/
 .. _semver: https://github.com/npm/node-semver
+.. _json-editor: https://github.com/jdorn/json-editor
 .. _changelog: ./Changelog.rst
 .. _ToDo: ./TODO.md
 .. _examples: /example
-
-
+.. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
+.. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. This is a reStructuredText document.
 
 .. Id: node-sitefile/0.0.3-demo ReadMe.rst

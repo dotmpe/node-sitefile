@@ -10,3 +10,7 @@ public/script/x-backbone
 public/script/x-bookmarks
 www-build/
 main.sqlite3.db
+# Misc. local files
+example/*.neato.png
+example/*.twopi.png
+example/*.dot.png
