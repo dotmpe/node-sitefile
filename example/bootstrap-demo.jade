@@ -1,0 +1,82 @@
+doctype html
+
+html
+  head
+    title Bootstrap testing
+
+    script(type="text/javascript", src="/components/jquery/dist/jquery.js")
+
+    //script(type="text/javascript", src="/components/select2/dist/js/select2.full.js")
+    //link(rel="stylesheet", type="text/css", href="/components/select2/dist/css/select2.css")
+    script(type="text/javascript", src="/components/underscore/underscore.js")
+    //script(type="text/javascript", src="/components/lodash/lodash.js")
+    //script(type="text/javascript", src="/components/coffee-script/extras/coffee-script.js")
+
+    //script(type="text/javascript", src="/components/jquery-hashchange/jquery.ba-hashchange.js")
+
+    //link(rel='stylesheet', type="text/javascript", href="/components/font-awesome/css/font-awesome.css")
+
+    link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap.css")
+    link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap-theme.css")
+    script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.js")
+
+    // XXX: tryout markdown editor
+    //script(type="text/javascript", src="/components/EpicEditor/epiceditor/js/epiceditor.js")
+
+  body
+    .container
+      nav.navbar.navbar-default.navbar-fixed-top
+
+        .container-fluid
+          .navbar-header
+            button(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1", aria-expanded="false").navbar-toggle.collapsed
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a.navbar-brand(href="#") Brand
+
+          .collapse.navbar-collapse#bs-example-navbar-collapse-1
+            ul.nav.navbar-nav
+              li.active
+                a(href="#") Link 
+                  span.sr-only (current)
+              li.dropdown
+                a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false").dropdown-toggle Dropdown
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href="#") Action
+                  li
+                    a(href="#") Action 2
+                  li.divider(role="separator") 
+                  li
+                    a(href="#") Separated Link
+
+            form(role="search").navbar-form.navbar-left
+              .form-group
+                input(type="text", placeholder="Search").form-control
+              button(type="submit").btn.btn-default Submit
+
+            ul.nav.navbar-nav.navbar-right
+              li
+                a(href="#") Link
+              li.dropdown
+                a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="true").dropdown-toggle Dropdown
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href="#") Action
+                  li.divider(role="separator") 
+                  li
+                    a(href="#") Separated Link
+
+          //.collapse.navbar-collapse#bs-example-navbar-collapse-1
+        //.container-fluid
+      //nav.navbar.navbar-default
+
+      .jumbotron
+        h1 Bootstrap navbar
+
+        p Testing some bootstrap stuff with Sitefile.
+
