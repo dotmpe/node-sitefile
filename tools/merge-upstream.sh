@@ -26,7 +26,7 @@ git merge ${1}_${2}_upstream
 git branch -D ${1}_${2}_upstream
 git-versioning check
 #git-versioning testing $2
-sed -i.bak 's/-master/-demo/' ReadMe.rst package.yaml Sitefile.yaml
+sed -i.bak 's/-'$(echo $1|tr '_' '-')'/-'$(echo $2|tr '_' '-')'/' ReadMe.rst package.yaml Sitefile.yaml
 git-versioning update
 git-versioning check
 git add -u
