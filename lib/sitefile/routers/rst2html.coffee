@@ -2,6 +2,7 @@ _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
 child_process = require 'child_process'
+sitefile = require '../sitefile'
 
 
 
@@ -37,6 +38,8 @@ rst2html = ( out, params={} ) ->
   prm = _.defaults params, defaults.rst2html
   cmdflags = rst2html_flags prm
   cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
+
+  sitefile.log "Du", cmd
 
   if prm.format == 'source'
     out.type 'text'

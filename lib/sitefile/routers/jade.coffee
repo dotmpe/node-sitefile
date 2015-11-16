@@ -3,6 +3,7 @@
 _ = require 'lodash'
 path = require 'path'
 jade = require 'jade'
+sitefile = require '../sitefile'
 
 
 # Given sitefile-context, export metadata for jade: handlers
@@ -17,8 +18,11 @@ module.exports = ( ctx={} ) ->
   # generators for Sitefile route handlers
   generate: ( spec, ctx={} ) ->
 
+    fn = spec + '.jade'
+
     ( req, res ) ->
-      tpl = jade.compileFile spec + '.jade'
+      sitefile.log 'Jade compile', fn
+      tpl = jade.compileFile fn
       res.write tpl ctx
       res.end()
 
