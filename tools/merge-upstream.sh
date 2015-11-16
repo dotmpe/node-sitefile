@@ -1,7 +1,16 @@
 
 # GIT Merge --theirs.
+
 # Useful after embedded version strings or other branch-specific
 # boilerplate has been regenerated.
+
+# However, the branch must be fully merged up to the version update
+# Don't use it to merge with anythign other than such a commit or it'll
+# revert local changes ofcourse!
+# In out-of-sync branches, merge up to before the version-update,
+# use this script merge with the version update, regenerting the versions for
+# this branch and committing. After that any merge with the target branch
+# should simply fast-forward.
 
 set -xe
 
@@ -30,6 +39,7 @@ sed -i.bak 's/-'$(echo $1|tr '_' '-')'/-'$(echo $2|tr '_' '-')'/' ReadMe.rst pac
 git-versioning update
 git-versioning check
 git add -u
+rm *.bak
 #
 
 # Id: node-sitefile/0.0.4-master tools/merge-upstream.sh
