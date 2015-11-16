@@ -7,4 +7,9 @@ Examples
 
 Also see browser JavaScript console for proof of concept.
 
+Graphviz
+--------
+
+![ Small dot graph ](./graphviz-small-graph.dot "Small diagram")
+
 

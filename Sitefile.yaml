@@ -13,7 +13,8 @@ routes:
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
-  _sh: sh:**/*.sh
+  _sh: sh:example/*.sh
+  _gv: gv:example/*.gv
   components: static:public/components
   example: static:example
   Sitefile.yaml: static:Sitefile.yaml
