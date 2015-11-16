@@ -22,7 +22,7 @@ html.basic
 
     script(type="text/javascript") JSONEditor.defaults.options.theme = 'bootstrap2';
     link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap.css")
-    link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap-theme.css")
+    //link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap-theme.css")
     script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.js")
 
     // XXX: tryout markdown editor
@@ -30,62 +30,61 @@ html.basic
 
   body
 
-    .container
-      nav.navbar.navbar-default
-        //.navbar-fixed-top
+    nav.navbar.navbar-default.navbar-fixed-top
 
-        .container-fluid
-          .navbar-header
-            button(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1", aria-expanded="false").navbar-toggle.collapsed
-              span.sr-only Toggle navigation
-              span.icon-bar
-              span.icon-bar
-              span.icon-bar
-            a.navbar-brand(href="#") Brand
-
-          .collapse.navbar-collapse#bs-example-navbar-collapse-1
-            ul.nav.navbar-nav
-              li.active
-                a(href="#") Link 
-                  span.sr-only (current)
-              li.dropdown
-                a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false").dropdown-toggle Dropdown
-                  span.caret
-                ul.dropdown-menu
-                  li
-                    a(href="#") Action
-                  li
-                    a(href="#") Action 2
-                  li.divider(role="separator") 
-                  li
-                    a(href="#") Separated Link
-
-            form(role="search").navbar-form.navbar-left
-              .form-group
-                input(type="text", placeholder="Search").form-control
-              button(type="submit").btn.btn-default Submit
-
-            ul.nav.navbar-nav.navbar-right
-              li
-                a(href="#") Link
-              li.dropdown
-                a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="true").dropdown-toggle Dropdown
-                  span.caret
-                ul.dropdown-menu
-                  li
-                    a(href="#") Action
-                  li.divider(role="separator") 
-                  li
-                    a(href="#") Separated Link
-
-            p.navbar-text.navbar-right NavBar text
-
-          //.collapse.navbar-collapse#bs-example-navbar-collapse-1
-        //.container-fluid
-      //nav.navbar.navbar-default
-
-      //.jumbotron
       .container
+        .navbar-header
+          button(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1", aria-expanded="false").navbar-toggle.collapsed
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="#") Brand
+
+        .collapse.navbar-collapse#bs-example-navbar-collapse-1
+          ul.nav.navbar-nav
+            li.active
+              a(href="#") Link 
+                span.sr-only (current)
+            li.dropdown
+              a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false").dropdown-toggle Dropdown
+                span.caret
+              ul.dropdown-menu
+                li
+                  a(href="#") Action
+                li
+                  a(href="#") Action 2
+                li.divider(role="separator") 
+                li
+                  a(href="#") Separated Link
+
+          form(role="search").navbar-form.navbar-left
+            .form-group
+              input(type="text", placeholder="Search").form-control
+            button(type="submit").btn.btn-default Submit
+
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href="#") Link
+            li.dropdown
+              a(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="true").dropdown-toggle Dropdown
+                span.caret
+              ul.dropdown-menu
+                li
+                  a(href="#") Action
+                li.divider(role="separator") 
+                li
+                  a(href="#") Separated Link
+
+          p.navbar-text.navbar-right NavBar text
+
+        //.collapse.navbar-collapse#bs-example-navbar-collapse-1
+      //.container-fluid
+    //nav.navbar.navbar-default
+    //nav.navbar.navbar-default.navbar-fixed-top
+
+    .container
+      .jumbotron
 
         h1 JSON editor
 
@@ -94,7 +93,8 @@ html.basic
           a(href="http://jeremydorn.com/json-editor/") interactive demo
           | .
 
-        #editor_holder
+    .container
+      #editor_holder
 
     script(type='text/javascript').
       function start_editor(schema) {
@@ -118,4 +118,5 @@ html.basic
             console.log 'Loaded schema', schema
             start_editor schema
 
-
+  //body
+//html
