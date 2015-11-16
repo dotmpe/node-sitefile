@@ -337,6 +337,16 @@ master [*]_
       Tested ph7-darwin NPM packages. Seems to perform same as ph7.
       No stdout reroute yet so unusable, but functional.
 
+  f_json_editor
+    - Added JSON-Editor with one schema, no server-side api yet.
+      Need to look at hyper-schema.
+
+  f_bootstrap
+    - Added bower things for bootstra, testing with server-side Jade pages.
+
+  f_gv
+    - Adding graphviz to render dot diagrams.
+
   demo
     - Merging experimental features. Should keep master clean.
 
