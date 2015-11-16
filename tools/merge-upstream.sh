@@ -19,10 +19,11 @@ test "$1" != "$2" || {
 }
 
 git co $1
-git co ${1}_${2}_upstream
+git co -b ${1}_${2}_upstream
 git merge --strategy=ours $2
 git co $2
 git merge ${1}_${2}_upstream
+git branch -D ${1}_${2}_upstream
 git-versioning check
 #git-versioning testing $2
 sed -i.bak 's/-master/-demo/' ReadMe.rst package.yaml Sitefile.yaml
