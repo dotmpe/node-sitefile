@@ -49,7 +49,10 @@ rst2html = ( out, params={} ) ->
   else
     child_process.exec cmd, (error, stdout, stderr) ->
       if error
-        throw error
+        out.type 'text/plain'
+        out.status 500
+        out.write error.toString()
+        #throw error
       else if prm.format == 'xml'
         out.type 'xml'
         out.write stdout
