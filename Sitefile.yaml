@@ -13,15 +13,29 @@ routes:
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
-  _sh: sh:example/*.sh
   _gv: gv:example/*.gv
+
+  'src/*': 'prism:'
+
+  _sh: sh:**/*.sh
   components: static:public/components
+
+  example/polymer-app-router: static:example/polymer-app-router.html
+
   example: static:example
+
+  #components/core-toolbar: static:public/components/polymer-ui-toolbar
+  #components/core-menu: static:public/components/polymer-ui-menu
+  #components/core-item: static:public/components/polymer-ui-item
+  #components/core-header-panel: static:public/components/polymer-ui-header-panel
+  #components/core-toolbar: static:public/components/polymer-ui-toolbar
+
   Sitefile.yaml: static:Sitefile.yaml
 
   _json-editor: json-editor:example/json-editor/schema/*.json
 
 #  todo: 'todo-app:TODO.list'
+
 params:
   du:
     stylesheets:

@@ -28,7 +28,11 @@ handling.
 
 - [ Polymer Example ](./polymer-example)
 - [ Polymer Simple Custom Element Example ](./polymer-custom)
-- [ Polymer App Router ](./polymer-app-router.html)
+- [ Polymer Page Swipe](./polymer-page-swipe)
+- [ Polymer App Router ](./polymer-app-router)
+
+- [ Prism Examples with Polymer Style Selector ](./prism)
+- [ Polymer + Prism-JS ](./prism-js)
 
 
 # Graphviz
@@ -61,5 +65,4 @@ From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 ***
 
 - [ Back to ReadMe ](/ReadMe)
-
 

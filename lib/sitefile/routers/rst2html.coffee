@@ -10,7 +10,21 @@ rst2html_flags = ( params ) ->
 
   flags = []
   if params.stylesheets? and !_.isEmpty params.stylesheets
-    sheets = _.values(params.stylesheets).join ','
+    list = []
+    for sheet in params.stylesheets # [0].default
+      if not params.link_stylesheet
+        if sheet.startsWith '~'
+          sheet = path.join( process.env.HOME, sheet.substr 1 )
+        if not path.isAbsolute sheet
+          sheet = path.join( process.cwd(), sheet )
+        if not fs.existsSync sheet
+          throw new Error "Cannot find stylesheet #{sheet}"
+      list.push sheet
+    sheets = list.join ','
+  if params.link_stylesheet
+    flags.push '--link-stylesheet'
+    flags.push "--stylesheet '#{sheets}'"
+  else
     flags.push "--stylesheet-path '#{sheets}'"
   if params.flags? and !_.isEmpty params.flags
     flags = flags.concat params.flags
@@ -47,7 +61,7 @@ rst2html = ( out, params={} ) ->
     out.end()
 
   else
-    child_process.exec cmd, (error, stdout, stderr) ->
+    child_process.exec cmd, {maxBuffer: 500 * 1024}, (error, stdout, stderr) ->
       if error
         out.type 'text/plain'
         out.status 500

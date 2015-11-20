@@ -335,7 +335,11 @@ master [*]_
 
   f_client
     - Added Bower. Experimenting with polymer.
+<<<<<<< HEAD
     - Want to get Polymer core-scaffold running somehow.
+=======
+    - Want to get core-scaffold running. Need to look at router maybe.
+>>>>>>> f_client
       See examples_ and `Polymer Getting started <doc/polymer>`_.
     - `Testing prism.js </src/example/polymer-custom>`_  but does not seem to be working correctly.
 
@@ -396,6 +400,7 @@ See ToDo_ document.
     | "connect-flash": "latest",
     | "method-override": "^2.3.2",
     | "node-uuid": "^1.4.3",
+    | "fs-extra": "^0.18.0",
     | "notifier": "latest"
 
 - :todo:`TODO add YAML, JSON validators. tv4, jsonary. Maybe test in another
@@ -427,9 +432,17 @@ Sitefile planet
 .. _changelog: ./Changelog.rst
 .. _ToDo: ./TODO.md
 .. _examples: /example
+<<<<<<< HEAD
 .. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. This is a reStructuredText document.
 
 .. Id: node-sitefile/0.0.4-demo+20151116-0604 ReadMe.rst
+=======
+
+
+.. This is a reStructuredText document.
+
+.. Id: node-sitefile/0.0.4-f-client ReadMe.rst
+>>>>>>> f_client
 

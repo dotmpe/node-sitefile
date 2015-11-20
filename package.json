@@ -48,6 +48,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "coffee-script": "^1.9.2",
+    "escape-html": "^1.0.1",
     "express": "^4.12.3",
     "glob": "^5.0.5",
     "jade": "^1.9.2",

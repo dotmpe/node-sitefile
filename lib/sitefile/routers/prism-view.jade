@@ -7,14 +7,14 @@ html.example
 
     script(type='text/javascript', src="/components/jquery/dist/jquery.js")
     script(type='text/javascript', src="/components/coffee-script/extras/coffee-script.js")
+    //script(src="/components/webcomponentsjs/webcomponents.js")
+    //script(type='text/javascript', src="/components/polymer-platform/platform.js")
+
     link(type='text/coffeescript', href="/example/script.coffee")
     script(type='text/javascript', src="/example/server-generated-javascript")
-    script(type='text/javascript', src="/components/prism/prism.js")
 
     link(rel="stylesheet", type='text/css', href="/example/server-generated-stylesheet")
     link(rel="stylesheet", type='text/css', href="/example/polymer-example.css")
-    link(rel="stylesheet", type='text/css', href="/components/prism/themes/prism.css")
-    //link(rel="stylesheet", type='text/css', href="/components/prism/themes/prism-dark.css")
 
     link(rel="import", href="/components/core-scaffold/core-scaffold.html")
     link(rel="import", href="/components/core-toolbar/core-toolbar.html")
@@ -24,6 +24,7 @@ html.example
     link(rel="import", href="/components/core-header-panel/core-header-panel.html")
     link(rel="import", href="/components/core-drawer-panel/core-drawer-panel.html")
     link(rel="import", href="/components/core-icons/core-icons.html")
+    link(rel="import", href="/components/core-scroll-header-panel/core-scroll-header-panel.html")
     link(rel="import", href="/components/paper-icon-button/paper-icon-button.html")
     link(rel="import", href="/components/core-animated-pages/core-animated-pages.html")
     link(rel="import", href="/components/core-animated-pages/transitions/slide-from-right.html")
@@ -31,16 +32,20 @@ html.example
   body(unresolved, fullbleed)
 
     core-scaffold#scaffold
+
       nav
         core-toolbar
         label Path
         input(value=source)
+
       core-toolbar(tool)
         div Source View
+
       div(layout, horizontal, center-center, fit)
-        pre
-          - for line in lines
-              code(class="language-"+format)= line +'\n'
+        .container
+          pre(class="language-"+format)
+            - for line in lines
+                code(class="language-"+format)= line +'\n'
 
 
 

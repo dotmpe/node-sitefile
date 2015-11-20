@@ -8,29 +8,17 @@ VER_STR=$2
 e=0
 for doc in $V_PATH_LIST
 do
-  # XXX: should want to know if any mismatches, regardless wether one matches
-
-  if [ "$doc" = ".sitefilerc" ]
-  then
-    grep '"sitefilerc":.*'$2 $doc >> /dev/null && {
-      echo "Version match in $doc"
-    } || {
-      echo "Version mismatch in $doc" 1>&2
-      e=$(( $e + 1 ))
-    }
-    continue
-  fi
-
-  if [ "$doc" = "Sitefile.yaml" ]
-  then
-    grep '^sitefile:.*'$2 $doc >> /dev/null && {
-      echo "Version match in $doc"
-    } || {
-      echo "Version mismatch in $doc" 1>&2
-      e=$(( $e + 1 ))
-    }
-    continue
-  fi
+  case $doc in
+    Sitefile.yaml )
+      grep -i 'sitefile:.*'$2 $doc >> /dev/null && {
+        echo "Version matches $2 in $doc"
+      } || { 
+        echo "Version mismatch in $doc"
+        e=1
+      }
+      continue
+      ;;
+  esac
 
   # generic
   ( grep -i 'version.*'$2 $doc || grep -i 'Id:.*'$2 $doc ) >> /dev/null && {

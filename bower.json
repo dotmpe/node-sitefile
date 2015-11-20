@@ -38,6 +38,10 @@
     "EpicEditor": "epiceditor#~0.2.3",
     "foundation": "~5.5.3",
     "font-awesome": "fontawesome#~4.4.0",
-    "jquery-hashchange": "*"
+    "jquery-hashchange": "*",
+    "prism-js": "git@github.com:dotmpe/prism-js.git#dev",
+    "polymer-platform": "~0.4.2",
+    "swipe-pages": "~0.2.0",
+    "core-scroll-header-panel": "Polymer/core-scroll-header-panel#~0.5.5"
   }
 }
