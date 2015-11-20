@@ -30,6 +30,7 @@ test "$1" != "$2" || {
 git co $1
 git co -b ${1}_${2}_upstream
 git merge --strategy=ours $2
+#git merge $2
 git co $2
 git merge ${1}_${2}_upstream
 git branch -D ${1}_${2}_upstream
