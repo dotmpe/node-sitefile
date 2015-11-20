@@ -2,6 +2,7 @@ _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
 child_process = require 'child_process'
+sitefile = require '../sitefile'
 
 
 
@@ -25,6 +26,8 @@ rst2html_flags = ( params ) ->
     flags.push "--stylesheet '#{sheets}'"
   else
     flags.push "--stylesheet-path '#{sheets}'"
+  if params.flags? and !_.isEmpty params.flags
+    flags = flags.concat params.flags
   flags.join ' '
 
 
@@ -49,6 +52,8 @@ rst2html = ( out, params={} ) ->
   prm = _.defaults params, defaults.rst2html
   cmdflags = rst2html_flags prm
   cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
+
+  sitefile.log "Du", cmd
 
   if prm.format == 'source'
     out.type 'text'
@@ -94,7 +99,6 @@ module.exports = ( ctx={} ) ->
         format: 'html'
         docpath: docpath
 
-      # FIXME ctx.resolve 'sitefile.params.du'
       if ctx.sitefile.params and 'rst2html' of ctx.sitefile.params
         params = ctx.resolve 'sitefile.params.rst2html'
       else

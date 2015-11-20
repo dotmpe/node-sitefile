@@ -16,6 +16,7 @@ routes:
 
   'src/*': 'prism:'
 
+  _sh: sh:**/*.sh
   components: static:public/components
 
   example/polymer-app-router: static:example/polymer-app-router.html
@@ -37,6 +38,8 @@ params:
     stylesheets:
       $ref: '#/defs/stylesheets/default'
   rst2html:
+    flags:
+    - "--no-toc-backlinks"
     stylesheets:
       $ref: '#/defs/stylesheets/default'
 
