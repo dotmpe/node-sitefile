@@ -11,4 +11,6 @@ public/script/x-bookmarks
 www-build/
 main.sqlite3.db
 # Misc. local files
-.git
+example/*.neato.png
+example/*.twopi.png
+example/*.dot.png
