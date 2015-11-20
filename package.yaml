@@ -2,6 +2,6 @@
 
 - type: application/x-project-mpe
   name: node-sitefile
-  version: 0.0.3-client
+  version: 0.0.4-f-client
   environments: [ 'development' ]
 

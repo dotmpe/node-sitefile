@@ -1,7 +1,7 @@
 #!/usr/bin/env sitefile
 # Sitefile for node-sitefile document server
-# Id: node-sitefile/0.0.3-client
-sitefile: 0.0.3-client
+# Id: node-sitefile/0.0.4-f-client
+sitefile: 0.0.4-f-client
 routes:
   media: static:public/media
   '': redir:ReadMe
