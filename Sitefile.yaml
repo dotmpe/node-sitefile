@@ -18,6 +18,8 @@ routes:
   example: static:example
   Sitefile.yaml: static:Sitefile.yaml
 
+port: 4321
+
 #  todo: 'todo-app:TODO.list'
 params:
   du:

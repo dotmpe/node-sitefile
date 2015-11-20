@@ -75,7 +75,7 @@ load_sitefile = ( ctx ) ->
   log "Loaded", path: path.relative ctx.cwd, ctx.lfn
 
   # translate JSON path refs in sitefile to use global sitefile context
-  # ie. prefix path with sitefile
+  # ie. prefix path with 'sitefile/' so we can use context.resolve et al.
   xform = (result, value, key) ->
     if _.isArray value
       for item, index in value
@@ -89,6 +89,12 @@ load_sitefile = ( ctx ) ->
       result[ key ] = value
 
   _.transform ctx.sitefile, xform
+
+  if ctx.sitefile.host
+    ctx.host = ctx.sitefile.host
+
+  if ctx.sitefile.port
+    ctx.port = ctx.sitefile.port
 
 
 load_rc = ( ctx ) ->
