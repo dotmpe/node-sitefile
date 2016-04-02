@@ -1,22 +1,26 @@
 #!/usr/bin/env sitefile
+#
 # Sitefile for node-sitefile document server
+# A note of caution: this example config does shameless things like executing any shell
+# script if you want to, like call http://localhost/clean.sh. Ymmv. 
+#
 # Id: node-sitefile/0.0.4-master
 sitefile: 0.0.4-master
 routes:
-  media: static:public/media
-  '': redir:ReadMe
-  index: redir:ReadMe
-  example: redir:example/main
-  _rst2html: rst2html:**/*.rst
-  _jade: jade:example/**/*.jade
-  _stylus: stylus:example/**/*.styl
-  _coffee: coffee:example/**/*.coffee
-  _markdown: markdown:*.md
-  _markdown_1: markdown:example/**/*.md
-  _sh: sh:**/*.sh
-  components: static:public/components
-  example: static:example
-  Sitefile.yaml: static:Sitefile.yaml
+  media: "static:public/media"
+  '': "redir:ReadMe"
+  index: "redir:ReadMe"
+  example/: "redir:example/main"
+  _rst2html: "rst2html:**/*.rst"
+  _jade: "jade:example/**/*.jade"
+  _stylus: "stylus:example/**/*.styl"
+  _coffee: "coffee:example/**/*.coffee"
+  _markdown: "markdown:*.md"
+  _markdown_1: "markdown:example/**/*.md"
+  _sh: "sh:**/*.sh"
+  components: "static:public/components"
+  example: "static:example"
+  Sitefile.yaml: "static:Sitefile.yaml"
 
 port: 4321
 
