@@ -16,3 +16,4 @@ $data.EntityContext.extend("TodoDatabase", {
 });
 
 $data.createODataServer(TodoDatabase, '/todo', 52999, 'localhost');
+

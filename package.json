@@ -1,7 +1,7 @@
 {
   "name": "node-sitefile",
   "description": "Bootstrap Express webserver for misc. resources using Sitefile",
-  "version": "(0.0.3)",
+  "version": "0.0.3-dev-f-odata",
   "homepage": "https://github.com/dotmpe/node-sitefile",
   "author": {
     "name": "B. van Berkum",
