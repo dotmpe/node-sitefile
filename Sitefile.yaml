@@ -22,6 +22,10 @@ routes:
   example: "static:example"
   Sitefile.yaml: "static:Sitefile.yaml"
 
+  _ditaa: "ditaa:**/*.ditaa"
+  graph.png: "static:graph.png"
+  architecture_simplified.png: "static:architecture_simplified.png"
+
 port: 4321
 
 #  todo: 'todo-app:TODO.list'
