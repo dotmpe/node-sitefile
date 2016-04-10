@@ -387,6 +387,9 @@ See ToDo_ document.
   project first.`
 - TODO: site builds, packaging
 
+- http://asciidoctor.org/
+  AsciiDoc processor in Ruby? Maybe add a section of plain text markup formats.
+
 
 Sitefile planet
 ---------------
