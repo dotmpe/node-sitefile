@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.0.3-master
+:Version: 0.0.4-master
 :Status: Development
 :package: Changelog_
 
@@ -195,6 +195,7 @@ Supported Sitefile extensions/formats:
 \*.yaml \*.yml   YAML
 \*.json          JSON
 ================ =======
+
 
 
 
@@ -404,6 +405,10 @@ See ToDo_ document.
 - Book `Understanding JSON Schema`_
 - Article `Elegant APIs with JSON Schema`_
 
+- http://asciidoctor.org/
+  AsciiDoc processor in Ruby? Maybe add a section of plain text markup formats.
+
+
 Sitefile planet
 ---------------
 .. include:: doc/sitefile-planet.rst
@@ -430,5 +435,5 @@ Sitefile planet
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. This is a reStructuredText document.
 
-.. Id: node-sitefile/0.0.3-master ReadMe.rst
+.. Id: node-sitefile/0.0.4-master ReadMe.rst
 

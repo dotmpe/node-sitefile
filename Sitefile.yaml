@@ -1,7 +1,11 @@
 #!/usr/bin/env sitefile
+#
 # Sitefile for node-sitefile document server
-# Id: node-sitefile/0.0.3-master
-sitefile: 0.0.3-master
+# A note of caution: this example config does shameless things like executing any shell
+# script if you want to, like call http://localhost/clean.sh. Ymmv. 
+#
+# Id: node-sitefile/0.0.4-master
+sitefile: 0.0.4-master
 routes:
   media: static:public/media
   '': redir:ReadMe
@@ -18,6 +22,8 @@ routes:
   components: static:public/components
   example: static:example
   Sitefile.yaml: static:Sitefile.yaml
+
+port: 4321
 
 #  todo: 'todo-app:TODO.list'
 params:

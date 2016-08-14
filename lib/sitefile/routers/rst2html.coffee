@@ -2,6 +2,7 @@ _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
 child_process = require 'child_process'
+sitefile = require '../sitefile'
 
 
 rst2html_flags = ( params ) ->
@@ -35,6 +36,8 @@ rst2html = ( out, params={} ) ->
 
   cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
 
+  sitefile.log "Du", cmd
+
   if prm.format == 'source'
     out.type 'text'
     out.write fs.readFileSync "#{prm.docpath}.rst"
@@ -44,7 +47,10 @@ rst2html = ( out, params={} ) ->
 
     child_process.exec cmd, (error, stdout, stderr) ->
       if error
-        throw error
+        out.type 'text/plain'
+        out.status 500
+        out.write error.toString()
+        #throw error
       else if prm.format == 'xml'
         out.type 'xml'
         out.write stdout
