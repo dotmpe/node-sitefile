@@ -5,7 +5,7 @@
 #[ "$ENV" == "testing" ] && {
 #}
 
-version=0.0.4-master # node-sitefile
+version=0.0.4-f-gv # node-sitefile
 
 echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
 

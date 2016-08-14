@@ -43,5 +43,5 @@ git add -u
 rm *.bak
 #
 
-# Id: node-sitefile/0.0.4-master tools/merge-upstream.sh
+# Id: node-sitefile/0.0.4-f-gv tools/merge-upstream.sh
 

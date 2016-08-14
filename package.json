@@ -1,6 +1,6 @@
 {
   "name": "node-sitefile",
-  "version": "0.0.4-master",
+  "version": "0.0.4-f-gv",
   "description": "Bootstrap Express webserver for misc. resources using Sitefile",
   "homepage": "https://github.com/dotmpe/node-sitefile",
   "author": {
