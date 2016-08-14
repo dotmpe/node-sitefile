@@ -17,7 +17,10 @@ module.exports = ( ctx={} ) ->
   # generators for Sitefile route handlers
   generate: ( spec, ctx={} ) ->
 
-    engine = path.extname(spec).substr(1)
+    engine = 'dot'
+    ext = path.extname(spec).substr(1)
+    if (ext.match(/(dot|neato|twopi)/))
+      engine = ext
     fn = spec + '.gv'
 
     ( req, res ) ->
