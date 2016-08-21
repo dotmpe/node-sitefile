@@ -4,8 +4,8 @@
 # A note of caution: this example config does shameless things like executing any shell
 # script if you want to, like call http://localhost/clean.sh. Ymmv. 
 #
-# Id: node-sitefile/0.0.4-f-gv
-sitefile: 0.0.4-f-gv
+# Id: node-sitefile/0.0.4-master
+sitefile: 0.0.4-master
 routes:
   media: static:public/media
   '': redir:ReadMe

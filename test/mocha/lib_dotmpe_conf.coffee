@@ -1,4 +1,4 @@
-# Id: node-sitefile/0.0.4-f-gv test/mocha/lib_dotmpe_conf.coffee
+# Id: node-sitefile/0.0.4-master test/mocha/lib_dotmpe_conf.coffee
 chai = require 'chai'
 expect = chai.expect
 
