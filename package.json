@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
-    "test": "./configure && grunt",
+    "test": "./configure && grunt --force",
     "src-tree": "tree -I 'node_modules|build|components'",
     "src-files": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' ",
     "src-loc": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' -not -path '*.log' | xargs cat | grep -v '^\\s*$' | wc -l | awk '{print $1}'",

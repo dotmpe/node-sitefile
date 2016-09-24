@@ -44,11 +44,13 @@ defs:
     default:
       - public/media/style/default.css
 
+      #- /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
+      #- /srv/project-mpe/docutils-ext/var/media/style/docutils.css
+      
       #- ~/htdocs/media/style/default.css
       #- media/style/docutils.css
       #- media/style/docutils-html.css
-      - /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
-      - /srv/project-mpe/docutils-ext/var/media/style/docutils.css
+      #
       #- /media/style/html.css
       #- ~/htdocs/media/style/dotmpe-com/olddefault.css
       #- ~/htdocs/media/style/dotmpe-com/style.css
