@@ -5,6 +5,7 @@ node_js:
   - "0.12"
 
 before_script:
+- echo PATH=$PATH
 - rst2html --version
 - alias rst2html.py=rst2html
 - rst2html.py --version
@@ -22,6 +23,6 @@ branches:
 
 env:
 #  - NODE_ENV=
-  - NODE_ENV=testing
+  - NODE_ENV=testing PATH=/usr/local/bin:$PATH
 #  - NODE_ENV=production
 
