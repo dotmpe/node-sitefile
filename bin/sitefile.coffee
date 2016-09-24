@@ -63,10 +63,11 @@ else if process.argv[2] in [ '--version', '--help' ]
  
   console.log "sitefile/"+lib.version
 
-else
-  
-  lib.warn "Invalid argument:", process.argv[2]
-  process.exit(1)
+# TODO: detect execute or (test-mode) include
+#else
+#  
+#  lib.warn "Invalid argument:", process.argv[2]
+#  process.exit(1)
 
 
 # Id: node-sitefile/0.0.4-dev bin/sitefile.coffee

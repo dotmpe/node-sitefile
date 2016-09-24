@@ -127,8 +127,6 @@ module.exports = ( ctx={} ) ->
     rst2html:
       get: (req, res, next) ->
 
-        #console.log "rst2html", docpath, " handler call", req.query
-
         req.query = _.defaults res.query || {}, format: 'xml'
 
         try
