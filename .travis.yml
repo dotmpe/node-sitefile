@@ -4,6 +4,11 @@ language: node_js
 node_js:
   - "0.12"
 
+addons:
+  apt:
+    packages:
+      - python-docutils
+
 branches:
   not:
   - staging_git_versioning
