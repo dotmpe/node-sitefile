@@ -14,7 +14,7 @@ routes:
   #example: redir:example/main
   example: static:example
   _rst2html: rst2html:**/*.rst
-  _jade: jade:example/**/*.jade
+  _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
