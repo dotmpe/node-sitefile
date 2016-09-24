@@ -17,3 +17,4 @@ example/server-generated-javascript.coffee
 example/server-generated-page.jade
 example/server-generated-stylesheet.styl
 tools/merge-upstream.sh
+#.sitefilerc

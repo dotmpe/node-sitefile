@@ -22,6 +22,7 @@ test_for_rst2html = ->
 
 add_script = ( rawhtml, javascript_url ) ->
 
+  sitefile.log "rst2html:addscript: "+javascript_url
   script_tag = '<script type="text/javascript" src="'+javascript_url+'" ></script>'
   rawhtml.replace '</head>', script_tag+' </head>'
 
@@ -43,7 +44,7 @@ rst2html = ( out, params={} ) ->
 
   cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
 
-  sitefile.log "Du", cmd
+  sitefile.log "Du", cmd, prm
 
   if prm.format == 'source'
     out.type 'text'

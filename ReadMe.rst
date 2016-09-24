@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.0.4-master
+:Version: 0.0.4-dev
 :Status: Development
 :package: Changelog_
 
@@ -435,4 +435,4 @@ Sitefile planet
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. This is a reStructuredText document.
 
-.. Id: node-sitefile/0.0.4-master ReadMe.rst
+.. Id: node-sitefile/0.0.4-dev ReadMe.rst
