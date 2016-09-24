@@ -5,10 +5,8 @@ node_js:
   - "0.12"
 
 before_script:
-- echo PATH=$PATH
+- test -x "$(which rst2html)" || { mkdir ~/bin && cd ~/bin && ln -s $(which rst2html.py) rst2html; }
 - rst2html --version
-- alias rst2html.py=rst2html && rst2html.py --version
-#- rst2html.py --version
 
 addons:
   apt:
@@ -23,6 +21,6 @@ branches:
 
 env:
 #  - NODE_ENV=
-  - NODE_ENV=testing PATH=/usr/local/bin:$PATH
+  - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin$PATH
 #  - NODE_ENV=production
 
