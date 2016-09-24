@@ -5,6 +5,8 @@ node_js:
   - "0.12"
 
 before_script:
+- rst2html --version
+- alias rst2html.py=rst2html
 - rst2html.py --version
 
 addons:
