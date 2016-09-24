@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.0.3-test
+:Version: 0.0.4-master
 :Status: Development
 :package: Changelog_
 
@@ -34,18 +34,21 @@ Node Sitefile
 
 
 Sitefile enables an Express server to be quickly set up from a single configuration file called the Sitefile.
+The sitefile mainly consists of a mapping of file paths or patterns that are mapped to different types of router handlers.
 
-It's a young project written with the intend to primarily make reStructuredText
-embedded content more (readily) accessible. In its current state it is usable
+Primarily it was written to serve reStructuredText as HTML, but has Jade,
+Stylus, Markdown and Coffee-script handlers too. In its current state it is usable
 as a really simple HTTP server to use for example to read documentation of a project.
-
-Or a sort of mixed content-type wiki.
-
 Maybe as a sketchpad for Jade, Stylus and Coffee-Script experiments.
+
+Focus for upcoming features in on microformats to tie things together and enable
+richer presentation while keeping appropiatly simple plain text file-based content.
+Possibilities for future development are maybe a sort of mixed content-type wiki.
 
 
 
 .. contents::
+
 
 
 .. role:: todo(strong)
@@ -54,21 +57,14 @@ Intro
 -----
 The primary idea is to to look at a file folder as a set of hyperlinked documents,
 formatted in various ways as appropiate to the task ie. some project.
-Sitefile aims to turn each file it find into a URL and a handler, based on
-filepath and name patterns specified in the Sitefile.
+Sitefile turns each file into a URL and a handler instance, based on
+filepath and name patterns from the Sitefile.
 
 It should be useful for projects that have no webserver of their own, or that
 want to defer rendering/browsing of the project documentation and other resources.
 
-Put another way, it leverages notebooks and documentation projects in general to
-serve content through a browser with full multi-media and hyperlink capabilities
-without the need to set up any server capabilities beyond installing sitefile.
-
-By using Docutils [Du] reStructuredText [rSt] a pretty amazing array of hyperlinked
-document possibilities emerge. :todo:`TODO:` Sitefile provides for a pre-styled CSS file
-for HTML documents published with Du.
-
 Alternative solutions are explored in `Sitefile planet`_ section.
+
 
 
 Plan
@@ -80,11 +76,23 @@ There are many possible useful directions:
 - embedded issue browser/editor.
 - 3D file viewer.
 - transliterature browser.
-- other web-related files: browse bookmarks, references.
-- some simple URL carroussel.
+- other web-related files: browse bookmarks, references. An simple URL carroussel/slideshow app?
+- make editing sitefile easy. Maybe write json schema, and use jsonary_.
+- what about tiddlywiki.
 
-Sitefile is pretty young, most is geared towards viewing as of right now--no
-editors.
+Next:
+
+- need to integrate concept of content-type (ie. representation vs. resource) to
+  deal with parametrizing the publisher (routers). Currently the routers are purposely very naively implemented to focus on a generic, flexible Sitefile schema.
+
+- Setup some transclusion micro-protocol (over HTML+XmlHttpRequest) for dynamic branching, and mix/browser content client-side using hash-navigation, building up a client-side app essentially.
+
+- Move to a concept of a standard file-type handler registry, posibly some
+  magic. Use Sitefile to index (only) those resources that are linked together,
+  likely introduce domain or site attribute (ie. specify a 'docuverse', or 'linking space' within which the hyperlinks/references can act, and which in other ways determines presentation, as apposed to the content which is in principle a set of plain text human readable and processable files).
+
+- make some guards to determine version increment, maybe some gherkin specs.
+
 
 
 Description
@@ -117,17 +125,16 @@ the given URL path::
 
 `sitefile` must be started from the directory where a `Sitefile.*` is located.
 
-TODO: load schema not just to validate Sitefile but to specify/generate/validate
-resource handler paremeters? cf. jsonary_
-
 
 See Configuration_ and Specs_ for further details.
+
 
 
 Prerequisites
 -------------
 - Python docutils is not required, but is the only document format available.
 - Installed ``coffee`` (coffee-script) globally (see ``bin/sitefile`` sha-bang).
+
 
 
 Installation
@@ -137,6 +144,7 @@ Installation
   npm install -g
 
 Or make ``bin/sitefile`` available on your path, and install locally (w/o ``-g``).
+
 
 
 Testing
@@ -149,11 +157,13 @@ Testing
 Test specifications are in ``test/mocha/``.
 
 
+
 Usage
 ------
 In a directory containing a ``Sitefile.*``, run `sitefile` to start the server.
 
 There are no further command line options.
+
 
 
 Configuration
@@ -185,6 +195,9 @@ Supported Sitefile extensions/formats:
 \*.yaml \*.yml   YAML
 \*.json          JSON
 ================ =======
+
+
+
 
 Examples
 --------
@@ -228,6 +241,7 @@ then the sitefile config is loaded from ``config/config``.
 XXX the sitefile config itself can go, be replaced by external
 default context rc. There is no real use case or test spec here yet.
 
+
 Properties
 '''''''''''
 
@@ -247,6 +261,7 @@ routes (required)
 specs
   Additional parameters for for each handler.
   TODO: see also sitefilerc
+
 
 Specs
 '''''
@@ -288,11 +303,14 @@ For details writing your own router see Routers_.
 :todo:`look for some versioning (definition, validation, comparison, migration) of Sitefile schema`
 
 
+
 Extensions
 -----------
 
+
 Routers
 ''''''''
+
 - Place file in src/dotmpe/routers/
 - module.export callback receives sitefile context, XXX should return::
 
@@ -303,6 +321,7 @@ Routers
         # ...
         res.write ...
         # call res.end or res.next, etc.
+
 
 
 Branch docs
@@ -324,27 +343,46 @@ master [*]_
     - Compiling a sitefile to a distributable package.
       Trying to call handers directly, not usable yet.
 
-      Maybe scraping from some edit-decision-list [EDL] generated from sitefile is faster.
-      But need to build and test EDL export, and have no EDL reader.
+      Maybe scraping from some edit-decision-list [EDL] generated from sitefile directly is a better (faster) approach?
+      But need to build and test EDL export, and have no EDL reader (transquoter, Scrow).
 
   f_jsonary
-    - Looking at wether to include Jsonary in master.
+    - Looking at jsonary as a client-side JSON schema renderer/editor.
+
+  f_ph7{,_node}
+    - Wanted to run simple PHP files using sitefile.
+      Tested ph7-darwin NPM packages. Seems to perform same as ph7.
+      No stdout reroute yet so unusable, but functional.
+
+  f_json_editor
+    - Added JSON-Editor_ with one schema, no server-side api yet.
+      Need to look at hyper-schema.
+
+  f_bootstrap
+    - Added bower things for bootstrap, testing with server-side Jade pages.
+
+  f_gv
+    - Adding graphviz to render dot diagrams.
 
   demo
     - Merging experimental features. Should keep master clean.
 
-  stating_git_versioning
+  staging_git_versioning
     - Merging versioning seed into master.
 
   test
-    ..
+    - TODO: get python docutils (grunt exec and pip?) for testenv.
+    - Was building only this at travis, now building all branches. Need to fix --force tag though.
+
 
 .. [*] Current branch.
+
 
 
 Versions
 --------
 See changelog_.
+
 
 
 Misc.
@@ -363,12 +401,19 @@ See ToDo_ document.
 - :todo:`TODO add YAML, JSON validators. tv4, jsonary. Maybe test in another
   project first.`
 - TODO: site builds, packaging
+- TODO: JSON editor with backend, supporting schema and hyper-schema
+- Book `Understanding JSON Schema`_
+- Article `Elegant APIs with JSON Schema`_
+
+- http://asciidoctor.org/
+  AsciiDoc processor in Ruby? Maybe add a section of plain text markup formats.
 
 
 Sitefile planet
 ---------------
 .. include:: doc/sitefile-planet.rst
    :start-line: 3
+
 
 
 ----
@@ -382,12 +427,12 @@ Sitefile planet
 
 .. _jsonary: http://jsonary.com/
 .. _semver: https://github.com/npm/node-semver
+.. _json-editor: https://github.com/jdorn/json-editor
 .. _changelog: ./Changelog.rst
 .. _ToDo: ./TODO.md
 .. _examples: /example
-
-
+.. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
+.. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. This is a reStructuredText document.
 
-.. Id: node-sitefile/0.0.3-test ReadMe.rst
-
+.. Id: node-sitefile/0.0.4-master ReadMe.rst

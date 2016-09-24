@@ -19,11 +19,12 @@
   - Added TODO file. Looking if markdown is suitable format.
 
 0.0.3-dev
-  - Added versioning scripts. 
+  - Added versioning scripts.
 
 (0.0.4)
 
   - Testing project publishing scripts.
+  - Added graphviz.
   - Looking at jsonary.
   - Looking at polymer.
 

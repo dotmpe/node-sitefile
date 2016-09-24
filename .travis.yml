@@ -5,8 +5,10 @@ node_js:
   - "0.12"
 
 branches:
-  only:
-  - test
+  not:
+  - staging_git_versioning
+#  only:
+#  - test
 
 env:
 #  - NODE_ENV=

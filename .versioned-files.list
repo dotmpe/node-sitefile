@@ -1,8 +1,8 @@
 ReadMe.rst
+package.yaml
+Sitefile.yaml
 package.json
 bower.json
-Sitefile.yaml
-package.yaml
 lib/sitefile/sitefile.coffee
 Makefile
 configure
@@ -16,3 +16,4 @@ lib/sitefile/index.coffee
 example/server-generated-javascript.coffee
 example/server-generated-page.jade
 example/server-generated-stylesheet.styl
+tools/merge-upstream.sh

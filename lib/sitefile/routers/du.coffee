@@ -42,14 +42,10 @@ module.exports = ( ctx={} ) ->
         format: ctx.dest.format,
         docpath: docpath
 
-      # FIXME ctx.resolve 'sitefile.params.du'
       if ctx.sitefile.params and 'du' of ctx.sitefile.params
-        params = ctx.sitefile.params.du
+        params = ctx.resolve 'sitefile.params.du'
       else
         params = {}
-
-      if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
-        params.stylesheets = ( params.stylesheets || [] ).concat ctx.sitefile.defs.stylesheets
 
       try
         rst2html.lib.rst2html res, _.merge {}, params, req.query
