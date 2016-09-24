@@ -7,20 +7,22 @@
 # Id: node-sitefile/0.0.4-master
 sitefile: 0.0.4-master
 routes:
-  media: "static:public/media"
-  '': "redir:ReadMe"
-  index: "redir:ReadMe"
-  example/: "redir:example/main"
-  _rst2html: "rst2html:**/*.rst"
-  _jade: "jade:example/**/*.jade"
-  _stylus: "stylus:example/**/*.styl"
-  _coffee: "coffee:example/**/*.coffee"
-  _markdown: "markdown:*.md"
-  _markdown_1: "markdown:example/**/*.md"
-  _sh: "sh:**/*.sh"
-  components: "static:public/components"
-  example: "static:example"
-  Sitefile.yaml: "static:Sitefile.yaml"
+  media: static:public/media
+  scripts/default.js: static:scripts/default.js
+  '': redir:ReadMe
+  index: redir:ReadMe
+  #example: redir:example/main
+  example: static:example
+  _rst2html: rst2html:**/*.rst
+  _jade: jade:example/**/*.jade
+  _stylus: stylus:example/**/*.styl
+  _coffee: coffee:example/**/*.coffee
+  _markdown: markdown:*.md
+  _markdown_1: markdown:example/**/*.md
+  _sh: sh:example/*.sh
+  _gv: gv:example/*.gv
+  components: static:public/components
+  Sitefile.yaml: static:Sitefile.yaml
 
   _ditaa: "ditaa:**/*.ditaa"
   graph.png: "static:graph.png"
@@ -36,6 +38,8 @@ params:
   rst2html:
     flags:
     - "--no-toc-backlinks"
+    scripts:
+      - scripts/default.js
     stylesheets:
       $ref: '#/defs/stylesheets/default'
 

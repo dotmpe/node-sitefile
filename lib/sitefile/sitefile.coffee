@@ -348,7 +348,7 @@ warn = ->
 log = ->
   if module.exports.log_enabled
     v = Array.prototype.slice.call( arguments )
-    header = _.padLeft v.shift(), 21
+    header = _.padStart v.shift(), 21
     out = [ chalk.blue(header) + c.sc ]
     console.log.apply null, log_line( v, out )
 
