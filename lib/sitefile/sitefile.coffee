@@ -355,23 +355,26 @@ log = ->
 log_line = ( v, out=[] ) ->
   while v.length
     o = v.shift()
-    if _.isString o
-      if o.match /^[\<\>_:-]+$/
-        out.push chalk.grey o
-      else if o.match /[\<\>=_]+/
-        out.push chalk.magenta o
+    if o?
+      if _.isString o
+        if o.match /^[\<\>_:-]+$/
+          out.push chalk.grey o
+        else if o.match /[\<\>=_]+/
+          out.push chalk.magenta o
+        else
+          out.push o
+      else if o.path?
+        out.push chalk.green o.path
+      else if o.url?
+        out.push chalk.yellow o.url
+      else if o.name?
+        out.push chalk.cyan o.name
+      else if o.id?
+        out.push chalk.magenta o.id
       else
-        out.push o
-    else if o.path?
-      out.push chalk.green o.path
-    else if o.url?
-      out.push chalk.yellow o.url
-    else if o.name?
-      out.push chalk.cyan o.name
-    else if o.id?
-      out.push chalk.magenta o.id
+        throw new Error "log: unhandled " + JSON.stringify o
     else
-      throw new Error "log: unhandled " + JSON.stringify o
+      out.push JSON.stringify o
   out
 
 
