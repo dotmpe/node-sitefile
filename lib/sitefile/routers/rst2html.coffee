@@ -22,7 +22,7 @@ test_for_rst2html = ->
 
 add_script = ( rawhtml, javascript_url ) ->
 
-  sitefile.log "rst2html:addscript: "+javascript_url
+  sitefile.log "rst2html:addscript", javascript_url
   script_tag = '<script type="text/javascript" src="'+javascript_url+'" ></script>'
   rawhtml.replace '</head>', script_tag+' </head>'
 
@@ -92,6 +92,9 @@ module.exports = ( ctx={} ) ->
     docpath = path.join ctx.cwd, spec
 
     ( req, res, next ) ->
+
+      process.stdout.write "rst2html "+ docpath+ " handler call "
+
       req.query = _.defaults req.query || {},
         format: 'html'
         docpath: docpath
@@ -101,7 +104,7 @@ module.exports = ( ctx={} ) ->
       else
         params = {}
 
-      sitefile.log "rst2html", docpath
+      sitefile.warn "rst2html", docpath
 
       #if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
       #  params.stylesheets = ( params.stylesheets || [] ).concat ctx.sitefile.defs.stylesheets
@@ -123,6 +126,8 @@ module.exports = ( ctx={} ) ->
     base: ctx.base_url
     rst2html:
       get: (req, res, next) ->
+
+        #console.log "rst2html", docpath, " handler call", req.query
 
         req.query = _.defaults res.query || {}, format: 'xml'
 
