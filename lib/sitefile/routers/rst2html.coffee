@@ -42,7 +42,7 @@ rst2html = ( out, params={} ) ->
 
   cmdflags = rst2html_flags prm
 
-  cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
+  cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}.rst'"
 
   sitefile.log "Du", cmd
 

@@ -7,8 +7,8 @@ node_js:
 before_script:
 - echo PATH=$PATH
 - rst2html --version
-- alias rst2html.py=rst2html
-- rst2html.py --version
+- alias rst2html.py=rst2html && rst2html.py --version
+#- rst2html.py --version
 
 addons:
   apt:
