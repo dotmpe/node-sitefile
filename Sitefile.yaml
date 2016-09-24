@@ -8,9 +8,11 @@
 sitefile: 0.0.4-master
 routes:
   media: static:public/media
+  scripts/default.js: static:scripts/default.js
   '': redir:ReadMe
   index: redir:ReadMe
-  example: redir:example/main
+  #example: redir:example/main
+  example: static:example
   _rst2html: rst2html:**/*.rst
   _jade: jade:example/**/*.jade
   _stylus: stylus:example/**/*.styl
@@ -20,7 +22,6 @@ routes:
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
   components: static:public/components
-  example: static:example
   Sitefile.yaml: static:Sitefile.yaml
 
 port: 4321
@@ -33,6 +34,8 @@ params:
   rst2html:
     flags:
     - "--no-toc-backlinks"
+    scripts:
+      - scripts/default.js
     stylesheets:
       $ref: '#/defs/stylesheets/default'
 

@@ -20,6 +20,12 @@ test_for_rst2html = ->
   child_process.exec "which rst2html.py", ( err, stdo, stde ) ->
 
 
+add_script = ( rawhtml, javascript_url ) ->
+
+  script_tag = '<script type="text/javascript" src="'+javascript_url+'" ></script>'
+  rawhtml.replace '</head>', script_tag+' </head>'
+
+
 ###
 Take parameters
 Async rst2html writes to out or throws exception
@@ -31,6 +37,7 @@ rst2html = ( out, params={} ) ->
     docpath: 'index'
     link_stylesheet: false
     stylesheets: []
+    scripts: []
 
   cmdflags = rst2html_flags prm
 
@@ -56,6 +63,7 @@ rst2html = ( out, params={} ) ->
         out.write stdout
       else if prm.format == 'html'
         out.type 'html'
+        stdout = add_script(stdout, script) for script in prm.scripts
         out.write stdout
       else if prm.format == 'pseudoxml'
         out.type 'text/plain'
@@ -90,6 +98,12 @@ module.exports = ( ctx={} ) ->
         params = ctx.resolve 'sitefile.params.rst2html'
       else
         params = {}
+
+      #if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
+      #  params.stylesheets = ( params.stylesheets || [] ).concat ctx.sitefile.defs.stylesheets
+
+      #if ctx.sitefile.defs and 'scripts' of ctx.sitefile.defs
+      #  params.scripts = ( params.scripts || [] ).concat ctx..defs.scripts
 
       try
         rst2html res, _.merge {}, params, req.query
