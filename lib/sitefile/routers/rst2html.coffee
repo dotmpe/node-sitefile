@@ -64,6 +64,8 @@ rst2html = ( out, params={} ) ->
         out.write stdout
       else if prm.format == 'html'
         out.type 'html'
+        if not prm.scripts
+          prm.scripts = [ '/build/script/default.js' ]
         stdout = add_script(stdout, script) for script in prm.scripts
         out.write stdout
       else if prm.format == 'pseudoxml'
