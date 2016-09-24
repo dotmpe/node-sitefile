@@ -17,6 +17,8 @@ doubles is an example for all handlers. ", ->
 
     url = "http://localhost:#{server.port}/ReadMe"
     request.get url, ( err, res, body ) ->
+      if req.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
@@ -36,6 +38,8 @@ doubles is an example for all handlers. ", ->
 
     url = "http://localhost:#{server.port}/ChangeLog"
     request.get url, ( err, res, body ) ->
+      if req.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
@@ -45,6 +49,8 @@ doubles is an example for all handlers. ", ->
 
     url = "http://localhost:#{server.port}/example/server-generated-javascript"
     request.get url, ( err, res, body ) ->
+      if req.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
@@ -54,6 +60,8 @@ doubles is an example for all handlers. ", ->
 
     url = "http://localhost:#{server.port}/example/server-generated-page"
     request.get url, ( err, res, body ) ->
+      if req.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
@@ -63,6 +71,8 @@ doubles is an example for all handlers. ", ->
 
     url = "http://localhost:#{server.port}/example/server-generated-stylesheet"
     request.get url, ( err, res, body ) ->
+      if req.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
