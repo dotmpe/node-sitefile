@@ -44,7 +44,7 @@ rst2html = ( out, params={} ) ->
 
   cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
 
-  sitefile.log "Du", cmd, prm
+  sitefile.log "Du", cmd
 
   if prm.format == 'source'
     out.type 'text'
@@ -90,6 +90,7 @@ module.exports = ( ctx={} ) ->
 
   generate: ( spec, ctx ) ->
     docpath = path.join ctx.cwd, spec
+
     ( req, res, next ) ->
       req.query = _.defaults req.query || {},
         format: 'html'
@@ -99,6 +100,8 @@ module.exports = ( ctx={} ) ->
         params = ctx.resolve 'sitefile.params.rst2html'
       else
         params = {}
+
+      sitefile.log "rst2html", docpath
 
       #if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
       #  params.stylesheets = ( params.stylesheets || [] ).concat ctx.sitefile.defs.stylesheets
@@ -127,7 +130,7 @@ module.exports = ( ctx={} ) ->
           rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
         catch error
           console.trace error
-          console.log error.stack
+          lib.warn error.stack
           res.type 'text/plain'
           res.status 500
           res.write "exec error: #{error}"

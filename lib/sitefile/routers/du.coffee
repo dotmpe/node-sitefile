@@ -36,6 +36,8 @@ module.exports = ( ctx={} ) ->
       dest: format: 'html'
       src: format: 'rst'
 
+    console.log 'generate'
+
     docpath = path.join ctx.cwd, spec
     ( req, res, next ) ->
       req.query = _.defaults req.query || {},

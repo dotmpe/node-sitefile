@@ -387,5 +387,6 @@ module.exports = {
   load_rc: load_rc
   log_enabled: true
   log: log
+  warn: warn
 }
 

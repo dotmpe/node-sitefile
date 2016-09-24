@@ -22,9 +22,9 @@
   - Added versioning scripts.
 
 (0.0.4)
-
   - Testing project publishing scripts.
   - Added graphviz.
   - Looking at jsonary.
   - Looking at polymer.
+  - Added scripts param for rst2html.
 
