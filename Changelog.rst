@@ -13,7 +13,7 @@
   - Automatically loading required routers (based on sitefile) only.
   - Fancy colors for stdout.
   - JSON path dereferencing in Sitefile.
-  - Started Markdown, Jade, Stylus and Coffee-Script routers.
+  - Started Markdown, Jade (now Pug), Stylus and Coffee-Script routers.
   - Testing if docutils and other dependencies present,
     degrading functionality gracefully.
   - Added TODO file. Looking if markdown is suitable format.

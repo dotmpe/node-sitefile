@@ -17,7 +17,7 @@ module.exports = ( ctx={} ) ->
   #_.defaults ctx,
 
   name: 'pug'
-  label: 'Jade templates'
+  label: 'Pug templates'
   usage: """
     pug:**/*.pug
   """
@@ -28,7 +28,7 @@ module.exports = ( ctx={} ) ->
     fn = spec + '.pug'
 
     ( req, res ) ->
-      sitefile.log 'Jade compile', fn
+      sitefile.log 'Pug compile', fn
       tpl = pug.compileFile fn
       res.write tpl ctx
       res.end()
