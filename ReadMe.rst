@@ -328,11 +328,20 @@ Branch docs
 ------------
 
 master [*]_
-  - Basic functionality; rst2html, docutils.
+  - Basic functionality; static, redir routers.
+  - Document handlers: rst2html, docutils, markdown.
+  - Scripts: CoffeeScript, Shell.
+  - PNG Diagrams: Graphviz.
+  - CSS Stylesheets: Stylus.
+  - HTML/XML template expressions: Pug (formerly jade).
 
   f_odata
     - Exploring odata for server-side API for richer document/clients.
-      Would need something Express compatible.
+      Would need something Express compatible. But can create another server
+      and implement only some fancy redir router for sitefile.
+
+      First look at Loopback framework in `x-loopback`.
+      Keep focus for Sitefile dev. on client/middleware.
 
   f_client
     - Added Bower. Experimenting with polymer.
