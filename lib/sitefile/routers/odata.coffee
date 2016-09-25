@@ -17,7 +17,7 @@ module.exports = ( ctx={} ) ->
 
 
     ( req, res ) ->
-      res.write cc._compileFile fn
+      res.write odata._compileFile fn
       res.end()
 
 

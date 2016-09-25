@@ -328,11 +328,30 @@ Branch docs
 ------------
 
 master [*]_
-  - Basic functionality; rst2html, docutils.
+  - Basic functionality; static, redir routers.
+  - Document handlers: rst2html, docutils, markdown.
+  - Scripts: CoffeeScript, Shell.
+  - PNG Diagrams: Graphviz.
+  - CSS Stylesheets: Stylus.
+  - HTML/XML template expressions: Pug (formerly jade).
 
   f_odata
     - Exploring odata for server-side API for richer document/clients.
-      Would need something Express compatible.
+      Would need something Express compatible. But can create another server
+      and implement only some fancy redir router for sitefile.
+
+    odata-server
+      Define entity and set, like backbone, and serve. MongoDB or SQLite.
+      See example/odata. Mostly OData-2.0, some 3.0.
+
+    node-odata
+      Looks similar. OData-4.0. MongoDB only but other common systems planned
+      (0.7.12).
+
+    n-odata-server
+      Multiple backend, lightweight, nearly complete OData API (v2). JSON.
+      But for the lookback framework. Maybe a nice supplement to serve data
+      besides Sitefile service. Created `x-loopback` project
 
   f_client
     - Added Bower. Experimenting with polymer.
