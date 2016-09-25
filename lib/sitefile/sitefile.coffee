@@ -5,12 +5,16 @@ yaml = require 'js-yaml'
 _ = require 'lodash'
 chalk = require 'chalk'
 semver = require 'semver'
-Context = require '../context'
+nodelib = require 'nodelib'
 
+Context = nodelib.Context
 
+liberror = require '../error'
 libconf = require '../conf'
 
-version = '0.0.3'
+
+version = "0.0.4-dev+b2ef470" # node-sitefile
+
 
 c =
   sc: chalk.grey ':'
@@ -48,9 +52,13 @@ get_local_sitefile = ( ctx={} ) ->
   lfn = get_local_sitefile_name ctx
   sitefile = libconf.load_file lfn
 
-  if not semver.satisfies sitefile.sitefile, '<='+ctx.version
-    throw new Error "Version #{ctx.version} does not satisfy "+
-        "sitefile #{sitefile.sitefile}"
+  sf_version = sitefile.sitefile
+  if not semver.valid sf_version
+    throw new Error "Not valid semver: #{sf_version}"
+  if not ( semver.satisfies( ctx.version, sf_version ) or \
+      semver.gt( ctx.version, sf_version ) )
+    throw new Error "Version #{ctx.version} cannot satisfy "+
+        "sitefile #{sf_version}"
   # TODO: validate Sitefile schema
 
   sitefile.path = path.relative process.cwd(), lfn
@@ -67,7 +75,7 @@ load_sitefile = ( ctx ) ->
   log "Loaded", path: path.relative ctx.cwd, ctx.lfn
 
   # translate JSON path refs in sitefile to use global sitefile context
-  # ie. prefix path with sitefile
+  # ie. prefix path with 'sitefile/' so we can use context.resolve et al.
   xform = (result, value, key) ->
     if _.isArray value
       for item, index in value
@@ -82,9 +90,21 @@ load_sitefile = ( ctx ) ->
 
   _.transform ctx.sitefile, xform
 
+  if ctx.sitefile.host
+    ctx.host = ctx.sitefile.host
+
+  if ctx.sitefile.port
+    ctx.port = ctx.sitefile.port
+
 
 load_rc = ( ctx ) ->
-  ctx.static = libconf.load 'sitefilerc', suffixes: [ '' ], all: true
+  try
+    ctx.static = libconf.load 'sitefilerc', get: suffixes: [ '' ], all: true
+  catch error
+    if error instanceof liberror.types.NoFilesException
+      ctx.static = null
+    else
+      throw error
   ctx.static
 
 
@@ -98,6 +118,7 @@ load_config = ( ctx={} ) ->
     #  ctx.config_name = scriptconfig
   ctx.config_envs = require path.join ctx.noderoot, ctx.config_name
   ctx.config = ctx.config_envs[ctx.envname]
+  _.defaults ctx, ctx.config
   ctx.config
 
 
@@ -155,6 +176,8 @@ get_handler_gen = ( router_name, ctx={} ) ->
   # return route-handler generator
   router.generate
 
+try_builtin_handler_gen = ( router_name, ctx={} ) ->
+
 
 # load routers and parameters onto context
 load_routers = ( ctx ) ->
@@ -206,9 +229,10 @@ add_dir_redirs = ( dirs, app, ctx ) ->
       log "Dir", url: "#{url}/{->#{defleaf}}"
 
 
-
 # Apply routes in sitefile to Express
-apply_routes = ( sitefile, app, ctx={} ) ->
+apply_routes = ( sitefile, ctx={} ) ->
+
+  app = ctx.app
 
   _.defaults ctx, base: '/',
     dir: defaults: [ 'default', 'index', 'main' ]
@@ -230,48 +254,59 @@ apply_routes = ( sitefile, app, ctx={} ) ->
         log "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
 
-      if route.startsWith '$'
+      # process glob rule
+      if route.startsWith '_'
 
         handler = get_handler_gen router_name, ctx
 
-        log 'Dynamic', url: route, id: router_name, path: handler_spec
+        log 'Dynamic', url: route, '', id: router_name, '', path: handler_spec
 
         for name in glob.sync handler_spec
           extname = path.extname name
           basename = path.basename name, extname
           dirname = path.dirname name
           if dirname == '.'
-            url = '/' + basename # FIXME route.replace('$name')
+            url = ctx.base + basename
           else
-            url = "/#{dirname}/#{basename}" # FIXME route.replace('$name')
-            if not dirs.hasOwnProperty '/' + dirname
-              dirs[ '/'+dirname ] = [ basename ]
+            url = "#{ctx.base}#{dirname}/#{basename}"
+            if not dirs.hasOwnProperty ctx.base + dirname
+              dirs[ ctx.base+dirname ] = [ basename ]
             else
-              dirs[ '/'+dirname ].push basename
+              dirs[ ctx.base+dirname ].push basename
 
           log route, url: url, '=', path: name
           redir app, url+extname, url
           app.all url, handler '.'+url, ctx
 
+      # process parametrized rule
+      else if '$' in route
+        url = ctx.base + route.replace('$', ':')
+        log route, url: url
+        app.all url, handler '.'+url, ctx
+
       else
         # add route for single resource or redirection
         url = ctx.base + route
 
+        #if not try_builtin_handler_gen router_name, spec
+        #  null
+
         # static and redir are built-in
         if router_name == 'redir'
-          p = '/'+strspec.substr 6
+          p = ctx.base + strspec.substr 6
           redir app, url, p
           log '     *', url: url, '->', url: p
 
         else if router_name == 'static'
           p = path.join ctx.cwd, handler_spec
           app.use url, ctx.static_proto p
-          log 'Static', url: url, '=', path: p
+          log 'Static', url: url, '=', path: handler_spec
 
         else
           # use router to generate handler for resource
           handler = get_handler_gen router_name, ctx
-          log "Express All", id: router_name, path: handler_spec
+          log "Express All", url: url, '',
+            id: router_name, '', path: handler_spec
           app.all url, handler handler_spec, ctx
 
     # redirect dirs to default dir-index resource
@@ -311,31 +346,35 @@ warn = ->
   console.warn.apply null, log_line( v, out )
 
 log = ->
-  v = Array.prototype.slice.call( arguments )
-  header = _.padLeft v.shift(), 21
-  out = [ chalk.blue(header) + c.sc ]
-  console.log.apply null, log_line( v, out )
+  if module.exports.log_enabled
+    v = Array.prototype.slice.call( arguments )
+    header = _.padStart v.shift(), 21
+    out = [ chalk.blue(header) + c.sc ]
+    console.log.apply null, log_line( v, out )
 
 log_line = ( v, out=[] ) ->
   while v.length
     o = v.shift()
-    if _.isString o
-      if o.match /^[\<\>_:-]+$/
-        out.push chalk.grey o
-      else if o.match /[\<\>=_]+/
-        out.push chalk.magenta o
+    if o?
+      if _.isString o
+        if o.match /^[\<\>_:-]+$/
+          out.push chalk.grey o
+        else if o.match /[\<\>=_]+/
+          out.push chalk.magenta o
+        else
+          out.push o
+      else if o.path?
+        out.push chalk.green o.path
+      else if o.url?
+        out.push chalk.yellow o.url
+      else if o.name?
+        out.push chalk.cyan o.name
+      else if o.id?
+        out.push chalk.magenta o.id
       else
-        out.push o
-    else if o.path
-      out.push chalk.green o.path
-    else if o.url
-      out.push chalk.yellow o.url
-    else if o.name
-      out.push chalk.cyan o.name
-    else if o.id
-      out.push chalk.magenta o.id
+        throw new Error "log: unhandled " + JSON.stringify o
     else
-      throw new Error "log: unhandled " + JSON.stringify o
+      out.push JSON.stringify o
   out
 
 
@@ -349,6 +388,8 @@ module.exports = {
   reload_on_change: reload_on_change
   load_routers: load_routers
   load_rc: load_rc
+  log_enabled: true
   log: log
+  warn: warn
 }
 

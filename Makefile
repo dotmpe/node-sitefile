@@ -1,71 +1,94 @@
-# special rule targets
-STRGTS := \
-   default \
-   info \
-   lint \
-   test \
-   build \
-   install \
-   update \
-   global \
-   publish
+BUILD               := .build/
+DIR                 := $(CURDIR)
+BASE                := $(shell cd $(DIR);pwd)
 
-.PHONY: $(STRGTS)
+HOST                := $(shell hostname|tr '.' '-')
 
-empty :=
-space := $(empty) $(empty)
-default:
-	@echo 'usage:'
-	@echo '# npm [info|update|test]'
-	@echo '# grunt [lint|..]'
-	@echo '# make [$(subst $(space),|,$(STRGTS))]'
+APP_ID              := 
+VERSION              = 0.0.4-dev+b2ef470# node-sitefile
 
-install:
-	npm install
-	bower install
-	make test
+# See GIT versioning project for more complete APP_ID heuristic
+ifneq ($(wildcard package.yml package.yaml),)
+APP_ID := $(shell grep '^main: ' $(wildcard package.yml package.yaml) | sed 's/^main: //' )
+endif
+ifeq ($(APP_ID),)
+APP_ID := $(notdir $(BASE))
+endif
 
-lint:
-	grunt lint
+# BSD weirdness
+echo = /bin/echo
 
-# FIXME jasmine from grunt?
-test:
-	NODE_ENV=development coffee test/runner.coffee
+#      ------------ --
 
-update:
-	npm update
-	bower update
+## Make internals
 
-global:
-	npm install -g
+# make include search path
+VPATH              := . /
 
-info:
-	npm run srctree
-	npm run srcloc
+# make shell
+SHELL              := /bin/bash
 
-build: TODO.list
+# reset file extensions
+# xxx for imlicit rules?
+.SUFFIXES:
+#.SUFFIXES:         .rst .js .xhtml .mk .tex .pdf .list
+.SUFFIXES: .rst .mk
 
-TODO.list: Makefile bin config public lib test ReadMe.rst Gruntfile.js Sitefile.yaml
-	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@
+#      ------------ --
 
+## Local setup
 
-VERSION :=
+# name default target
+default::
 
-publish: DRY := yes
-publish:
-	@[ -z "$(VERSION)" ] && exit 1 || echo Publishing $(VERSION)
-	grep version..$(VERSION) ReadMe.rst
-	@./check.coffee $(VERSION)
-	grep '^$(VERSION)' Changelog.rst
-	git push
-	@if [ $(DRY) = 'no' ]; \
-	then \
-		git tag v$(VERSION)
-		git push fury master; \
-		npm publish --tag $(VERSION); \
-		npm publish; \
-	else \
-		echo "*DRY* $(VERSION)"; \
-	fi
+# global path/file lists
+SRC                :=
+DMK                :=
+#already setMK                 :=
+DEP                :=
+TRGT               :=
+STRGT              := default stat build install clean info
+CLN                :=
+TEST               :=
+INSTALL            :=
 
+relative = $(patsubst $(BASE)%,$(APP_ID):%,$1)
+where-am-i = $(call relative,$(lastword $(MAKEFILE_LIST)))
+
+# rules: return Rules files for each directory in $1
+rules = $(foreach D,$1,\
+	$(wildcard \
+		$DRules.mk $D.Rules.mk \
+		$DRules.$(APP_ID).mk $D.Rules.$(APP_ID).mk \
+		$DRules.$(HOST).mk $D.Rules.$(HOST).mk))
+
+# Include local rules
+#
+include                $(call rules,$(DIR)/)
+
+# pseudo targets are not files, don't check with OS
+.PHONY: $(STRGT)
+
+#      ------------ --
+
+## Main rules/deps
+
+default:: $(DMK) $(DEP)
+default:: $(DEFAULT)
+
+stat:: $(SRC)
+
+build:: $(TRGT)
+
+install:: $(INSTALL)
+
+test:: $(TEST)
+
+clean:: .
+	rm -rf $(CLN)
+
+info::
+	@echo "Id: $(APP_ID)/$(VERSION)"
+	@echo "Name: $(APP_ID)"
+	@echo "Version: $(VERSION)"
 

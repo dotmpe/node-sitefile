@@ -41,8 +41,13 @@ module.exports = ( ctx={} ) ->
       req.query = _.defaults req.query || {},
         format: ctx.dest.format,
         docpath: docpath
+
+      if ctx.sitefile.params and 'du' of ctx.sitefile.params
+        params = ctx.resolve 'sitefile.params.du'
+      else
+        params = {}
+
       try
-        params = ctx.resolve 'sitefile.params.rst2html'
         rst2html.lib.rst2html res, _.merge {}, params, req.query
       catch error
         console.log error

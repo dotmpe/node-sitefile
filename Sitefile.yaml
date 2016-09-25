@@ -1,40 +1,63 @@
+#!/usr/bin/env sitefile
+#
 # Sitefile for node-sitefile document server
-sitefile: 0.0.3
+# A note of caution: this example config does shameless things like executing any shell
+# script if you want to, like call http://localhost/clean.sh. Ymmv. 
+#
+# Id: node-sitefile/0.0.4-dev+b2ef470
+sitefile: 0.0.4-dev+b2ef470
 routes:
   media: static:public/media
+  scripts/default.js: static:scripts/default.js
   '': redir:ReadMe
   index: redir:ReadMe
-  example: redir:example/main
-  $rst2html: rst2html:**/*.rst
-  $jade: jade:example/**/*.jade
-  $stylus: stylus:example/**/*.styl
-  $coffee: coffee:example/**/*.coffee
-  $markdown: markdown:*.md
-  $markdown_1: markdown:example/**/*.md
-  components: static:bower_components
+  #example: redir:example/main
+  example: static:example
+  _rst2html: rst2html:**/*.rst
+  _pug: pug:example/**/*.pug
+  _stylus: stylus:example/**/*.styl
+  _coffee: coffee:example/**/*.coffee
+  _markdown: markdown:*.md
+  _markdown_1: markdown:example/**/*.md
+  _sh: sh:example/*.sh
+  _gv: gv:example/*.gv
+  components: static:public/components
+  Sitefile.yaml: static:Sitefile.yaml
+
+port: 4321
 
 #  todo: 'todo-app:TODO.list'
 params:
-  rst2html:
+  du:
     stylesheets:
-#      $ref: '#/defs/stylesheets/default'
+      $ref: '#/defs/stylesheets/default'
+  rst2html:
+    flags:
+    - "--no-toc-backlinks"
+    scripts:
+      - scripts/default.js
+    stylesheets:
+      $ref: '#/defs/stylesheets/default'
 
 defs:
   stylesheets:
     default:
       - public/media/style/default.css
 
-      - ~/htdocs/media/style/default.css
+      #- /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
+      #- /srv/project-mpe/docutils-ext/var/media/style/docutils.css
+      
+      #- ~/htdocs/media/style/default.css
       #- media/style/docutils.css
       #- media/style/docutils-html.css
-      - /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
-      - /srv/project-mpe/docutils-ext/var/media/style/docutils.css
+      #
       #- /media/style/html.css
-      - ~/htdocs/media/style/dotmpe-com/olddefault.css
-      - ~/htdocs/media/style/dotmpe-com/style.css
+      #- ~/htdocs/media/style/dotmpe-com/olddefault.css
+      #- ~/htdocs/media/style/dotmpe-com/style.css
 
-      - ~/htdocs/media/style/dotmpe-com/docutils-layout.css
-      - ~/htdocs/media/style/dotmpe-com/dotmpe.css
-      - ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
+      #- ~/htdocs/media/style/dotmpe-com/docutils-layout.css
+      #- ~/htdocs/media/style/dotmpe-com/dotmpe.css
+      #- ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
+
 
 
