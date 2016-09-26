@@ -4,8 +4,8 @@
 # A note of caution: this example config does shameless things like executing any shell
 # script if you want to, like call http://localhost/clean.sh. Ymmv. 
 #
-# Id: node-sitefile/0.0.4-dev+b2ef470
-sitefile: 0.0.4-dev+b2ef470
+# Id: node-sitefile/0.0.4-dev-fdata+b2ef470
+sitefile: 0.0.4-dev-fdata
 routes:
   media: static:public/media
   scripts/default.js: static:scripts/default.js
@@ -58,6 +58,4 @@ defs:
       #- ~/htdocs/media/style/dotmpe-com/docutils-layout.css
       #- ~/htdocs/media/style/dotmpe-com/dotmpe.css
       #- ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
-
-
 

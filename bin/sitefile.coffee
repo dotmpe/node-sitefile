@@ -70,5 +70,5 @@ else if process.argv[2] in [ '--version', '--help' ]
 #  process.exit(1)
 
 
-# Id: node-sitefile/0.0.4-dev+b2ef470 bin/sitefile.coffee
+# Id: node-sitefile/0.0.4-dev-fdata bin/sitefile.coffee
 # vim:ft=coffee:

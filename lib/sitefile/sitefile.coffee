@@ -13,7 +13,7 @@ liberror = require '../error'
 libconf = require '../conf'
 
 
-version = "0.0.4-dev+b2ef470" # node-sitefile
+version = "0.0.4-dev-fdata" # node-sitefile
 
 
 c =
