@@ -22,6 +22,7 @@ test_for_rst2html = ->
 
 add_script = ( rawhtml, javascript_url ) ->
 
+  sitefile.log "rst2html:addscript", javascript_url
   script_tag = '<script type="text/javascript" src="'+javascript_url+'" ></script>'
   rawhtml.replace '</head>', script_tag+' </head>'
 
@@ -41,7 +42,7 @@ rst2html = ( out, params={} ) ->
 
   cmdflags = rst2html_flags prm
 
-  cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
+  cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}.rst'"
 
   sitefile.log "Du", cmd
 
@@ -63,6 +64,8 @@ rst2html = ( out, params={} ) ->
         out.write stdout
       else if prm.format == 'html'
         out.type 'html'
+        if not prm.scripts
+          prm.scripts = [ '/build/script/default.js' ]
         stdout = add_script(stdout, script) for script in prm.scripts
         out.write stdout
       else if prm.format == 'pseudoxml'
@@ -89,7 +92,11 @@ module.exports = ( ctx={} ) ->
 
   generate: ( spec, ctx ) ->
     docpath = path.join ctx.cwd, spec
+
     ( req, res, next ) ->
+
+      # XXX: process.stdout.write "rst2html "+ docpath+ " handler call "
+
       req.query = _.defaults req.query || {},
         format: 'html'
         docpath: docpath
@@ -126,7 +133,7 @@ module.exports = ( ctx={} ) ->
           rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
         catch error
           console.trace error
-          console.log error.stack
+          lib.warn error.stack
           res.type 'text/plain'
           res.status 500
           res.write "exec error: #{error}"

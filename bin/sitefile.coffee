@@ -39,13 +39,13 @@ module.exports =
     ctx = module.exports.init()
 
     # serve forever
+    console.log "Starting server at localhost:#{ctx.port}"
     if ctx.host
       proc = ctx.server.listen ctx.port, ctx.host, ->
         lib.log "Listening", "Express server on port #{ctx.port}. "
     else
       proc = ctx.server.listen ctx.port, ->
         lib.log "Listening", "Express server on port #{ctx.port}. "
-    console.log "Starting server at localhost:#{ctx.port}"
 
     module.exports.host = ctx.host
     module.exports.port = ctx.port
@@ -59,6 +59,16 @@ if process.argv.join(' ') == 'coffee '+require.resolve './sitefile.coffee'
 
   module.exports.run()
 
+else if process.argv[2] in [ '--version', '--help' ]
+ 
+  console.log "sitefile/"+lib.version
 
-# Id: node-sitefile/0.0.4-master bin/sitefile.coffee
+# TODO: detect execute or (test-mode) include
+#else
+#  
+#  lib.warn "Invalid argument:", process.argv[2]
+#  process.exit(1)
+
+
+# Id: node-sitefile/0.0.4-dev+b2ef470 bin/sitefile.coffee
 # vim:ft=coffee:

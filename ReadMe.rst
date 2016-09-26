@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.0.4-master
+:Version: 0.0.4-dev+b2ef470
 :Status: Development
 :package: Changelog_
 
@@ -36,10 +36,10 @@ Node Sitefile
 Sitefile enables an Express server to be quickly set up from a single configuration file called the Sitefile.
 The sitefile mainly consists of a mapping of file paths or patterns that are mapped to different types of router handlers.
 
-Primarily it was written to serve reStructuredText as HTML, but has Jade,
+Primarily it was written to serve reStructuredText as HTML, but has Pug,
 Stylus, Markdown and Coffee-script handlers too. In its current state it is usable
 as a really simple HTTP server to use for example to read documentation of a project.
-Maybe as a sketchpad for Jade, Stylus and Coffee-Script experiments.
+Maybe as a sketchpad for Pug, Stylus and Coffee-Script experiments.
 
 Focus for upcoming features in on microformats to tie things together and enable
 richer presentation while keeping appropiatly simple plain text file-based content.
@@ -69,7 +69,7 @@ Alternative solutions are explored in `Sitefile planet`_ section.
 
 Plan
 ----
-There are many possible useful directions:
+There are many possibly useful directions:
 
 - provide an in-browser IDE experience, possibly enabling Makefiles and other
   buildformats. Excuberant CTags.
@@ -218,7 +218,7 @@ exists::
 
   _markdown: markdown:*.md
 
-  _jade: jade:example/**/*.jade
+  _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
   _coffee: coffee:example/**/*.coffee
   _markdown_1: markdown:example/**/*.md
@@ -288,7 +288,7 @@ Currently the following routers are provided:
 - ``rst2html``: reStructuredText documents (depends on Python docutils)
 - ``du``: a new version of rst2html with support for globs and
   TODO: all docutils output formats (pxml, xml, latex, s5, html)
-- ``jade``:
+- ``pug``:
 - ``coffee``:
 - ``stylus``:
 - ``static`` use expres.static to serve instance(s) from path/glob spec
@@ -328,11 +328,23 @@ Branch docs
 ------------
 
 master [*]_
-  - Basic functionality; rst2html, docutils.
+  - Basic functionality; static, redir routers.
+  - Document handlers: rst2html, docutils, markdown.
+  - Scripts: CoffeeScript, Shell.
+  - PNG Diagrams: Graphviz.
+  - CSS Stylesheets: Stylus.
+  - HTML/XML template expressions: Pug (formerly Jade).
 
   f_odata
     - Exploring odata for server-side API for richer document/clients.
-      Would need something Express compatible.
+      Would need something Express compatible. But can create another server
+      and implement only some fancy redir router for sitefile.
+
+      First look at Loopback framework in `x-loopback`.
+      Keep focus for Sitefile dev. on client/middleware.
+
+    n-odata-server
+      See `x-loopback` project
 
   f_client
     - Added Bower. Experimenting with polymer.
@@ -387,10 +399,11 @@ See changelog_.
 
 Misc.
 ------
-See ToDo_ document.
 
-- TODO: browser reset styles, some simple local Du/rSt styles in Stylus.
-- :todo:`maybe implement simple TODO app as a feature branch somday`
+- TODO: components, should want to deal with optional deps. iso. req'ments.
+- TODO: browser reset styles, some simple local Du/rSt styles in e.g. Stylus
+- TODO: maybe implement simple TODO app as a feature branch someday.
+
 - https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
 - :todo:`add express functions again:`
     | "connect-flash": "latest",
@@ -398,15 +411,24 @@ See ToDo_ document.
     | "node-uuid": "^1.4.3",
     | "notifier": "latest"
 
-- :todo:`TODO add YAML, JSON validators. tv4, jsonary. Maybe test in another
-  project first.`
-- TODO: site builds, packaging
-- TODO: JSON editor with backend, supporting schema and hyper-schema
-- Book `Understanding JSON Schema`_
-- Article `Elegant APIs with JSON Schema`_
-
 - http://asciidoctor.org/
   AsciiDoc processor in Ruby? Maybe add a section of plain text markup formats.
+- TODO: site builds, packaging
+
+Data
+  See also x-loopback. Maybe keep al backend/auth/data-proxy-middleware out
+  of Sitefile. Express is better for other middleware.
+  Maybe some simple
+  standardized data API, ie. the odata for the TODO app.
+
+  But need bigger toolkit too:
+
+  - TODO: YAML, JSON validation. Schema viewing. tv4, jsonary.
+  - TODO: JSON editor, backends, schema and hyper-schema
+  - Book `Understanding JSON Schema`_
+  - Article `Elegant APIs with JSON Schema`_
+
+See also ToDo_ document. TODO: cleanup and standardize to ttxt.
 
 
 Sitefile planet
@@ -435,5 +457,4 @@ Sitefile planet
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. This is a reStructuredText document.
 
-.. Id: node-sitefile/0.0.4-master ReadMe.rst
-
+.. Id: node-sitefile/0.0.4-dev+b2ef470 ReadMe.rst
