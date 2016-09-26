@@ -343,6 +343,9 @@ master [*]_
       First look at Loopback framework in `x-loopback`.
       Keep focus for Sitefile dev. on client/middleware.
 
+    n-odata-server
+      See `x-loopback` project
+
   f_client
     - Added Bower. Experimenting with polymer.
     - Want to get Polymer core-scaffold running somehow.
