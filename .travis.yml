@@ -4,12 +4,23 @@ language: node_js
 node_js:
   - "0.12"
 
-#branches:
+before_script:
+- test -x "$(which rst2html)" || { mkdir ~/bin && cd ~/bin && ln -s $(which rst2html.py) rst2html; }
+- rst2html --version
+
+addons:
+  apt:
+    packages:
+      - python-docutils
+
+branches:
+  not:
+  - staging_git_versioning
 #  only:
 #  - test
 
 env:
 #  - NODE_ENV=
-  - NODE_ENV=testing
+  - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin$PATH
 #  - NODE_ENV=production
 
