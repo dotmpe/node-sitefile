@@ -373,7 +373,7 @@ master [*]_
   f_bootstrap
     - Added bower things for bootstrap, testing with server-side Jade pages.
 
-  f_gv
+  f_gv (merged)
     - Adding graphviz to render dot diagrams.
 
   demo

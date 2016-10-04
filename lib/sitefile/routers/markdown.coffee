@@ -15,9 +15,7 @@ module.exports = ( ctx={} ) ->
     markdown:**/*.md
   """
 
-  generate: ( spec, ctx={} ) ->
-
-    fn = spec + '.md'
+  generate: ( fn, ctx={} ) ->
 
     ( req, res ) ->
       sitefile.log 'Markdown publish', fn
