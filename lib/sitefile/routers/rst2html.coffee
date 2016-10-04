@@ -42,6 +42,14 @@ defaults =
     # html params:
     link_stylesheet: false
     stylesheets: []
+    scripts: []
+
+add_script = ( rawhtml, javascript_url ) ->
+
+  sitefile.log "rst2html:addscript", javascript_url
+  script_tag = '<script type="text/javascript" src="'+javascript_url+'" ></script>'
+  rawhtml.replace '</head>', script_tag+' </head>'
+
 
 ###
 Take parameters
@@ -51,7 +59,7 @@ rst2html = ( out, params={} ) ->
 
   prm = _.defaults params, defaults.rst2html
   cmdflags = rst2html_flags prm
-  cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
+  cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}.rst'"
 
   sitefile.log "Du", cmd
 
@@ -72,6 +80,9 @@ rst2html = ( out, params={} ) ->
         out.write stdout
       else if prm.format == 'html'
         out.type 'html'
+        if not prm.scripts
+          prm.scripts = [ '/build/script/default.js' ]
+        stdout = add_script(stdout, script) for script in prm.scripts
         out.write stdout
       else if prm.format == 'pseudoxml'
         out.type 'text/plain'
@@ -97,7 +108,11 @@ module.exports = ( ctx={} ) ->
 
   generate: ( spec, ctx ) ->
     docpath = path.join ctx.cwd, spec
+
     ( req, res, next ) ->
+
+      # XXX: process.stdout.write "rst2html "+ docpath+ " handler call "
+
       req.query = _.defaults req.query || {},
         format: 'html'
         docpath: docpath
@@ -106,6 +121,12 @@ module.exports = ( ctx={} ) ->
         params = ctx.resolve 'sitefile.params.rst2html'
       else
         params = {}
+
+      #if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
+      #  params.stylesheets = ( params.stylesheets || [] ).concat ctx.sitefile.defs.stylesheets
+
+      #if ctx.sitefile.defs and 'scripts' of ctx.sitefile.defs
+      #  params.scripts = ( params.scripts || [] ).concat ctx..defs.scripts
 
       try
         rst2html res, _.merge {}, params, req.query
@@ -128,7 +149,7 @@ module.exports = ( ctx={} ) ->
           rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
         catch error
           console.trace error
-          console.log error.stack
+          lib.warn error.stack
           res.type 'text/plain'
           res.status 500
           res.write "exec error: #{error}"

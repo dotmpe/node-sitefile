@@ -1,7 +1,7 @@
 Examples
 ========
 
-- [ Server generated page ](./server-generated-page) - [(jade)](./server-generated-page.jade)
+- [ Server generated page ](./server-generated-page) - [(pug)](./server-generated-page.pug)
 - [ Server generated stylesheet ](./server-generated-stylesheet) - [(stylus)](./server-generated-stylesheet.styl)
 - [ Server generated script ](./server-generated-javascript) - [(coffee-script)](./server-generated-javascript.coffee)
 
