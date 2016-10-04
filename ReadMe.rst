@@ -198,10 +198,7 @@ Supported Sitefile extensions/formats:
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> f_bootstrap
 Examples
 --------
 This section works with the handlers from the `Sitefile for this project <./Sitefile.yaml>`_.
@@ -351,11 +348,8 @@ master [*]_
 
   f_client
     - Added Bower. Experimenting with polymer.
-<<<<<<< HEAD
     - Want to get Polymer core-scaffold running somehow.
-=======
     - Want to get core-scaffold running. Need to look at router maybe.
->>>>>>> f_client
       See examples_ and `Polymer Getting started <doc/polymer>`_.
     - `Testing prism.js </src/example/polymer-custom>`_  but does not seem to be working correctly.
 
@@ -467,16 +461,8 @@ Sitefile planet
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. This is a reStructuredText document.
 
-<<<<<<< HEAD
-.. Id: node-sitefile/0.0.4-demo+20151116-0604 ReadMe.rst
-=======
 
 
 .. This is a reStructuredText document.
 
-.. Id: node-sitefile/0.0.4-f-client ReadMe.rst
->>>>>>> f_client
-
-=======
 .. Id: node-sitefile/0.0.4-dev+b2ef470 ReadMe.rst
->>>>>>> f_bootstrap
