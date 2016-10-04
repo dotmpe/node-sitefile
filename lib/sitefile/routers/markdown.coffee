@@ -1,6 +1,7 @@
 _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
+sitefile = require '../sitefile'
 
 md = require( 'markdown' ).markdown
 
@@ -19,6 +20,7 @@ module.exports = ( ctx={} ) ->
     fn = spec + '.md'
 
     ( req, res ) ->
+      sitefile.log 'Markdown publish', fn
       data = fs.readFileSync fn
       doc = md.toHTML data.toString()
       res.write doc

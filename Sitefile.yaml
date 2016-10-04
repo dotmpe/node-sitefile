@@ -1,27 +1,31 @@
 #!/usr/bin/env sitefile
+#
 # Sitefile for node-sitefile document server
-# Id: node-sitefile/0.0.3-jsonary
-sitefile: 0.0.3-jsonary
+# A note of caution: this example config does shameless things like executing any shell
+# script if you want to, like call http://localhost/clean.sh. Ymmv. 
+#
+# Id: node-sitefile/0.0.4-dev+b2ef470
+sitefile: 0.0.4-dev+b2ef470
 routes:
   media: static:public/media
+  scripts/default.js: static:scripts/default.js
   '': redir:ReadMe
   index: redir:ReadMe
-  example: redir:example/main
+  #example: redir:example/main
+  example: static:example
   _rst2html: rst2html:**/*.rst
-  _jade: jade:example/**/*.jade
+  _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
-  _sh: sh:**/*.sh
 
   components: static:public/components
   'components/jsonary/test': redir:components/jsonary/test/index
   'components/jsonary/test/index': static:public/components/jsonary/test/index.html
+  Sitefile.yaml: static:Sitefile.yaml
 
   jsonary_test: jsonary:test
-  example: static:example
-  Sitefile.yaml: static:Sitefile.yaml
 
   jsonary: redir:example/jsonary
 
@@ -30,6 +34,12 @@ routes:
 
   api/elegant/: jsonary-rest-api:example/jsonary-rest-api/elegant
 
+  _sh: sh:example/*.sh
+  _gv: gv:example/*.gv
+
+port: 4321
+
+#  todo: 'todo-app:TODO.list'
 params:
   du:
     stylesheets:
@@ -37,6 +47,8 @@ params:
   rst2html:
     flags:
     - "--no-toc-backlinks"
+    scripts:
+      - scripts/default.js
     stylesheets:
       $ref: '#/defs/stylesheets/default'
 
@@ -45,11 +57,13 @@ defs:
     default:
       - public/media/style/default.css
 
+      #- /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
+      #- /srv/project-mpe/docutils-ext/var/media/style/docutils.css
+      
       #- ~/htdocs/media/style/default.css
       #- media/style/docutils.css
       #- media/style/docutils-html.css
-      - /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
-      - /srv/project-mpe/docutils-ext/var/media/style/docutils.css
+      #
       #- /media/style/html.css
       #- ~/htdocs/media/style/dotmpe-com/olddefault.css
       #- ~/htdocs/media/style/dotmpe-com/style.css

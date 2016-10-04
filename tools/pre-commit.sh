@@ -42,7 +42,7 @@ case $V_STATUS in
 
   dev* )
     echo "Setting dev and snapshot tags.."
-    tag="dev-"$(git status | grep 'On branch' | awk '{print $3}');
+    tag="dev-"$(git status | grep 'On branch' | awk '{print $3}' | tr '_' '-');
     _1=$(release "$tag")
     _2=$(cmd_snapshot)
     echo "Checking files.."

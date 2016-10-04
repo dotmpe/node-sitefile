@@ -3,6 +3,7 @@
 _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
+sitefile = require '../sitefile'
 
 cc = require 'coffee-script'
 
@@ -24,6 +25,7 @@ module.exports = ( ctx={} ) ->
     fn = spec + '.coffee'
 
     ( req, res ) ->
+      sitefile.log 'Coffe-Script compile', fn
       res.write cc._compileFile fn
       res.end()
 

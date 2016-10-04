@@ -1,6 +1,7 @@
 ###
 ###
 fs = require 'fs'
+sitefile = require '../sitefile'
 
 
 # Given sitefile-context, export metadata for stylus: handler
@@ -21,6 +22,7 @@ module.exports = ( ctx={} ) ->
   generate: ( spec, ctx={} ) ->
     fn = spec + '.styl'
     ( req, res ) ->
+      sitefile.log "Stylus compile", fn
       data = fs.readFileSync fn
       res.write stylus.render data.toString()
       res.end()
