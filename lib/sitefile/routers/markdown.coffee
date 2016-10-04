@@ -6,7 +6,7 @@ sitefile = require '../sitefile'
 md = require( 'markdown' ).markdown
 
 
-# Given sitefile-context, export metadata for markdown: handlers
+# Given sitefile-context, export metadata for markdown: handler
 module.exports = ( ctx={} ) ->
 
   name: 'markdown'

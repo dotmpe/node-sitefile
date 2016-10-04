@@ -1,0 +1,104 @@
+{
+  "$schema": "http://dotmpe.com/sitefile-jsonary-rest-api",
+  "id": "http://dotmpe.com/sitefile-jsonary-rest-api#",
+  "title": "Example bookmark API with Sitefile+Jsonary",
+
+  "definitions": {
+
+    "resource": {
+      "properties": {
+        "links": {
+          "items": {
+            "$ref": "#/definitions/link"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "link": {
+      "required": [ "href", "method", "rel", "targetSchema" ],
+      "type": "object"
+    },
+
+    "bookmark": {
+      "properties": {
+        "href": {
+          "$ref": "#/definitions/href"
+        },
+        "description": {
+          "$ref": "#/definitions/description"
+        },
+        "extended": {
+          "$ref": "#/definitions/extended"
+        },
+        "tags": {
+          "$ref": "#/definitions/tags"
+        }
+      }
+    },
+    "href": {
+      //"pattern": "^[a-z][a-z0-9-]://.*$",
+      "format": "uri",
+      "type": "string",
+      "description": "Absolute URL. "
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "extended": {
+      "type": "string",
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/tag"
+      }
+    },
+    "tag": {
+      "type": "string",
+      "pattern": "[A-Za-z0-9:\\._-]+",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "required": ["href"],
+  },
+
+  "links": [
+    {
+      "description": "Create a new bookmark.",
+      "href": "bookmarks",
+      "method": "POST",
+      "rel": "create",
+      "title": "Create"
+    },
+    {
+      "description": "Update a bookmark.",
+      "href": "bookmarks",
+      "method": "PUT",
+      "rel": "update",
+      "title": "Edit"
+    },
+    {
+      "description": "List bookmarks",
+      "href": "bookmarks",
+      "method": "GET",
+      "rel": "instances",
+      "title": "List"
+    }
+  ],
+
+  "properties": {
+    "bookmark": {
+      "$ref": "#/definitions/bookmark"
+    },
+    "definitions": {
+      "additionalProperties": {
+        "$ref": "#/definitions/resource"
+      }
+    }
+  },
+
+  "type": "object"
+}

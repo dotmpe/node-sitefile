@@ -24,7 +24,10 @@ routes:
   'src/*': 'prism:'
 
   _sh: sh:**/*.sh
+
   components: static:public/components
+  'components/jsonary/test': redir:components/jsonary/test/index
+  'components/jsonary/test/index': static:public/components/jsonary/test/index.html
   Sitefile.yaml: static:Sitefile.yaml
 
   example/polymer-app-router: static:example/polymer-app-router.html
@@ -38,6 +41,16 @@ routes:
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
 
   _json-editor: json-editor:example/json-editor/schema/*.json
+
+  jsonary_test: jsonary:test
+
+  jsonary: redir:example/jsonary
+
+  api: jsonary-rest-api:example/jsonary-rest-api/bookmarks
+  api/$action: jsonary-rest-api:example/jsonary-rest-api/bookmarks
+
+  api/elegant/: jsonary-rest-api:example/jsonary-rest-api/elegant
+
 
 port: 4321
 
