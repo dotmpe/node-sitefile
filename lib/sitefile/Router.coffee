@@ -25,11 +25,27 @@ Base =
   label: 'Express-Sitefile resource publisher'
   usage: """
   
+    Static path
+      /path: <router[.handler-generator]>:<handler-spec>
+
     Leading underscore
       _route_id: <router[.handler-generator]>:<handler-spec>
   
-  TODO: maybe, later.. Dollar path.
+  TODO: maybe, later:
+  
+    Dollar path.
       /data/$record: <router[.handler-generator]>:<handler-spec>
+
+    Prefix path
+      /prefix$: <router[.handler-generator]>:<handler-spec>
+
+  
+  Also: handler-spec vs. glob-spec. Routers should parse own args.
+
+  Router.Base provide some standard resolvers:
+
+  - path/to/file-name.ext1.ext2
+  - path/to/dir
 
   """
 
