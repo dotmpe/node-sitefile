@@ -7,6 +7,7 @@
 # Id: node-sitefile/0.0.4-dev+b2ef470
 sitefile: 0.0.4-dev+b2ef470
 routes:
+  # FIXME: prefix mapping
   media: static:public/media
   scripts/default.js: static:scripts/default.js
   '': redir:ReadMe
@@ -30,7 +31,7 @@ routes:
 
   Sitefile.yaml: static:Sitefile.yaml
 
-port: 4321
+port: 4325
 
 #  todo: 'todo-app:TODO.list'
 params:

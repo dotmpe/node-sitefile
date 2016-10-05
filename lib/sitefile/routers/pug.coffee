@@ -23,9 +23,7 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( spec, ctx={} ) ->
-
-    fn = spec + '.pug'
+  generate: ( fn, ctx={} ) ->
 
     ( req, res ) ->
       sitefile.log 'Pug compile', fn
