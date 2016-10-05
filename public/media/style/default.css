@@ -1,1 +1,6 @@
 /* TODO: want something like LESS or SASS to build from a common src/css base... can do? */
+
+dl dt {
+  font-weight: bold
+}
+

@@ -2,6 +2,7 @@ _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
 child_process = require 'child_process'
+sitefile = require '../sitefile'
 
 
 
@@ -26,6 +27,8 @@ rst2html_flags = ( params ) ->
     flags.push "--stylesheet '#{sheets}'"
   else
     flags.push "--stylesheet-path '#{sheets}'"
+  if params.flags? and !_.isEmpty params.flags
+    flags = flags.concat params.flags
   flags.join ' '
 
 
@@ -41,31 +44,53 @@ defaults =
     link_stylesheet: false
     stylesheets: []
 
+add_script = ( rawhtml, javascript_url ) ->
+
+  sitefile.log "rst2html:addscript", javascript_url
+  script_tag = '<script type="text/javascript" src="'+javascript_url+'" ></script>'
+  rawhtml.replace '</head>', script_tag+' </head>'
+
+
 ###
 Take parameters
 Async rst2html writes to out or throws exception
 ###
 rst2html = ( out, params={} ) ->
 
-  prm = _.defaults params, defaults.rst2html
+  prm = _.defaults params,
+    format: 'pseudoxml'
+    docpath: 'index'
+    link_stylesheet: false
+    stylesheets: []
+    scripts: []
+
   cmdflags = rst2html_flags prm
-  cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}.rst'"
+
+  cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}'"
+
+  sitefile.log "Du", cmd
 
   if prm.format == 'source'
     out.type 'text'
-    out.write fs.readFileSync "#{prm.docpath}.rst"
+    out.write fs.readFileSync "#{prm.docpath}"
     out.end()
 
   else
 
     child_process.exec cmd, {maxBuffer: 500 * 1024}, (error, stdout, stderr) ->
       if error
-        throw error
+        out.type 'text/plain'
+        out.status 500
+        out.write error.toString()
+        #throw error
       else if prm.format == 'xml'
         out.type 'xml'
         out.write stdout
       else if prm.format == 'html'
         out.type 'html'
+        if not prm.scripts
+          prm.scripts = [ '/build/script/default.js' ]
+        stdout = add_script(stdout, script) for script in prm.scripts
         out.write stdout
       else if prm.format == 'pseudoxml'
         out.type 'text/plain'
@@ -90,16 +115,28 @@ module.exports = ( ctx={} ) ->
     defaults
   lib:
     rst2html: rst2html
+
   generate: ( spec, ctx ) ->
     docpath = path.join ctx.cwd, spec
+
     ( req, res, next ) ->
+
+      # XXX: process.stdout.write "rst2html "+ docpath+ " handler call "
+
       req.query = _.defaults req.query || {},
         format: 'html'
         docpath: docpath
-      try
+
+      if ctx.sitefile.params and 'rst2html' of ctx.sitefile.params
         params = ctx.resolve 'sitefile.params.rst2html'
-      catch
+      else
         params = {}
+
+      #if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
+      #  params.stylesheets = ( params.stylesheets || [] ).concat ctx.sitefile.defs.stylesheets
+
+      #if ctx.sitefile.defs and 'scripts' of ctx.sitefile.defs
+      #  params.scripts = ( params.scripts || [] ).concat ctx..defs.scripts
 
       try
         rst2html res, _.merge {}, params, req.query
@@ -122,7 +159,7 @@ module.exports = ( ctx={} ) ->
           rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
         catch error
           console.trace error
-          console.log error.stack
+          lib.warn error.stack
           res.type 'text/plain'
           res.status 500
           res.write "exec error: #{error}"

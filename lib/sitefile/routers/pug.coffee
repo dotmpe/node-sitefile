@@ -1,31 +1,34 @@
 ###
 ###
 _ = require 'lodash'
-fs = require 'fs'
 path = require 'path'
 sitefile = require '../sitefile'
 
-cc = require 'coffee-script'
 
-
-# Given sitefile-context, export metadata for coffee: handlers
+# Given sitefile-context, export metadata for pug: handlers
 module.exports = ( ctx={} ) ->
+
+  try
+    pug = require 'pug'
+  catch
+    return
+
 
   #_.defaults ctx,
 
-  name: 'coffee'
-  label: 'Coffee-Script publisher'
+  name: 'pug'
+  label: 'Pug templates'
   usage: """
-    coffee:**/*.coffee
+    pug:**/*.pug
   """
 
   # generators for Sitefile route handlers
   generate: ( fn, ctx={} ) ->
 
     ( req, res ) ->
-      sitefile.log 'Coffe-Script compile', fn
-      res.write cc._compileFile fn
+      sitefile.log 'Pug compile', fn
+      tpl = pug.compileFile fn
+      res.write tpl ctx
       res.end()
-
 
 

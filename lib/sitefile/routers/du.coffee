@@ -31,19 +31,20 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( spec, ctx={} ) ->
+  generate: ( fn, ctx={} ) ->
     _.defaults ctx, cwd: process.cwd(),
       dest: format: 'html'
       src: format: 'rst'
 
-    docpath = path.join ctx.cwd, spec
+    docpath = path.join ctx.cwd, fn
     ( req, res, next ) ->
       req.query = _.defaults req.query || {},
         format: ctx.dest.format,
         docpath: docpath
-      try
-        params = ctx.resolve 'sitefile.params.rst2html'
-      catch
+
+      if ctx.sitefile.params and 'du' of ctx.sitefile.params
+        params = ctx.resolve 'sitefile.params.du'
+      else
         params = {}
 
       try

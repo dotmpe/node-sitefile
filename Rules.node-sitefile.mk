@@ -1,3 +1,5 @@
+# Makefile for personal use calling other builders, don't use in build systems but call directly
+
 # special rule targets
 STRGT += \
    lint \
@@ -26,12 +28,12 @@ install::
 	make test
 
 lint:
-	grunt lint
+	NODE_ENV=testing grunt lint
 
 TEST += jasmine
 
 jasmine:
-	grunt test
+	NODE_ENV=testing grunt test
 
 update:
 	./bin/cli-version.sh update

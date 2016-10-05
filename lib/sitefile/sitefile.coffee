@@ -10,22 +10,23 @@ nodelib = require 'nodelib'
 
 Context = nodelib.Context
 
+Router = require './Router'
+
 liberror = require '../error'
 libconf = require '../conf'
 
 
-version = '0.0.3-sitebuild'
+version = "0.0.4-dev+b2ef470" # node-sitefile
 
 
 c =
-  sc: chalk.grey ':'
+  sc: chalk.grey ':' # sc: separator-char
 
 
 String::startsWith ?= (s) -> @[...s.length] is s
 String::endsWith   ?= (s) -> s is '' or @[-s.length..] is s
 
 
-builtin = [ 'redir', 'static' ]
 
 
 get_local_sitefile_name = ( ctx={} ) ->
@@ -76,7 +77,7 @@ load_sitefile = ( ctx ) ->
   log "Loaded", path: path.relative ctx.cwd, ctx.lfn
 
   # translate JSON path refs in sitefile to use global sitefile context
-  # ie. prefix path with sitefile
+  # ie. prefix path with 'sitefile/' so we can use context.resolve et al.
   xform = (result, value, key) ->
     if _.isArray value
       for item, index in value
@@ -90,6 +91,12 @@ load_sitefile = ( ctx ) ->
       result[ key ] = value
 
   _.transform ctx.sitefile, xform
+
+  if ctx.sitefile.host
+    ctx.host = ctx.sitefile.host
+
+  if ctx.sitefile.port
+    ctx.port = ctx.sitefile.port
 
 
 load_rc = ( ctx ) ->
@@ -126,11 +133,11 @@ prepare_context = ( ctx={} ) ->
   _.defaults ctx,
     noderoot: path.dirname path.dirname __dirname
     version: version
-    routers: {}
     cwd: process.cwd()
     proc:
       name: path.basename process.argv[1]
     envname: process.env.NODE_ENV or 'development'
+    log: log
   _.defaults ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
   _.defaults ctx,
@@ -146,14 +153,9 @@ prepare_context = ( ctx={} ) ->
   new Context ctx
 
 
-# Express redir handler
-redir = ( app, ref, p ) ->
-  app.all ref, (req, res) ->
-    res.redirect p
-
 
 # Split sitefile router specs
-parse_spec = ( strspec, ctx={} ) ->
+split_spec = ( strspec, ctx={} ) ->
   [ handler_path, hspec ] = strspec.split(':')
   if handler_path.indexOf '.' != -1
     [ router_name, handler_name ] = handler_path.split '.'
@@ -162,152 +164,104 @@ parse_spec = ( strspec, ctx={} ) ->
   [ router_name, handler_name, hspec ]
 
 
-# return generator for express route-handlers
-get_handler_gen = ( router_name, ctx={} ) ->
-  # add generated routes, track dirs/leafs
-  if router_name not in _.keys ctx.routers
-    throw new Error "No such router: #{router_name}"
-  router = ctx.routers[ router_name ].object
-  # return route-handler generator
-  router.generate
-
-try_builtin_handler_gen = ( router_name, ctx={} ) ->
-
-
-# load routers and parameters onto context
-load_routers = ( ctx ) ->
-
-  if _.isEmpty ctx.sitefile.routes
-    return
-
-  _.defaults ctx, router_names: [], routers: {}
-
-  if _.isEmpty ctx.router_names
-    # parse sitefile.routes, pass 1: load & init routers
-    ctx.router_names = _.union (
-      router_name for [ router_name, handler_name, handler_spec ] in (
-        parse_spec strspec, ctx for route, strspec of ctx.sitefile.routes ) )
-
-  log 'Required routers', name: ctx.router_names.join ', '
-
-  # import handler generators
-  for name in ctx.router_names
-    if name in builtin
-      continue
-    router_cb = require './routers/' + name
-    router_obj = router_cb ctx
-
-    if not router_obj
-      warn "Failed to load #{name}"
-      continue
-
-    ctx.routers[name] = module: router_cb, object: router_obj
-    log "Loaded router", name: name, c.sc, router_obj.label
-
-
-# For each given dir-name: leafs pair,
-# add a redir rule to redirect to a dir leaf
-add_dir_redirs = ( dirs, app, ctx ) ->
-  # Add redirections for dirs to default leafs
-  for url, leafs of dirs
-    if leafs.length == 1
-      defleaf = leafs[0]
-    if leafs
-      for name in ctx.dir.defaults
-        if name in leafs
-          defleaf = name
-          break
-      if not defleaf
-        warn "Cannot choose default dir index for #{url}"
-        continue
-      redir app, url, url+'/'+defleaf
-      log "Dir", url: "#{url}/{->#{defleaf}}"
-
-
-# Apply routes in sitefile to Express
-apply_routes = ( sitefile, app, ctx={} ) ->
-
-  _.defaults ctx, base: '/',
-    dir: defaults: [ 'default', 'index', 'main' ]
-
-  if not _.isEmpty sitefile.routes
-
+class Sitefile
+  constructor: ( @ctx )->
+    _.defaults @, dirs: {}, routers: {}, router_names: []
     # Track all dirs for generated files
     # TODO May want the same for regular routes.
     # TODO Also need to refactor, and scan for defaults across dirs rootward
-    dirs = {}
+    @load_routers @ctx
+    # Apply routes in sitefile to Express
+    @apply_routes @ctx
+    # reload ctx.{config,sitefile} whenever file changes
+    reload_on_change @ctx
 
-    # parse sitefile.routes, pass 2: process specs to handler intances
-    for route, strspec of sitefile.routes
+  load_routers: ( ctx ) ->
 
-      [ router_name, handler_name, handler_spec ] = parse_spec strspec, ctx
-
-      if router_name not in builtin and not ctx.routers[ router_name ]
-
-        log "Skipping route", name: router_name, c.sc, path: handler_spec
+    @router_names = _.union (
+      router_name for [ router_name, handler_name, handler_spec ] in (
+        split_spec strspec, ctx for route, strspec of ctx.sitefile.routes ) )
+  
+    log 'Required routers', name: @router_names.join ', '
+  
+    # parse sitefile.routes, pass 1: load & init routers
+    for name in @router_names
+      if name of Router.builtin
         continue
 
-      # process glob rule
-      if route.startsWith '_'
-
-        handler = get_handler_gen router_name, ctx
-
-        log 'Dynamic', url: route, '', id: router_name, '', path: handler_spec
-
-        for name in glob.sync handler_spec
-          extname = path.extname name
-          basename = path.basename name, extname
-          dirname = path.dirname name
-          if dirname == '.'
-            url = ctx.base + basename
-          else
-            url = "#{ctx.base}#{dirname}/#{basename}"
-            if not dirs.hasOwnProperty ctx.base + dirname
-              dirs[ ctx.base+dirname ] = [ basename ]
-            else
-              dirs[ ctx.base+dirname ].push basename
-
-          log route, url: url, '=', path: name
-          redir app, url+extname, url
-          app.all url, handler '.'+url, ctx
-
-      # process parametrized rule
-      else if '$' in route
-        url = ctx.base + route.replace('$', ':')
-        log route, url: url
-        app.all url, handler '.'+url, ctx
-
-      else
-        # add route for single resource or redirection
-        url = ctx.base + route
-
-        #if not try_builtin_handler_gen router_name, spec
-        #  null
-
-        # static and redir are built-in
-        if router_name == 'redir'
-          p = ctx.base + strspec.substr 6
-          redir app, url, p
-          log '     *', url: url, '->', url: p
-
-        else if router_name == 'static'
-          p = path.join ctx.cwd, handler_spec
-          app.use url, ctx.static_proto p
-          log 'Static', url: url, '=', path: handler_spec
-
+      router_cb = require './routers/' + name
+      router_obj = router_cb ctx
+  
+      if not router_obj
+        warn "Failed to load #{name}"
+        continue
+  
+      @routers[name] =
+        module: router_cb
+        object: Router.define router_obj
+  
+      log "Loaded router", name: name, c.sc, router_obj.label
+  
+  apply_routes: ( ctx )->
+  
+    _.defaults ctx, base: '/', dir: defaults: [ 'default', 'index', 'main' ]
+  
+    # parse sitefile.routes, pass 2: process specs to handler intances
+    for route, strspec of ctx.sitefile.routes
+  
+      [ router_name, handler_name, handler_spec ] = split_spec strspec, ctx
+      if router_name not of Router.builtin and not @routers[ router_name ]
+        warn "Skipping route", name: router_name, c.sc, path: handler_spec
+        continue
+  
+      ctx.log 'Dynamic', url: route, '', id: router_name, '', path: handler_spec
+      for name in glob.sync handler_spec
+        extname = path.extname name
+        basename = path.basename name, extname
+        dirname = path.dirname name
+        if dirname == '.'
+          url = ctx.base + basename
         else
-          # use router to generate handler for resource
-          handler = get_handler_gen router_name, ctx
-          log "Express All", url: url, '',
-            id: router_name, '', path: handler_spec
-          app.all url, handler handler_spec, ctx
+          url = "#{ctx.base}#{dirname}/#{basename}"
+          if not @dirs.hasOwnProperty ctx.base + dirname
+            @dirs[ ctx.base+dirname ] = [ basename ]
+          else
+            @dirs[ ctx.base+dirname ].push basename
 
+        ctx.log route, url: url, '=', path: name
+
+        if not ( url+extname is url )
+          # FIXME: policy on extensions
+          ctx.redir url+extname, url
+          #ctx.log 'redir', url+extname, url
+
+        if router_name of Router.builtin
+          Router.builtin[router_name]( route, url, handler_spec, ctx )
+        else
+          # use router to preprocess spec and generate handlers for resource
+          router = @routers[ router_name ].object
+          ctx.app.all url, router.generate name, ctx
+  
     # redirect dirs to default dir-index resource
-    add_dir_redirs dirs, app, ctx
-
-  else
-    warn 'No routes'
-    process.exit()
+    @add_dir_redirs ctx
+  
+  # For each given dir-name: leafs pair,
+  # add a redir rule to redirect to a dir leaf
+  add_dir_redirs: ( ctx ) ->
+    # Add redirections for dirs to default leafs
+    for url, leafs of @dirs
+      if leafs.length == 1
+        defleaf = leafs[0]
+      if leafs
+        for name in ctx.dir.defaults
+          if name in leafs
+            defleaf = name
+            break
+        if not defleaf
+          warn "Cannot choose default dir index for #{url}"
+          continue
+        ctx.redir url, url+'/'+defleaf
+        log "Dir", url: "#{url}/{->#{defleaf}}"
 
 
 compile_site = ( ctx ) ->
@@ -358,14 +312,12 @@ compile_site = ( ctx ) ->
     console.log 'all', url, 'Done'
 
 
-expand_globs = ( patterns ) ->
-  _.flattenDeep [ glob.sync p for p, i in patterns ]
 
 
 # XXX only reloads on src file or sitefile change
 # XXX does not reload routes, code+config only
 # TODO should reload sitefilerc, should reset/apply routes
-reload_on_change = ( app, ctx ) ->
+reload_on_change = ( ctx ) ->
   config_watch = ctx.noderoot + '/config/**/*'
   paths = expand_globs [ config_watch ]
   log 'Watching configs', path: paths.join ', '
@@ -381,6 +333,11 @@ reload_on_change = ( app, ctx ) ->
     log "", id: ctx.sitefile.specs
 
 
+expand_globs = ( patterns ) ->
+  _.flattenDeep [ glob.sync p for p, i in patterns ]
+
+
+
 warn = ->
   v = Array.prototype.slice.call( arguments )
   out = [ chalk.red(v.shift()) + c.sc ]
@@ -389,30 +346,33 @@ warn = ->
 log = ->
   if module.exports.log_enabled
     v = Array.prototype.slice.call( arguments )
-    header = _.padLeft v.shift(), 21
+    header = _.padStart v.shift(), 21
     out = [ chalk.blue(header) + c.sc ]
     console.log.apply null, log_line( v, out )
 
 log_line = ( v, out=[] ) ->
   while v.length
     o = v.shift()
-    if _.isString o
-      if o.match /^[\<\>_:-]+$/
-        out.push chalk.grey o
-      else if o.match /[\<\>=_]+/
-        out.push chalk.magenta o
+    if o?
+      if _.isString o
+        if o.match /^[\<\>_:-]+$/
+          out.push chalk.grey o
+        else if o.match /[\<\>=_]+/
+          out.push chalk.magenta o
+        else
+          out.push o
+      else if o.path?
+        out.push chalk.green o.path
+      else if o.url?
+        out.push chalk.yellow o.url
+      else if o.name?
+        out.push chalk.cyan o.name
+      else if o.id?
+        out.push chalk.magenta o.id
       else
-        out.push o
-    else if o.path?
-      out.push chalk.green o.path
-    else if o.url?
-      out.push chalk.yellow o.url
-    else if o.name?
-      out.push chalk.cyan o.name
-    else if o.id?
-      out.push chalk.magenta o.id
+        throw new Error "log: unhandled " + JSON.stringify o
     else
-      throw new Error "log: unhandled " + JSON.stringify o
+      out.push JSON.stringify o
   out
 
 
@@ -422,12 +382,12 @@ module.exports = {
   get_local_sitefile: get_local_sitefile
   prepare_context: prepare_context
   load_config: load_config
-  apply_routes: apply_routes
   compile_site: compile_site
-  reload_on_change: reload_on_change
-  load_routers: load_routers
   load_rc: load_rc
+  Sitefile: Sitefile
+  reload_on_change: reload_on_change
   log_enabled: true
   log: log
+  warn: warn
 }
 
