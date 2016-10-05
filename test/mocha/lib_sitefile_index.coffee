@@ -78,7 +78,7 @@ describe 'Module sitefile', ->
       ctx = {}
       lib.prepare_context ctx
       sfctx = ( "basename config config_envs config_name cwd envname "+
-        "ext exts fn lfn noderoot pkg pkg_file port proc routers sitefile "+
+        "ext exts fn lfn log noderoot pkg pkg_file port proc sitefile "+
         "sitefilerc static version"
       ).split ' '
       ctxkys = _.keys( ctx )

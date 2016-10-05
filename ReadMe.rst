@@ -33,17 +33,20 @@ Node Sitefile
     :alt: GIT
 
 
-Sitefile enables an Express server to be quickly set up from a single configuration file called the Sitefile.
-The sitefile mainly consists of a mapping of file paths or patterns that are mapped to different types of router handlers.
+Sitefile enables an Express server to be quickly set up from a single
+configuration file called the Sitefile.
+The sitefile mainly consists of a mapping of file paths or patterns that are
+mapped to different types of router handlers.
 
-Primarily it was written to serve reStructuredText as HTML, but has Pug,
-Stylus, Markdown and Coffee-script handlers too. In its current state it is usable
-as a really simple HTTP server to use for example to read documentation of a project.
+Primarily it was written to serve reStructuredText as HTML, but has Pug, Stylus,
+Markdown and Coffee-script handlers too. In its current state it is usable as a
+really simple HTTP server to use for example to read documentation of a project.
 Maybe as a sketchpad for Pug, Stylus and Coffee-Script experiments.
 
 Focus for upcoming features in on microformats to tie things together and enable
-richer presentation while keeping appropiatly simple plain text file-based content.
-Possibilities for future development are maybe a sort of mixed content-type wiki.
+richer presentation while keeping appropiatly simple plain text file-based
+content. Possibilities for future development are maybe a sort of mixed content
+-type wiki.
 
 
 
@@ -82,14 +85,23 @@ There are many possibly useful directions:
 
 Next:
 
-- need to integrate concept of content-type (ie. representation vs. resource) to
-  deal with parametrizing the publisher (routers). Currently the routers are purposely very naively implemented to focus on a generic, flexible Sitefile schema.
-
-- Setup some transclusion micro-protocol (over HTML+XmlHttpRequest) for dynamic branching, and mix/browser content client-side using hash-navigation, building up a client-side app essentially.
+- Start to index some things and serve metadata.
+  Ie. link headers.
 
 - Move to a concept of a standard file-type handler registry, posibly some
   magic. Use Sitefile to index (only) those resources that are linked together,
   likely introduce domain or site attribute (ie. specify a 'docuverse', or 'linking space' within which the hyperlinks/references can act, and which in other ways determines presentation, as apposed to the content which is in principle a set of plain text human readable and processable files).
+
+- Better HTTP conformance.
+
+Think about:
+
+- Want to keep it lean, and simple. Sitefile currently is under 350 LoC. But:
+
+- need to integrate concept of content-type (ie. representation vs. resource) to
+  deal with parametrizing the publisher (routers). Currently the routers are purposely very naively implemented to focus on a generic, flexible Sitefile schema.
+
+- Setup some transclusion micro-protocol (over HTML+XmlHttpRequest) for dynamic branching, and mix/browser content client-side using hash-navigation, building up a client-side app essentially.
 
 - make some guards to determine version increment, maybe some gherkin specs.
 
@@ -383,7 +395,7 @@ master [*]_
   f_bootstrap
     - Added bower things for bootstrap, testing with server-side Jade pages.
 
-  f_gv
+  f_gv (merged)
     - Adding graphviz to render dot diagrams.
 
   demo
