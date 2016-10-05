@@ -59,13 +59,14 @@ rst2html = ( out, params={} ) ->
 
   prm = _.defaults params, defaults.rst2html
   cmdflags = rst2html_flags prm
-  cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}.rst'"
+
+  cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}'"
 
   sitefile.log "Du", cmd
 
   if prm.format == 'source'
     out.type 'text'
-    out.write fs.readFileSync "#{prm.docpath}.rst"
+    out.write fs.readFileSync "#{prm.docpath}"
     out.end()
 
   else

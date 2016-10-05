@@ -28,4 +28,10 @@ module.exports = (ctx={}) ->
 
   ctx.static_proto = express.static
 
+  ctx.redir = ( ref, p ) ->
+    # Express redir handler
+    ctx.app.all ref, (req, res) ->
+      res.redirect p
+
   app
+
