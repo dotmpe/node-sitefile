@@ -347,6 +347,10 @@ master [*]_
   - CSS Stylesheets: Stylus.
   - HTML/XML template expressions: Pug (formerly Jade).
 
+  features
+    db-*
+      Looking for database to HTTP endpoints.
+
   f_odata
     - Exploring odata for server-side API for richer document/clients.
       Would need something Express compatible. But can create another server
@@ -357,6 +361,9 @@ master [*]_
 
     n-odata-server
       See `x-loopback` project
+
+  features/db-knex
+    ..
 
   f_client
     - Added Bower. Experimenting with polymer.
