@@ -23,7 +23,8 @@ test_for_rst2html = ->
 add_script = ( rawhtml, javascript_url ) ->
 
   sitefile.log "rst2html:addscript", javascript_url
-  script_tag = '<script type="text/javascript" src="'+javascript_url+'" ></script>'
+  script_tag = '<script type="text/javascript" src="'+\
+      javascript_url+'" ></script>'
   rawhtml.replace '</head>', script_tag+' </head>'
 
 
@@ -64,6 +65,7 @@ rst2html = ( out, params={} ) ->
         out.write stdout
       else if prm.format == 'html'
         out.type 'html'
+        # FIXME: rst2html: remove hardcoded javascript
         if not prm.scripts
           prm.scripts = [ '/build/script/default.js' ]
         stdout = add_script(stdout, script) for script in prm.scripts
@@ -90,8 +92,9 @@ module.exports = ( ctx={} ) ->
   lib:
     rst2html: rst2html
 
-  generate: ( spec, ctx ) ->
-    docpath = path.join ctx.cwd, spec
+  generate: ( rsctx ) ->
+
+    docpath = path.join ctx.cwd, rsctx.path
 
     ( req, res, next ) ->
 
@@ -107,7 +110,8 @@ module.exports = ( ctx={} ) ->
         params = {}
 
       #if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
-      #  params.stylesheets = ( params.stylesheets || [] ).concat ctx.sitefile.defs.stylesheets
+      #  params.stylesheets = ( params.stylesheets || [] ).concat \
+      #                                       ctx.sitefile.defs.stylesheets
 
       #if ctx.sitefile.defs and 'scripts' of ctx.sitefile.defs
       #  params.scripts = ( params.scripts || [] ).concat ctx..defs.scripts
