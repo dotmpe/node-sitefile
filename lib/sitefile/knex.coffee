@@ -1,7 +1,7 @@
 path = require 'path'
 
 # TODO: move back to knex router after inheritance is fixed for bookshelf-api
-load_config = ( rsctx, ctx )->
+load_config = ( rsctx, ctx ) ->
   config = require path.join ctx.cwd, rsctx.path
   if not config.connection.filename.startsWith '/'
     config.connection.filename = path.join(

@@ -25,7 +25,7 @@ module.exports = ( ctx ) ->
     sitefile.log 'Bookshelf API from', config.models.directory
     ctx.app.use ctx.base+rs.name, api
 
-    ctx.app.get ctx.base+rs.name+'/debug', (req, res)->
+    ctx.app.get ctx.base+rs.name+'/debug', (req, res) ->
       d = {}
       _ctx = rs
       while _ctx

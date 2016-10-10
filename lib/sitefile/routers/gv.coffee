@@ -24,14 +24,15 @@ module.exports = ( ctx={} ) ->
 
     ( req, res ) ->
 
-      exec "#{engine} -Tpng #{rsctx.path} -o #{rsctx.path}.png", (error, stdout, stderr) ->
-        if error != null
-          res.status 500
-        try
-          res.write fs.readFileSync rsctx.path+'.png'
-        catch e
-          console.error e
-          console.log stdout
-          res.write e.toString()
-        res.end()
+      exec "#{engine} -Tpng #{rsctx.path} -o #{rsctx.path}.png",
+        (error, stdout, stderr) ->
+          if error != null
+            res.status 500
+          try
+            res.write fs.readFileSync rsctx.path+'.png'
+          catch e
+            console.error e
+            console.log stdout
+            res.write e.toString()
+          res.end()
 

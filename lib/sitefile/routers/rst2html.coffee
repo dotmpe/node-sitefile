@@ -23,7 +23,8 @@ test_for_rst2html = ->
 add_script = ( rawhtml, javascript_url ) ->
 
   sitefile.log "rst2html:addscript", javascript_url
-  script_tag = '<script type="text/javascript" src="'+javascript_url+'" ></script>'
+  script_tag = '<script type="text/javascript" src="'+\
+    javascript_url+'" ></script>'
   rawhtml.replace '</head>', script_tag+' </head>'
 
 
@@ -109,7 +110,8 @@ module.exports = ( ctx={} ) ->
         params = {}
 
       #if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
-      #  params.stylesheets = ( params.stylesheets || [] ).concat ctx.sitefile.defs.stylesheets
+      #  params.stylesheets = ( params.stylesheets || [] ).concat \
+      #                                       ctx.sitefile.defs.stylesheets
 
       #if ctx.sitefile.defs and 'scripts' of ctx.sitefile.defs
       #  params.scripts = ( params.scripts || [] ).concat ctx..defs.scripts

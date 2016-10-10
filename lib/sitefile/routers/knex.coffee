@@ -15,11 +15,11 @@ module.exports = ( ctx={} ) ->
   usage: """
     knex:**/*.json
 
-  Loads a JSON file to use as index to neighbouring database file, and a 
+  Loads a JSON file to use as index to neighbouring database file, and a
   models and migration folder resource.
 
-  The config is passed to Knex and Bookshelf after the file and 
-  migrations.directory attributes updated to reflect the correct sub-path. 
+  The config is passed to Knex and Bookshelf after the file and
+  migrations.directory attributes updated to reflect the correct sub-path.
   """
 
   generate: ( rsctx ) ->
@@ -27,7 +27,7 @@ module.exports = ( ctx={} ) ->
     sitefile.log 'Knex index:', rsctx.path
     config = knex_util.load_config rsctx, ctx
 
-		# Initialize DB
+    # Initialize DB
     db = knex config
     db.migrate.latest()
 

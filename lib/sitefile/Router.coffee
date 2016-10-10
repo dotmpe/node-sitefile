@@ -6,7 +6,7 @@ _ = require 'lodash'
 
 builtin =
 
-  redir: ( route, url, handler_spec, ctx )->
+  redir: ( route, url, handler_spec, ctx ) ->
     if not url
       url = ctx.base + route
     p = ctx.base + handler_spec
@@ -50,7 +50,7 @@ Base =
 
   """
 
-  #parse_spec: ( route_spec, handler_spec, ctx )->
+  #parse_spec: ( route_spec, handler_spec, ctx ) ->
 
   # process parametrized rule
   #else if '$' in route
@@ -62,20 +62,19 @@ Base =
   generate: ( url_path, ctx ) ->
   # XXX:
   handler: ( url_path ) ->
-  # 
   register: ( app, ctx ) ->
 
   # Return resource paths
-  resolve: ( route, handler_name, handler_spec, ctx )->
+  resolve: ( route, handler_name, handler_spec, ctx ) ->
     rctx = ctx.getSub(
       #route:
-        name: route
-        #strspec: strspec
-        router:
-          #name: router_name
-          handler:
-            name: handler_name
-            spec: handler_spec
+      name: route
+      #strspec: strspec
+      router:
+        #name: router_name
+        handler:
+          name: handler_name
+          spec: handler_spec
     )
 
     rs = []
@@ -132,6 +131,6 @@ module.exports =
   Base: Base
 
   # Current way of 'instantiating' router
-  define: ( mixin )->
+  define: ( mixin ) ->
     _.assign {}, Base, mixin
 
