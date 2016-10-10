@@ -349,21 +349,22 @@ master [*]_
 
   features
     db-*
-      Looking for database to HTTP endpoints.
+      Looking for database to HTTP endpoints, but also may want to support
+      a backend in core. See `DB Feature`_ docs.
 
-  f_odata
-    - Exploring odata for server-side API for richer document/clients.
-      Would need something Express compatible. But can create another server
-      and implement only some fancy redir router for sitefile.
+      db-knex
+        Bookshelf is an ORM using Knex. Look for an HTTP API.
 
-      First look at Loopback framework in `x-loopback`.
-      Keep focus for Sitefile dev. on client/middleware.
+      f_odata
+        - Exploring odata for server-side API for richer document/clients.
+          Would need something Express compatible. But can create another server
+          and implement only some fancy redir router for sitefile.
 
-    n-odata-server
-      See `x-loopback` project
+          First look at Loopback framework in `x-loopback`.
+          Keep focus for Sitefile dev. on client/middleware.
 
-  features/db-knex
-    ..
+        n-odata-server
+          See `x-loopback` project
 
   f_client
     - Added Bower. Experimenting with polymer.
@@ -472,6 +473,7 @@ Sitefile planet
 .. _changelog: ./Changelog.rst
 .. _ToDo: ./TODO.md
 .. _examples: /example
+.. _DB Feature: docs/feature-db
 .. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. This is a reStructuredText document.
