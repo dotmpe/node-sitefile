@@ -4,8 +4,8 @@
 # A note of caution: this example config does shameless things like executing any shell
 # script if you want to, like call http://localhost/clean.sh. Ymmv. 
 #
-# Id: node-sitefile/0.0.4-dev+b2ef470
-sitefile: 0.0.4-dev+b2ef470
+# Id: node-sitefile/0.0.4-dev+20161010
+sitefile: 0.0.4-dev+20161010
 routes:
   # FIXME: prefix mapping
   #media: static:public/media
