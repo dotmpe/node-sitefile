@@ -13,7 +13,7 @@ routes:
   '': redir:ReadMe
   index: redir:ReadMe
   example: redir:example/main
-  example/bookshelf/knex.sqlite/_/v1: bookshelf-api:example/bookshelf/knex.json
+  example/bookshelf/knex.sqlite/_/v1: bookshelfApi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   _example: static:example
   _rst2html: rst2html:**/*.rst
