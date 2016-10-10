@@ -115,6 +115,13 @@ Base =
         rs.push sctx
         #yield sctx
 
+    else if fs.existsSync handler_spec
+      sctx = rctx.getSub(
+        ref: ctx.base + route
+        path: handler_spec
+      )
+      rs.push sctx
+
     # Use route as is
     else # XXX
       res = if rctx.router.handler.name \
