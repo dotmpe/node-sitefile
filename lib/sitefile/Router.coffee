@@ -6,7 +6,7 @@ _ = require 'lodash'
 
 builtin =
 
-  redir: ( route, url, handler_spec, ctx )->
+  redir: ( route, url, handler_spec, ctx ) ->
     if not url
       url = ctx.base + route
     p = ctx.base + handler_spec
@@ -50,7 +50,7 @@ Base =
 
   """
 
-  #parse_spec: ( route_spec, handler_spec, ctx )->
+  #parse_spec: ( route_spec, handler_spec, ctx ) ->
 
   # process parametrized rule
   #else if '$' in route
@@ -62,16 +62,16 @@ Base =
   generate: ( url_path, ctx ) ->
 
   # Return resource paths
-  resolve: ( route, router_name, handler_name, handler_spec, ctx )->
+  resolve: ( route, router_name, handler_name, handler_spec, ctx ) ->
     rctx = ctx.getSub(
       #route:
-        name: route
-        #strspec: strspec
-        router:
-          #name: router_name
-          handler:
-            name: handler_name
-            spec: handler_spec
+      name: route
+      #strspec: strspec
+      router:
+        #name: router_name
+        handler:
+          name: handler_name
+          spec: handler_spec
     )
 
     rs = []
@@ -114,10 +114,10 @@ Base =
 
     # Use route as is
     else # XXX
-      if rctx.router.handler.name
-        res = "#{router_name}.#{rctx.router.handler.name}:#{rctx.router.handler.spec}(#{route})"
-      else
-        res = "#{router_name}:#{rctx.router.handler.spec}(#{route})"
+      res = if rctx.router.handler.name \
+            then "#{router_name}.#{rctx.router.handler.name}" \
+            else router_name
+      res += ":#{rctx.router.handler.spec}(#{route})"
       sctx = rctx.getSub(
         ref: ctx.base + route
         res: res
@@ -132,6 +132,6 @@ module.exports =
   Base: Base
 
   # Current way of 'instantiating' router
-  define: ( mixin )->
+  define: ( mixin ) ->
     _.assign {}, Base, mixin
 

@@ -55,7 +55,6 @@ else if process.argv[2] in [ '--version', '--help' ]
 
 # TODO: detect execute or (test-mode) include
 #else
-#  
 #  lib.warn "Invalid argument:", process.argv[2]
 #  process.exit(1)
 

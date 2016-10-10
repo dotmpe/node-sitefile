@@ -164,7 +164,7 @@ split_spec = ( strspec, ctx={} ) ->
 
 
 class Sitefile
-  constructor: ( @ctx )->
+  constructor: ( @ctx ) ->
     _.defaults @, dirs: {}, routers: {}, router_names: []
     # Track all dirs for generated files
     # TODO May want the same for regular routes.
@@ -201,7 +201,7 @@ class Sitefile
   
       log "Loaded router", name: name, c.sc, router_obj.label
 
-  apply_routes: ( ctx )->
+  apply_routes: ( ctx ) ->
   
     _.defaults ctx, base: '/', dir: defaults: [ 'default', 'index', 'main' ]
 
@@ -220,7 +220,8 @@ class Sitefile
         router = @routers[ router_name ].object
 
       ctx.dirs = @dirs
-      for rsr in router.resolve route, router_name, handler_name, handler_spec, ctx
+      for rsr in router.resolve route, router_name, \
+          handler_name, handler_spec, ctx
 
         log route, url: rsr.ref, '=', if 'path' of rsr \
             then path: rsr.path else res: rsr.res
