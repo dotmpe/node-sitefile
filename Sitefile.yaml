@@ -7,8 +7,8 @@
 # Id: node-sitefile/0.0.4-dev+b2ef470
 sitefile: 0.0.4-dev+b2ef470
 routes:
-  #  # FIXME: prefix mapping
-  #  media: static:public/media
+  # FIXME: prefix mapping
+  #media: static:public/media
   scripts/default.js: static:scripts/default.js
   '': redir:ReadMe
   index: redir:ReadMe

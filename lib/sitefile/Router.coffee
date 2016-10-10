@@ -65,7 +65,7 @@ Base =
   register: ( app, ctx ) ->
 
   # Return resource paths
-  resolve: ( route, handler_name, handler_spec, ctx ) ->
+  resolve: ( route, router_name, handler_name, handler_spec, ctx ) ->
     rctx = ctx.getSub(
       #route:
       name: route
@@ -117,9 +117,13 @@ Base =
 
     # Use route as is
     else # XXX
+      res = if rctx.router.handler.name \
+            then "#{router_name}.#{rctx.router.handler.name}" \
+            else router_name
+      res += ":#{rctx.router.handler.spec}(#{route})"
       sctx = rctx.getSub(
         ref: ctx.base + route
-        res: route
+        res: res
       )
       rs.push sctx
   

@@ -24,7 +24,7 @@ add_script = ( rawhtml, javascript_url ) ->
 
   sitefile.log "rst2html:addscript", javascript_url
   script_tag = '<script type="text/javascript" src="'+\
-    javascript_url+'" ></script>'
+      javascript_url+'" ></script>'
   rawhtml.replace '</head>', script_tag+' </head>'
 
 

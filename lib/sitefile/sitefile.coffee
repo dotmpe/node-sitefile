@@ -200,7 +200,7 @@ class Sitefile
         object: Router.define router_obj
   
       log "Loaded router", name: name, c.sc, router_obj.label
- 
+
   apply_routes: ( ctx ) ->
   
     _.defaults ctx, base: '/', dir: defaults: [ 'default', 'index', 'main' ]
@@ -220,9 +220,11 @@ class Sitefile
         router = @routers[ router_name ].object
 
       ctx.dirs = @dirs
-      for rsr in router.resolve route, handler_name, handler_spec, ctx
+      for rsr in router.resolve route, router_name, \
+          handler_name, handler_spec, ctx
 
-        log route, url: rsr.ref, '=', path: rsr.path
+        log route, url: rsr.ref, '=', if 'path' of rsr \
+            then path: rsr.path else res: rsr.res
 
         if not ( rsr.ref+rsr.extname is rsr.ref )
           # FIXME: policy on extensions
@@ -307,6 +309,8 @@ log_line = ( v, out=[] ) ->
           out.push chalk.magenta o
         else
           out.push o
+      else if o.res?
+        out.push chalk.green o.res
       else if o.path?
         out.push chalk.green o.path
       else if o.url?
