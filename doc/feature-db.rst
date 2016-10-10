@@ -4,7 +4,6 @@ a way to let routers register their own Express objects. This enables
 using bookshelf-api, ontop of Knex and BookshelfJS. It leverages REST from
 Knex databases with objects defined in JS. Knex also features migration tooling.
 
-
 cons
   - dont want dependencies
   - rework for core to use backend

@@ -64,6 +64,7 @@ rst2html = ( out, params={} ) ->
         out.write stdout
       else if prm.format == 'html'
         out.type 'html'
+        # FIXME: rst2html: remove hardcoded javascript
         if not prm.scripts
           prm.scripts = [ '/build/script/default.js' ]
         stdout = add_script(stdout, script) for script in prm.scripts
@@ -90,8 +91,9 @@ module.exports = ( ctx={} ) ->
   lib:
     rst2html: rst2html
 
-  generate: ( spec, ctx ) ->
-    docpath = path.join ctx.cwd, spec
+  generate: ( rsctx ) ->
+
+    docpath = path.join ctx.cwd, rsctx.path
 
     ( req, res, next ) ->
 

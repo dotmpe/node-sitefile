@@ -31,12 +31,12 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( fn, ctx={} ) ->
+  generate: ( rsctx ) ->
     _.defaults ctx, cwd: process.cwd(),
       dest: format: 'html'
       src: format: 'rst'
 
-    docpath = path.join ctx.cwd, fn
+    docpath = path.join ctx.cwd, rsctx.path
     ( req, res, next ) ->
       req.query = _.defaults req.query || {},
         format: ctx.dest.format,

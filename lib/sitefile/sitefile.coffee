@@ -200,47 +200,44 @@ class Sitefile
         object: Router.define router_obj
   
       log "Loaded router", name: name, c.sc, router_obj.label
-  
+
   apply_routes: ( ctx )->
   
     _.defaults ctx, base: '/', dir: defaults: [ 'default', 'index', 'main' ]
-  
+
     # parse sitefile.routes, pass 2: process specs to handler intances
     for route, strspec of ctx.sitefile.routes
-  
+
       [ router_name, handler_name, handler_spec ] = split_spec strspec, ctx
       if router_name not of Router.builtin and not @routers[ router_name ]
         warn "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
-  
-      ctx.log 'Dynamic', url: route, '', id: router_name, '', path: handler_spec
-      for name in glob.sync handler_spec
-        extname = path.extname name
-        basename = path.basename name, extname
-        dirname = path.dirname name
-        if dirname == '.'
-          url = ctx.base + basename
-        else
-          url = "#{ctx.base}#{dirname}/#{basename}"
-          if not @dirs.hasOwnProperty ctx.base + dirname
-            @dirs[ ctx.base+dirname ] = [ basename ]
-          else
-            @dirs[ ctx.base+dirname ].push basename
 
-        ctx.log route, url: url, '=', path: name
+      # Get router to resolve Sitefile config values to resource contexts
+      if router_name of Router.builtin
+        router = Router.Base
+      else
+        router = @routers[ router_name ].object
 
-        if not ( url+extname is url )
+      ctx.dirs = @dirs
+      for rsr in router.resolve route, router_name, handler_name, handler_spec, ctx
+
+        log route, url: rsr.ref, '=', if 'path' of rsr \
+            then path: rsr.path else res: rsr.res
+
+        if not ( rsr.ref+rsr.extname is rsr.ref )
           # FIXME: policy on extensions
-          ctx.redir url+extname, url
-          #ctx.log 'redir', url+extname, url
+          ctx.redir rsr.ref+rsr.extname, rsr.ref
+          #ctx.log 'redir', ref+extname, ref
 
         if router_name of Router.builtin
-          Router.builtin[router_name]( route, url, handler_spec, ctx )
+          Router.builtin[router_name]( route, rsr.ref, handler_spec, ctx )
         else
-          # use router to preprocess spec and generate handlers for resource
-          router = @routers[ router_name ].object
-          ctx.app.all url, router.generate name, ctx
-  
+          # generate: let router return handlers for given resource
+          h = router.generate rsr, ctx
+          if h
+            ctx.app.all rsr.ref, h
+
     # redirect dirs to default dir-index resource
     @add_dir_redirs ctx
   
@@ -311,6 +308,8 @@ log_line = ( v, out=[] ) ->
           out.push chalk.magenta o
         else
           out.push o
+      else if o.res?
+        out.push chalk.green o.res
       else if o.path?
         out.push chalk.green o.path
       else if o.url?
@@ -324,6 +323,7 @@ log_line = ( v, out=[] ) ->
     else
       out.push JSON.stringify o
   out
+
 
 
 module.exports = {
