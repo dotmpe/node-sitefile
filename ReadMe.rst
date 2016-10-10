@@ -366,35 +366,37 @@ master [*]_
         n-odata-server
           See `x-loopback` project
 
-  f_client
-    - Added Bower. Experimenting with polymer.
-    - Want to get Polymer core-scaffold running somehow.
-    - Working to add prism.js source-viewer.
+    Command Line
+      f_sitebuild
+        - Compiling a sitefile to a distributable package.
+          Trying to call handers directly, not usable yet.
 
-  f_sitebuild
-    - Compiling a sitefile to a distributable package.
-      Trying to call handers directly, not usable yet.
+          Maybe scraping from some edit-decision-list [EDL] generated from sitefile directly is a better (faster) approach?
+          But need to build and test EDL export, and have no EDL reader (transquoter, Scrow).
 
-      Maybe scraping from some edit-decision-list [EDL] generated from sitefile directly is a better (faster) approach?
-      But need to build and test EDL export, and have no EDL reader (transquoter, Scrow).
+    Routers
+      f_client
+        - Added Bower. Experimenting with polymer.
+        - Want to get Polymer core-scaffold running somehow.
+        - Working to add prism.js source-viewer.
 
-  f_jsonary
-    - Looking at jsonary as a client-side JSON schema renderer/editor.
+      f_jsonary
+        - Looking at jsonary as a client-side JSON schema renderer/editor.
 
-  f_ph7{,_node}
-    - Wanted to run simple PHP files using sitefile.
-      Tested ph7-darwin NPM packages. Seems to perform same as ph7.
-      No stdout reroute yet so unusable, but functional.
+      f_ph7{,_node}
+        - Wanted to run simple PHP files using sitefile.
+          Tested ph7-darwin NPM packages. Seems to perform same as ph7.
+          No stdout reroute yet so unusable, but functional.
 
-  f_json_editor
-    - Added JSON-Editor_ with one schema, no server-side api yet.
-      Need to look at hyper-schema.
+      f_json_editor
+        - Added JSON-Editor_ with one schema, no server-side api yet.
+          Need to look at hyper-schema.
 
-  f_bootstrap
-    - Added bower things for bootstrap, testing with server-side Jade pages.
+      f_bootstrap
+        - Added bower things for bootstrap, testing with server-side Jade pages.
 
-  f_gv (merged)
-    - Adding graphviz to render dot diagrams.
+      f_gv (merged)
+        - Adding graphviz to render dot diagrams.
 
   demo
     - Merging experimental features. Should keep master clean.
