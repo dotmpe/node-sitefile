@@ -349,51 +349,54 @@ master [*]_
 
   features
     db-*
-      Looking for database to HTTP endpoints.
+      Looking for database to HTTP endpoints, but also may want to support
+      a backend in core. See `DB Feature`_ docs.
 
-  f_odata
-    - Exploring odata for server-side API for richer document/clients.
-      Would need something Express compatible. But can create another server
-      and implement only some fancy redir router for sitefile.
+      db-knex
+        Bookshelf is an ORM using Knex. Look for an HTTP API.
 
-      First look at Loopback framework in `x-loopback`.
-      Keep focus for Sitefile dev. on client/middleware.
+      f_odata
+        - Exploring odata for server-side API for richer document/clients.
+          Would need something Express compatible. But can create another server
+          and implement only some fancy redir router for sitefile.
 
-    n-odata-server
-      See `x-loopback` project
+          First look at Loopback framework in `x-loopback`.
+          Keep focus for Sitefile dev. on client/middleware.
 
-  features/db-knex
-    ..
+        n-odata-server
+          See `x-loopback` project
 
-  f_client
-    - Added Bower. Experimenting with polymer.
-    - Want to get Polymer core-scaffold running somehow.
-    - Working to add prism.js source-viewer.
+    Command Line
+      f_sitebuild
+        - Compiling a sitefile to a distributable package.
+          Trying to call handers directly, not usable yet.
 
-  f_sitebuild
-    - Compiling a sitefile to a distributable package.
-      Trying to call handers directly, not usable yet.
+          Maybe scraping from some edit-decision-list [EDL] generated from sitefile directly is a better (faster) approach?
+          But need to build and test EDL export, and have no EDL reader (transquoter, Scrow).
 
-      Maybe scraping from some edit-decision-list [EDL] generated from sitefile directly is a better (faster) approach?
-      But need to build and test EDL export, and have no EDL reader (transquoter, Scrow).
+    Routers
+      f_client
+        - Added Bower. Experimenting with polymer.
+        - Want to get Polymer core-scaffold running somehow.
+        - Working to add prism.js source-viewer.
 
-  f_jsonary
-    - Looking at jsonary as a client-side JSON schema renderer/editor.
+      f_jsonary
+        - Looking at jsonary as a client-side JSON schema renderer/editor.
 
-  f_ph7{,_node}
-    - Wanted to run simple PHP files using sitefile.
-      Tested ph7-darwin NPM packages. Seems to perform same as ph7.
-      No stdout reroute yet so unusable, but functional.
+      f_ph7{,_node}
+        - Wanted to run simple PHP files using sitefile.
+          Tested ph7-darwin NPM packages. Seems to perform same as ph7.
+          No stdout reroute yet so unusable, but functional.
 
-  f_json_editor
-    - Added JSON-Editor_ with one schema, no server-side api yet.
-      Need to look at hyper-schema.
+      f_json_editor
+        - Added JSON-Editor_ with one schema, no server-side api yet.
+          Need to look at hyper-schema.
 
-  f_bootstrap
-    - Added bower things for bootstrap, testing with server-side Jade pages.
+      f_bootstrap
+        - Added bower things for bootstrap, testing with server-side Jade pages.
 
-  f_gv (merged)
-    - Adding graphviz to render dot diagrams.
+      f_gv (merged)
+        - Adding graphviz to render dot diagrams.
 
   demo
     - Merging experimental features. Should keep master clean.
@@ -472,6 +475,7 @@ Sitefile planet
 .. _changelog: ./Changelog.rst
 .. _ToDo: ./TODO.md
 .. _examples: /example
+.. _DB Feature: docs/feature-db
 .. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. This is a reStructuredText document.
