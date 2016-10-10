@@ -11,7 +11,6 @@ doubles is an example for all handlers. ", ->
 
   this.timeout 6000
 
-  # FIXME: should abstract test to more simpler format
 
   it "should serve its own ReadMe", ( done ) ->
 

@@ -12,7 +12,10 @@ routes:
   scripts/default.js: static:scripts/default.js
   '': redir:ReadMe
   index: redir:ReadMe
-  #example: static:example
+  example: redir:example/main
+  example/bookshelf/knex.sqlite/_/v1: bookshelf-api:example/bookshelf/knex.json
+  example/bookshelf/knex: knex:example/bookshelf/knex.json
+  _example: static:example
   _rst2html: rst2html:**/*.rst
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl

@@ -60,6 +60,9 @@ Base =
 
   # Return handler for path
   generate: ( url_path, ctx ) ->
+  # XXX:
+  handler: ( url_path ) ->
+  register: ( app, ctx ) ->
 
   # Return resource paths
   resolve: ( route, router_name, handler_name, handler_spec, ctx ) ->
@@ -111,6 +114,13 @@ Base =
 
         rs.push sctx
         #yield sctx
+
+    else if fs.existsSync handler_spec
+      sctx = rctx.getSub(
+        ref: ctx.base + route
+        path: handler_spec
+      )
+      rs.push sctx
 
     # Use route as is
     else # XXX
