@@ -109,6 +109,8 @@ module.exports = ( ctx={} ) ->
       else
         params = {}
 
+      params = _.merge {}, params, req.query
+
       #if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
       #  params.stylesheets = ( params.stylesheets || [] ).concat \
       #                                       ctx.sitefile.defs.stylesheets
@@ -117,7 +119,7 @@ module.exports = ( ctx={} ) ->
       #  params.scripts = ( params.scripts || [] ).concat ctx..defs.scripts
 
       try
-        rst2html res, _.merge {}, params, req.query
+        rst2html res, params
       catch error
         console.trace error
         console.log error.stack

@@ -1,6 +1,7 @@
 path = require 'path'
 
-# TODO: move back to knex router after inheritance is fixed for bookshelf-api
+# TODO: move back to knex router after inheritance is fixed for bookshelf-api,
+#   or other component.
 load_config = ( rsctx, ctx ) ->
   if not rsctx.path
     throw Error("Expected rsctx.path")

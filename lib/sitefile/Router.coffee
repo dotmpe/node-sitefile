@@ -130,6 +130,7 @@ Base =
       res += ":#{rctx.router.handler.spec}(#{route})"
       sctx = rctx.getSub(
         ref: ctx.base + route
+        spec: rctx.router.handler.spec
         res: res
       )
       rs.push sctx
