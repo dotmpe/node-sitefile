@@ -98,8 +98,6 @@ module.exports = ( ctx={} ) ->
 
     ( req, res, next ) ->
 
-      # XXX: process.stdout.write "rst2html "+ docpath+ " handler call "
-
       req.query = _.defaults req.query || {},
         format: 'html'
         docpath: docpath
@@ -110,13 +108,6 @@ module.exports = ( ctx={} ) ->
         params = {}
 
       params = _.merge {}, params, req.query
-
-      #if ctx.sitefile.defs and 'stylesheets' of ctx.sitefile.defs
-      #  params.stylesheets = ( params.stylesheets || [] ).concat \
-      #                                       ctx.sitefile.defs.stylesheets
-
-      #if ctx.sitefile.defs and 'scripts' of ctx.sitefile.defs
-      #  params.scripts = ( params.scripts || [] ).concat ctx..defs.scripts
 
       try
         rst2html res, params
