@@ -6,12 +6,16 @@ _ = require 'lodash'
 
 builtin =
 
-  redir: ( route, url, handler_spec, ctx ) ->
+  # TODO: extend redir spec for status code
+  redir: ( route, url, handler_spec, ctx, status=302 ) ->
     if not url
       url = ctx.base + route
     p = ctx.base + handler_spec
-    ctx.redir url, p
-    ctx.log '     *', url: url, '->', url: p
+    # 301: Moved (Permanently)
+    # 302: Found
+    # 303: See Other
+    ctx.redir status, url, p
+    ctx.log '      ', url: url, '->', url: p
 
   static: ( route, url, handler_spec, ctx ) ->
     # FIXME: if not url
@@ -64,8 +68,24 @@ Base =
   handler: ( url_path ) ->
   register: ( app, ctx ) ->
 
+
+  # Return resource sub-context for local file resource
+  file_res_ctx: ( rctx, file_path ) ->
+    rsctx = rctx.getSub(
+      ref: rctx.context.base + file_path
+      path: file_path
+      extname: path.extname file_path
+      dirname: path.dirname file_path
+      basename: null
+    )
+    rsctx.basename = path.basename file_path, rsctx.extname
+    rsctx
+
+
   # Return resource paths
   resolve: ( route, router_name, handler_name, handler_spec, ctx ) ->
+
+    # Create resolver sub-context
     rctx = ctx.getSub(
       #route:
       name: route
@@ -77,50 +97,37 @@ Base =
           spec: handler_spec
     )
 
+    # List for resource contexts
     rs = []
 
     # Use exact route as fs path
     if fs.existsSync route
-      sctx = rctx.getSub(
-        ref: ctx.base + route
-        path: route
-      )
-      rs.push sctx
+      rsctx = Base.file_res_ctx rctx, route
+      rs.push rsctx
 
     # Use route as ID for glob spec (a set of existing fs paths)
     else if route.startsWith '_'
       ctx.log 'Dynamic', url: route, '', path: handler_spec
-
       for name in glob.sync handler_spec
-        sctx = rctx.getSub(
-          ref: null
-          path: name
-          extname: path.extname name
-          dirname: path.dirname name
-          basename: null
-        )
-        sctx.basename = path.basename name, sctx.extname
-        if sctx.dirname == '.'
-          sctx.ref = ctx.base + sctx.basename
-          #sctx.path = ctx.base
+        rsctx = Base.file_res_ctx rctx, name
+        if rsctx.dirname == '.'
+          rsctx.ref = ctx.base + rsctx.basename
         else
-          sctx.ref = "#{ctx.base}#{sctx.dirname}/#{sctx.basename}"
-          dirurl = ctx.base + sctx.dirname
+          rsctx.ref = "#{ctx.base}#{rsctx.dirname}/#{rsctx.basename}"
+          dirurl = ctx.base + rsctx.dirname
           if not ctx.dirs.hasOwnProperty dirurl
-            ctx.dirs[ dirurl ] = [ sctx.basename ]
+            ctx.dirs[ dirurl ] = [ rsctx.basename ]
           else
-            ctx.dirs[ dirurl ].push sctx.basename
-          #sctx.path = dirurl
+            ctx.dirs[ dirurl ].push rsctx.basename
+          #rsctx.path = dirurl
 
-        rs.push sctx
-        #yield sctx
+        rs.push rsctx
+        #yield rsctx
 
     else if fs.existsSync handler_spec
-      sctx = rctx.getSub(
-        ref: ctx.base + route
-        path: handler_spec
-      )
-      rs.push sctx
+      rsctx = Base.file_res_ctx rctx, handler_spec
+      rsctx.ref = ctx.base + route
+      rs.push rsctx
 
     # Use route as is
     else # XXX
@@ -128,12 +135,12 @@ Base =
             then "#{router_name}.#{rctx.router.handler.name}" \
             else router_name
       res += ":#{rctx.router.handler.spec}(#{route})"
-      sctx = rctx.getSub(
+      rsctx = rctx.getSub(
         ref: ctx.base + route
         spec: rctx.router.handler.spec
         res: res
       )
-      rs.push sctx
+      rs.push rsctx
   
     return rs
 
