@@ -19,12 +19,15 @@
   - Added TODO file. Looking if markdown is suitable format.
 
 0.0.3-dev
-  - Added versioning scripts.
+  - Added project versioning scripts.
 
 (0.0.4)
   - Testing project publishing scripts.
   - Added graphviz.
-  - Looking at jsonary.
-  - Looking at polymer.
+  - Looking at jsonary, polymer.
   - Added scripts param for rst2html.
+  - Rewrote core to allow routers to extend Express by themselves (for `DB
+    Feature`_).
+
+.. _DB Feature: docs/feature-db
 
