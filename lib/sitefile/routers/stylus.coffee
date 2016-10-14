@@ -19,10 +19,10 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( fn, ctx={} ) ->
+  generate: ( rsctx ) ->
     ( req, res ) ->
-      sitefile.log "Stylus compile", fn
-      data = fs.readFileSync fn
+      sitefile.log "Stylus compile", rsctx.path
+      data = fs.readFileSync rsctx.path
       res.write stylus.render data.toString()
       res.end()
 
