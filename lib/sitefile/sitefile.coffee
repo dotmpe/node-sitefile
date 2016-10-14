@@ -223,10 +223,10 @@ class Sitefile
       for rsr in router.resolve route, router_name, \
           handler_name, handler_spec, ctx
 
-        #if not ( rsr.ref+rsr.extname is rsr.ref )
+        if not ( rsr.ref+rsr.extname is rsr.ref )
           # FIXME: policy on extensions
-          #ctx.redir rsr.ref+rsr.extname, rsr.ref
-          #ctx.log 'redir', ref+extname, ref
+          ctx.redir rsr.ref+rsr.extname, rsr.ref
+          ctx.log 'redir', ref+extname, ref
 
         if router_name of Router.builtin
           Router.builtin[router_name]( route, rsr.ref, handler_spec, ctx )

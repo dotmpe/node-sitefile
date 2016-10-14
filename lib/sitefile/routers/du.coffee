@@ -74,7 +74,7 @@ rst2html = ( out, params={} ) ->
     out.end()
 
   else
-    child_process.exec cmd, (error, stdout, stderr) ->
+    child_process.exec cmd, maxBuffer: 1024*1024, (error, stdout, stderr) ->
       if error
         out.type 'text/plain'
         out.status 500
