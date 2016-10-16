@@ -26,6 +26,10 @@ Node Sitefile
     :target: https://travis-ci.org/dotmpe/node-sitefile
     :alt: Build
 
+  .. image:: https://img.shields.io/github/issues/dotmpe/node-sitefile.svg
+    :target: http://githubstats.com/dotmpe/script-mpe/issues
+    :alt: GitHub issues
+
 :repository:
 
   .. image:: https://badge.fury.io/gh/dotmpe%2Fnode-sitefile.png
