@@ -223,17 +223,16 @@ class Sitefile
       for rsr in router.resolve route, router_name, \
           handler_name, handler_spec, ctx
 
-        log route, url: rsr.ref, '=', if 'path' of rsr \
-            then path: rsr.path else res: rsr.res
-
-        if not ( rsr.ref+rsr.extname is rsr.ref )
+        if rsr.extname and not ( rsr.ref+rsr.extname is rsr.ref )
           # FIXME: policy on extensions
           ctx.redir rsr.ref+rsr.extname, rsr.ref
-          #ctx.log 'redir', ref+extname, ref
+          #ctx.log 'redir', rsr.ref+rsr.extname, rsr.ref
 
         if router_name of Router.builtin
           Router.builtin[router_name]( route, rsr.ref, handler_spec, ctx )
         else
+          log route, url: rsr.ref, '=', if 'path' of rsr \
+              then path: rsr.path else res: rsr.res
           # generate: let router return handlers for given resource
           h = router.generate rsr, ctx
           if h

@@ -1,0 +1,13 @@
+{
+  "client": "sqlite3",
+  "connection": {
+    "filename": "./knex.sqlite"
+  },
+  "migrations": {
+    "directory": "./migrate",
+    "tableName": "migrations"
+  },
+  "models": {
+    "directory": "./models"
+  }
+}
