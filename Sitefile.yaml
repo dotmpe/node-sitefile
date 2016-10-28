@@ -5,7 +5,7 @@
 # script if you want to, like call http://localhost/clean.sh. Ymmv. 
 #
 # Id: node-sitefile/0.0.4-dev-fdata+b2ef470
-sitefile: 0.0.4-dev-fdata
+sitefile: 0.0.4-dev
 routes:
   # FIXME: prefix mapping
   #media: static:public/media

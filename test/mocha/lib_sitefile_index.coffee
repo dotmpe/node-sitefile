@@ -1,4 +1,4 @@
-# Id: node-sitefile/0.0.4-dev-fdata test/mocha/lib_sitefile_index.coffee
+# Id: node-sitefile/0.0.4-dev test/mocha/lib_sitefile_index.coffee
 chai = require 'chai'
 expect = chai.expect
 path = require 'path'
