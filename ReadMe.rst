@@ -393,8 +393,8 @@ master [*]_
         - Added Bower. Experimenting with polymer.
         - Want to get Polymer core-scaffold running somehow.
           See examples_ and `Polymer Getting started <doc/polymer>`_.
-        - Working to add prism.js source-viewer, but does not seem to be working
-          correctly. See `Testing prism.js </src/example/polymer-custom>`_
+        - Working to add prism.js source-viewer.
+          see `Testing prism.js </src/example/polymer-custom.pug>`_
 
       f_jsonary
         - Looking at jsonary as a client-side JSON schema renderer/editor.

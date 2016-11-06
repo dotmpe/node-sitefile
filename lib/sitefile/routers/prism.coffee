@@ -4,7 +4,7 @@ http://prismjs.com/
 ###
 _ = require 'lodash'
 fs = require 'fs'
-jade = require 'jade'
+pug = require 'pug'
 
 
 # Given sitefile-context, export metadata for prism: handlers
@@ -13,7 +13,7 @@ module.exports = ( ctx={} ) ->
   _.defaults ctx, lazyCompile: true
 
   if not ctx.lazyCompile
-    tpl = jade.compileFile './lib/sitefile/routers/prism-js-view.jade'
+    tpl = pug.compileFile './lib/sitefile/routers/prism-js-view.pug'
 
   name: 'prism'
   label: 'Source browser with Prism Syntax Highlighter'
@@ -26,12 +26,12 @@ module.exports = ( ctx={} ) ->
 
     ( req, res ) ->
       ctx.source = req.params[0]
-      ctx.format = 'jade'
+      ctx.format = 'pug'
       data = fs.readFileSync req.params[0]
       ctx.code = data.toString()
       ctx.lines = ctx.code.split('\n')
       if ctx.lazyCompile
-        tpl = jade.compileFile './lib/sitefile/routers/prism-js-view.jade'
+        tpl = pug.compileFile './lib/sitefile/routers/prism-js-view.pug'
       res.write tpl ctx
       res.end()
 

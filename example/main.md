@@ -26,21 +26,24 @@ handling.
 
 # Polymer
 
+HTML5 polyfills etc. (custom elements, shadow DOM, client-side router)
+
 - [ Polymer Example ](./polymer-example)
 - [ Prism Examples with Polymer Style Selector ](./prism)
 - [ Polymer Simple Custom Element Example ](./polymer-custom)
 - [ Polymer Page Swipe](./polymer-page-swipe)
 - [ Polymer App Router ](./polymer-app-router)
 
+
+# Prism
+
+Source viewer.
+
 - [ Polymer + Prism ](./prism)
 - [ Polymer + Prism-JS ](./prism-js)
 
-***
 
-- [ Back to ReadMe ](/ReadMe)
-
-Graphviz
---------
+# Graphviz
 
 From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 
@@ -65,4 +68,11 @@ From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 ![ Call graph ](./graphviz-call-graph.dot)
 
 ![ Graph with edges on clusters ](./graphviz-edge-cluster-graph.dot)
+
+
+
+***
+
+- [ Back to ReadMe ](/ReadMe)
+
 
