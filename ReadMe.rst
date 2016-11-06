@@ -380,12 +380,6 @@ master [*]_
         First look at Loopback framework in `x-loopback`.
         Keep focus for Sitefile dev. on client/middleware.
 
-    client
-      - Added Bower. Experimenting with polymer.
-      - Want to get core-scaffold running. Need to look at router maybe.
-        See examples_ and `Polymer Getting started <doc/polymer>`_.
-      - `Testing prism.js </src/example/polymer-custom>`_  but does not seem to be working correctly.
-
     Command Line
       f_sitebuild
         - Compiling a sitefile to a distributable package.
@@ -395,10 +389,12 @@ master [*]_
           But need to build and test EDL export, and have no EDL reader (transquoter, Scrow).
 
     Routers
-      f_client
+      html5-client
         - Added Bower. Experimenting with polymer.
         - Want to get Polymer core-scaffold running somehow.
-        - Working to add prism.js source-viewer.
+          See examples_ and `Polymer Getting started <doc/polymer>`_.
+        - Working to add prism.js source-viewer, but does not seem to be working
+          correctly. See `Testing prism.js </src/example/polymer-custom>`_
 
       f_jsonary
         - Looking at jsonary as a client-side JSON schema renderer/editor.
