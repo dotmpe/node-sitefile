@@ -1,4 +1,4 @@
-# Id: node-sitefile/0.0.4-dev+b2ef470 test/mocha/Sitefile_yaml.coffee
+# Id: node-sitefile/0.0.4 test/mocha/Sitefile_yaml.coffee
 chai = require 'chai'
 expect = chai.expect
 request = require 'request'
@@ -11,7 +11,6 @@ doubles is an example for all handlers. ", ->
 
   this.timeout 6000
 
-  # FIXME: should abstract test to more simpler format
 
   it "should serve its own ReadMe", ( done ) ->
 

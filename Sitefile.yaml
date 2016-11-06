@@ -4,16 +4,18 @@
 # A note of caution: this example config does shameless things like executing any shell
 # script if you want to, like call http://localhost/clean.sh. Ymmv. 
 #
-# Id: node-sitefile/0.0.4-dev+b2ef470
-sitefile: 0.0.4-dev+b2ef470
+# Id: node-sitefile/0.0.4-dev+20161010
+sitefile: 0.0.4
 routes:
-  media: static:public/media
+  # FIXME: prefix mapping
+  #media: static:public/media
   scripts/default.js: static:scripts/default.js
-  '': redir:ReadMe
-  index: redir:ReadMe
-  #example: redir:example/main
-  example: static:example
-  _rst2html: rst2html:**/*.rst
+  
+  example: redir:example/main
+  example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
+  example/bookshelf/knex: knex:example/bookshelf/knex.json
+  _example: static:example
+
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
   _coffee: coffee:example/**/*.coffee
@@ -23,7 +25,27 @@ routes:
   'src/*': 'prism:'
 
   components: static:public/components
+
+  # Some defaults for root
+  '': redir:ReadMe
+  index: redir:ReadMe
+
+  # Example routes for ReadMe
+  #ReadMe: du:ReadMe.rst # Du defaults to HTML
+  #ReadMe: redir:ReadMe.html
+  #ReadMe.html: du:ReadMe.rst
+  #ReadMe.xml: du:ReadMe.rst
+  
+  # Dynamic rules using glob spec
+  _du: du:**/*.rst
+  #_rst2html: rst2html:**/*.rst
+  #_#1: du:ReadMe.rst
+# NOTE: _1 or __1 will not work, YAML strips '_' so it turns into a std. route
+  
+  Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
+  Sitefile.yaml/debug: sitefile:Sitefile.yaml
+
 
   example/polymer-app-router: static:example/polymer-app-router.html
 
@@ -38,7 +60,7 @@ routes:
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
 
-port: 4321
+port: 4325
 
 #  todo: 'todo-app:TODO.list'
 
@@ -50,7 +72,8 @@ params:
     flags:
     - "--no-toc-backlinks"
     scripts:
-      - scripts/default.js
+      - /components/jquery/dist/jquery.min.js
+      - /scripts/default.js
     stylesheets:
       $ref: '#/defs/stylesheets/default'
 

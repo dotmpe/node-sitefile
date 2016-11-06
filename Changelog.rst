@@ -4,8 +4,6 @@
   - Express based server handlers. Loading routers from modules.
 
 0.0.2
-  :date: 2015-04-12
-
   - Added support for dynamic routes with globs.
   - Added automatic folder-default redirection.
   - Implemented some Jasmine tests.
@@ -19,12 +17,19 @@
   - Added TODO file. Looking if markdown is suitable format.
 
 0.0.3-dev
-  - Added versioning scripts.
+  - Added project versioning scripts.
 
-(0.0.4)
+0.0.4
   - Testing project publishing scripts.
   - Added graphviz.
-  - Looking at jsonary.
-  - Looking at polymer.
-  - Added scripts param for rst2html.
+  - Looking at jsonary, polymer in derived branches.
+  - Added scripts param for rst2html, moved most code to Du router.
+  - Rewrote core to allow routers to extend Express by themselves (for `DB
+    Feature`_).
+  - Cleaned up file-to-resource heuristics and made it more consistent.
+
+(0.0.5)
+  ..
+
+.. _DB Feature: docs/feature-db
 

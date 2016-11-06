@@ -1,28 +1,8 @@
 #!/usr/bin/env coffee
 
 lib = require '../lib/sitefile'
+_ = require 'lodash'
 
-
-# prepare server context
-init = ->
-
-  # prepare context and config, load sitefile
-  ctx = lib.prepare_context ctx
-
-  # initialize Express
-  express_handler = require '../lib/sitefile/express'
-  ctx.app = express_handler ctx
-
-  # Load needed routers and parameters
-  lib.load_routers ctx
-
-  # apply Sitefile routes
-  lib.apply_routes ctx.sitefile, ctx
-
-  # reload ctx.{config,sitefile} whenever file changes
-  lib.reload_on_change ctx.app, ctx
-
-  ctx
 
 
 # export server
@@ -33,10 +13,20 @@ module.exports =
   host: null
   proc: null
 
-  init: init
   run: ( done ) ->
 
-    ctx = module.exports.init()
+    # prepare context and config data, loads sitefile
+    ctx = lib.prepare_context ctx
+    if _.isEmpty ctx.sitefile.routes
+      lib.warn 'No routes'
+      process.exit()
+
+    # initialize Express
+    express_handler = require '../lib/sitefile/express'
+    ctx.app = express_handler ctx
+  
+    # further Express setup using sitefile
+    sf = new lib.Sitefile ctx
 
     # serve forever
     console.log "Starting server at localhost:#{ctx.port}"
@@ -65,10 +55,9 @@ else if process.argv[2] in [ '--version', '--help' ]
 
 # TODO: detect execute or (test-mode) include
 #else
-#  
 #  lib.warn "Invalid argument:", process.argv[2]
 #  process.exit(1)
 
 
-# Id: node-sitefile/0.0.4-dev+b2ef470 bin/sitefile.coffee
+# Id: node-sitefile/0.0.4 bin/sitefile.coffee
 # vim:ft=coffee:
