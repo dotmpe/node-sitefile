@@ -15,7 +15,7 @@ liberror = require '../error'
 libconf = require '../conf'
 
 
-version = "0.0.4-dev" # node-sitefile
+version = "0.0.5-dev" # node-sitefile
 
 
 c =
