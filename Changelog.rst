@@ -25,7 +25,7 @@
   - Looking at jsonary, polymer in derived branches.
   - Added scripts param for rst2html, moved most code to Du router.
   - Rewrote core to allow routers to extend Express by themselves (for `DB
-    Feature`_).
+    Feature`_). Added Knex/Bookshelf/API for access to SQL data.
   - Cleaned up file-to-resource heuristics and made it more consistent.
 
 (0.0.5)

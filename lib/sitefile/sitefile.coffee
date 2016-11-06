@@ -17,7 +17,7 @@ libconf = require '../conf'
 # register String:: exts
 require './util'
 
-version = "0.0.4" # node-sitefile
+version = "0.0.5-dev" # node-sitefile
 
 
 c =
