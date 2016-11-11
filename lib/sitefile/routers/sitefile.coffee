@@ -1,4 +1,4 @@
-path = require 'path'
+#path = require 'path'
 
 sitefile = require '../sitefile'
 
@@ -13,11 +13,15 @@ module.exports = ( ctx={} ) ->
 
   generate: ( rsctx ) ->
 
-    #json = require path.join ctx.cwd, rsctx.path
-
     ( req, res ) ->
 
-      res.write JSON.stringify ctx._data
+      res.type 'json'
+
+      switch rsctx.spec
+        when "resource" then res.write JSON.stringify rsctx._data
+        when "handler" then res.write JSON.stringify rsctx.context._data
+        when "global" then res.write JSON.stringify rsctx.context.context._data
+
       res.end()
 
 

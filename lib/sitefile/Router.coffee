@@ -115,10 +115,10 @@ Base =
         else
           rsctx.ref = "#{ctx.base}#{rsctx.dirname}/#{rsctx.basename}"
           dirurl = ctx.base + rsctx.dirname
-          if not ctx.dirs.hasOwnProperty dirurl
-            ctx.dirs[ dirurl ] = [ rsctx.basename ]
+          if not ctx.routes.directories.hasOwnProperty dirurl
+            ctx.routes.directories[ dirurl ] = [ rsctx.basename ]
           else
-            ctx.dirs[ dirurl ].push rsctx.basename
+            ctx.routes.directories[ dirurl ].push rsctx.basename
           #rsctx.path = dirurl
 
         rs.push rsctx

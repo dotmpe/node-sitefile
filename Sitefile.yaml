@@ -43,7 +43,11 @@ routes:
   
   Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
-  Sitefile.yaml/debug: sitefile:Sitefile.yaml
+  Sitefile.yaml/resource: sitefile:resource
+  Sitefile.yaml/handler: sitefile:handler
+  Sitefile.yaml/global: sitefile:global
+
+  Sitefile/core: 'core:'
 
 
 port: 4325

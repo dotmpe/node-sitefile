@@ -203,7 +203,16 @@ class Sitefile
 
   apply_routes: ( ctx ) ->
   
-    _.defaults ctx, base: '/', dir: defaults: [ 'default', 'index', 'main' ]
+    options = {
+      base: '/'
+      routes:
+        resources: []
+        directories: {}
+        defaults: [ 'default', 'index', 'main' ]
+    }
+    ctx.prepare_properties options
+    ctx.seed options
+
 
     # parse sitefile.routes, pass 2: process specs to handler intances
     for route, strspec of ctx.sitefile.routes
@@ -219,7 +228,7 @@ class Sitefile
       else
         router = @routers[ router_name ].object
 
-      ctx.dirs = @dirs
+      ctx.routes.directories = @dirs
       for rsr in router.resolve route, router_name, \
           handler_name, handler_spec, ctx
 
@@ -237,6 +246,7 @@ class Sitefile
           h = router.generate rsr, ctx
           if h
             ctx.app.all rsr.ref, h
+            ctx.routes.resources.push rsr.ref
 
     # redirect dirs to default dir-index resource
     @add_dir_redirs ctx
@@ -249,7 +259,7 @@ class Sitefile
       if leafs.length == 1
         defleaf = leafs[0]
       if leafs
-        for name in ctx.dir.defaults
+        for name in ctx.routes.defaults
           if name in leafs
             defleaf = name
             break
