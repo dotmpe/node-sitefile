@@ -16,12 +16,12 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( rsctx ) ->
+  generate: ( rctx ) ->
 
     ( req, res ) ->
 
-      sitefile.log "Sh", rsctx.path
-      exec "sh #{rsctx.path}", (error, stdout, stderr) ->
+      sitefile.log "Sh", rctx.res.path
+      exec "sh #{rctx.res.path}", (error, stdout, stderr) ->
         if error != null
           res.status(500)
         res.write(stdout)

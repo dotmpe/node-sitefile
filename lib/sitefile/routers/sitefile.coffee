@@ -1,9 +1,9 @@
-#path = require 'path'
+_  = require 'lodash'
 
 sitefile = require '../sitefile'
 
 
-module.exports = ( ctx={} ) ->
+module.exports = ( ctx ) ->
 
   name: 'sitefile'
   label: ''
@@ -11,16 +11,23 @@ module.exports = ( ctx={} ) ->
     sitefile:**/*.json
   """
 
-  generate: ( rsctx ) ->
+  defaults:
+    route:
+      options:
+        sitefile_default_route_option_example_key: 1
+
+  generate: ( rctx ) ->
 
     ( req, res ) ->
 
+      console.log 'sitefile', rctx.route.handler, 'ctx debug json'
+
       res.type 'json'
 
-      switch rsctx.spec
-        when "resource" then res.write JSON.stringify rsctx._data
-        when "handler" then res.write JSON.stringify rsctx.context._data
-        when "global" then res.write JSON.stringify rsctx.context.context._data
+      switch rctx.route.handler
+        when "resolver" then res.write JSON.stringify rctx._data
+        when "global" then res.write JSON.stringify ctx._data
+        else res.write JSON.stringify _.defaults {}, rctx._data, ctx._data
 
       res.end()
 

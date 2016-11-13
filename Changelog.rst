@@ -29,7 +29,12 @@
   - Cleaned up file-to-resource heuristics and made it more consistent.
 
 (0.0.5)
-  ..
+  - Rewrite for lower contexts: handler/resolver.
+  - Fixed URL path query parsing.
+
+  FIXME: Sitefile need some knowledge of Style and Script resources, both path
+  and URL. Maybe bundle them. Or better use resources exported from routers.
+
 
 .. _DB Feature: docs/feature-db
 

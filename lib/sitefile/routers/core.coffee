@@ -2,9 +2,9 @@ _ = require 'lodash'
 
 
 
-jQuery_autocomplete_api = ( req, rsctx ) ->
+jQuery_autocomplete_api = ( req, rctx ) ->
 
-  global_ctx = rsctx.context.context
+  global_ctx = rctx.context
 
   if req.query.recursive
     req.query.recursive = (req.query.recursive == "true")
@@ -54,21 +54,26 @@ module.exports = ( ctx ) ->
   """
   route:
     base: ctx.base_url
-  
+
+  defaults:
+    route:
+      handler: 'routes'
+      options: {}
+
   prereqs: {}
 
-  generate: ( rsctx ) ->
+  generate: ( rctx ) ->
     
-    if !rsctx.spec
-      rsctx.spec = 'routes'
+    if !rctx.route.handler
+      rctx.route.handler = 'routes'
 
     ( req, res, next ) ->
 
       res.type 'json'
-      switch rsctx.spec
-        when "routes" then data = global_ctx.routes
+      switch rctx.route.handler
+        when "routes" then data = ctx.routes
         when "autocomplete"
-          data = jQuery_autocomplete_api req, rsctx
+          data = jQuery_autocomplete_api req, rctx
       res.write JSON.stringify data
       res.end()
 

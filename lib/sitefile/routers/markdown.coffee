@@ -15,11 +15,11 @@ module.exports = ( ctx={} ) ->
     markdown:**/*.md
   """
 
-  generate: ( rsctx ) ->
+  generate: ( rctx ) ->
 
     ( req, res ) ->
-      sitefile.log 'Markdown publish', rsctx.path
-      data = fs.readFileSync rsctx.path
+      sitefile.log 'Markdown publish', rctx.res.path
+      data = fs.readFileSync rctx.res.path
       doc = md.toHTML data.toString()
       res.write doc
       res.end()

@@ -7,22 +7,24 @@ _ = require 'lodash'
 builtin =
 
   # TODO: extend redir spec for status code
-  redir: ( route, url, handler_spec, ctx, status=302 ) ->
+  redir: ( rctx, url=null, status=302 ) ->
     if not url
-      url = ctx.base + route
-    p = ctx.base + handler_spec
+      url = rctx.base + rctx.name
+    p = rctx.base + rctx.route.spec
     # 301: Moved (Permanently)
     # 302: Found
     # 303: See Other
-    ctx.redir status, url, p
-    ctx.log '      ', url: url, '->', url: p
 
-  static: ( route, url, handler_spec, ctx ) ->
-    # FIXME: if not url
-    url = ctx.base + route
-    p = path.join ctx.cwd, handler_spec
-    ctx.app.use url, ctx.static_proto p
-    ctx.log 'Static', url: url, '=', path: handler_spec
+    #rctx.context.redir status, url, p
+    rctx.context.app.all url, (req, res) ->
+      res.redirect p
+    rctx.context.log '      ', url: url, '->', url: p
+
+  static: ( rctx ) ->
+    url = rctx.base + rctx.name
+    p = path.join rctx.cwd, rctx.route.spec
+    rctx.context.app.use url, rctx.context.static_proto p
+    rctx.context.log 'Static', url: url, '=', path: rctx.route.spec
 
 
 Base =
@@ -70,86 +72,95 @@ Base =
 
 
   # Return resource sub-context for local file resource
-  file_res_ctx: ( rctx, file_path ) ->
-    rsctx = rctx.getSub(
-      ref: rctx.context.base + file_path
+  file_res_ctx: ( ctx, init, file_path ) ->
+    init.res = {
+      ref: ctx.base + file_path
       path: file_path
       extname: path.extname file_path
       dirname: path.dirname file_path
-      basename: null
-    )
-    rsctx.basename = path.basename file_path, rsctx.extname
-    rsctx
+    }
+    init.res.basename = path.basename file_path, init.res.extname
+    # Create resolver sub-context
+    ctx.getSub init
 
 
   # Return resource paths
   resolve: ( route, router_name, handler_name, handler_spec, ctx ) ->
 
-    # Create resolver sub-context
-    rctx = ctx.getSub(
-      #route:
-      name: route
-      #strspec: strspec
-      router:
-        #name: router_name
-        handler:
-          name: handler_name
-          spec: handler_spec
-    )
-
     # List for resource contexts
     rs = []
 
+    rsctxinit =
+      name: route
+      route:
+        name: router_name
+        handler: handler_name
+        spec: handler_spec
+        options: if ctx.sitefile.options and router_name of ctx.sitefile.options \
+          then ctx.resolve "sitefile.options.#{router_name}" else {}
+
     # Use exact route as fs path
     if fs.existsSync route
-      rsctx = Base.file_res_ctx rctx, route
-      rs.push rsctx
+      rctx = Base.file_res_ctx ctx, rsctxinit, route
+      rs.push rctx
 
     # Use route as ID for glob spec (a set of existing fs paths)
     else if route.startsWith '_'
       ctx.log 'Dynamic', url: route, '', path: handler_spec
       for name in glob.sync handler_spec
-        rsctx = Base.file_res_ctx rctx, name
-        if rsctx.dirname == '.'
-          rsctx.ref = ctx.base + rsctx.basename
+        rctx = Base.file_res_ctx ctx, rsctxinit, name
+        if rctx.res.dirname == '.'
+          rctx.res.ref = ctx.base + rctx.res.basename
         else
-          rsctx.ref = "#{ctx.base}#{rsctx.dirname}/#{rsctx.basename}"
-          dirurl = ctx.base + rsctx.dirname
+          rctx.res.ref = "#{ctx.base}#{rctx.res.dirname}/#{rctx.res.basename}"
+          dirurl = ctx.base + rctx.res.dirname
           if not ctx.routes.directories.hasOwnProperty dirurl
-            ctx.routes.directories[ dirurl ] = [ rsctx.basename ]
+            ctx.routes.directories[ dirurl ] = [ rctx.res.basename ]
           else
-            ctx.routes.directories[ dirurl ].push rsctx.basename
-          #rsctx.path = dirurl
+            ctx.routes.directories[ dirurl ].push rctx.res.basename
+          #rctx.path = dirurl
 
-        rs.push rsctx
-        #yield rsctx
+        rs.push rctx
 
     else if fs.existsSync handler_spec
-      rsctx = Base.file_res_ctx rctx, handler_spec
-      rsctx.ref = ctx.base + route
-      rs.push rsctx
+      rctx = Base.file_res_ctx ctx, rsctxinit, handler_spec
+      rctx.res.ref = ctx.base + route
+      rs.push rctx
 
     # Use route as is
-    else # XXX
-      res = if rctx.router.handler.name \
-            then "#{router_name}.#{rctx.router.handler.name}" \
-            else router_name
-      res += ":#{rctx.router.handler.spec}(#{route})"
-      rsctx = rctx.getSub(
-        ref: ctx.base + route
-        spec: rctx.router.handler.spec
-        res: res
-      )
-      rs.push rsctx
+    else
+      init = res: ref: ctx.base + route
+      _.defaultsDeep init, rsctxinit
+      rctx = ctx.getSub init
+      rs.push rctx
   
     return rs
 
+  initialize: ( router_type, rctx ) ->
+
+    rctx.context.routes.resources.push rctx.res.ref
+
+    # generate: let router_type return handlers for given resource
+    if rctx.route.handler of router_type
+      h = router_type[rctx.route.handler] rctx
+    else
+      h = router_type.generate rctx
+
+    if not h
+      module.exports.warn "Router #{rctx.route.name} returned nothing for #{rctx.name}, ignored"
+      return
+
+    rctx.context.app.all rctx.res.ref, ( req, res ) ->
+      _.defaultsDeep rctx.route.options, req.query
+      h req, res
+   
 
 module.exports =
+
   builtin: builtin
   Base: Base
-
   # Current way of 'instantiating' router
   define: ( mixin ) ->
     _.assign {}, Base, mixin
+
 
