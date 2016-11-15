@@ -34,7 +34,9 @@ custom data. The data is loaded from the Sitefile if given.
 Router modules have an defaults attribute, this can also provide 
 default 'route.options'.
 
+
 [Query to handler options](/Sitefile/debug?pretty=true&bar[baz]=foo)
+
 
 
 

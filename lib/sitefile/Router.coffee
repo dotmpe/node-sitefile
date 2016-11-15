@@ -22,7 +22,10 @@ builtin =
 
   static: ( rctx ) ->
     url = rctx.base + rctx.name
-    p = path.join rctx.cwd, rctx.route.spec
+    if rctx.route.spec.startsWith '/'
+      p = rctx.route.spec
+    else
+      p = path.join rctx.cwd, rctx.route.spec
     rctx.context.app.use url, rctx.context.static_proto p
     rctx.context.log 'Static', url: url, '=', path: rctx.route.spec
 

@@ -8,8 +8,10 @@
 sitefile: 0.0.5-dev
 port: 4325
 routes:
+
   # FIXME: prefix mapping
   media: static:public/media
+
   scripts/default.js: static:scripts/default.js
   
   example: redir:example/main
@@ -38,12 +40,8 @@ routes:
   #ReadMe.xml: du:ReadMe.rst
   
   # Dynamic rules using glob spec
-  #_du: du:**/*.rst
-
-  _rst2html: rst2html:**/*.rst
-
-  #_#1: du:ReadMe.rst
-  # NOTE: _1 or __1 will not work, YAML strips '_' so it turns into a std. route
+  _du: du:**/*.rst
+  #_rst2html: rst2html:**/*.rst
   
   Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
@@ -54,6 +52,7 @@ routes:
   Sitefile/global: sitefile.global:#
 
   Sitefile/core: 'core:'
+
 
 options:
   du:

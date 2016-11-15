@@ -31,10 +31,13 @@
 (0.0.5)
   - Rewrite for lower contexts: handler/resolver.
   - Fixed URL path query parsing.
+  - Went through all of the ReadMe and split into Manual and Dev docs.
+  - Renamed ``Sitefile.{yaml,json}`` `params` attribute to `options` like
+    the object in the `resolver context` to keep term diversity low.
 
   FIXME: Sitefile need some knowledge of Style and Script resources, both path
   and URL. Maybe bundle them. Or better use resources exported from routers.
 
 
-.. _DB Feature: docs/feature-db
+.. include:: doc/.defaults.rst
 

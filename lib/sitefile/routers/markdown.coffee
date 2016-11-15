@@ -21,6 +21,7 @@ module.exports = ( ctx={} ) ->
       sitefile.log 'Markdown publish', rctx.res.path
       data = fs.readFileSync rctx.res.path
       doc = md.toHTML data.toString()
+      res.type 'html'
       res.write doc
       res.end()
 
