@@ -24,6 +24,21 @@ handling.
 - [ Sh ](./sh-script) - [(script)](./sh-script.sh)
 
 
+# Paremeterization
+
+Routers can inspect the entire application context.
+
+The resource context is initialized with a 'route.options' attribute to hold any
+custom data. The data is loaded from the Sitefile if given.
+
+Router modules have an defaults attribute, this can also provide 
+default 'route.options'.
+
+
+[Query to handler options](/Sitefile/debug?pretty=true&bar[baz]=foo)
+
+
+
 # Polymer
 
 HTML5 polyfills etc. (custom elements, shadow DOM, client-side router)

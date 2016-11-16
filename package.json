@@ -59,6 +59,7 @@
     "markdown": "^0.5.0",
     "nodelib": "git://github.com/dotmpe/nodelib#dev",
     "pug": "^2.0.0-beta6",
+    "qs": "6.2.0",
     "semver": "^5.3.0",
     "sqlite3": "^3.1.6",
     "stylus": "^0.54.5"

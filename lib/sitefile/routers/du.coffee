@@ -125,29 +125,30 @@ module.exports = ( ctx ) ->
     rst2html: rst2html
 
   # Generators for Sitefile route handlers
-  generate: ( rsctx ) ->
+  generate: ( rctx ) ->
 
     # FIXME: improve Context API:
     extra = (
-      docpath: path.join(  ctx.cwd, rsctx.path ),
-      src: format: rsctx.extname.substr 1
-      dest: format: path.extname(rsctx.ref)?.substr(1) or 'html'
+      docpath: path.join(  ctx.cwd, rctx.res.path ),
+      src: format: rctx.res.extname.substr 1
+      dest: format: path.extname(rctx.res.ref)?.substr(1) or 'html'
     )
-    rsctx.prepare_properties extra
-    rsctx.seed extra
+    rctx.prepare_properties extra
+    rctx.seed extra
+
 
     ( req, res, next ) ->
       req.query = _.defaults req.query || {},
-        format: rsctx.dest.format,
-        docpath: rsctx.docpath
+        format: rctx.dest.format,
+        docpath: rctx.docpath
 
-      # TODO: move one or two scopes up, but implement router relouding first;
+      # TODO: copied to rctx.router.options, but implement router relouding first;
       # keeping this here allows for params to be refreshed.
-      params = if ctx.sitefile.params and 'du' of ctx.sitefile.params \
-        then ctx.resolve 'sitefile.params.du' else {}
+      options = if ctx.sitefile.options and 'du' of ctx.sitefile.options \
+        then ctx.resolve 'sitefile.options.du' else {}
 
       try
-        rst2html res, _.merge {}, params, req.query
+        rst2html res, _.merge {}, options, req.query
       catch error
         console.log error
         res.type('text/plain')
