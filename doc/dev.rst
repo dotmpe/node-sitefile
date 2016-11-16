@@ -8,7 +8,7 @@ Epics
 ------
 Current:
 
-- Add hypertext capability to file-based content.
+- Add hypertext capability to file-based content. See ToDo_ document.
 
   In particular control the envelope and delivery of content. Manage style,
   script and maybe (later) links, metadata, and then later profiles, schema..
@@ -25,12 +25,18 @@ There are many possibly useful directions:
 
 - viewer for media files
 - 3D meshes using webGL
+- diagramming, dashboards, log viewers, other interactive apps defined in local
+  sketchbooks.
 
-- other web-related files: browse bookmarks, references. An simple URL carroussel/slideshow app?
-- interact with JSON data, maybe API's, use jsonary_ or json-editor
+- other web-related files: browse bookmarks, references.
+  An simple URL carroussel/slideshow app? An image book. A quote book.
 
-- provide an in-browser IDE experience, possibly enabling Makefiles and other
-  buildformats. Excuberant CTags.
+- interact with JSON data, maybe API's.
+- work with metadata, schemas, use jsonary_ or json-editor
+
+- provide an in-browser IDE experience, support NPM, Bower or other packages.
+  CommonJS modules. Projects with Makefile, Gruntfile. Is excuberant CTags too
+  far back?
 
 Next:
 
