@@ -1,14 +1,17 @@
 # Epic 1: serve a simple website
 ## Routers
-- TODO: map extensions. Ie. default spec should be like makefile: path%.trgt: path%.src
+- TODO: map extensions. Ie. default spec would be something like makefile: path%.trgt: path%.src
 - TODO: map prefixes.
 - TODO: finalize 0.1.0 specifications and define BWC components/interfaces.
 - FIXME: rst2html router context is broken.
 
 ### Documents
-TODO: manage view: style and scripts. Automatic reload browser on change.
-See also 'App platform' task. Solve some other router and configuration issues 
-first.
+- TODO: manage view: style and scripts. Automatic reload browser on change.
+  See also 'App platform' task. Solve some other router and configuration issues 
+  first.
+- TODO: browser reset styles, some simple local Du/rSt styles in e.g. Stylus
+- http://asciidoctor.org/
+  AsciiDoc processor in Ruby? Maybe add a section of plain text markup formats.
 
 #### Python Docutils (reStructuredText)
 
@@ -31,9 +34,11 @@ src/dotmpe/sitefile/routers/du.coffee:XXX: get all dependencies somehow, and rou
   Coffee-Script, SASS/SCSS. 
   Think about example/demo repo and keeping files low, focus on 
   testing and documentation.
-
 - TODO: live customization of views.
-- ReadMe.rst:- :todo:`maybe implement simple TODO app as a feature branch somday`
+- TODO: components, should want to deal with optional deps. iso. req'ments.
+- FIXME: Consolidate reader.rst into package/stack.
+- XXX: maybe implement simple TODO app as a feature branch somday
+- TODO: site builds, packaging
 
 ## Configuration
 - NOTE: in yaml, _1 or __1 will not work, YAML strips '_' so it turns into a std. route.
@@ -69,6 +74,15 @@ src/dotmpe/sitefile/routers/du.coffee:XXX: get all dependencies somehow, and rou
 - ReadMe.rst:XXX specs contain as little embedded metadata as possible, focus is on
 - ReadMe.rst:- ``redir``\ specify a redirect FIXME glob behaviour?
 - ReadMe.rst:- module.export callback receives sitefile context, XXX should return::
+
+# Project tooling
+- PLAN: make some guards to determine version increment, maybe some gherkin specs.
+- https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
+- :todo:`add express functions again:`
+    | "connect-flash": "latest",
+    | "method-override": "^2.3.2",
+    | "node-uuid": "^1.4.3",
+    | "notifier": "latest"
 
 ## Testing
 - Makefile:# FIXME jasmine from grunt?

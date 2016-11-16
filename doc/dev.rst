@@ -71,22 +71,6 @@ Branch docs
 Misc.
 ------
 
-- PLAN: make some guards to determine version increment, maybe some gherkin specs.
-- TODO: components, should want to deal with optional deps. iso. req'ments.
-- TODO: browser reset styles, some simple local Du/rSt styles in e.g. Stylus
-- TODO: maybe implement simple TODO app as a feature branch someday.
-
-- https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
-- :todo:`add express functions again:`
-    | "connect-flash": "latest",
-    | "method-override": "^2.3.2",
-    | "node-uuid": "^1.4.3",
-    | "notifier": "latest"
-
-- http://asciidoctor.org/
-  AsciiDoc processor in Ruby? Maybe add a section of plain text markup formats.
-- TODO: site builds, packaging
-
 Data
   See also x-loopback. Maybe keep al backend/auth/data-proxy-middleware out
   of Sitefile. Express is better for other middleware.
