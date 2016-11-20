@@ -10,11 +10,11 @@ knex_util = require '../knex'
 # TODO: move to context. Also see knex usage below.
 api_cache = {}
 
-load_or_get_api = ( rsctx ) ->
-  prefix = path.dirname rsctx.path
+load_or_get_api = ( rctx ) ->
+  prefix = path.dirname rctx.res.path
   if prefix not of api_cache
     if not global.knex
-      global.knex_config = knex_util.load_config rsctx, rsctx.context
+      global.knex_config = knex_util.load_config rctx, rctx.context
       global.knex = require('knex') knex_config
     else
       sitefile.log "Warning, FIXME re-using global knex instances.."
@@ -22,13 +22,13 @@ load_or_get_api = ( rsctx ) ->
                           path: global.knex_config.models.directory
                           #hardDelete: false
                           # FIXME: deletedAttribute translate/test timestamps?
-    sitefile.log 'Bookshelf API loaded at', rsctx.name
+    sitefile.log 'Bookshelf API loaded at', rctx.name
 
   api_cache[prefix]
 
 
 get_api = ( ctx ) ->
-  prefix = ctx.ref
+  prefix = ctx.res.ref
   if prefix not of api_cache
     path_els = prefix.split '/'
     path_els.shift()
@@ -51,35 +51,35 @@ module.exports = ( ctx ) ->
     bookshelf-api:**/*.sqlite
   """
 
-  generate: ( rs ) ->
+  generate: ( rctx ) ->
 
-    if 'path' of rs
-      api = load_or_get_api rs
+    if 'path' of rctx.res
+      api = load_or_get_api rctx
 
-      sitefile.log 'Bookshelf API from', rs.path
-      ctx.app.use ctx.base+rs.name, api
+      sitefile.log 'Bookshelf API from', rctx.res.path
+      ctx.app.use ctx.base+rctx.name, api
 
-      ctx.app.get ctx.base+rs.name+'/debug', (req, res) ->
+      ctx.app.get ctx.base+rctx.name+'/debug', (req, res) ->
         d = {}
-        _ctx = rs
+        _ctx = rctx
         while _ctx
           d = _.merge d, _ctx._data
           _ctx = _ctx.context
         res.write JSON.stringify d
         res.end()
 
-    else if 'spec' of rs
-      api = get_api rs
+    else if 'spec' of rctx.res
+      api = get_api rctx
 
-      if rs.spec.startsWith 'route-model.'
-        model = api rs.spec.substr 12
-        ctx.app.get rs.ref, model
+      if rctx.res.spec.startsWith 'route-model.'
+        model = api rctx.route.spec.substr 12
+        ctx.app.get rctx.res.ref, model
 
       else
-        throw Error "Unexpected bookshelf-api spec: #{rs.spec} (#{rs.ref})"
+        throw Error "Unexpected bookshelf-api spec: #{rctx.res.spec} (#{rctx.res.ref})"
 
     else
-      throw Error "Unexpected bookshelf-api resource context (#{rs.ref})"
+      throw Error "Unexpected bookshelf-api resource context (#{rctx.res.ref})"
 
     null
 
