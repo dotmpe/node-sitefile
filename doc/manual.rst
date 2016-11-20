@@ -35,7 +35,7 @@ filepath and name patterns from the Sitefile.
 It should be useful for projects that have no webserver of their own, or that
 want to defer rendering/browsing of the project documentation and other resources.
 
-Alternative solutions are explored in `Sitefile planet`_ section.
+Alternative solutions are explored in `Sitefile planet` section.
 
 
 
@@ -142,7 +142,7 @@ exists::
   _coffee: coffee:example/**/*.coffee
   _markdown_1: markdown:example/**/*.md
 
-E.g. `TODO <./TODO.md>`_ or `example/script.coffee <example/script>`_.
+E.g. `TODO`_ or `example/script.coffee <example/script>`_.
 See examples_.
 
 
@@ -166,7 +166,7 @@ Properties
 
 sitefile
   The version spec for the sitefile version to satisfy. See semver_ for syntax,
-  for Versions_ for values. XXX This could be replaced by a $schema key maybe.
+  or ChangeLog_ for values. XXX This could be replaced by a $schema key maybe.
 
 routes (required)
   A map or table of route-id -> router-spec.
@@ -197,6 +197,25 @@ where each router should have a default handler name, given a shorter spec::
 What follows after the semicolon (':') is either a opaque string to be passed
 directly to the handler implementation, or an glob pattern.
 
+Current situation/plan::
+
+  _<route-id>: <router>:<path-or-glob>
+
+  path$<param>/path: <router>:<pg>
+
+  /path/literal.ext: <router>:<pg>
+
+  /prefix/^: <router>:<pg>
+
+Mapping exts:
+
+  _<route-id>.<ext>: <router>:<pg>.<ext>
+
+  reg:
+    <ext>: <mime>
+    txt: text/plain
+
+
 XXX specs contain as little embedded metadata as possible, focus is on
 providing parameters through context (or rc) first. Some URL patterning maybe
 called for but currently sitefile relies on either static or (fs) glob-expanded URL
@@ -218,8 +237,6 @@ and
 
 For details writing your own router see Routers_.
 
-
-:todo:`look for some versioning (definition, validation, comparison, migration) of Sitefile schema`
 
 
 

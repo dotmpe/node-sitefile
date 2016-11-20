@@ -2,14 +2,15 @@
 
 .. role:: todo(strong)
 
-.. _changelog: ./Changelog.rst
+.. _changelog: /Changelog.rst
 .. _examples: /example
+.. _ToDo: /TODO.md
 
-.. _ToDo: ./TODO.md
+.. _DB Feature: /docs/feature-db
+
 .. _jsonary: http://jsonary.com/
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
 .. _semver: https://github.com/npm/node-semver
-.. _DB Feature: docs/feature-db
 
 

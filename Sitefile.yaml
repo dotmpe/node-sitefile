@@ -6,7 +6,6 @@
 #
 # Id: node-sitefile/0.0.5-dev+20161010
 sitefile: 0.0.5-dev
-port: 4325
 routes:
 
   # FIXME: prefix mapping
