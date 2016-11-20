@@ -27,6 +27,8 @@ routes:
   _gv: gv:example/*.gv
   components: static:public/components
 
+  proc/pm2: pm2:pm2-procs.json
+
   # Some defaults for root
   #FIXME: 
   '': redir:ReadMe

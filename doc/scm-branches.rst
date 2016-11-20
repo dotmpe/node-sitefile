@@ -68,6 +68,25 @@ master [*]_
       f_gv (merged)
         - Adding graphviz to render dot diagrams.
 
+      pm2
+        - Testing a bit with programmatic API acccess in bin/manager.
+
+        - Maybe router for starting PM2 processes from JSON, but pm2 can already
+          do this. Perhaps some simple template to link to running HTTP
+          host/port, because a simple list of host/port is still missing.
+          Ie. an HTTP/HTML app aware view of the services would be nice,
+          fetch the OPTIONS, html/head/title, etc.
+
+          Ability to interact with PM2 from HTTP would be useful. Ie. in the
+          `google-chrome-htdocs` extension.
+
+        - Can simply use JSON for ``pm2 start``, can it use this same structure
+          with ``pm2.start`` API?
+
+          http://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/#ecosystemjson
+
+
+
   demo
     - Merging experimental features. Should keep master clean.
 
