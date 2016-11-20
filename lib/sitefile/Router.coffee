@@ -86,6 +86,10 @@ Base =
     # Create resolver sub-context
     ctx.getSub init
 
+  default_resource_options: ( rctx ) ->
+    ctx = rctx.context
+    if ctx.sitefile.options and ctx.sitefile.options.local and rctx.name of ctx.sitefile.options.local
+      _.defaultsDeep rctx._data.route.options, ctx.resolve "sitefile.options.local.#{rctx.name}"
 
   # Return resource paths
   resolve: ( route, router_name, handler_name, handler_spec, ctx ) ->
@@ -100,11 +104,12 @@ Base =
         handler: handler_name
         spec: handler_spec
         options: if ctx.sitefile.options and router_name of ctx.sitefile.options \
-          then ctx.resolve "sitefile.options.#{router_name}" else {}
+          then ctx.resolve "sitefile.options.global.#{router_name}" else {}
 
     # Use exact route as fs path
     if fs.existsSync route
       rctx = Base.file_res_ctx ctx, rsctxinit, route
+      Base.default_resource_options rctx
       rs.push rctx
 
     # Use route as ID for glob spec (a set of existing fs paths)
@@ -112,6 +117,7 @@ Base =
       ctx.log 'Dynamic', url: route, '', path: handler_spec
       for name in glob.sync handler_spec
         rctx = Base.file_res_ctx ctx, rsctxinit, name
+        Base.default_resource_options rctx
         if rctx.res.dirname == '.'
           rctx.res.ref = ctx.base + rctx.res.basename
         else
@@ -127,6 +133,7 @@ Base =
 
     else if fs.existsSync handler_spec
       rctx = Base.file_res_ctx ctx, rsctxinit, handler_spec
+      Base.default_resource_options rctx
       rctx.res.ref = ctx.base + route
       rs.push rctx
 
@@ -135,6 +142,7 @@ Base =
       init = res: ref: ctx.base + route
       _.defaultsDeep init, rsctxinit
       rctx = ctx.getSub init
+      Base.default_resource_options rctx
       rs.push rctx
   
     return rs

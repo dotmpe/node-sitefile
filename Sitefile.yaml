@@ -27,8 +27,6 @@ routes:
   _gv: gv:example/*.gv
   components: static:public/components
 
-  proc/pm2: pm2:pm2-procs.json
-
   # Some defaults for root
   #FIXME: 
   '': redir:ReadMe
@@ -54,22 +52,31 @@ routes:
 
   Sitefile/core: 'core:'
 
+  proc/pm2: pm2:pm2-procs.json
+  #foo.json: 'http:'
 
 options:
-  du:
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/paths'
-  rst2html:
-    flags:
-    - "--no-toc-backlinks"
-    scripts:
-      - /components/jquery/dist/jquery.min.js
-      - /scripts/default.js
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/paths'
-  pug:
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/urls'
+  global:
+    du:
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/paths'
+    rst2html:
+      flags:
+      - "--no-toc-backlinks"
+      scripts:
+        - /components/jquery/dist/jquery.min.js
+        - /scripts/default.js
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/paths'
+    pug:
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/urls'
+
+  local:
+    proc/pm2:
+      filter: 'sf-*'
+    Sitefile/debug: 
+      local_var: 'fooooo'
 
 defs:
   stylesheets:

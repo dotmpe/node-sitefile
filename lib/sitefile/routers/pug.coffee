@@ -13,7 +13,14 @@ module.exports = ( ctx ) ->
   catch
     return
 
-  #_.defaults ctx,
+
+  compilePug = ( path, options ) ->
+
+    # Compile template from file
+    tpl = pug.compileFile path, options.compile
+
+    # Merge with options and context
+    tpl options.merge
 
   name: 'pug'
   label: 'Pug templates'
@@ -21,16 +28,20 @@ module.exports = ( ctx ) ->
     pug:**/*.pug
   """
 
+  compile: compilePug
+
   defaults:
     route:
       options:
         scripts: []
         stylesheets: []
         pug:
-          pretty: false
-          debug: false
-          compileDebug: false
-          globals: []
+          format: 'html'
+          compile:
+            pretty: false
+            debug: false
+            compileDebug: false
+            globals: []
 
   # generators for Sitefile route handlers
   generate: ( rctx ) ->
@@ -40,16 +51,19 @@ module.exports = ( ctx ) ->
       console.log 'Pug compile', path: rctx.res.path, \
           "with", options: rctx.route.options
 
-      # Compile template from file
-      tpl = pug.compileFile rctx.res.path, req.query.pug
-
-      # Merge with options and context
-      res.write tpl {
-        options: rctx.route.options
-        query: req.query
-        context: rctx
+      pugOpts = {
+        compile: rctx.route.options.pug.compile
+        merge:
+          options: rctx.route.options
+          query: req.query
+          context: rctx
       }
 
+      if not pugOpts.compile.filters
+        pugOpts.compile.filters = {}
+
+      res.type rctx.route.options.pug.format
+      res.write compilePug rctx.res.path, pugOpts
       res.end()
 
 
