@@ -4,11 +4,13 @@
 # A note of caution: this example config does shameless things like executing any shell
 # script if you want to, like call http://localhost/clean.sh. Ymmv. 
 #
-# Id: node-sitefile/0.0.4-dev
-sitefile: 0.0.4-dev
+# Id: node-sitefile/0.0.5-dev+20161010
+sitefile: 0.0.5-dev
 routes:
+
   # FIXME: prefix mapping
-  #media: static:public/media
+  media: static:public/media
+
   scripts/default.js: static:scripts/default.js
   
   example: redir:example/main
@@ -26,6 +28,7 @@ routes:
   components: static:public/components
 
   # Some defaults for root
+  #FIXME: 
   '': redir:ReadMe
   index: redir:ReadMe
 
@@ -38,21 +41,22 @@ routes:
   # Dynamic rules using glob spec
   _du: du:**/*.rst
   #_rst2html: rst2html:**/*.rst
-  #_#1: du:ReadMe.rst
-# NOTE: _1 or __1 will not work, YAML strips '_' so it turns into a std. route
   
   Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
-  Sitefile.yaml/debug: sitefile:Sitefile.yaml
+  Sitefile.json: sitefile:?resolve=sitefile
+  Sitefile/debug: sitefile:#
+  Sitefile/resource: sitefile.resource:#
+  Sitefile/handler: sitefile.handler:#
+  Sitefile/global: sitefile.global:#
+
+  Sitefile/core: 'core:'
 
 
-port: 4325
-
-#  todo: 'todo-app:TODO.list'
-params:
+options:
   du:
     stylesheets:
-      $ref: '#/defs/stylesheets/default'
+      $ref: '#/defs/stylesheets/default/paths'
   rst2html:
     flags:
     - "--no-toc-backlinks"
@@ -60,25 +64,25 @@ params:
       - /components/jquery/dist/jquery.min.js
       - /scripts/default.js
     stylesheets:
-      $ref: '#/defs/stylesheets/default'
+      $ref: '#/defs/stylesheets/default/paths'
+  pug:
+    stylesheets:
+      $ref: '#/defs/stylesheets/default/urls'
 
 defs:
   stylesheets:
     default:
-      - public/media/style/default.css
+      urls:
+        - /media/style/default.css
+      paths:
+        - public/media/style/default.css
 
-      #- /srv/project-mpe/docutils-ext/var/media/style/docutils-html.css
-      #- /srv/project-mpe/docutils-ext/var/media/style/docutils.css
-      
-      #- ~/htdocs/media/style/default.css
-      #- media/style/docutils.css
-      #- media/style/docutils-html.css
-      #
-      #- /media/style/html.css
-      #- ~/htdocs/media/style/dotmpe-com/olddefault.css
-      #- ~/htdocs/media/style/dotmpe-com/style.css
 
-      #- ~/htdocs/media/style/dotmpe-com/docutils-layout.css
-      #- ~/htdocs/media/style/dotmpe-com/dotmpe.css
-      #- ~/htdocs/media/style/dotmpe-com/docutils-layout-fixed.css
+apps:
+  base:
+    scripts: []
+    stylesheets:
+      - href: /media/style/default.css
+        path: public/media/style/default.css
+
 
