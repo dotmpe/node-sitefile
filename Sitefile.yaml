@@ -52,7 +52,9 @@ routes:
 
   Sitefile/core: 'core:'
 
-  proc/pm2: pm2:pm2-procs.json
+  app/pm2: pm2:pm2-procs.json
+
+  proc/pm2: 'pm2.ps:'
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'

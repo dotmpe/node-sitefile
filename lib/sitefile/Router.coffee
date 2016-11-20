@@ -153,8 +153,10 @@ Base =
     rctx.context.routes.resources.push rctx.res.ref
 
     # generate: let router_type return handlers for given resource
-    if rctx.route.handler of router_type
-      h = router_type[rctx.route.handler] rctx
+    if rctx.route.handler and rctx.route.handler of router_type.generate
+      h = router_type.generate[rctx.route.handler] rctx
+    else if 'default' of router_type.generate
+      h = router_type.generate.default rctx
     else
       h = router_type.generate rctx
 
