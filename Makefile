@@ -5,7 +5,7 @@ BASE                := $(shell cd $(DIR);pwd)
 HOST                := $(shell hostname|tr '.' '-')
 
 APP_ID              := 
-VERSION              = 0.0.3-master# node-sitefile
+VERSION              = 0.0.5-dev# node-sitefile
 
 # See GIT versioning project for more complete APP_ID heuristic
 ifneq ($(wildcard package.yml package.yaml),)

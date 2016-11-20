@@ -1,4 +1,4 @@
-# Id: node-sitefile/0.0.3-master test/mocha/Sitefile_yaml.coffee
+# Id: node-sitefile/0.0.5-dev test/mocha/Sitefile_yaml.coffee
 chai = require 'chai'
 expect = chai.expect
 request = require 'request'
@@ -11,12 +11,13 @@ doubles is an example for all handlers. ", ->
 
   this.timeout 6000
 
-  # FIXME: should abstract test to more simpler format
 
   it "should serve its own ReadMe", ( done ) ->
 
     url = "http://localhost:#{server.port}/ReadMe"
     request.get url, ( err, res, body ) ->
+      if res.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
@@ -36,24 +37,30 @@ doubles is an example for all handlers. ", ->
 
     url = "http://localhost:#{server.port}/ChangeLog"
     request.get url, ( err, res, body ) ->
+      if res.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
 
 
-  it "should serve a Jade file to Javascript", ( done ) ->
+  it "should serve a CoffeeScript file to Javascript", ( done ) ->
 
     url = "http://localhost:#{server.port}/example/server-generated-javascript"
     request.get url, ( err, res, body ) ->
+      if res.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
 
 
-  it "should serve a Markdown file to HTML", ( done ) ->
+  it "should serve a Pug file to HTML", ( done ) ->
 
     url = "http://localhost:#{server.port}/example/server-generated-page"
     request.get url, ( err, res, body ) ->
+      if res.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
@@ -63,6 +70,8 @@ doubles is an example for all handlers. ", ->
 
     url = "http://localhost:#{server.port}/example/server-generated-stylesheet"
     request.get url, ( err, res, body ) ->
+      if res.statusMessage != 'OK'
+        console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()

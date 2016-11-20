@@ -2,7 +2,6 @@ _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
 
-
 librst2html = require './rst2html'
 
 rst_reader = ( out, params={} ) ->

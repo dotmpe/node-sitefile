@@ -1,0 +1,45 @@
+// Id: node-sitefile/0.0.5-dev example/server-generated-page.pug
+
+doctype html
+
+mixin docinfo_field_tr(label, value)
+  tr.field
+    th.docinfo-name= label
+    td.field-body.app-name= value
+
+html.example
+
+  head
+    title Sitefile Pug example
+
+    each href in options.stylesheets
+      link(rel="stylesheet", type="text/css", href= '/' + href)
+
+    each src in options.scripts
+      script(type="text/javascript", src=src)
+
+    script(type='text/javascript', src="/components/jquery/dist/jquery.js")
+    script(type='text/javascript', src="/components/coffee-script/extras/coffee-script.js")
+    link(type='text/coffeescript', href="/example/script.coffee")
+
+    script(type='text/javascript', src="/example/server-generated-javascript")
+    link(rel="stylesheet", type='text/css', href="/example/server-generated-stylesheet")
+
+  body
+    #main Main content
+
+    - global_context = context.context
+
+    table.docinfo
+      colgroup
+        col.docinfo-names
+        col.docinfo-content
+
+      tbody
+        +docinfo_field_tr('App', global_context.pkg.name)
+        +docinfo_field_tr('Description', global_context.pkg.description)
+        +docinfo_field_tr('Resource name', context.name)
+        +docinfo_field_tr('Resource router name', context.route.name )
+        +docinfo_field_tr('Resource route-handler name', context.route.handler )
+        +docinfo_field_tr('Resource route-handler spec', context.route.spec )
+
