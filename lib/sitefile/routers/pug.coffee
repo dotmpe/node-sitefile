@@ -6,7 +6,7 @@ sitefile = require '../sitefile'
 
 escape = require 'escape-html'
 
-pug_ext = ( pug )->
+pug_ext = ( pug ) ->
   pug.filters.code = ( block ) ->
     escape block
   
@@ -40,6 +40,7 @@ pug_ext = ( pug )->
    repellat.</p>
   """
 
+
 # Given sitefile-context, export metadata for pug: handlers
 module.exports = ( ctx ) ->
 
@@ -47,7 +48,6 @@ module.exports = ( ctx ) ->
     pug = require 'pug'
   catch
     return
-
 
   pug_ext pug
 

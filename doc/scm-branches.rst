@@ -45,10 +45,12 @@ master [*]_
           But need to build and test EDL export, and have no EDL reader (transquoter, Scrow).
 
     Routers
-      f_client
+      html5-client
         - Added Bower. Experimenting with polymer.
         - Want to get Polymer core-scaffold running somehow.
+          See examples_ and `Polymer Getting started <doc/polymer>`_.
         - Working to add prism.js source-viewer.
+          see `Testing prism.js </src/example/polymer-custom.pug>`_
 
       f_jsonary
         - Looking at jsonary as a client-side JSON schema renderer/editor.

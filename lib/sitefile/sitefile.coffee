@@ -9,10 +9,10 @@ nodelib = require 'nodelib'
 
 Context = nodelib.Context
 
+Router = require './Router'
+
 liberror = require '../error'
 libconf = require '../conf'
-
-Router = require './Router'
 
 # register String:: exts
 require './util'
@@ -25,10 +25,15 @@ c =
   sc: chalk.grey ':' # sc: separator-char
 
 
+<<<<<<< HEAD
 String::startsWith ?= (s) -> @[...s.length] is s
 String::endsWith   ?= (s) -> s is '' or @[-s.length..] is s
 
 
+=======
+
+
+>>>>>>> features/html5-client
 
 get_local_sitefile_name = ( ctx={} ) ->
   fn = null

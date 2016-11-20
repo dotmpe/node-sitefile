@@ -16,7 +16,7 @@ routes:
   example: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
-  _example: static:example
+  _example: 'static:example'
 
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
@@ -25,6 +25,7 @@ routes:
   _markdown_1: markdown:example/**/*.md
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
+
   'src/*': 'prism:'
 
   components: static:public/components
@@ -67,6 +68,15 @@ routes:
 
   api/elegant/: jsonary-rest-api:example/jsonary-rest-api/elegant
 
+  example/polymer-app-router: static:example/polymer-app-router.html
+
+  #example: static:example
+
+  #components/core-toolbar: static:public/components/polymer-ui-toolbar
+  #components/core-menu: static:public/components/polymer-ui-menu
+  #components/core-item: static:public/components/polymer-ui-item
+  #components/core-header-panel: static:public/components/polymer-ui-header-panel
+  #components/core-toolbar: static:public/components/polymer-ui-toolbar
 
 
 options:
