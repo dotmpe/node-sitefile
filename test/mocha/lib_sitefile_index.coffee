@@ -104,10 +104,10 @@ describe 'Module sitefile', ->
     it 'contains references, globalized after loading', ->
 
       ctx = lib.prepare_context()
-      expect( ctx.get 'sitefile.options.rst2html.stylesheets' ).to.eql {
+      expect( ctx.get 'sitefile.options.global.rst2html.stylesheets' ).to.eql {
         $ref: '#/sitefile/defs/stylesheets/default/paths'
       }
-      obj = ctx.resolve 'sitefile.options.rst2html.stylesheets'
+      obj = ctx.resolve 'sitefile.options.global.rst2html.stylesheets'
       expect( obj ).to.be.an.array
 
 

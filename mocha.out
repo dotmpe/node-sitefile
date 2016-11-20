@@ -3,17 +3,26 @@
 [0m  The local Sitefile.yaml serves the local documentation, and doubles is an example for all handlers. [0m
 [33mKnex:warning - sqlite does not support inserting default values. Set the `useNullAsDefault` flag to hide this warning. (see docs http://knexjs.org/#Builder-insert).[39m
 [33mKnex:warning - sqlite does not support inserting default values. Set the `useNullAsDefault` flag to hide this warning. (see docs http://knexjs.org/#Builder-insert).[39m
-Starting server at localhost:4325
-  [32m  ✓[0m[90m should serve its own ReadMe[0m[31m (200ms)[0m
+PM2 app/pm2 { ref: '/app/pm2',
+  path: 'pm2-procs.json',
+  extname: '.json',
+  dirname: '.',
+  basename: 'pm2-procs' } { name: 'pm2',
+  handler: undefined,
+  spec: 'pm2-procs.json',
+  options: {} }
+PM2 proc/pm2 { ref: '/proc/pm2' } { name: 'pm2', handler: 'ps', spec: '', options: {} }
+Starting server at localhost:7011
+  [32m  ✓[0m[90m should serve its own ReadMe[0m[31m (183ms)[0m
   [32m  ✓[0m[90m should serve its own ReadMe and redirect ReadMe.rst[0m
-  [32m  ✓[0m[90m should serve its own ChangeLog[0m[31m (152ms)[0m
+  [32m  ✓[0m[90m should serve its own ChangeLog[0m[31m (138ms)[0m
   [32m  ✓[0m[90m should serve a CoffeeScript file to Javascript[0m
 Pug compile { path: 'example/server-generated-page.pug' } with { options: 
    { stylesheets: [ '/media/style/default.css' ],
      scripts: [],
-     pug: { pretty: false, debug: false, compileDebug: false, globals: [] } } }
-  [32m  ✓[0m[90m should serve a Pug file to HTML[0m[31m (174ms)[0m
-  [32m  ✓[0m[90m should serve a Stylus file to CSS file[0m[31m (87ms)[0m
+     pug: { format: 'html', compile: [Object] } } }
+  [32m  ✓[0m[90m should serve a Pug file to HTML[0m[31m (100ms)[0m
+  [32m  ✓[0m[90m should serve a Stylus file to CSS file[0m[31m (77ms)[0m
 
 [0m  Module conf[0m
 [0m    .get:[0m
@@ -47,6 +56,6 @@ Pug compile { path: 'example/server-generated-page.pug' } with { options:
     [32m  ✓[0m[90m contains references, globalized after loading[0m
 
 
-[92m [0m[32m 23 passing[0m[90m (2s)[0m
+[92m [0m[32m 23 passing[0m[90m (3s)[0m
 [36m [0m[36m 2 pending[0m
 
