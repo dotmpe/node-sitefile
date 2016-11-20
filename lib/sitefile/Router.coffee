@@ -89,7 +89,8 @@ Base =
   default_resource_options: ( rctx ) ->
     ctx = rctx.context
     if ctx.sitefile.options and ctx.sitefile.options.local and rctx.name of ctx.sitefile.options.local
-      _.defaultsDeep rctx._data.route.options, ctx.resolve "sitefile.options.local.#{rctx.name}"
+      _.defaultsDeep rctx._data.route.options, ctx.sitefile.options.local[rctx.name]
+      # XXX: ctx.resolve "sitefile.options.local.#{rctx.name}"
 
   # Return resource paths
   resolve: ( route, router_name, handler_name, handler_spec, ctx ) ->

@@ -53,7 +53,10 @@ routes:
   Sitefile/core: 'core:'
 
   proc/pm2: pm2:pm2-procs.json
-  #foo.json: 'http:'
+
+  npm/npm/latest.json: 'http:'
+  npm/node-sitefile/latest.json: 'http:'
+
 
 options:
   global:
@@ -73,8 +76,14 @@ options:
         $ref: '#/defs/stylesheets/default/urls'
 
   local:
-    proc/pm2:
-      filter: 'sf-*'
+    npm/node-sitefile/latest.json:
+      spec: 
+        hostname: 'registry.npmjs.org'
+        path: '/node-sitefile/latest'
+    npm/npm/latest.json:
+      spec: 
+        hostname: 'registry.npmjs.org'
+        path: '/npm/latest'
     Sitefile/debug: 
       local_var: 'fooooo'
 

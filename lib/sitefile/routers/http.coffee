@@ -46,7 +46,9 @@ module.exports = ( ctx ) ->
 
   defaults:
     route:
-      options: {}
+      options:
+        spec:
+          url: 'http://nodejs.org/dist/index.json'
 
   promise:
     json: promise_json
@@ -54,10 +56,11 @@ module.exports = ( ctx ) ->
   generate: ( rctx ) ->
 
     ( req, res ) ->
-      if not rcts.router.options.spec
-        rctx.router.options.spec = 'http://nodejs.org/dist/index.json'
-      promise_json( rctx.router.options.spec ).then (data) ->
+      promise_json(
+        rctx.route.options.spec
+      ).then (data) ->
+        console.log 'resolve', arguments
         res.type 'json'
-        res.write data
+        res.write JSON.stringify data
         res.end()
 
