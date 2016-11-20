@@ -52,3 +52,23 @@ head
           td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 3600 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
 
 
+        tr
+          th Versioning
+          table.table.table-condensed
+            tr
+              th Type
+              td= app.pm2_env.versioning.type
+            tr
+              th Branch
+              td= app.pm2_env.versioning.branch
+            tr
+              th 
+              td
+                pre= JSON.stringify(app.pm2_env.versioning)
+
+        tr
+          th
+          td
+            pre= JSON.stringify(app.pm2_env)
+
+
