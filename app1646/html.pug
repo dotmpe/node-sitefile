@@ -1,0 +1,31 @@
+
+mixin requirejs_main(client)
+  script(id=client.id, data-main=client.main, src=client.href)
+
+mixin html-meta(key, value, scheme)
+  if scheme
+    meta(name=key, content=value, scheme=scheme)
+  else
+    meta(name=key, content=value)
+
+mixin std-html-head(title)
+
+  title= title
+
+  if options.client
+    each client in options.client
+      if client.type == "require-js"
+        +requirejs_main(client)
+        - main = client
+
+  if options.stylesheets && options.stylesheets.urls
+    each href in options.stylesheets.urls
+      link(type="text/css", rel="stylesheet", href=href)
+
+  if options.scripts && options.scripts.urls
+    each src in options.scripts.urls
+      script(type="test/javascript", src=src)
+
+mixin list-view(type)  
+  p Lv
+
