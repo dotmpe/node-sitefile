@@ -9,13 +9,13 @@ nodelib = require 'nodelib'
 
 Context = nodelib.Context
 
-Router = require './Router'
-
 liberror = require '../error'
 libconf = require '../conf'
 
+Router = require './Router'
 
-version = "0.0.4-dev+20161010" # node-sitefile
+
+version = "0.0.5-dev" # node-sitefile
 
 
 c =
@@ -119,7 +119,7 @@ load_config = ( ctx={} ) ->
     #  ctx.config_name = scriptconfig
   ctx.config_envs = require path.join ctx.noderoot, ctx.config_name
   ctx.config = ctx.config_envs[ctx.envname]
-  _.defaults ctx, ctx.config
+  _.defaultsDeep ctx, ctx.config
   ctx.config
 
 
@@ -129,7 +129,7 @@ prepare_context = ( ctx={} ) ->
   _.merge ctx, load_rc ctx
 
   # Appl defaults if not present
-  _.defaults ctx,
+  _.defaultsDeep ctx,
     noderoot: path.dirname path.dirname __dirname
     version: version
     cwd: process.cwd()
@@ -150,7 +150,6 @@ prepare_context = ( ctx={} ) ->
     load_sitefile ctx
 
   new Context ctx
-
 
 
 # Split sitefile router specs
@@ -203,40 +202,56 @@ class Sitefile
 
   apply_routes: ( ctx ) ->
   
-    _.defaults ctx, base: '/', dir: defaults: [ 'default', 'index', 'main' ]
+    options = {
+      base: '/'
+      routes:
+        resources: []
+        directories: {}
+        defaults: [ 'default', 'index', 'main' ]
+    }
+    ctx.prepare_properties options
+    ctx.seed options
 
     # parse sitefile.routes, pass 2: process specs to handler intances
     for route, strspec of ctx.sitefile.routes
 
+      # Skip route spec on missing routers
       [ router_name, handler_name, handler_spec ] = split_spec strspec, ctx
       if router_name not of Router.builtin and not @routers[ router_name ]
         warn "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
 
-      # Get router to resolve Sitefile config values to resource contexts
+      # Get merged router_type definition
       if router_name of Router.builtin
-        router = Router.Base
+        router_type = Router.Base
       else
-        router = @routers[ router_name ].object
+        router_type = @routers[ router_name ].object
 
-      ctx.dirs = @dirs
-      for rsr in router.resolve route, router_name, \
+      # Resolve route spec to resource contexts, init and add Express handler
+      ctx.routes.directories = @dirs
+      for rctx in router_type.resolve route, router_name, \
           handler_name, handler_spec, ctx
 
-        if rsr.extname and not ( rsr.ref+rsr.extname is rsr.ref )
+        # Load defaults from router_type
+        if 'defaults' of router_type
+          _.defaultsDeep rctx._data, router_type.defaults
+          #console.log 'new options', rctx.route.options
+
+        rs = rctx.res
+        if rs.extname and not ( rs.ref+rs.extname is rs.ref )
           # FIXME: policy on extensions
-          ctx.redir rsr.ref+rsr.extname, rsr.ref
-          #ctx.log 'redir', rsr.ref+rsr.extname, rsr.ref
+          ctx.redir rs.ref+rs.extname, rs.ref
+          #ctx.log 'redir', rs.ref+rs.extname, rs.ref
 
         if router_name of Router.builtin
-          Router.builtin[router_name]( route, rsr.ref, handler_spec, ctx )
+          Router.builtin[router_name] rctx
+
         else
-          log route, url: rsr.ref, '=', if 'path' of rsr \
-              then path: rsr.path else res: rsr.res
-          # generate: let router return handlers for given resource
-          h = router.generate rsr, ctx
-          if h
-            ctx.app.all rsr.ref, h
+          log route, url: rs.ref, '=', if 'path' of rs \
+              then path: rs.path else res: rs
+
+          router_type.initialize router_type, rctx
+
 
     # redirect dirs to default dir-index resource
     @add_dir_redirs ctx
@@ -249,7 +264,7 @@ class Sitefile
       if leafs.length == 1
         defleaf = leafs[0]
       if leafs
-        for name in ctx.dir.defaults
+        for name in ctx.routes.defaults
           if name in leafs
             defleaf = name
             break
@@ -326,17 +341,24 @@ log_line = ( v, out=[] ) ->
 
 
 
-module.exports = {
-  version: version
-  get_local_sitefile_name: get_local_sitefile_name
-  get_local_sitefile: get_local_sitefile
-  prepare_context: prepare_context
-  load_config: load_config
-  load_rc: load_rc
-  Sitefile: Sitefile
-  reload_on_change: reload_on_change
-  log_enabled: true
-  log: log
-  warn: warn
-}
+Router.log = log
+Router.warn = warn
+
+
+module.exports =
+  {
+    version: version
+    get_local_sitefile_name: get_local_sitefile_name
+    get_local_sitefile: get_local_sitefile
+    prepare_context: prepare_context
+    load_config: load_config
+    load_rc: load_rc
+    Router: Router,
+    Sitefile: Sitefile
+    reload_on_change: reload_on_change
+    log_enabled: true
+    log: log
+    warn: warn
+  }
+
 

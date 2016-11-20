@@ -4,12 +4,16 @@
 [33mKnex:warning - sqlite does not support inserting default values. Set the `useNullAsDefault` flag to hide this warning. (see docs http://knexjs.org/#Builder-insert).[39m
 [33mKnex:warning - sqlite does not support inserting default values. Set the `useNullAsDefault` flag to hide this warning. (see docs http://knexjs.org/#Builder-insert).[39m
 Starting server at localhost:4325
-  [32m  ✓[0m[90m should serve its own ReadMe[0m[31m (290ms)[0m
+  [32m  ✓[0m[90m should serve its own ReadMe[0m[31m (200ms)[0m
   [32m  ✓[0m[90m should serve its own ReadMe and redirect ReadMe.rst[0m
-  [32m  ✓[0m[90m should serve its own ChangeLog[0m[31m (146ms)[0m
+  [32m  ✓[0m[90m should serve its own ChangeLog[0m[31m (152ms)[0m
   [32m  ✓[0m[90m should serve a CoffeeScript file to Javascript[0m
-  [32m  ✓[0m[90m should serve a Pug file to HTML[0m[31m (117ms)[0m
-  [32m  ✓[0m[90m should serve a Stylus file to CSS file[0m[31m (89ms)[0m
+Pug compile { path: 'example/server-generated-page.pug' } with { options: 
+   { stylesheets: [ '/media/style/default.css' ],
+     scripts: [],
+     pug: { pretty: false, debug: false, compileDebug: false, globals: [] } } }
+  [32m  ✓[0m[90m should serve a Pug file to HTML[0m[31m (174ms)[0m
+  [32m  ✓[0m[90m should serve a Stylus file to CSS file[0m[31m (87ms)[0m
 
 [0m  Module conf[0m
 [0m    .get:[0m

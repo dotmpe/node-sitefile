@@ -24,21 +24,26 @@ module.exports = ( ctx={} ) ->
   name: 'rst2html'
   label: 'Docutils rSt to HTML publisher'
 
-  generate: ( rsctx ) ->
+  defaults:
+    route:
+      options:
+        format:'html'
 
-    docpath = path.join ctx.cwd, rsctx.path
+  generate: ( rctx ) ->
+
+    rctx.route.options.docpath = path.join ctx.cwd, rctx.res.path
 
     ( req, res, next ) ->
 
-      req.query = _.defaults req.query || {},
-        format: 'html'
-        docpath: docpath
+      #rctx.route.options = _.defaults rctx.route.options || {},
+      #  format: 'html'
+      #  docpath: docpath
 
-      params = if ctx.sitefile.params and 'rst2html' of ctx.sitefile.params \
-        then ctx.resolve 'sitefile.params.rst2html' else {}
+      #params = if ctx.sitefile.params and 'rst2html' of ctx.sitefile.params \
+      #  then ctx.resolve 'sitefile.params.rst2html' else {}
 
       try
-        du_router.tools.rst2html res, _.merge {}, params, req.query
+        du_router.tools.rst2html res, rctx.route.options
       catch error
         console.trace error
         console.log error.stack
@@ -47,21 +52,21 @@ module.exports = ( ctx={} ) ->
         res.write "exec error: #{error}"
         res.end()
 
-  route:
-    base: ctx.base_url
-    rst2html:
-      get: (req, res, next) ->
-
-        req.query = _.defaults res.query || {}, format: 'xml'
-
-        try
-          rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, req.query
-          du_router.tools.rst2html res, _.merge {}, params, req.query
-        catch error
-          console.trace error
-          lib.warn error.stack
-          res.type 'text/plain'
-          res.status 500
-          res.write "exec error: #{error}"
-        res.end()
-
+#  route:
+#    base: ctx.base_url
+#    rst2html:
+#      get: (req, res, next) ->
+#
+#        rctx.route.options = _.defaults req.query || {}, format: 'xml'
+#
+#        try
+#          rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, rctx.route.options
+#          du_router.tools.rst2html res, rctx.route.options
+#        catch error
+#          console.trace error
+#          lib.warn error.stack
+#          res.type 'text/plain'
+#          res.status 500
+#          res.write "exec error: #{error}"
+#        res.end()
+#

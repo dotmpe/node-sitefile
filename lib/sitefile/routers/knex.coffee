@@ -22,10 +22,10 @@ module.exports = ( ctx={} ) ->
   migrations.directory attributes updated to reflect the correct sub-path.
   """
 
-  generate: ( rsctx ) ->
+  generate: ( rctx ) ->
 
-    sitefile.log 'Knex index:', rsctx.path
-    config = knex_util.load_config rsctx, ctx
+    sitefile.log 'Knex index:', rctx.res.path
+    config = knex_util.load_config rctx, ctx
 
     # Initialize DB
     db = knex config
