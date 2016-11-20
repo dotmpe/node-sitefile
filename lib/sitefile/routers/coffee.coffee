@@ -20,13 +20,11 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( spec, ctx={} ) ->
-
-    fn = spec + '.coffee'
+  generate: ( rctx ) ->
 
     ( req, res ) ->
-      sitefile.log 'Coffe-Script compile', fn
-      res.write cc._compileFile fn
+      sitefile.log 'Coffe-Script compile', rctx.res.path
+      res.write cc._compileFile rctx.res.path
       res.end()
 
 

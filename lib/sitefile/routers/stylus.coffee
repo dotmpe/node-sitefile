@@ -4,8 +4,8 @@ fs = require 'fs'
 sitefile = require '../sitefile'
 
 
-# Given sitefile-context, export metadata for stylus: handler
-module.exports = ( ctx={} ) ->
+# Given sitefile-context, export metadata for stylus: handlers
+module.exports = ( ctx ) ->
 
   try
     stylus = require 'stylus'
@@ -19,11 +19,10 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( spec, ctx={} ) ->
-    fn = spec + '.styl'
+  generate: ( rctx ) ->
     ( req, res ) ->
-      sitefile.log "Stylus compile", fn
-      data = fs.readFileSync fn
+      sitefile.log "Stylus compile", rctx.res.path
+      data = fs.readFileSync rctx.res.path
       res.write stylus.render data.toString()
       res.end()
 

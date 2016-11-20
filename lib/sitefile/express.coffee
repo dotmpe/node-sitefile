@@ -1,5 +1,6 @@
 path = require 'path'
 express = require 'express'
+qs = require 'qs'
 
 
 init_express = ( app, ctx={} ) ->
@@ -11,6 +12,17 @@ init_express = ( app, ctx={} ) ->
   #app.use express.static path.join ctx.noderoot, 'public'
 
 
+parse_simple_types = ( query ) ->
+
+  for key, value of query
+    if value in [ 'true', 'false' ]
+      query[key] = Boolean value
+    else if not isNaN parseInt value, 10
+      query[key] = parseInt value, 10
+    else if typeof value == "object"
+      parse_simple_types query[key]
+        
+
 module.exports = (ctx={}) ->
 
   app = express()
@@ -18,8 +30,9 @@ module.exports = (ctx={}) ->
   #ctx.envname = app.get 'env'
   app.set 'env', ctx.envname
 
-  if not ctx.port
-    ctx.port = process.env.PORT || 3000
+  if process.env.SITEFILE_PORT
+    ctx.port = process.env.SITEFILE_PORT
+
   app.set 'port', ctx.port
 
   ctx.server = require("http").createServer(app)
@@ -28,4 +41,16 @@ module.exports = (ctx={}) ->
 
   ctx.static_proto = express.static
 
+  ctx.redir = ( ref, p ) ->
+    # Express redir handler
+    ctx.app.all ref, (req, res) ->
+      res.redirect p
+
+  app.set 'query parser', ( query_str ) ->
+    query = qs.parse query_str
+    parse_simple_types query
+    query
+
   app
+
+
