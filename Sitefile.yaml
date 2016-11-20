@@ -78,22 +78,42 @@ routes:
   #components/core-header-panel: static:public/components/polymer-ui-header-panel
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
 
+  app/pm2: pm2:pm2-procs.json
+
+  proc/pm2: 'pm2.ps:'
+
+  npm/npm/latest.json: 'http:'
+  npm/node-sitefile/latest.json: 'http:'
+
 
 options:
-  du:
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/paths'
-  rst2html:
-    flags:
-    - "--no-toc-backlinks"
-    scripts:
-      - /components/jquery/dist/jquery.min.js
-      - /scripts/default.js
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/paths'
-  pug:
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/urls'
+  global:
+    du:
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/paths'
+    rst2html:
+      flags:
+      - "--no-toc-backlinks"
+      scripts:
+        - /components/jquery/dist/jquery.min.js
+        - /scripts/default.js
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/paths'
+    pug:
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/urls'
+
+  local:
+    npm/node-sitefile/latest.json:
+      spec: 
+        hostname: 'registry.npmjs.org'
+        path: '/node-sitefile/latest'
+    npm/npm/latest.json:
+      spec: 
+        hostname: 'registry.npmjs.org'
+        path: '/npm/latest'
+    Sitefile/debug: 
+      local_var: 'fooooo'
 
 defs:
   stylesheets:

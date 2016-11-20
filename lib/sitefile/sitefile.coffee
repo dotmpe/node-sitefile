@@ -238,7 +238,7 @@ class Sitefile
           #console.log 'new options', rctx.route.options
 
         rs = rctx.res
-        if rs.extname and not ( rs.ref+rs.extname is rs.ref )
+        if rs.path and (ctx.base+rs.path).startsWith(rs.ref) and ( rs.ref+rs.extname is ctx.base+rs.path )
           # FIXME: policy on extensions
           ctx.redir rs.ref+rs.extname, rs.ref
           #ctx.log 'redir', rs.ref+rs.extname, rs.ref
