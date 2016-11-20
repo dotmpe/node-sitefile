@@ -1,4 +1,4 @@
-# Id: node-sitefile/0.0.4-dev+b2ef470 test/mocha/lib_sitefile_index.coffee
+# Id: node-sitefile/0.0.5-dev test/mocha/lib_sitefile_index.coffee
 chai = require 'chai'
 expect = chai.expect
 path = require 'path'
@@ -78,7 +78,7 @@ describe 'Module sitefile', ->
       ctx = {}
       lib.prepare_context ctx
       sfctx = ( "basename config config_envs config_name cwd envname "+
-        "ext exts fn lfn noderoot pkg pkg_file port proc routers sitefile "+
+        "ext exts fn lfn log noderoot pkg pkg_file port proc sitefile "+
         "sitefilerc static version"
       ).split ' '
       ctxkys = _.keys( ctx )
@@ -104,10 +104,10 @@ describe 'Module sitefile', ->
     it 'contains references, globalized after loading', ->
 
       ctx = lib.prepare_context()
-      expect( ctx.get 'sitefile.params.rst2html.stylesheets' ).to.eql {
-        $ref: '#/sitefile/defs/stylesheets/default'
+      expect( ctx.get 'sitefile.options.rst2html.stylesheets' ).to.eql {
+        $ref: '#/sitefile/defs/stylesheets/default/paths'
       }
-      obj = ctx.resolve 'sitefile.params.rst2html.stylesheets'
+      obj = ctx.resolve 'sitefile.options.rst2html.stylesheets'
       expect( obj ).to.be.an.array
 
 
