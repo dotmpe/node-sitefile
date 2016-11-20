@@ -19,7 +19,6 @@
     "coffee-script": "~1.10.0",
     "jquery": "~2.1.4",
     "lodash": "~3.10.1",
-    "underscore": "~1.8.3",
     "bootstrap": "~3.3.5"
   }
 }
