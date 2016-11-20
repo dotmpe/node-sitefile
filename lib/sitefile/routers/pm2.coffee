@@ -18,20 +18,24 @@ module.exports = ( ctx ) ->
   listPugFn = path.join( __dirname, 'pm2/view/list.pug' )
   listCoffeeFn = path.join( __dirname, 'pm2/view/list.coffee' )
 
-  name: 'http'
+  name: 'pm2'
 
   generate:
     default: ( rctx ) ->
 
-      console.log 'PM2', rctx.name, rctx.res, rctx.route
+      console.log 'PM2', ctx.base, rctx.name, rctx.res, rctx.route
       if not rctx.res.path
         throw Error "JSON path expected"
 
       data = require path.join '../../..', rctx.res.path
 
+      null
+
     ps: ( rctx ) ->
 
-      console.log 'PM2', rctx.name, rctx.res, rctx.route
+      console.log 'PM2 ps', ctx.base, rctx.name, rctx.res, rctx.route
+      
+      console.log ctx.base+rctx.name+'.json'
 
       # List all PM2 procs in JSON
       ctx.app.get ctx.base+rctx.name+'.json', (req, res) ->
@@ -82,6 +86,7 @@ module.exports = ( ctx ) ->
           res.write pugrouter.compile detailPugFn, {
             compile: rctx.route.options.compile
             merge:
+              pid: process.pid
               base: ctx.base+rctx.name
               script: ctx.base+rctx.name+'.js'
               options: rctx.options
@@ -105,6 +110,7 @@ module.exports = ( ctx ) ->
           res.write pugrouter.compile listPugFn, {
             compile: rctx.route.options.compile
             merge:
+              pid: process.pid
               base: ctx.base+rctx.name
               script: ctx.base+rctx.name+'.js'
               options: rctx.options
@@ -120,6 +126,6 @@ module.exports = ( ctx ) ->
         res.write cc._compileFile listCoffeeFn
         res.end()
 
-
+      null
 
 
