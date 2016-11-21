@@ -45,10 +45,10 @@ get_api = ( ctx ) ->
 
 module.exports = ( ctx ) ->
 
-  name: 'bookshelf-api'
+  name: 'bookshelfapi'
   label: ''
   usage: """
-    bookshelf-api:**/*.sqlite
+    bookshelfapi:**/*.sqlite
   """
 
   generate: ( rctx ) ->
