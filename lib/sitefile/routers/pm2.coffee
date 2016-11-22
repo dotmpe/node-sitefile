@@ -37,6 +37,10 @@ module.exports = ( ctx ) ->
       
       console.log ctx.base+rctx.name+'.json'
 
+      # TODO: response with API json
+      #ctx.app.get ctx.base+rctx.name+'.json', (req, res) ->
+      #  res.type 'application/vnd.api+json'
+
       # List all PM2 procs in JSON
       ctx.app.get ctx.base+rctx.name+'.json', (req, res) ->
         pm2.list (err, ps_list) ->

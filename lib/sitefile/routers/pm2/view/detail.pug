@@ -60,7 +60,7 @@ head
               td= app.pm2_env.versioning.type
             tr
               th Branch
-              td= app.pm2_env.versioning.branch
+              td= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
             tr
               th 
               td
