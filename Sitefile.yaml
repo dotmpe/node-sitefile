@@ -6,6 +6,14 @@
 #
 # Id: node-sitefile/0.0.5-dev+20161010
 sitefile: 0.0.5-dev
+
+#showStackError: true
+
+bundles:
+  - bootstrap 
+  - pm2
+
+
 routes:
 
   # FIXME: prefix mapping

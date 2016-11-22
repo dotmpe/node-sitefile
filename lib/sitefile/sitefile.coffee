@@ -145,6 +145,16 @@ prepare_context = ( ctx={} ) ->
       base: '/'
       netpath: null
     routes: {}
+    bundles: {}
+    paths: # TODO: configure lookup paths
+      routers: [
+        'sitefile:lib/sitefile/routers'
+        'sitefile:var/sitefile/routers'
+      ]
+      bundles: [
+        'sitefile:lib/sitefile/bundles'
+        'sitefile:var/sitefile/bundles'
+      ]
 
   _.defaults ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
@@ -175,6 +185,8 @@ class Sitefile
   constructor: ( @ctx ) ->
     # Track all dirs for generated files, router CB's and instances, names
     _.defaults @, dirs: {}, routers: {}, router_names: [], bundles: {}
+    # Load predefined resources (views, scripts, styles etc. w/ route maps)
+    @load_bundles @ctx
     # TODO Also need to refactor, and scan for defaults across dirs rootward
     @load_routers @ctx
     # Apply routes in sitefile to Express
@@ -208,6 +220,21 @@ class Sitefile
         object: Router.define router_obj
   
       log "Loaded router", name: name, c.sc, router_obj.label
+
+  # Preload other, non router bundles
+  load_bundles: ( ctx ) ->
+    for bundle of ctx.sitefile.bundles
+      if typeof(bundle) == 'string'
+        # Try importing, otherwise keep as name for something loaded at a later
+        # time
+        bundle_name = bundle
+        bundle_obj = name: bundle_name
+      else if typeof(bundle) == 'object'
+        # Use in-sitefile defined bundle
+        bundle_name = bundle.name
+        bundle_obj = bundle
+      @bundles[ bundle_name ] = bundle_obj
+      
 
   apply_routes: ( ctx ) ->
   
@@ -246,7 +273,9 @@ class Sitefile
           #console.log 'new options', rctx.route.options
 
         rs = rctx.res
-        if rs.path and (ctx.site.base+rs.path).startsWith(rs.ref) and ( rs.ref+rs.extname is ctx.site.base+rs.path )
+        if rs.path and (ctx.site.base+rs.path).startsWith(rs.ref) and (
+          rs.ref+rs.extname is ctx.site.base+rs.path
+        )
           # FIXME: policy on extensions
           ctx.redir rs.ref+rs.extname, rs.ref
           #ctx.log 'redir', rs.ref+rs.extname, rs.ref
