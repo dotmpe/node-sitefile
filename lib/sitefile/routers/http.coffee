@@ -42,7 +42,7 @@ promise_json = ( spec ) ->
 module.exports = ( ctx ) ->
 
   # Return obj. w/ metadata & functions
-  name: 'core'
+  name: 'http'
 
   defaults:
     route:
