@@ -21,32 +21,32 @@ sitefile_cli = module.exports =
     probe = pmx.probe()
     metrics = {
       hostname: probe.metric
-              name: 'Hostname'
-              value: -> sitefile_cli.host
+        name: 'Hostname'
+        value: -> sitefile_cli.host
       portnumber: probe.metric
-              name: 'Port'
-              value: -> sitefile_cli.port
+        name: 'Port'
+        value: -> sitefile_cli.port
       pathprefix: probe.metric
-              name: 'Path'
-              value: -> sitefile_cli.path
+        name: 'Path'
+        value: -> sitefile_cli.path
       hyperlink: probe.metric
-              name: 'Netpath'
-              value: -> 'http:'+sitefile_cli.netpath
+        name: 'Netpath'
+        value: -> 'http:'+sitefile_cli.netpath
       routes: probe.metric
-              name: 'Routes'
-              value: ->
-                if sitefile_cli.root
-                  Object.keys(sitefile_cli.root.sitefile.routes).length
+        name: 'Routes'
+        value: ->
+          if sitefile_cli.root
+            Object.keys(sitefile_cli.root.sitefile.routes).length
       resources: probe.metric
-              name: 'Resources'
-              value: ->
-                if sitefile_cli.root
-                  sitefile_cli.root.routes.resources.length
+        name: 'Resources'
+        value: ->
+          if sitefile_cli.root
+            sitefile_cli.root.routes.resources.length
       directories: probe.metric
-              name: 'Directories'
-              value: ->
-                if sitefile_cli.root
-                  Object.keys(sitefile_cli.root.routes.directories).length
+        name: 'Directories'
+        value: ->
+          if sitefile_cli.root
+            Object.keys(sitefile_cli.root.routes.directories).length
     }
 
   run: ( done ) ->
@@ -64,28 +64,22 @@ sitefile_cli = module.exports =
     # further Express setup using sitefile
     sf = new lib.Sitefile ctx
 
-    host = ctx.host or ''
-    site = (
-      host: host
-      netpath: "//"+host+':'+ctx.port+ctx.base
-    )
-    ctx.prepare_properties site
-    ctx.seed site
+    ctx.site.netpath = "//"+ctx.site.host+':'+ctx.site.port+ctx.site.base
 
     # serve forever
-    console.log "Starting server at localhost:#{ctx.port}"
-    if ctx.host
-      proc = ctx.server.listen ctx.port, ctx.host, ->
-        lib.log "Listening", "Express server on port #{ctx.port}. "
+    console.log "Starting server at localhost:#{ctx.site.port}"
+    if ctx.site.host
+      proc = ctx.server.listen ctx.site.port, ctx.site.host, ->
+        lib.log "Listening", "Express server on port #{ctx.site.port}. "
     else
-      proc = ctx.server.listen ctx.port, ->
-        lib.log "Listening", "Express server on port #{ctx.port}. "
+      proc = ctx.server.listen ctx.site.port, ->
+        lib.log "Listening", "Express server on port #{ctx.site.port}. "
 
     # "Export"
-    sitefile_cli.host = ctx.host
-    sitefile_cli.port = ctx.port
-    sitefile_cli.path = ctx.base
-    sitefile_cli.netpath = ctx.netpath
+    sitefile_cli.host = ctx.site.host
+    sitefile_cli.port = ctx.site.port
+    sitefile_cli.path = ctx.site.base
+    sitefile_cli.netpath = ctx.site.netpath
 
     sitefile_cli.root = ctx
     sitefile_cli.proc = proc
@@ -97,10 +91,13 @@ sitefile_cli = module.exports =
 # start if directly executed
 if process.argv.join(' ') == 'coffee '+require.resolve './sitefile.coffee'
 
-  try
-    pmx = require 'pmx'
-    sitefile_cli.monitor()
-  catch error
+  if process.env.SITEFILE_PM2_MON
+    try
+      pmx = require 'pmx'
+      sitefile_cli.monitor()
+    catch error
+      if error.code != 'MODULE_NOT_FOUND'
+        process.exit 1
     
   sitefile_cli.run()
 

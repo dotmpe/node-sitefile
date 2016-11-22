@@ -6,6 +6,8 @@
 #
 # Id: node-sitefile/0.0.5-dev+20161010
 sitefile: 0.0.5-dev
+
+showStackError: true
 routes:
 
   # FIXME: prefix mapping
@@ -54,20 +56,21 @@ routes:
 
 
 options:
-  du:
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/paths'
-  rst2html:
-    flags:
-    - "--no-toc-backlinks"
-    scripts:
-      - /components/jquery/dist/jquery.min.js
-      - /scripts/default.js
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/paths'
-  pug:
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/urls'
+  global:
+    du:
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/paths'
+    rst2html:
+      flags:
+      - "--no-toc-backlinks"
+      scripts:
+        - /components/jquery/dist/jquery.min.js
+        - /scripts/default.js
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/paths'
+    pug:
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/urls'
 
 defs:
   stylesheets:

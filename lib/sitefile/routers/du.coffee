@@ -104,10 +104,6 @@ module.exports = ( ctx ) ->
   if not test_for_du()
     sitefile.warn "No Docutils"
     return
-  
-  _.defaults ctx,
-    # base-url / prefix for local routes
-    base_url: 'dotmpe'
 
   # Return obj. w/ metadata & functions
   name: 'du'
@@ -115,8 +111,6 @@ module.exports = ( ctx ) ->
   usage: """
     du:**/*.rst
   """
-  route:
-    base: ctx.base_url
   
   prereqs:
     test_for_du: test_for_du
@@ -142,7 +136,7 @@ module.exports = ( ctx ) ->
         format: rctx.dest.format,
         docpath: rctx.docpath
 
-      # TODO: copied to rctx.router.options, but implement router relouding first;
+# TODO: copied to rctx.router.options, but implement router relouding first;
       # keeping this here allows for params to be refreshed.
       options = if ctx.sitefile.options and 'du' of ctx.sitefile.options \
         then ctx.resolve 'sitefile.options.du' else {}

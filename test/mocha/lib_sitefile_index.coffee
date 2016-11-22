@@ -78,8 +78,8 @@ describe 'Module sitefile', ->
       ctx = {}
       lib.prepare_context ctx
       sfctx = ( "basename config config_envs config_name cwd envname "+
-        "ext exts fn lfn log noderoot pkg pkg_file port proc sitefile "+
-        "sitefilerc static version"
+        "ext exts fn lfn log noderoot pkg pkg_file port proc routes "+
+        "site sitefile sitefilerc static version"
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()
@@ -104,10 +104,10 @@ describe 'Module sitefile', ->
     it 'contains references, globalized after loading', ->
 
       ctx = lib.prepare_context()
-      expect( ctx.get 'sitefile.options.rst2html.stylesheets' ).to.eql {
+      expect( ctx.get 'sitefile.options.global.rst2html.stylesheets' ).to.eql {
         $ref: '#/sitefile/defs/stylesheets/default/paths'
       }
-      obj = ctx.resolve 'sitefile.options.rst2html.stylesheets'
+      obj = ctx.resolve 'sitefile.options.global.rst2html.stylesheets'
       expect( obj ).to.be.an.array
 
 
