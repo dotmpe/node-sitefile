@@ -141,7 +141,7 @@ prepare_context = ( ctx={} ) ->
     log: log
     site:
       host: ''
-      port: null
+      port: 7011
       base: '/'
       netpath: null
     routes: {}

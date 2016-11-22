@@ -76,7 +76,8 @@ module.exports = ( ctx ) ->
         ctx.app.get rctx.res.ref, model
 
       else
-        throw Error "Unexpected bookshelf-api spec: #{rctx.res.spec} (#{rctx.res.ref})"
+        throw Error \
+          "Unexpected bookshelf-api spec: #{rctx.res.spec} (#{rctx.res.ref})"
 
     else
       throw Error "Unexpected bookshelf-api resource context (#{rctx.res.ref})"

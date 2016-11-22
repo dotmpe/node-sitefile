@@ -136,7 +136,7 @@ module.exports = ( ctx ) ->
         format: rctx.dest.format,
         docpath: rctx.docpath
 
-      # TODO: copied to rctx.router.options, but implement router relouding first;
+# TODO: copied to rctx.router.options, but implement router relouding first;
       # keeping this here allows for params to be refreshed.
       options = if ctx.sitefile.options and 'du' of ctx.sitefile.options \
         then ctx.resolve 'sitefile.options.du' else {}

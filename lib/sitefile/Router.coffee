@@ -88,8 +88,10 @@ Base =
 
   default_resource_options: ( rctx ) ->
     ctx = rctx.context
-    if ctx.sitefile.options and ctx.sitefile.options.local and rctx.name of ctx.sitefile.options.local
-      _.defaultsDeep rctx._data.route.options, ctx.sitefile.options.local[rctx.name]
+    if ctx.sitefile.options and ctx.sitefile.options.local \
+    and rctx.name of ctx.sitefile.options.local
+      _.defaultsDeep rctx._data.route.options,
+        ctx.sitefile.options.local[rctx.name]
       # XXX: ctx.resolve "sitefile.options.local.#{rctx.name}"
 
   # Return resource paths
@@ -104,7 +106,8 @@ Base =
         name: router_name
         handler: handler_name
         spec: handler_spec
-        options: if ctx.sitefile.options and router_name of ctx.sitefile.options \
+        options: if ctx.sitefile.options and router_name \
+          of ctx.sitefile.options \
           then ctx.resolve "sitefile.options.global.#{router_name}" else {}
 
     # Use exact route as fs path
@@ -122,7 +125,8 @@ Base =
         if rctx.res.dirname == '.'
           rctx.res.ref = ctx.site.base + rctx.res.basename
         else
-          rctx.res.ref = "#{ctx.site.base}#{rctx.res.dirname}/#{rctx.res.basename}"
+          rctx.res.ref = \
+            "#{ctx.site.base}#{rctx.res.dirname}/#{rctx.res.basename}"
           dirurl = ctx.site.base + rctx.res.dirname
           if not ctx.routes.directories.hasOwnProperty dirurl
             ctx.routes.directories[ dirurl ] = [ rctx.res.basename ]
@@ -161,7 +165,8 @@ Base =
       h = router_type.generate rctx
 
     if not h
-      module.exports.warn "Router #{rctx.route.name} returned nothing for #{rctx.name}, ignored"
+      module.exports.warn \
+        "Router #{rctx.route.name} returned nothing for #{rctx.name}, ignored"
       return
 
     rctx.context.app.all rctx.res.ref, ( req, res ) ->

@@ -15,7 +15,7 @@ promise_json = ( spec ) ->
                           "Status Code: #{statusCode}")
       else if !/^application\/json/.test(contentType)
         error = new Error("Invalid content-type.\n" +
-                          "Expected application/json but received #{contentType}")
+                    "Expected application/json but received #{contentType}")
       if error
         console.log(error.message)
         # consume response data to free up memory

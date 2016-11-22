@@ -22,7 +22,7 @@ module.exports = ( ctx={} ) ->
   defaults:
     route:
       options:
-        format:'html'
+        format: 'html'
 
   generate: ( rctx ) ->
 
