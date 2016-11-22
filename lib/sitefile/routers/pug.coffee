@@ -1,4 +1,8 @@
 ###
+pug[.default=vanilla]
+pug.plain:<pathspec>?pug.compile..=..&pug.merge..=..
+pug.vanilla:<pathspec>?style=sitefile-document
+pug.rjs:<pathspec>?main=default-requirejs
 ###
 _ = require 'lodash'
 path = require 'path'
@@ -58,6 +62,7 @@ module.exports = ( ctx ) ->
 
     # Merge with options and context
     tpl options.merge
+
 
   name: 'pug'
   label: 'Pug templates'

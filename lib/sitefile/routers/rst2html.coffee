@@ -18,10 +18,6 @@ module.exports = ( ctx={} ) ->
   if not du_router or not du_router.prereqs.test_for_fe 'rst2html'
     sitefile.warn "No Docutils: rst2html"
     return
-
-  _.defaults ctx,
-    base_url: null
-
   # Return obj. w/ metadata & functions
   name: 'rst2html'
   label: 'Docutils rSt to HTML publisher'
@@ -31,7 +27,7 @@ module.exports = ( ctx={} ) ->
   defaults:
     route:
       options:
-        format:'html'
+        format: 'html'
 
   generate: ( rctx ) ->
 
@@ -57,7 +53,7 @@ module.exports = ( ctx={} ) ->
         res.end()
 
 #  route:
-#    base: ctx.base_url
+#    base: ctx.site.base
 #    rst2html:
 #      get: (req, res, next) ->
 #

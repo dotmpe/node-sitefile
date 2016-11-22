@@ -77,9 +77,9 @@ describe 'Module sitefile', ->
     it 'Should export options', ->
       ctx = {}
       lib.prepare_context ctx
-      sfctx = ( "basename config config_envs config_name cwd envname "+
-        "ext exts fn lfn log noderoot pkg pkg_file port proc sitefile "+
-        "sitefilerc static version"
+      sfctx = ( "basename bundles config config_envs config_name cwd envname "+
+        "ext exts fn lfn log noderoot paths pkg pkg_file port proc routes "+
+        "site sitefile sitefilerc static version"
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()

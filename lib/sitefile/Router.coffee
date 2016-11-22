@@ -9,8 +9,8 @@ builtin =
   # TODO: extend redir spec for status code
   redir: ( rctx, url=null, status=302 ) ->
     if not url
-      url = rctx.base + rctx.name
-    p = rctx.base + rctx.route.spec
+      url = rctx.site.base + rctx.name
+    p = rctx.site.base + rctx.route.spec
     # 301: Moved (Permanently)
     # 302: Found
     # 303: See Other
@@ -21,7 +21,7 @@ builtin =
     rctx.context.log '      ', url: url, '->', url: p
 
   static: ( rctx ) ->
-    url = rctx.base + rctx.name
+    url = rctx.site.base + rctx.name
     if rctx.route.spec.startsWith '/'
       p = rctx.route.spec
     else
@@ -63,7 +63,7 @@ Base =
 
   # process parametrized rule
   #else if '$' in route
-  #  url = ctx.base + route.replace('$', ':')
+  #  url = ctx.site.base + route.replace('$', ':')
   #  log route, url: url
   #  app.all url, handler.generator '.'+url, ctx
 
@@ -77,7 +77,7 @@ Base =
   # Return resource sub-context for local file resource
   file_res_ctx: ( ctx, init, file_path ) ->
     init.res = {
-      ref: ctx.base + file_path
+      ref: ctx.site.base + file_path
       path: file_path
       extname: path.extname file_path
       dirname: path.dirname file_path
@@ -88,8 +88,10 @@ Base =
 
   default_resource_options: ( rctx ) ->
     ctx = rctx.context
-    if ctx.sitefile.options and ctx.sitefile.options.local and rctx.name of ctx.sitefile.options.local
-      _.defaultsDeep rctx._data.route.options, ctx.sitefile.options.local[rctx.name]
+    if ctx.sitefile.options and ctx.sitefile.options.local \
+    and rctx.name of ctx.sitefile.options.local
+      _.defaultsDeep rctx._data.route.options,
+        ctx.sitefile.options.local[rctx.name]
       # XXX: ctx.resolve "sitefile.options.local.#{rctx.name}"
 
   # Return resource paths
@@ -104,7 +106,8 @@ Base =
         name: router_name
         handler: handler_name
         spec: handler_spec
-        options: if ctx.sitefile.options and router_name of ctx.sitefile.options \
+        options: if ctx.sitefile.options and router_name \
+          of ctx.sitefile.options \
           then ctx.resolve "sitefile.options.global.#{router_name}" else {}
 
     # Use exact route as fs path
@@ -120,10 +123,11 @@ Base =
         rctx = Base.file_res_ctx ctx, rsctxinit, name
         Base.default_resource_options rctx
         if rctx.res.dirname == '.'
-          rctx.res.ref = ctx.base + rctx.res.basename
+          rctx.res.ref = ctx.site.base + rctx.res.basename
         else
-          rctx.res.ref = "#{ctx.base}#{rctx.res.dirname}/#{rctx.res.basename}"
-          dirurl = ctx.base + rctx.res.dirname
+          rctx.res.ref = \
+            "#{ctx.site.base}#{rctx.res.dirname}/#{rctx.res.basename}"
+          dirurl = ctx.site.base + rctx.res.dirname
           if not ctx.routes.directories.hasOwnProperty dirurl
             ctx.routes.directories[ dirurl ] = [ rctx.res.basename ]
           else
@@ -135,12 +139,12 @@ Base =
     else if fs.existsSync handler_spec
       rctx = Base.file_res_ctx ctx, rsctxinit, handler_spec
       Base.default_resource_options rctx
-      rctx.res.ref = ctx.base + route
+      rctx.res.ref = ctx.site.base + route
       rs.push rctx
 
     # Use route as is
     else
-      init = res: ref: ctx.base + route
+      init = res: ref: ctx.site.base + route
       _.defaultsDeep init, rsctxinit
       rctx = ctx.getSub init
       Base.default_resource_options rctx
@@ -161,7 +165,8 @@ Base =
       h = router_type.generate rctx
 
     if not h
-      module.exports.warn "Router #{rctx.route.name} returned nothing for #{rctx.name}, ignored"
+      module.exports.warn \
+        "Router #{rctx.route.name} returned nothing for #{rctx.name}, ignored"
       return
 
     rctx.context.app.all rctx.res.ref, ( req, res ) ->

@@ -52,8 +52,6 @@ module.exports = ( ctx ) ->
   usage: """
     core:
   """
-  route:
-    base: ctx.base_url
 
   defaults:
     route:

@@ -23,7 +23,7 @@ module.exports = ( ctx ) ->
   generate:
     default: ( rctx ) ->
 
-      console.log 'PM2', ctx.base, rctx.name, rctx.res, rctx.route
+      console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
       if not rctx.res.path
         throw Error "JSON path expected"
 
@@ -33,16 +33,16 @@ module.exports = ( ctx ) ->
 
     ps: ( rctx ) ->
 
-      console.log 'PM2 ps', ctx.base, rctx.name, rctx.res, rctx.route
+      console.log 'PM2 ps', ctx.site.base, rctx.name, rctx.res, rctx.route
       
-      console.log ctx.base+rctx.name+'.json'
+      console.log ctx.site.base+rctx.name+'.json'
 
       # TODO: response with API json
-      #ctx.app.get ctx.base+rctx.name+'.json', (req, res) ->
+      #ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
       #  res.type 'application/vnd.api+json'
 
       # List all PM2 procs in JSON
-      ctx.app.get ctx.base+rctx.name+'.json', (req, res) ->
+      ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
         pm2.list (err, ps_list) ->
           res.type 'json'
           if err
@@ -51,7 +51,7 @@ module.exports = ( ctx ) ->
           res.end()
 
       # Describe single PM2 proc in JSON
-      ctx.app.get ctx.base+rctx.name+'/:pm_id.json', (req, res) ->
+      ctx.app.get ctx.site.base+rctx.name+'/:pm_id.json', (req, res) ->
         pm2.describe req.params.pm_id, (err, ps_list) ->
           res.type 'json'
           if err
@@ -59,7 +59,7 @@ module.exports = ( ctx ) ->
           res.write JSON.stringify ps_list[0]
           res.end()
 
-      ctx.app.post ctx.base+rctx.name+'/:pm_id/restart', (req, res) ->
+      ctx.app.post ctx.site.base+rctx.name+'/:pm_id/restart', (req, res) ->
         pm2.gracefulReload req.params.pm_id, ( err ) ->
           res.type 'txt'
           if err
@@ -67,7 +67,7 @@ module.exports = ( ctx ) ->
             res.write err
           res.end()
 
-      ctx.app.post ctx.base+rctx.name+'/:pm_id/stop', (req, res) ->
+      ctx.app.post ctx.site.base+rctx.name+'/:pm_id/stop', (req, res) ->
         pm2.stop req.params.pm_id, ( err ) ->
           res.type 'txt'
           if err
@@ -77,7 +77,7 @@ module.exports = ( ctx ) ->
 
 
       # Serve PM2 proc HTML details
-      ctx.app.get ctx.base+rctx.name+'/:pm_id.html', (req, res) ->
+      ctx.app.get ctx.site.base+rctx.name+'/:pm_id.html', (req, res) ->
 
         console.log req.path.substring(0, req.path.length - 5) + '.json'
         httprouter.promise.json(
@@ -91,8 +91,8 @@ module.exports = ( ctx ) ->
             compile: rctx.route.options.compile
             merge:
               pid: process.pid
-              base: ctx.base+rctx.name
-              script: ctx.base+rctx.name+'.js'
+              base: ctx.site.base+rctx.name
+              script: ctx.site.base+rctx.name+'.js'
               options: rctx.options
               query: req.query
               context: rctx
@@ -102,12 +102,12 @@ module.exports = ( ctx ) ->
 
 
       # Serve HTML list view
-      ctx.app.get ctx.base+rctx.name+'.html', (req, res) ->
+      ctx.app.get ctx.site.base+rctx.name+'.html', (req, res) ->
       
         httprouter.promise.json(
           hostname: 'localhost'
           port: ctx.app.get('port')
-          path: ctx.base + rctx.name + '.json'
+          path: ctx.site.base + rctx.name + '.json'
         ).then ( apps ) ->
 
           res.type 'html'
@@ -115,8 +115,8 @@ module.exports = ( ctx ) ->
             compile: rctx.route.options.compile
             merge:
               pid: process.pid
-              base: ctx.base+rctx.name
-              script: ctx.base+rctx.name+'.js'
+              base: ctx.site.base+rctx.name
+              script: ctx.site.base+rctx.name+'.js'
               options: rctx.options
               query: req.query
               context: rctx
@@ -125,7 +125,7 @@ module.exports = ( ctx ) ->
           res.end()
 
       # Serve JS for list-view
-      ctx.app.get ctx.base+rctx.name+'.js', (req, res) ->
+      ctx.app.get ctx.site.base+rctx.name+'.js', (req, res) ->
         res.type 'js'
         res.write cc._compileFile listCoffeeFn
         res.end()
