@@ -39,6 +39,7 @@
   "scripts": {
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "test": "./configure && grunt",
+    "vulnerabilities": "snyk test",
     "src-tree": "tree -I 'node_modules|build|components'",
     "src-files": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' ",
     "src-loc": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' -not -path '*.log' | xargs cat | grep -v '^\\s*$' | wc -l | awk '{print $1}'",
@@ -79,6 +80,7 @@
     "path": "latest",
     "pmx": "^0.6.8",
     "request": "latest",
-    "text-table": "latest"
+    "text-table": "latest",
+    "snyk": "^1.20.0"
   }
 }

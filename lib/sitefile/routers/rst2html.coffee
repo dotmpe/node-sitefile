@@ -15,11 +15,6 @@ module.exports = ( ctx={} ) ->
     sitefile.warn "No Docutils: rst2html"
     return
 
-  _.defaults ctx,
-
-    # base-url / prefix for local routes
-    base_url: null
-
   # Return obj. w/ metadata & functions
   name: 'rst2html'
   label: 'Docutils rSt to HTML publisher'
@@ -53,7 +48,7 @@ module.exports = ( ctx={} ) ->
         res.end()
 
 #  route:
-#    base: ctx.base_url
+#    base: ctx.site.base
 #    rst2html:
 #      get: (req, res, next) ->
 #

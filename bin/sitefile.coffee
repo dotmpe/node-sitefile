@@ -64,28 +64,22 @@ sitefile_cli = module.exports =
     # further Express setup using sitefile
     sf = new lib.Sitefile ctx
 
-    host = ctx.host or ''
-    site = (
-      host: host
-      netpath: "//"+host+':'+ctx.port+ctx.base
-    )
-    ctx.prepare_properties site
-    ctx.seed site
+    ctx.site.netpath = "//"+ctx.site.host+':'+ctx.site.port+ctx.site.base
 
     # serve forever
-    console.log "Starting server at localhost:#{ctx.port}"
-    if ctx.host
-      proc = ctx.server.listen ctx.port, ctx.host, ->
-        lib.log "Listening", "Express server on port #{ctx.port}. "
+    console.log "Starting server at localhost:#{ctx.site.port}"
+    if ctx.site.host
+      proc = ctx.server.listen ctx.site.port, ctx.site.host, ->
+        lib.log "Listening", "Express server on port #{ctx.site.port}. "
     else
-      proc = ctx.server.listen ctx.port, ->
-        lib.log "Listening", "Express server on port #{ctx.port}. "
+      proc = ctx.server.listen ctx.site.port, ->
+        lib.log "Listening", "Express server on port #{ctx.site.port}. "
 
     # "Export"
-    sitefile_cli.host = ctx.host
-    sitefile_cli.port = ctx.port
-    sitefile_cli.path = ctx.base
-    sitefile_cli.netpath = ctx.netpath
+    sitefile_cli.host = ctx.site.host
+    sitefile_cli.port = ctx.site.port
+    sitefile_cli.path = ctx.site.base
+    sitefile_cli.netpath = ctx.site.netpath
 
     sitefile_cli.root = ctx
     sitefile_cli.proc = proc

@@ -104,10 +104,6 @@ module.exports = ( ctx ) ->
   if not test_for_du()
     sitefile.warn "No Docutils"
     return
-  
-  _.defaults ctx,
-    # base-url / prefix for local routes
-    base_url: 'dotmpe'
 
   # Return obj. w/ metadata & functions
   name: 'du'
@@ -115,8 +111,6 @@ module.exports = ( ctx ) ->
   usage: """
     du:**/*.rst
   """
-  route:
-    base: ctx.base_url
   
   prereqs:
     test_for_du: test_for_du

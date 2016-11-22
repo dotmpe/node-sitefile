@@ -66,7 +66,6 @@ get_local_sitefile = ( ctx={} ) ->
 
   _.defaults sitefile,
     routes: {}
-    specs: {}
 
   sitefile
 
@@ -91,11 +90,13 @@ load_sitefile = ( ctx ) ->
 
   _.transform ctx.sitefile, xform
 
+  # Map some sitefile attributes to root
   if ctx.sitefile.host
-    ctx.host = ctx.sitefile.host
-
+    ctx.site.host = ctx.sitefile.host
   if ctx.sitefile.port
-    ctx.port = ctx.sitefile.port
+    ctx.site.port = ctx.sitefile.port
+  if ctx.sitefile.base
+    ctx.site.base = ctx.sitefile.base
 
 
 load_rc = ( ctx ) ->
@@ -123,6 +124,7 @@ load_config = ( ctx={} ) ->
   ctx.config
 
 
+# Turn options dict into root context.
 prepare_context = ( ctx={} ) ->
 
   # Apply all static properties (set ctx.static too)
@@ -137,6 +139,13 @@ prepare_context = ( ctx={} ) ->
       name: path.basename process.argv[1]
     envname: process.env.NODE_ENV or 'development'
     log: log
+    site:
+      host: ''
+      port: null
+      base: '/'
+      netpath: null
+    routes: {}
+
   _.defaults ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
   _.defaults ctx,
@@ -164,9 +173,8 @@ split_spec = ( strspec, ctx={} ) ->
 
 class Sitefile
   constructor: ( @ctx ) ->
-    _.defaults @, dirs: {}, routers: {}, router_names: []
-    # Track all dirs for generated files
-    # TODO May want the same for regular routes.
+    # Track all dirs for generated files, router CB's and instances, names
+    _.defaults @, dirs: {}, routers: {}, router_names: [], bundles: {}
     # TODO Also need to refactor, and scan for defaults across dirs rootward
     @load_routers @ctx
     # Apply routes in sitefile to Express
@@ -174,6 +182,7 @@ class Sitefile
     # reload ctx.{config,sitefile} whenever file changes
     reload_on_change @ctx
 
+  # Pre-load routers
   load_routers: ( ctx ) ->
 
     @router_names = _.union (
@@ -203,7 +212,6 @@ class Sitefile
   apply_routes: ( ctx ) ->
   
     options = {
-      base: '/'
       routes:
         resources: []
         directories: {}
@@ -238,7 +246,7 @@ class Sitefile
           #console.log 'new options', rctx.route.options
 
         rs = rctx.res
-        if rs.path and (ctx.base+rs.path).startsWith(rs.ref) and ( rs.ref+rs.extname is ctx.base+rs.path )
+        if rs.path and (ctx.site.base+rs.path).startsWith(rs.ref) and ( rs.ref+rs.extname is ctx.site.base+rs.path )
           # FIXME: policy on extensions
           ctx.redir rs.ref+rs.extname, rs.ref
           #ctx.log 'redir', rs.ref+rs.extname, rs.ref
@@ -292,7 +300,6 @@ reload_on_change = ( ctx ) ->
   fs.watchFile ctx.lfn, ( cur, prev ) ->
     log "Reloading context", "because: #{ctx.lfn} changed"
     load_sitefile ctx
-    log "", id: ctx.sitefile.specs
 
 
 expand_globs = ( patterns ) ->
