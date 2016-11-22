@@ -59,7 +59,7 @@ head
             td= app.pm2_env.cwd
             td= app.pm2_env.pm_exec_path
             td= app.pm2_env.ENV
-            td= app.pm2_env.versioning.branch
+            td= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
             td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 1000).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
             td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 60 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
             td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 3600 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
