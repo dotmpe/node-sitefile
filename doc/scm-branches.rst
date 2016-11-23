@@ -88,6 +88,10 @@ master [*]_
       bundles
         - Looking for a resource bundle model.
 
+      webpack
+        - Want to bundle content; package router or resource extensions to
+          sitefile.
+
   demo
     - Merging experimental features. Should keep master clean.
 
