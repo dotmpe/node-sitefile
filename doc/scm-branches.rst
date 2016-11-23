@@ -85,7 +85,8 @@ master [*]_
 
           http://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/#ecosystemjson
 
-
+      bundles
+        - Looking for a resource bundle model.
 
   demo
     - Merging experimental features. Should keep master clean.
