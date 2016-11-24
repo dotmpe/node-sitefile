@@ -4,11 +4,6 @@ module.exports = {
   output: {
     filename: 'dist/sitefile.js'
   },
-  node: {
-    fs: "empty",
-    child_process: "empty",
-    net: "empty"
-  },
 	module: {
 		loaders: [
 			{ test: /\.coffee$/, loader: "coffee" },
@@ -19,6 +14,14 @@ module.exports = {
 		extensions: [
 		  "", ".coffee", ".js"
 		]
-	}
+	},
+	/* Allow Node.JS globals */
+  //  process: "empty",
+	/* Allow Node.JS stdlib */
+  node: {
+    fs: "empty",
+    child_process: "empty",
+    net: "empty"
+  },
 }
 
