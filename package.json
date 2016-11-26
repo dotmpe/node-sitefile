@@ -78,8 +78,10 @@
     "pug-loader": "latest",
     "rename-loader": "^1.0.0",
     "pm2": "latest",
-    "pmx": "latest",
-    "source-map-support": "latest",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "path": "latest",
+    "pmx": "^0.6.8",
+    "request": "latest",
+    "source-map-support": "latest"
   }
 }
