@@ -1,16 +1,25 @@
 
-
 .. role:: todo(strong)
 
+.. XXX: a thing like this should realy be compiled per resource. Or have more
+   expressiveness: all relative path references need to be pre-processed per
+   including document.
+
+.. Global
 .. _changelog: /Changelog.rst
 .. _examples: /example
 .. _ToDo: /TODO.md
 
-.. _DB Feature: /docs/feature-db
+.. Local
+.. _router-feature: feature-route.rst
+.. _db-feature: feature-db.rst
 
+.. External
 .. _jsonary: http://jsonary.com/
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
 .. _semver: https://github.com/npm/node-semver
 
+
+.. _json-editor: https://github.com/jdorn/json-editor
 

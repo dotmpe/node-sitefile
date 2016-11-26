@@ -207,6 +207,9 @@ Current situation/plan::
 
   /prefix/^: <router>:<pg>
 
+TODO: no prefixing tested yet. Also see `Router feature`_ docs.
+
+
 Mapping exts:
 
   _<route-id>.<ext>: <router>:<pg>.<ext>

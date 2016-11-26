@@ -8,13 +8,23 @@ Epics
 ------
 Current:
 
-- Add hypertext capability to file-based content. See ToDo_ document.
+1. Add hypertext capability to file-based content. See ToDo_ document.
 
-  In particular control the envelope and delivery of content. Manage style,
-  script and maybe (later) links, metadata, and then later profiles, schema..
+   In particular control the envelope and delivery of content. Manage style,
+   script and maybe (later) links, metadata, and then later profiles, schema..
 
-  Ie. locate, dereference, negotiate, resolve content, etc. and serve to a
-  suitable client e.g. browser.
+   Ie. locate, dereference, negotiate, resolve content, etc. and serve to a
+   suitable client e.g. browser.
+
+
+   1. Define, re-use, and distribute packages of routes and resources.
+
+      Initial router API consists of the `generate` function. Now move to a
+      microformat for the `route` attribute. Maybe combine with Sitefile schema.
+      Possibly for more types of use; standalone.
+
+      1. Online documentation?
+
 
 There are many possibly useful directions:
 
