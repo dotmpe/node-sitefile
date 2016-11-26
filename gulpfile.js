@@ -15,13 +15,12 @@ fs.readdirSync('node_modules')
     nodeModules[mod] = 'commonjs ' + mod;
   });
 
+
 var config = {
   entry: [ './bin/sitefile.coffee' ],
   target: 'node',
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'sitefile.js',
-    libraryTarget: "commonjs2",
+    filename: 'dist/sitefile.js',
     library: "sitefile_cli"
   },
   module: {
