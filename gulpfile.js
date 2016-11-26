@@ -41,7 +41,7 @@ var config = {
   devtool: 'sourcemap'
 }
 
-gulp.task('client-build', function(done) {
+gulp.task('server-build', function(done) {
   webpack(config).run(function(err, stats) {
     if(err) {
       console.log('Error', err);
@@ -52,3 +52,5 @@ gulp.task('client-build', function(done) {
     done();
   });
 });
+
+gulp.task('default', [ 'server-build' ]);
