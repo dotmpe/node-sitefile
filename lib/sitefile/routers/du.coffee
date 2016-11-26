@@ -65,15 +65,16 @@ rst2html = ( out, params={} ) ->
 
   cmdflags = rst2html_flags prm
 
-  cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}'"
-  sitefile.log "Du", cmd
-
   if prm.format == 'source'
+    sitefile.log "Du.source", prm.docpath
     out.type 'text/plain'
     out.write fs.readFileSync "#{prm.docpath}"
     out.end()
 
   else
+    cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}'"
+    sitefile.log "Du.rst2html", cmd
+
     child_process.exec cmd, maxBuffer: 1024*1024, (error, stdout, stderr) ->
       if error
         out.type 'text/plain'
@@ -132,6 +133,7 @@ module.exports = ( ctx ) ->
 
 
     ( req, res, next ) ->
+
       req.query = _.defaults req.query || {},
         format: rctx.dest.format,
         docpath: rctx.docpath

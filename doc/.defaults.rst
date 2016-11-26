@@ -11,8 +11,8 @@
 .. _ToDo: /TODO.md
 
 .. Local
-.. _router-feature: feature-route.rst
-.. _db-feature: feature-db.rst
+.. _Router Feature: feature-route.rst
+.. _DB Feature: feature-db.rst
 
 .. External
 .. _jsonary: http://jsonary.com/

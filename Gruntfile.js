@@ -79,15 +79,30 @@ module.exports = function(grunt) {
         },
         module: {
           loaders: [
-            { test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
-            { test: /\.coffee$/, loader: "coffee" },
-            { test: /\.json$/, loader: "json" },
-            { test: /\.pug$/, loader: "pug" }
+            {
+              test: /\.js$/,
+              exclude: /node_modules/,
+              loaders: ['babel']
+            },
+            {
+              test: /\.coffee$/,
+			        exclude: /node_modules/,
+              loader: "coffee"
+            },
+            {
+              test: /\.json$/,
+              loader: "json"
+            },
+            {
+              test: /\.pug$/,
+        			exclude: /node_modules/,
+              loader: "pug"
+            }
           ]
         },
         externals: nodeModules,
         plugins: [
-          new webpack.IgnorePlugin(/^(markdown|pug|stylus|pm2|pmx|knex)$/),
+          new webpack.IgnorePlugin(/^(markdown|pug|pug-runtime|stylus|pm2|pmx|knex)$/),
           new webpack.IgnorePlugin(/\.(css|less)$/),
           new webpack.BannerPlugin('require("source-map-support").install();',
                                    { raw: true, entryOnly: false }),

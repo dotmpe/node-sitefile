@@ -37,7 +37,7 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-    "build": "gulp server-build",
+    "build": "grunt build",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "test": "./configure && grunt",
     "vulnerabilities": "snyk test",

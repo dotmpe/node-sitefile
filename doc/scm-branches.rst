@@ -1,5 +1,5 @@
 
-.. include:: .defaults.rst
+.. include:: ./.defaults.rst
 
 
 master [*]_
@@ -104,11 +104,11 @@ master [*]_
 
       require-js
         - Setting up for integrated module configuration. Want to get stack up
-          using require-js. See `Router feature`_ docs
+          using require-js. See `Router Feature`_ docs.
 
       api-docs
-        - Want to look at JSDoc features.
-        - But first setting up a `docco` build.
+        - Want to look at JSDoc features. http:/doc/literate
+        - But first set up a `docco` build to see current docs. http:/doc/api
 
   demo
     - Merging experimental features. Should keep master clean.
