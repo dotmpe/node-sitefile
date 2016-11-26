@@ -10,7 +10,7 @@ head
 
   body
 
-    .container.pm2-list(data-urlbase=base)
+    .container.pm2-list(data-urlbase=context.site.base)
 
       h3 List of PM2 processes
 
@@ -51,9 +51,9 @@ head
           - localpid_btn = pid == app.pid ? ' danger' : ''
           tr(class=app.name+muted)
             th(class=localpid_row)
-              a(href=context.base+context.name+"/"+app.pm_id+".json")= app.pm_id
+              a(href=context.site.base+context.name+"/"+app.pm_id+".json")= app.pm_id
             th(class=localpid_row)
-              a(href=context.base+context.name+"/"+app.pm_id+".html")= app.name
+              a(href=context.site.base+context.name+"/"+app.pm_id+".html")= app.name
             td(class=states[st])= app.pm2_env.status
             td= app.pid
             td= app.pm2_env.cwd

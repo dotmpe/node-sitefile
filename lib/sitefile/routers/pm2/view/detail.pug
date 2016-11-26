@@ -64,11 +64,17 @@ head
             tr
               th 
               td
-                pre= JSON.stringify(app.pm2_env.versioning)
+                code= JSON.stringify(app.pm2_env.versioning)
 
         tr
-          th
+          th Env
           td
-            pre= JSON.stringify(app.pm2_env)
+            table
+              each key, value in app.pm2_env.env
+                tr
+                  th= key
+                  td= value
+
+            code= JSON.stringify(app.pm2_env)
 
 
