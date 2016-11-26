@@ -92,6 +92,13 @@ master [*]_
         - Want to bundle content; package router or resource extensions to
           sitefile.
 
+          Finished writing a simple gulp to compile all to a single module.
+          But what next? Go for non-npm installations? Would need to pack
+          dependent libs.
+
+          More interesting is packing routers and themes and stuff.
+
+
   demo
     - Merging experimental features. Should keep master clean.
 
