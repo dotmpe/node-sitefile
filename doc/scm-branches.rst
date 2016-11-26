@@ -87,6 +87,18 @@ master [*]_
 
           http://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/#ecosystemjson
 
+      bundles
+        - Looking for a resource bundle model.
+
+      webpack
+        - Want to bundle content; package router or resource extensions to
+          sitefile.
+
+          Finished writing a simple gulp to compile all to a single module.
+          But what next? Go for non-npm installations? Would need to pack
+          dependent libs.
+
+          More interesting is packing routers and themes and stuff.
 
 
   demo

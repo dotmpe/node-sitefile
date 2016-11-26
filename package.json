@@ -32,11 +32,12 @@
     "node": "0.12.x",
     "npm": "2.7.x"
   },
-  "main": "bin/sitefile.coffee",
+  "main": "./bin/sitefile.coffee",
   "bin": {
-    "sitefile": "bin/sitefile.coffee"
+    "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
+    "build": "gulp server-build",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "test": "./configure && grunt",
     "vulnerabilities": "snyk test",
@@ -58,6 +59,9 @@
     "js-yaml": "^3.6.1",
     "jsonary": "latest",
     "knex": "^0.12.3",
+    "express": "^4.12.3",
+    "glob": "^7.1.0",
+    "js-yaml": "^3.6.1",
     "lodash": "^4.16.1",
     "markdown": "^0.5.0",
     "nodelib": "git://github.com/dotmpe/nodelib#dev",
@@ -69,7 +73,8 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "coffeelint": "^1.15.7",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.11.1",
     "grunt": "^0.4.5",
     "grunt-cli": "^1.2.0",
     "grunt-coffeelint": "^0.0.16",
@@ -80,10 +85,17 @@
     "grunt-yamllint": "^0.2.0",
     "load-grunt-config": "latest",
     "load-grunt-tasks": "latest",
-    "path": "latest",
-    "pmx": "^0.6.8",
-    "request": "latest",
-    "text-table": "latest",
+    "gulp": "latest",
+    "gulp-chmod": "^2.0.0",
+    "gulp-header": "^1.8.8",
+    "gulp-rename": "latest",
+    "json-loader": "latest",
+    "pug-loader": "latest",
+    "rename-loader": "^1.0.0",
+    "pm2": "latest",
+    "pmx": "latest",
+    "source-map-support": "latest",
+    "webpack": "^1.13.3",
     "snyk": "^1.20.0"
   }
 }
