@@ -79,6 +79,7 @@
     "path": "latest",
     "pmx": "^0.6.8",
     "request": "latest",
-    "text-table": "latest"
+    "text-table": "latest",
+    "source-map-support": "latest"
   }
 }
