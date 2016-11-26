@@ -1,5 +1,21 @@
 'use strict';
 
+var fs = require('fs');
+var path = require('path');
+
+var webpack = require('webpack');
+
+
+var nodeModules = {};
+fs.readdirSync('node_modules')
+  .filter(function(x) {
+    return ['.bin'].indexOf(x) === -1;
+  })
+  .forEach(function(mod) {
+    nodeModules[mod] = 'commonjs ' + mod;
+  });
+
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -51,6 +67,49 @@ module.exports = function(grunt) {
       }
     },
 
+    webpack: {
+      server: {
+        entry: [ './bin/sitefile.coffee' ],
+        target: 'node',
+        output: {
+          path: path.join(__dirname, 'dist'),
+          filename: 'sitefile.js',
+          libraryTarget: "commonjs2",
+          library: "sitefile_cli"
+        },
+        module: {
+          loaders: [
+            { test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
+            { test: /\.coffee$/, loader: "coffee" },
+            { test: /\.json$/, loader: "json" },
+            { test: /\.pug$/, loader: "pug" }
+          ]
+        },
+        externals: nodeModules,
+        plugins: [
+          new webpack.IgnorePlugin(/^(markdown|pug|stylus|pm2|pmx|knex)$/),
+          new webpack.IgnorePlugin(/\.(css|less)$/),
+          new webpack.BannerPlugin('require("source-map-support").install();',
+                                   { raw: true, entryOnly: false }),
+        ],
+        resolve: {
+          extensions: [
+            '', '.coffee', '.js', '.json', '.pug'
+          ]
+        },
+        devtool: 'sourcemap',
+      }
+    },
+
+    jsdoc : {
+        dist : {
+            src: ['dist/*.js'],
+            options: {
+                destination: 'build/docs/jsdoc/'
+            }
+        }
+    },
+
 		docco: {
 			debug: {
 				src: ['lib/**/*.coffee'],
@@ -77,6 +136,12 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'lint',
     'test'
+  ]);
+
+  grunt.registerTask('build', [
+    'docco',
+    'webpack',
+    'jsdoc'
   ]);
 
 };

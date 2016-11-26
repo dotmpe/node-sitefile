@@ -21,7 +21,10 @@ routes:
 
   scripts/default.js: static:scripts/default.js
   
-  doc: static:build/docs/docco/
+  dist/sitefile: static:dist/sitefile.js
+
+  doc/literal: static:build/docs/docco/
+  doc/api: static:build/docs/jsdoc/
 
   example: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
