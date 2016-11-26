@@ -127,7 +127,7 @@ module.exports = ( ctx ) ->
       src: format: rctx.res.extname.substr 1
       dest: format: path.extname(rctx.res.ref)?.substr(1) or 'html'
     )
-    rctx.prepare_properties extra
+    rctx.prepare_from_obj extra
     rctx.seed extra
 
 

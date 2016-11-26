@@ -217,7 +217,7 @@ class Sitefile
         directories: {}
         defaults: [ 'default', 'index', 'main' ]
     }
-    ctx.prepare_properties options
+    ctx.prepare_from_obj options
     ctx.seed options
 
     # parse sitefile.routes, pass 2: process specs to handler intances
