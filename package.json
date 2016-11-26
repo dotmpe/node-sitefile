@@ -63,6 +63,8 @@
     "coffee-script": "^1.11.1",
     "coffee-loader": "^0.7.2",
     "json-loader": "latest",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "source-map-support": "latest",
+    "gulp": "latest"
   }
 }
