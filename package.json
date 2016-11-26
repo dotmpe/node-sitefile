@@ -38,6 +38,7 @@
   },
   "scripts": {
     "build": "node_modules/webpack/bin/webpack.js --config webpack.config.js",
+    "build-new": "gulp server-build",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "test": "./configure && grunt",
     "vulnerabilities": "snyk test",
@@ -60,11 +61,13 @@
     "semver": "^5.3.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.11.1",
     "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.11.1",
+    "gulp": "latest",
+    "gulp-chmod": "^2.0.0",
+    "gulp-header": "^1.8.8",
     "json-loader": "latest",
-    "webpack": "^1.13.3",
     "source-map-support": "latest",
-    "gulp": "latest"
+    "webpack": "^1.13.3"
   }
 }

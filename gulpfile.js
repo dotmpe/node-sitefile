@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var webpack = require('webpack');
 var path = require('path');
 var fs = require('fs');
+var header = require('gulp-header');
+var chmod = require('gulp-chmod');
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
@@ -17,7 +19,9 @@ var config = {
   target: 'node',
   output: {
     path: path.join(__dirname, 'build'),
-    filename: 'sitefile'
+    filename: 'sitefile',
+    libraryTarget: "commonjs2",
+    library: "sitefile_cli"
   },
   module: {
     loaders: [
@@ -38,7 +42,7 @@ var config = {
 			"", ".coffee", ".js", ".json"
 		]
 	},
-  devtool: 'sourcemap'
+  devtool: 'sourcemap',
 }
 
 gulp.task('server-build', function(done) {
@@ -49,6 +53,11 @@ gulp.task('server-build', function(done) {
     else {
       console.log(stats.toString());
     }
+    gulp.src('build/sitefile')
+      .pipe(header('#!/usr/bin/env node\n'))
+      .pipe(chmod(0755))
+      .pipe(gulp.dest('./dist'))
+
     done();
   });
 });
