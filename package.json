@@ -54,7 +54,6 @@
     "express": "^4.12.3",
     "glob": "^7.1.0",
     "js-yaml": "^3.6.1",
-    "knex": "^0.12.3",
     "lodash": "^4.16.1",
     "nodelib": "git://github.com/dotmpe/nodelib#dev",
     "qs": "6.2.0",
@@ -66,7 +65,10 @@
     "gulp": "latest",
     "gulp-chmod": "^2.0.0",
     "gulp-header": "^1.8.8",
+    "gulp-rename": "latest",
     "json-loader": "latest",
+    "pug-loader": "latest",
+    "rename-loader": "^1.0.0",
     "source-map-support": "latest",
     "webpack": "^1.13.3"
   }
