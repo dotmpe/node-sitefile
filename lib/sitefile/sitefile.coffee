@@ -66,7 +66,6 @@ get_local_sitefile = ( ctx={} ) ->
 
   _.defaults sitefile,
     routes: {}
-    specs: {}
 
   sitefile
 
@@ -119,9 +118,13 @@ load_config = ( ctx={} ) ->
     #configs = glob.sync path.join ctx.noderoot, scriptconfig + '.*'
     #if not _.isEmpty configs
     #  ctx.config_name = scriptconfig
-  ctx.config_envs = require path.join ctx.noderoot, ctx.config_name
-  ctx.config = ctx.config_envs[ctx.envname]
-  _.defaultsDeep ctx, ctx.config
+
+  rc = path.join ctx.noderoot, ctx.config_name
+  if fs.existsSync rc
+    ctx.config_envs = require rc
+    ctx.config = ctx.config_envs[ctx.envname]
+    _.defaultsDeep ctx, ctx.config
+
   ctx.config
 
 
@@ -133,7 +136,7 @@ prepare_context = ( ctx={} ) ->
 
   # Appl defaults if not present
   _.defaultsDeep ctx,
-    noderoot: path.dirname path.dirname __dirname
+    noderoot: '../'
     version: version
     cwd: process.cwd()
     proc:
@@ -146,10 +149,22 @@ prepare_context = ( ctx={} ) ->
       base: '/'
       netpath: null
     routes: {}
-  _.defaults ctx,
+    bundles: {}
+    paths: # TODO: configure lookup paths
+      routers: [
+        'sitefile:lib/sitefile/routers'
+        'sitefile:var/sitefile/routers'
+      ]
+      bundles: [
+        'sitefile:lib/sitefile/bundles'
+        'sitefile:var/sitefile/bundles'
+      ]
+
+  _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
-  _.defaults ctx,
-    pkg: require( ctx.pkg_file )
+
+  _.defaultsDeep ctx,
+    pkg: require( './../../package.json' )
 
   if not ctx.config
     load_config ctx
@@ -174,7 +189,9 @@ split_spec = ( strspec, ctx={} ) ->
 class Sitefile
   constructor: ( @ctx ) ->
     # Track all dirs for generated files, router CB's and instances, names
-    _.defaults @, dirs: {}, routers: {}, router_names: []
+    _.defaults @, dirs: {}, routers: {}, router_names: [], bundles: {}
+    # Load predefined resources (views, scripts, styles etc. w/ route maps)
+    @load_bundles @ctx
     # TODO Also need to refactor, and scan for defaults across dirs rootward
     @load_routers @ctx
     # Apply routes in sitefile to Express
@@ -208,6 +225,21 @@ class Sitefile
         object: Router.define router_obj
   
       log "Loaded router", name: name, c.sc, router_obj.label
+
+  # Preload other, non router bundles
+  load_bundles: ( ctx ) ->
+    for bundle of ctx.sitefile.bundles
+      if typeof(bundle) == 'string'
+        # Try importing, otherwise keep as name for something loaded at a later
+        # time
+        bundle_name = bundle
+        bundle_obj = name: bundle_name
+      else if typeof(bundle) == 'object'
+        # Use in-sitefile defined bundle
+        bundle_name = bundle.name
+        bundle_obj = bundle
+      @bundles[ bundle_name ] = bundle_obj
+      
 
   apply_routes: ( ctx ) ->
   

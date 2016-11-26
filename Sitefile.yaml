@@ -8,6 +8,12 @@
 sitefile: 0.0.5-dev
 
 showStackError: true
+
+bundles:
+  - bootstrap 
+  - pm2
+
+
 routes:
 
   # FIXME: prefix mapping
@@ -56,6 +62,14 @@ routes:
 
   Sitefile/core: 'core:'
 
+  app/pm2: pm2:pm2-procs.json
+  proc/pm2: 'pm2.ps:'
+  proc/pm2/: 'redir:proc/pm2.html'
+  proc/: 'redir:proc/pm2/'
+
+  npm/npm/latest.json: 'http:'
+  npm/node-sitefile/latest.json: 'http:'
+
 
 options:
   global:
@@ -73,6 +87,18 @@ options:
     pug:
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
+
+  local:
+    npm/node-sitefile/latest.json:
+      spec: 
+        hostname: 'registry.npmjs.org'
+        path: '/node-sitefile/latest'
+    npm/npm/latest.json:
+      spec: 
+        hostname: 'registry.npmjs.org'
+        path: '/npm/latest'
+    Sitefile/debug: 
+      local_var: 'fooooo'
 
 defs:
   stylesheets:

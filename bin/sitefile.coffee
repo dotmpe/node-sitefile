@@ -52,7 +52,7 @@ sitefile_cli = module.exports =
   run: ( done ) ->
 
     # prepare context and config data, loads sitefile
-    ctx = lib.prepare_context ctx
+    ctx = lib.prepare_context {}
     if _.isEmpty ctx.sitefile.routes
       lib.warn 'No routes'
       process.exit()
@@ -88,8 +88,11 @@ sitefile_cli = module.exports =
     proc
 
 
-# start if directly executed
-if process.argv.join(' ') == 'coffee '+require.resolve './sitefile.coffee'
+if process.argv[2] in [ '--version', '--help' ]
+ 
+  console.log "sitefile/"+lib.version
+
+else
 
   if process.env.SITEFILE_PM2_MON
     try
@@ -100,10 +103,6 @@ if process.argv.join(' ') == 'coffee '+require.resolve './sitefile.coffee'
         process.exit 1
     
   sitefile_cli.run()
-
-else if process.argv[2] in [ '--version', '--help' ]
- 
-  console.log "sitefile/"+lib.version
 
 # TODO: detect execute or (test-mode) include
 #else

@@ -32,13 +32,15 @@
     "node": "0.12.x",
     "npm": "2.7.x"
   },
-  "main": "bin/sitefile.coffee",
+  "main": "./bin/sitefile.coffee",
   "bin": {
-    "sitefile": "bin/sitefile.coffee"
+    "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
+    "build": "gulp server-build",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "test": "./configure && grunt",
+    "vulnerabilities": "snyk test",
     "src-tree": "tree -I 'node_modules|build|components'",
     "src-files": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' ",
     "src-loc": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' -not -path '*.log' | xargs cat | grep -v '^\\s*$' | wc -l | awk '{print $1}'",
@@ -47,26 +49,18 @@
   },
   "dependencies": {
     "bluebird": "^3.4.6",
-    "bookshelf": "^0.10.2",
-    "bookshelf-api": "^1.7.0",
     "chalk": "^1.1.3",
-    "coffee-script": "^1.11.1",
     "express": "^4.12.3",
     "glob": "^7.1.0",
     "js-yaml": "^3.6.1",
-    "knex": "^0.12.3",
     "lodash": "^4.16.1",
-    "markdown": "^0.5.0",
     "nodelib": "git://github.com/dotmpe/nodelib#dev",
-    "pug": "^2.0.0-beta6",
     "qs": "6.2.0",
-    "semver": "^5.3.0",
-    "sqlite3": "^3.1.6",
-    "stylus": "^0.54.5"
+    "semver": "^5.3.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "coffeelint": "^1.15.7",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.11.1",
     "grunt": "^0.4.5",
     "grunt-cli": "^1.2.0",
     "grunt-coffeelint": "^0.0.16",
@@ -78,6 +72,15 @@
     "grunt-yamllint": "0.2.0",
     "load-grunt-config": "latest",
     "load-grunt-tasks": "latest",
+    "gulp": "latest",
+    "gulp-chmod": "^2.0.0",
+    "gulp-header": "^1.8.8",
+    "gulp-rename": "latest",
+    "json-loader": "latest",
+    "pug-loader": "latest",
+    "rename-loader": "^1.0.0",
+    "pm2": "latest",
+    "webpack": "^1.13.3",
     "path": "latest",
     "pmx": "^0.6.8",
     "request": "latest",
