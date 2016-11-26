@@ -97,6 +97,7 @@ master [*]_
           dependent libs.
 
           More interesting is packing routers and themes and stuff.
+          Merged into bundles.
 
 
   demo
