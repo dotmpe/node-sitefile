@@ -72,14 +72,16 @@
     "grunt-coffeelint": "^0.0.16",
     "grunt-contrib-coffee": "latest",
     "grunt-contrib-jshint": "latest",
+    "grunt-docco": "^0.5.0",
     "grunt-mocha-test": "latest",
+    "grunt-webpack": "^2.0.0-beta.2",
     "grunt-yamllint": "0.2.0",
     "load-grunt-config": "latest",
     "load-grunt-tasks": "latest",
     "path": "latest",
     "pmx": "^0.6.8",
     "request": "latest",
-    "text-table": "latest",
-    "source-map-support": "latest"
+    "source-map-support": "latest",
+    "text-table": "latest"
   }
 }

@@ -106,6 +106,10 @@ master [*]_
         - Setting up for integrated module configuration. Want to get stack up
           using require-js. See `Router feature`_ docs
 
+      api-docs
+        - Want to look at JSDoc features.
+        - But first setting up a `docco` build.
+
   demo
     - Merging experimental features. Should keep master clean.
 

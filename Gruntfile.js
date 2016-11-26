@@ -49,8 +49,16 @@ module.exports = function(grunt) {
         },
         src: ['test/mocha/*.coffee']
       }
-    }
+    },
 
+		docco: {
+			debug: {
+				src: ['lib/**/*.coffee'],
+				options: {
+					output: 'build/docs/docco/'
+				}
+			}
+		}
   });
 
   // auto load grunt contrib tasks from package.json
