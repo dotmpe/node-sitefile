@@ -11,7 +11,6 @@ showStackError: true
 
 routes:
 
-  node_modules: static:node_modules
   client: static:build/client
   style: static:build/style
   
@@ -22,13 +21,13 @@ routes:
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   _example: static:example
 
-  #_pug: pug:example/**/*.pug
-  #_stylus: stylus:example/**/*.styl
-  #_coffee: coffee:example/**/*.coffee
-  #_markdown: markdown:*.md
-  #_markdown_1: markdown:example/**/*.md
-  #_sh: sh:example/*.sh
-  #_gv: gv:example/*.gv
+  _pug: pug:example/**/*.pug
+  _stylus: stylus:example/**/*.styl
+  _coffee: coffee:example/**/*.coffee
+  _markdown: markdown:*.md
+  _markdown_1: markdown:example/**/*.md
+  _sh: sh:example/*.sh
+  _gv: gv:example/*.gv
 
   # Some defaults for root
   #FIXME: 
@@ -45,15 +44,15 @@ routes:
   _du: du:**/*.rst
   #_rst2html: rst2html:**/*.rst
   
-  #Sitefile: redir:Sitefile.yaml
-  #Sitefile.yaml: static:Sitefile.yaml
-  #Sitefile.json: sitefile:?resolve=sitefile
-  #Sitefile/debug: sitefile:#
-  #Sitefile/resource: sitefile.resource:#
-  #Sitefile/handler: sitefile.handler:#
-  #Sitefile/global: sitefile.global:#
+  Sitefile: redir:Sitefile.yaml
+  Sitefile.yaml: static:Sitefile.yaml
+  Sitefile.json: sitefile:?resolve=sitefile
+  Sitefile/debug: sitefile:#
+  Sitefile/resource: sitefile.resource:#
+  Sitefile/handler: sitefile.handler:#
+  Sitefile/global: sitefile.global:#
 
-  #Sitefile/core: 'core:'
+  Sitefile/core: 'core:'
 
 
 options:

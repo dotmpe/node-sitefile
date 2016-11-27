@@ -49,10 +49,10 @@ sitefile_cli = module.exports =
             Object.keys(sitefile_cli.root.routes.directories).length
     }
 
-  run: ( done ) ->
+  run: ( done, options={} ) ->
 
     # prepare context and config data, loads sitefile
-    ctx = lib.prepare_context {}
+    ctx = lib.prepare_context options
     if _.isEmpty ctx.sitefile.routes
       lib.warn 'No routes'
       process.exit()
