@@ -53,8 +53,8 @@ module.exports = ( ctx ) ->
 
     ( req, res ) ->
 
-      console.log 'Pug compile', path: rctx.res.path, \
-          "with", options: rctx.route.options
+      #XXX:console.log 'Pug compile', path: rctx.res.path, \
+      #    "with", options: rctx.route.options
 
       pugOpts = {
         compile: rctx.route.options.pug.compile

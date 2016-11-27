@@ -124,6 +124,7 @@ load_config = ( ctx={} ) ->
     ctx.config_envs = require rc
     ctx.config = ctx.config_envs[ctx.envname]
     _.defaultsDeep ctx, ctx.config
+    console.log "Loaded user config for #{ctx.envname}"
 
   ctx.config
 
@@ -134,18 +135,25 @@ prepare_context = ( ctx={} ) ->
   # Apply all static properties (set ctx.static too)
   _.merge ctx, load_rc ctx
 
-  # Appl defaults if not present
   _.defaultsDeep ctx,
-    noderoot: '../'
+    noderoot: '../../'
     version: version
     cwd: process.cwd()
     proc:
       name: path.basename process.argv[1]
-    envname: process.env.NODE_ENV or 'development'
+    envname: process.env.NODE_ENV ? 'development'
     log: log
+  _.defaultsDeep ctx,
+    pkg_file: path.join ctx.noderoot, 'package.json'
+  _.defaultsDeep ctx,
+    pkg: require ctx.pkg_file
+
+  load_config ctx
+
+  _.defaultsDeep ctx,
     site:
       host: ''
-      port: 7011
+      port: 8081
       base: '/'
       netpath: null
     routes: {}
@@ -160,19 +168,12 @@ prepare_context = ( ctx={} ) ->
         'sitefile:var/sitefile/bundles'
       ]
 
-  _.defaultsDeep ctx,
-    pkg_file: path.join ctx.noderoot, 'package.json'
-
-  _.defaultsDeep ctx,
-    pkg: require( './../../package.json' )
-
-  if not ctx.config
-    load_config ctx
 
   # Load local sitefile (set ctx.sitefile)
   if not ctx.sitefile?
     load_sitefile ctx
 
+  console.log "Creating new context for #{ctx.envname}"
   new Context ctx
 
 
