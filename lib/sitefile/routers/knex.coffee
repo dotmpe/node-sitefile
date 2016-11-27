@@ -28,19 +28,49 @@ module.exports = ( ctx={} ) ->
   migrations.directory attributes updated to reflect the correct sub-path.
   """
 
-  generate: ( rctx ) ->
+  defaults:
+    default: {}
+    sql: route: options: cache: true
 
-    sitefile.log 'Knex index:', rctx.res.path
-    config = knex_util.load_config rctx, ctx
+  generate:
 
-    # Initialize DB
-    db = knex config
-    db.migrate.latest()
+    # Data endpoint: Prepare Knex session on resource context
+    db: ( rctx ) ->
+      sqlctx =
+        knex:
+          config: knex_util.load_config rctx, ctx
 
-    ( req, res ) ->
+      # Initialize and update DB
+      sqlctx.knex.db = db = knex sqlctx.knex.config
+      db.migrate.latest()
 
-      res.write JSON.stringify config
-      res.end()
+      sqlctx
+
+    # Data endpoint: the spec must lead to a JS/Coffee file to accept Knex
+    sql: ( rctx ) ->
+      ctx._routers.handler('.db', rctx) rctx
+      rctx.res.sqlcb = require('./'+ rctx.route.res.path )
+      if rctx.res.options.cache
+        res:
+          data: rctx.res.sqlcb(rctx.knex.db, rctx)
+      else
+        res:
+          data: ( rctx ) -> rctx.res.sqlcb(rctx.knex.db, rctx)
+     
+    # Document endpont: serve config JSON
+    default: ( rctx ) ->
+
+      sitefile.log 'Knex index:', rctx.res.path
+      config = knex_util.load_config rctx, ctx
+
+      # Initialize and update DB
+      db = knex config
+      db.migrate.latest()
+
+      ( req, res ) ->
+
+        res.write JSON.stringify config
+        res.end()
 
 
 if 'knex' is path.basename process.argv[1], '.coffee'

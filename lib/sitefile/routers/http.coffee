@@ -53,14 +53,15 @@ module.exports = ( ctx ) ->
   promise:
     json: promise_json
 
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
 
-    ( req, res ) ->
-      promise_json(
-        rctx.route.options.spec
-      ).then (data) ->
-        console.log 'resolve', arguments
-        res.type 'json'
-        res.write JSON.stringify data
-        res.end()
+      ( req, res ) ->
+        promise_json(
+          rctx.route.options.spec
+        ).then (data) ->
+          console.log 'resolve', arguments
+          res.type 'json'
+          res.write JSON.stringify data
+          res.end()
 

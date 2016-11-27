@@ -156,7 +156,9 @@ prepare_context = ( ctx={} ) ->
       port: 8081
       base: '/'
       netpath: null
-    routes: {}
+    routes:
+      resources: []
+      directories: []
     bundles: {}
     paths: # TODO: configure lookup paths
       routers: [
@@ -187,30 +189,44 @@ split_spec = ( strspec, ctx={} ) ->
   [ router_name, handler_name, hspec ]
 
 
-class Sitefile
+class Routers
   constructor: ( @ctx ) ->
-    # Track all dirs for generated files, router CB's and instances, names
-    _.defaults @, dirs: {}, routers: {}, router_names: [], bundles: {}
-    # Load predefined resources (views, scripts, styles etc. w/ route maps)
-    @load_bundles @ctx
-    # TODO Also need to refactor, and scan for defaults across dirs rootward
-    @load_routers @ctx
-    # Apply routes in sitefile to Express
-    @apply_routes @ctx
-    # reload ctx.{config,sitefile} whenever file changes
-    reload_on_change @ctx
+    # XXX:
+    if @ctx._routers then throw Error "_routers"
+    @ctx._routers = @
+    @data = {}
+
+  get: ( name ) ->
+    return @data[ name ].object
+
+  generator: ( name, rctx=null, ctx=null ) ->
+    if name.startsWith '.'
+      handler = name.substr 1
+      name = rctx.route.name
+    else if -1 != name.indexOf '.'
+      [ name, handler ] = name.split '.'
+    else
+      handler = 'default'
+   
+    if name not of @data
+      throw Error "No router for #{name}"
+    if not handler or \
+        handler not of @data[name].object.generate
+      throw Error "No router generate handler #{handler} for #{name}"
+
+    @data[ name ].object.generate[ handler ]
 
   # Pre-load routers
-  load_routers: ( ctx ) ->
+  load: ( ctx ) ->
 
-    @router_names = _.union (
+    @names = _.union (
       router_name for [ router_name, handler_name, handler_spec ] in (
         split_spec strspec, ctx for route, strspec of ctx.sitefile.routes ) )
   
-    log 'Required routers', name: @router_names.join ', '
+    log 'Required routers', name: @names.join ', '
   
     # parse sitefile.routes, pass 1: load & init routers
-    for name in @router_names
+    for name in @names
       if name of Router.builtin
         continue
 
@@ -221,11 +237,29 @@ class Sitefile
         warn "Failed to load #{name}"
         continue
   
-      @routers[name] =
+      @data[name] =
         module: router_cb
         object: Router.define router_obj
   
       log "Loaded router", name: name, c.sc, router_obj.label
+
+
+class Sitefile
+  constructor: ( @ctx ) ->
+    # Track all dirs for generated files, router CB's and instances, names
+    _.defaults @, dirs: {}, bundles: {}
+    # XXX:
+    if @ctx._sitefile then throw Error "_sitefile"
+    @ctx._sitefile = @
+    # TODO Also need to refactor, and scan for defaults across dirs rootward
+    @routers = new Routers @ctx
+    @routers.load @ctx
+    # Load predefined resources (views, scripts, styles etc. w/ route maps)
+    @load_bundles @ctx
+    # Apply routes in sitefile to Express
+    @apply_routes @ctx
+    # reload ctx.{config,sitefile} whenever file changes
+    reload_on_change @ctx
 
   # Preload other, non router bundles
   load_bundles: ( ctx ) ->
@@ -258,7 +292,8 @@ class Sitefile
 
       # Skip route spec on missing routers
       [ router_name, handler_name, handler_spec ] = split_spec strspec, ctx
-      if router_name not of Router.builtin and not @routers[ router_name ]
+
+      if router_name not of Router.builtin and router_name not in @routers.names
         warn "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
 
@@ -266,7 +301,7 @@ class Sitefile
       if router_name of Router.builtin
         router_type = Router.Base
       else
-        router_type = @routers[ router_name ].object
+        router_type = @routers.get router_name
 
       # Resolve route spec to resource contexts, init and add Express handler
       ctx.routes.directories = @dirs
@@ -275,9 +310,15 @@ class Sitefile
 
         # Load defaults from router_type
         if 'defaults' of router_type
-          _.defaultsDeep rctx._data, router_type.defaults
-          #console.log 'new options', rctx.route.options
+          if handler_name
+            if handler_name of router_type.defaults
+              _.defaultsDeep rctx._data, router_type.defaults[ handler_name ]
+          else if 'default' of router_type.defaults
+            _.defaultsDeep rctx._data, router_type.defaults.default
+          else
+            ctx.log "Missing #{router_name} default handler defaults"
 
+        # Detect routable extension
         rs = rctx.res
         if rs.path and (ctx.site.base+rs.path).startsWith(rs.ref) and (
           rs.ref+rs.extname is ctx.site.base+rs.path
@@ -286,6 +327,7 @@ class Sitefile
           ctx.redir rs.ref+rs.extname, rs.ref
           #ctx.log 'redir', rs.ref+rs.extname, rs.ref
 
+        # Finally let routers generate or add routes to ctx.app Express instance
         if router_name of Router.builtin
           Router.builtin[router_name] rctx
 

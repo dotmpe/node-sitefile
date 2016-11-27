@@ -36,39 +36,40 @@ module.exports = ( ctx ) ->
   compile: compilePug
 
   defaults:
-    route:
-      options:
-        scripts: []
-        stylesheets: []
-        pug:
-          format: 'html'
-          compile:
-            pretty: false
-            debug: false
-            compileDebug: false
-            globals: []
+    default:
+      route:
+        options:
+          scripts: []
+          stylesheets: []
+          pug:
+            format: 'html'
+            compile:
+              pretty: false
+              debug: false
+              compileDebug: false
+              globals: []
 
   # generators for Sitefile route handlers
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
+      ( req, res ) ->
 
-    ( req, res ) ->
+        #XXX:console.log 'Pug compile', path: rctx.res.path, \
+        #    "with", options: rctx.route.options
 
-      #XXX:console.log 'Pug compile', path: rctx.res.path, \
-      #    "with", options: rctx.route.options
+        pugOpts = {
+          compile: rctx.route.options.pug.compile
+          merge:
+            options: rctx.route.options
+            query: req.query
+            context: rctx
+        }
 
-      pugOpts = {
-        compile: rctx.route.options.pug.compile
-        merge:
-          options: rctx.route.options
-          query: req.query
-          context: rctx
-      }
+        if not pugOpts.compile.filters
+          pugOpts.compile.filters = {}
 
-      if not pugOpts.compile.filters
-        pugOpts.compile.filters = {}
-
-      res.type rctx.route.options.pug.format
-      res.write compilePug rctx.res.path, pugOpts
-      res.end()
+        res.type rctx.route.options.pug.format
+        res.write compilePug rctx.res.path, pugOpts
+        res.end()
 
 

@@ -28,7 +28,7 @@ module.exports = ( ctx ) ->
 
       console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
       if not rctx.res.path
-        throw Error "JSON path expected"
+        throw Error "JSON path expected (#{rctx.route.handler})"
 
       data = require path.join '../../..', rctx.res.path
 

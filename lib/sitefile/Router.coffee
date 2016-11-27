@@ -29,6 +29,16 @@ builtin =
     rctx.context.app.use url, rctx.context.static_proto p
     rctx.context.log 'Static', url: url, '=', path: rctx.route.spec
 
+  # Take care of rendering from a rctx with data, for a (data) handler that does
+  # not care too itself since it is a very common task.
+  data: ( rctx ) ->
+    ( req, res ) ->
+      res.type 'json'
+      res.write JSON.stringify \
+        if "function" is typeof rctx.res.data
+        then res.data rctx
+        else res.data
+      res.end()
 
 Base =
   name: 'Express'
@@ -68,9 +78,8 @@ Base =
   #  app.all url, handler.generator '.'+url, ctx
 
   # Return handler for path
-  generate: ( url_path, ctx ) ->
+  generate: ( ctx ) ->
   # XXX:
-  handler: ( url_path ) ->
   register: ( app, ctx ) ->
 
 
@@ -154,25 +163,43 @@ Base =
 
   initialize: ( router_type, rctx ) ->
 
-    rctx.context.routes.resources.push rctx.res.ref
+    ctx = rctx.context
+
+    # routes.resources: Track all paths to router instances
+    ctx.routes.resources.push rctx.res.ref
 
     # generate: let router_type return handlers for given resource
-    if rctx.route.handler and rctx.route.handler of router_type.generate
-      h = router_type.generate[rctx.route.handler] rctx
-    else if 'default' of router_type.generate
-      h = router_type.generate.default rctx
-    else
-      h = router_type.generate rctx
 
-    if not h
+    if rctx.route.handler
+      g = ctx._routers.generator '.'+rctx.route.handler, rctx
+    else
+      g = ctx._routers.generator rctx.route.name
+
+    h = g rctx
+
+    if 'function' is typeof h
+
+      # Add as regular Express route handler
+      rctx.context.app.all rctx.res.ref, ( req, res ) ->
+        _.defaultsDeep rctx.route.options, req.query
+        h req, res
+
+    else if h and 'object' is typeof h
+  
+      # XXX: The object could have data, meta etc. attr and play as JSON API doc
+      # For now just extend the resource context with the object it returned.
+      rctx.prepare_from_obj h
+      rctx.seed h
+
+      if h.res and 'data' of h.res
+        rctx.context.app.all builtin.data rctx
+      
+      ctx.log "Extended context from #{rctx.route.name} at #{rctx.name}"
+
+    else if not h
       module.exports.warn \
         "Router #{rctx.route.name} returned nothing for #{rctx.name}, ignored"
-      return
-
-    rctx.context.app.all rctx.res.ref, ( req, res ) ->
-      _.defaultsDeep rctx.route.options, req.query
-      h req, res
-   
+    
 
 module.exports =
 

@@ -70,19 +70,20 @@ module.exports = ( ctx ) ->
 
   # Generate router API is free to either return an function to handle a
   # resource request context, or add Express handlers directly.
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
     
-    if !rctx.route.handler
-      rctx.route.handler = 'routes'
+      if !rctx.route.handler
+        rctx.route.handler = 'routes'
 
-    ( req, res, next ) ->
+      ( req, res, next ) ->
 
-      res.type 'json'
-      switch rctx.route.handler
-        when "routes" then data = ctx.routes
-        when "autocomplete"
-          data = jQuery_autocomplete_api req, rctx
-      res.write JSON.stringify data
-      res.end()
+        res.type 'json'
+        switch rctx.route.handler
+          when "routes" then data = ctx.routes
+          when "autocomplete"
+            data = jQuery_autocomplete_api req, rctx
+        res.write JSON.stringify data
+        res.end()
 
 
