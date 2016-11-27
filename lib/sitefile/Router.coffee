@@ -69,6 +69,16 @@ Base =
 
   """
 
+  # TODO: resource types? to use as 'backend' for fe route handlers..
+  resources:
+    'core.sitefile': null # Sitefile instance?
+    'core.sitefilerc': null # Subset mapped to ctx
+    'core.sitefile.extension': null # JS or coffee file
+    'core.sitefile.route.autocomplete': null # jQuery autcomplete API
+    'core.sitefile.route': null # Dynamic routes API?
+
+
+  # XXX: clean me up, route spec parsing
   #parse_spec: ( route_spec, handler_spec, ctx ) ->
 
   # process parametrized rule
@@ -81,7 +91,6 @@ Base =
   generate: ( ctx ) ->
   # XXX:
   register: ( app, ctx ) ->
-
 
   # Return resource sub-context for local file resource
   file_res_ctx: ( ctx, init, file_path ) ->
