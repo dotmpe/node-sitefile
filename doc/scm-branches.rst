@@ -1,4 +1,7 @@
 
+.. include:: .defaults.rst
+
+
 master [*]_
   - Basic functionality; static, redir routers.
   - Document handlers: rst2html, docutils, markdown.
@@ -99,6 +102,13 @@ master [*]_
           More interesting is packing routers and themes and stuff.
           Merged into bundles.
 
+      require-js
+        - Setting up for integrated module configuration. Want to get stack up
+          using require-js. See `Router Feature`_ docs.
+
+      api-docs
+        - Want to look at JSDoc features. http:/doc/literate
+        - But first set up a `docco` build to see current docs. http:/doc/api
 
   demo
     - Merging experimental features. Should keep master clean.
@@ -113,7 +123,4 @@ master [*]_
 
 .. [*] Current branch.
 
-
-.. _json-editor: https://github.com/jdorn/json-editor
-.. _DB Feature: docs/feature-db
 
