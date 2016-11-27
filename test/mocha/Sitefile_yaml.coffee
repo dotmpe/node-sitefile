@@ -44,6 +44,7 @@ doubles is an example for all handlers. ", ->
       done()
 
 
+  ###
   it "should serve a CoffeeScript file to Javascript", ( done ) ->
 
     url = "http://localhost:#{server.port}/example/server-generated-javascript"
@@ -75,8 +76,7 @@ doubles is an example for all handlers. ", ->
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
       done()
-
-
+  ###
 
   server = null
 

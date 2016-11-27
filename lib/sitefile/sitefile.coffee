@@ -112,15 +112,15 @@ load_rc = ( ctx ) ->
 
 load_config = ( ctx={} ) ->
   if not ctx.config_name?
-    ctx.config_name = 'config/config'
+    ctx.config_name = 'config/config.coffee'
     # XXX config per client
     #scriptconfig = 'config/config-#{ctx.proc.name}'
     #configs = glob.sync path.join ctx.noderoot, scriptconfig + '.*'
     #if not _.isEmpty configs
     #  ctx.config_name = scriptconfig
 
-  rc = path.join ctx.noderoot, ctx.config_name
-  if fs.existsSync rc
+  rc = path.join '../..', ctx.config_name
+  if fs.existsSync require.resolve rc
     ctx.config_envs = require rc
     ctx.config = ctx.config_envs[ctx.envname]
     _.defaultsDeep ctx, ctx.config

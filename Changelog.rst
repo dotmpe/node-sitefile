@@ -37,7 +37,7 @@
   - Added ``grunt build`` with `docco` for document generator,
     and SASS for packaging some default styles.
   - Added Twitter bootstrap, jQuery, lodash build with grunt/webpack.
-  - Removed old `default.js` script.
+    Removed old `default.js` script.
 
   TODO: Preparing to add `require.js`.
 

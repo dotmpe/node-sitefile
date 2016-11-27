@@ -18,6 +18,8 @@ sitefile = require '../sitefile'
 rst2html_flags = ( params ) ->
 
   flags = []
+  if params.link_stylesheet
+    flags.push '--link-stylesheet'
   if params.stylesheets? and !_.isEmpty params.stylesheets
     sheets = _.values(params.stylesheets).join ','
     flags.push "--stylesheet-path '#{sheets}'"
@@ -55,13 +57,12 @@ Async rst2html writes to out or throws exception
 ###
 rst2html = ( out, params={} ) ->
 
-  prm = _.defaults params,
+  prm = _.defaultsDeep params,
     format: 'pseudoxml'
     docpath: 'index'
     link_stylesheet: false
     stylesheets: []
-    # FIXME: rst2html: remove hardcoded javascript
-    scripts: [ '/build/script/default.js' ]
+    scripts: []
 
   cmdflags = rst2html_flags prm
 
@@ -137,13 +138,8 @@ module.exports = ( ctx ) ->
         format: rctx.dest.format,
         docpath: rctx.docpath
 
-# TODO: copied to rctx.router.options, but implement router relouding first;
-      # keeping this here allows for params to be refreshed.
-      options = if ctx.sitefile.options and 'du' of ctx.sitefile.options \
-        then ctx.resolve 'sitefile.options.du' else {}
-
       try
-        rst2html res, _.merge {}, options, req.query
+        rst2html res, _.merge {}, rctx.route.options, req.query
       catch error
         console.log error
         res.type('text/plain')
