@@ -35,7 +35,6 @@ routes:
   _gv: gv:example/*.gv
 
   # Some defaults for root
-  #FIXME: 
   '': redir:ReadMe
   index: redir:ReadMe
 
@@ -66,6 +65,8 @@ routes:
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
+
+  fonts: static:node_modules/bootstrap/fonts
 
 
 options:
@@ -116,13 +117,4 @@ defs:
       paths:
         - build/style/default.css
 
-#apps:
-#  base:
-#    scripts: []
-#    stylesheets:
-#      - href: style/default.css
-#        path: build/styles/default.css
-#
-#  script/default.js: static:build/client/default.js
-#  style/default.js: static:build/styles/default.css
 

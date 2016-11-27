@@ -3,9 +3,12 @@ doctype html
 head
   head
     title PM2 process details
-    link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap.css")
-    script(type="text/javascript", src="/components/jquery/dist/jquery.min.js")
-    script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.js")
+
+    each href in context.context.sitefile.defs.stylesheets.default.urls
+      link(rel="stylesheet", type="text/css", href= href)
+
+    each href in context.context.sitefile.defs.scripts.default.urls
+      script(type="text/javascript", src= href)
     script(type="text/javascript", src= script)
 
   body
@@ -51,30 +54,28 @@ head
           th Uptime (hr)
           td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 3600 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
 
-
         tr
           th Versioning
-          table.table.table-condensed
-            tr
-              th Type
-              td= app.pm2_env.versioning.type
-            tr
-              th Branch
-              td= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
-            tr
-              th 
-              td
-                code= JSON.stringify(app.pm2_env.versioning)
+          td
+            table.table.table-condensed
+              tr
+                th Type
+                td= app.pm2_env.versioning.type
+              tr
+                th Branch
+                td= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
+              tr
+                th 
+                td
+                  code= JSON.stringify(app.pm2_env.versioning)
 
         tr
           th Env
           td
-            table
-              each key, value in app.pm2_env.env
+            table.table.table-condensed
+              each value, key in app.pm2_env.env
                 tr
                   th= key
                   td= value
-
             code= JSON.stringify(app.pm2_env)
-
 

@@ -93,7 +93,7 @@ module.exports = ( ctx ) ->
               pid: process.pid
               base: ctx.site.base+rctx.name
               script: ctx.site.base+rctx.name+'.js'
-              options: rctx.options
+              options: rctx.route.options
               query: req.query
               context: rctx
               app: app
@@ -103,7 +103,7 @@ module.exports = ( ctx ) ->
 
       # Serve HTML list view
       ctx.app.get ctx.site.base+rctx.name+'.html', (req, res) ->
-      
+
         httprouter.promise.json(
           hostname: 'localhost'
           port: ctx.app.get('port')

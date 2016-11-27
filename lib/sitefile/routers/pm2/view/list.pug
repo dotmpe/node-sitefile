@@ -3,9 +3,12 @@ doctype html
 head
   head
     title PM2 process list
-    link(rel="stylesheet", type="text/css", href="/components/bootstrap/dist/css/bootstrap.css")
-    script(type="text/javascript", src="/components/jquery/dist/jquery.min.js")
-    script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.js")
+
+    each href in context.context.sitefile.defs.stylesheets.default.urls
+      link(rel="stylesheet", type="text/css", href= href)
+
+    each href in context.context.sitefile.defs.scripts.default.urls
+      script(type="text/javascript", src= href)
     script(type="text/javascript", src= script)
 
   body
