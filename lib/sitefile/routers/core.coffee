@@ -46,20 +46,30 @@ jQuery_autocomplete_api = ( req, rctx ) ->
 
 module.exports = ( ctx ) ->
 
-  # Return obj. w/ metadata & functions
+  # Router component as a plain object
+
+  # Basic attributes
   name: 'core'
   label: 'Sitefile API service'
   usage: """
     core:
   """
 
+  # Additional (user/Sitefile) configuration defaults
   defaults:
     route:
       handler: 'routes'
       options: {}
 
-  prereqs: {}
+  # Route API consists of a metadata scheme
+  route:
+    default: ''
+    routes:
+      json: ''
+      autocomplete: ''
 
+  # Generate router API is free to either return an function to handle a
+  # resource request context, or add Express handlers directly.
   generate: ( rctx ) ->
     
     if !rctx.route.handler
