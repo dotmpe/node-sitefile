@@ -30,7 +30,6 @@ routes:
   _gv: gv:example/*.gv
 
   # Some defaults for root
-  #FIXME: 
   '': redir:ReadMe
   index: redir:ReadMe
 
@@ -53,6 +52,13 @@ routes:
   Sitefile/global: sitefile.global:#
 
   Sitefile/core: 'core:'
+
+  app/pm2: pm2:pm2-procs.json
+  proc/pm2: 'pm2.ps:'
+  proc/pm2/: 'redir:proc/pm2.html'
+  proc/: 'redir:proc/pm2/'
+
+  fonts: static:node_modules/bootstrap/fonts
 
 
 options:
@@ -77,6 +83,10 @@ options:
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
 
+  local:
+    Sitefile/debug: 
+      local_var: 'fooooo'
+
 defs:
   scripts:
     default:
@@ -91,13 +101,4 @@ defs:
       paths:
         - build/style/default.css
 
-#apps:
-#  base:
-#    scripts: []
-#    stylesheets:
-#      - href: style/default.css
-#        path: build/styles/default.css
-#
-#  script/default.js: static:build/client/default.js
-#  style/default.js: static:build/styles/default.css
 

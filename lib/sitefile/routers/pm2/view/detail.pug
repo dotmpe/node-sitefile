@@ -1,0 +1,79 @@
+doctype html
+
+head
+  head
+    title PM2 process details
+
+    each href in context.context.sitefile.defs.stylesheets.default.urls
+      link(rel="stylesheet", type="text/css", href= href)
+
+    each href in context.context.sitefile.defs.scripts.default.urls
+      script(type="text/javascript", src= href)
+    script(type="text/javascript", src= script)
+
+  body
+
+    .container
+
+      - states = {stopped: '', errored: 'danger', online: 'success'}
+      - st = app.pm2_env.status
+
+      h3 Details for #{app.name}
+
+      table.table
+        tr
+          th Id
+          th
+            a(href=context.base+context.name+"/"+app.pm_id+".json")= app.pm_id
+        tr
+          th Name
+          th
+            a(href=context.base+context.name+"/"+app.pm_id+".html")= app.name
+        tr
+          th Status
+          td(class=states[st])= app.pm2_env.status
+        tr
+          th CWD
+          td= app.pm2_env.cwd
+        tr
+          th CMD
+          td= app.pm2_env.pm_exec_path
+        tr
+          th ENV
+          td= app.pm2_env.ENV
+        tr
+          th PID
+          td= app.pid
+        tr
+          th Uptime (sec)
+          td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 1000).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
+        tr
+          th Uptime (min)
+          td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 60 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
+        tr
+          th Uptime (hr)
+          td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 3600 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
+        tr
+          th Versioning
+          td
+            table.table.table-condensed
+              tr
+                th Type
+                td= app.pm2_env.versioning.type
+              tr
+                th Branch
+                td= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
+              tr
+                th 
+                td
+                  code= JSON.stringify(app.pm2_env.versioning)
+        tr
+          th Env
+          td
+            table.table.table-condensed
+              each value, key in app.pm2_env.env
+                tr
+                  th= key
+                  td= value
+            code= JSON.stringify(app.pm2_env)
+

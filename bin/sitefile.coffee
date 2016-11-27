@@ -92,7 +92,6 @@ if process.argv[2] in [ '--version', '--help' ]
  
   console.log "sitefile/"+lib.version
 
-
 else if process.argv[1].endsWith('sitefile') \
     or process.argv[1].endsWith 'sitefile.coffee'
 
@@ -106,6 +105,7 @@ else if process.argv[1].endsWith('sitefile') \
     
   sitefile_cli.run()
 
+# XXX:
 #else
 #  lib.warn "Invalid argument:", process.argv[2]
 #  process.exit(1)
