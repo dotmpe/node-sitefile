@@ -8,14 +8,13 @@
 sitefile: 0.0.5-dev
 
 showStackError: true
+
 routes:
 
-  # FIXME: prefix mapping
-  media: static:public/media
-
-  scripts/default.js: static:scripts/default.js
+  script/default.js: static:build/scripts/default.js
+  style/default.js: static:build/styles/default.css
   
-  doc: static:build/docs/docco/
+  doc/literate: static:build/docs/docco/
 
   example: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
@@ -29,7 +28,6 @@ routes:
   _markdown_1: markdown:example/**/*.md
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
-  components: static:public/components
 
   # Some defaults for root
   #FIXME: 
@@ -78,16 +76,17 @@ defs:
   stylesheets:
     default:
       urls:
-        - /media/style/default.css
+        - /style/default.css
       paths:
-        - public/media/style/default.css
-
+        - build/styles/default.css
 
 apps:
   base:
     scripts: []
     stylesheets:
-      - href: /media/style/default.css
-        path: public/media/style/default.css
+      - href: style/default.css
+        path: build/styles/default.css
 
+  script/default.js: static:build/scripts/default.js
+  style/default.js: static:build/styles/default.css
 

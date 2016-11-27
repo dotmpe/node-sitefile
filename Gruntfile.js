@@ -14,7 +14,13 @@ module.exports = function(grunt) {
         src: 'Gruntfile.js'
       },
       "package": {
-        src: 'package.json'
+        src: '*.json'
+      },
+      "examples": {
+        src: [
+          'example/**/*.json',
+          'example/**/*.js'
+        ]
       }
     },
 
@@ -26,14 +32,16 @@ module.exports = function(grunt) {
         'bin/*.coffee',
         'lib/**/*.coffee',
         'config/**/*.coffee',
-        'test/**/*.coffee'
+        'test/**/*.coffee',
+        'example/**/*.coffee'
       ]
     },
 
     yamllint: {
       all: {
         src: [
-          'Sitefile.yaml'
+          'Sitefile.yaml',
+          'package.yaml'
         ]
       }
     },
@@ -58,7 +66,18 @@ module.exports = function(grunt) {
 					output: 'build/docs/docco/'
 				}
 			}
-		}
+		},
+
+		sass: {
+		  options: {
+		    sourceMap: true
+      },
+      dist: {
+        files: {
+          'build/styles/default.css': 'lib/sitefile/style/default.sass'
+        }
+      }
+    },
   });
 
   // auto load grunt contrib tasks from package.json
@@ -79,4 +98,8 @@ module.exports = function(grunt) {
     'test'
   ]);
 
+  grunt.registerTask('build', [
+    'sass',
+    'docco'
+  ]);
 };

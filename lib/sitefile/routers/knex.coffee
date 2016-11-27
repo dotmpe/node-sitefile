@@ -1,14 +1,20 @@
 fs = require 'fs'
 path = require 'path'
 
-knex = require 'knex'
-
 sitefile = require '../sitefile'
 knex_util = require '../knex'
 
 
 
 module.exports = ( ctx={} ) ->
+
+  try
+    knex = require 'knex'
+  catch err
+    if err.code == 'MODULE_NOT_FOUND'
+      return {}
+    throw err
+
 
   name: 'knex'
   label: ''

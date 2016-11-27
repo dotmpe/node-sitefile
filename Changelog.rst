@@ -34,6 +34,12 @@
   - Went through all of the ReadMe and split into Manual and Dev docs.
   - Renamed ``Sitefile.{yaml,json}`` `params` attribute to `options` like
     the object in the `resolver context` to keep term diversity low.
+  - Added ``grunt build`` with `docco` for document generator,
+    and SASS for packaging some default styles.
+  - Added Twitter bootstrap, jQuery, lodash build with grunt/webpack.
+  - Removed old `default.js` script.
+
+  TODO: Preparing to add `require.js`.
 
   FIXME: Sitefile need some knowledge of Style and Script resources, both path
   and URL. Maybe bundle them. Or better use resources exported from routers.

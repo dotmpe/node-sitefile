@@ -66,7 +66,6 @@ get_local_sitefile = ( ctx={} ) ->
 
   _.defaults sitefile,
     routes: {}
-    specs: {}
 
   sitefile
 
@@ -119,9 +118,13 @@ load_config = ( ctx={} ) ->
     #configs = glob.sync path.join ctx.noderoot, scriptconfig + '.*'
     #if not _.isEmpty configs
     #  ctx.config_name = scriptconfig
-  ctx.config_envs = require path.join ctx.noderoot, ctx.config_name
-  ctx.config = ctx.config_envs[ctx.envname]
-  _.defaultsDeep ctx, ctx.config
+
+  rc = path.join ctx.noderoot, ctx.config_name
+  if fs.existsSync rc
+    ctx.config_envs = require rc
+    ctx.config = ctx.config_envs[ctx.envname]
+    _.defaultsDeep ctx, ctx.config
+
   ctx.config
 
 
@@ -133,7 +136,7 @@ prepare_context = ( ctx={} ) ->
 
   # Appl defaults if not present
   _.defaultsDeep ctx,
-    noderoot: path.dirname path.dirname __dirname
+    noderoot: '../'
     version: version
     cwd: process.cwd()
     proc:
@@ -146,10 +149,11 @@ prepare_context = ( ctx={} ) ->
       base: '/'
       netpath: null
     routes: {}
-  _.defaults ctx,
+  _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
-  _.defaults ctx,
-    pkg: require( ctx.pkg_file )
+
+  _.defaultsDeep ctx,
+    pkg: require( './../../package.json' )
 
   if not ctx.config
     load_config ctx

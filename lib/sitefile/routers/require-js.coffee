@@ -5,10 +5,6 @@ cc = require 'coffee-script'
 
 module.exports = ( ctx ) ->
 
-  try
-    require-js = require 'require-js'
-  catch
-    return
 
   httprouter = require('./http') ctx
   pugrouter = require('./pug') ctx
