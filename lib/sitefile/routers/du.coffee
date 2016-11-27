@@ -121,29 +121,30 @@ module.exports = ( ctx ) ->
     rst2html: rst2html
 
   # Generators for Sitefile route handlers
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
 
-    # FIXME: improve Context API:
-    extra = (
-      docpath: path.join(  ctx.cwd, rctx.res.path ),
-      src: format: rctx.res.extname.substr 1
-      dest: format: path.extname(rctx.res.ref)?.substr(1) or 'html'
-    )
-    rctx.prepare_from_obj extra
-    rctx.seed extra
+      # FIXME: improve Context API:
+      extra = (
+        docpath: path.join(  ctx.cwd, rctx.res.path ),
+        src: format: rctx.res.extname.substr 1
+        dest: format: path.extname(rctx.res.ref)?.substr(1) or 'html'
+      )
+      rctx.prepare_from_obj extra
+      rctx.seed extra
 
 
-    ( req, res, next ) ->
-      req.query = _.defaults req.query || {},
-        format: rctx.dest.format,
-        docpath: rctx.docpath
+      ( req, res, next ) ->
+        req.query = _.defaults req.query || {},
+          format: rctx.dest.format,
+          docpath: rctx.docpath
 
-      try
-        rst2html res, _.merge {}, rctx.route.options, req.query
-      catch error
-        console.log error
-        res.type('text/plain')
-        res.status(500)
-        res.write("exec error: "+error)
-        res.end()
+        try
+          rst2html res, _.merge {}, rctx.route.options, req.query
+        catch error
+          console.log error
+          res.type('text/plain')
+          res.status(500)
+          res.write("exec error: "+error)
+          res.end()
 

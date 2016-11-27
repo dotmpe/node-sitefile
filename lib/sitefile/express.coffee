@@ -27,7 +27,6 @@ module.exports = (ctx={}) ->
 
   app = express()
 
-  #ctx.envname = app.get 'env'
   app.set 'env', ctx.envname
 
   if process.env.SITEFILE_PORT

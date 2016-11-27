@@ -55,34 +55,18 @@ module.exports = ( ctx ) ->
     core:
   """
 
-  # Additional (user/Sitefile) configuration defaults
-  defaults:
-    route:
-      handler: 'routes'
-      options: {}
+  default_handler: 'routes'
 
-  # Route API consists of a metadata scheme
-  route:
-    default: ''
-    routes:
-      json: ''
-      autocomplete: ''
+  # Additional (user/Sitefile) configuration defaults for this module
 
   # Generate router API is free to either return an function to handle a
   # resource request context, or add Express handlers directly.
-  generate: ( rctx ) ->
-    
-    if !rctx.route.handler
-      rctx.route.handler = 'routes'
+  generate:
+    routes: ( rctx ) ->
+      res: data: [1,2,3]#rctx.context.routes
+    autocomplete:
+      res: data: ( rctx )->
+        jQuery_autocomplete_api req, rctx
 
-    ( req, res, next ) ->
-
-      res.type 'json'
-      switch rctx.route.handler
-        when "routes" then data = ctx.routes
-        when "autocomplete"
-          data = jQuery_autocomplete_api req, rctx
-      res.write JSON.stringify data
-      res.end()
 
 

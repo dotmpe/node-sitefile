@@ -20,26 +20,21 @@ module.exports = ( ctx ) ->
 
   name: 'pm2'
 
+  #route:
+  #    pm2/: 'redir:pm2.html'
+
   generate:
     default: ( rctx ) ->
 
       console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
       if not rctx.res.path
-        throw Error "JSON path expected"
+        throw Error "JSON path expected (#{rctx.route.handler})"
 
       data = require path.join '../../..', rctx.res.path
 
       null
 
     ps: ( rctx ) ->
-
-      console.log 'PM2 ps', ctx.site.base, rctx.name, rctx.res, rctx.route
-      
-      console.log ctx.site.base+rctx.name+'.json'
-
-      # TODO: response with API json
-      #ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
-      #  res.type 'application/vnd.api+json'
 
       # List all PM2 procs in JSON
       ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
@@ -93,7 +88,7 @@ module.exports = ( ctx ) ->
               pid: process.pid
               base: ctx.site.base+rctx.name
               script: ctx.site.base+rctx.name+'.js'
-              options: rctx.options
+              options: rctx.route.options
               query: req.query
               context: rctx
               app: app
@@ -103,7 +98,7 @@ module.exports = ( ctx ) ->
 
       # Serve HTML list view
       ctx.app.get ctx.site.base+rctx.name+'.html', (req, res) ->
-      
+
         httprouter.promise.json(
           hostname: 'localhost'
           port: ctx.app.get('port')
@@ -124,12 +119,26 @@ module.exports = ( ctx ) ->
           }
           res.end()
 
+
       # Serve JS for list-view
       ctx.app.get ctx.site.base+rctx.name+'.js', (req, res) ->
         res.type 'js'
         res.write cc._compileFile listCoffeeFn
         res.end()
 
-      null
 
+      ctx.app.get ctx.site.base+rctx.name+'/', (req, res) ->
+        res.redirect ctx.site.base+rctx.name+'.html'
+
+      # FIXME: return routes so Sitefile can set dir defaults
+      dir = path.dirname(ctx.site.base+rctx.name)
+      if dir not of ctx.routes.directories
+        ctx.routes.directories[ dir ] = []
+      ctx.routes.directories[ dir ].push path.basename rctx.name
+
+      #route:
+      #  directories:
+      #    ctx.site.base+rctx.name+'/':
+          
+      null
 

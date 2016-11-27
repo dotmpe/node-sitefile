@@ -12,10 +12,10 @@ echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
 (
 cat <<HEREDOC
 module.exports =
-  port: 7011
-  development: port: 7011
-  testing: port: 7012
-  production: port: 7013
+  site: port: 7011
+  development: site: port: 7011
+  testing: site: port: 7012
+  production: site: port: 7013
 HEREDOC
 ) > config/config.coffee
 
