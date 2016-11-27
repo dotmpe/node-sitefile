@@ -20,6 +20,9 @@ module.exports = ( ctx ) ->
 
   name: 'pm2'
 
+  #route:
+  #    pm2/: 'redir:pm2.html'
+
   generate:
     default: ( rctx ) ->
 
@@ -33,13 +36,8 @@ module.exports = ( ctx ) ->
 
     ps: ( rctx ) ->
 
-      console.log 'PM2 ps', ctx.site.base, rctx.name, rctx.res, rctx.route
-      
-      console.log ctx.site.base+rctx.name+'.json'
-
-      # TODO: response with API json
-      #ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
-      #  res.type 'application/vnd.api+json'
+      ctx.app.get ctx.site.base+rctx.name+'/', (req, res) ->
+        res.redirect ctx.site.base+rctx.name+'.html'
 
       # List all PM2 procs in JSON
       ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
@@ -124,11 +122,13 @@ module.exports = ( ctx ) ->
           }
           res.end()
 
+
       # Serve JS for list-view
       ctx.app.get ctx.site.base+rctx.name+'.js', (req, res) ->
         res.type 'js'
         res.write cc._compileFile listCoffeeFn
         res.end()
+
 
       null
 

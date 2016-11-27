@@ -13,7 +13,6 @@ bundles:
   - bootstrap 
   - pm2
 
-
 routes:
 
   client: static:build/client
@@ -58,14 +57,12 @@ routes:
 
   Sitefile/core: 'core:'
 
-  app/pm2: pm2:pm2-procs.json
   proc/pm2: 'pm2.ps:'
-  proc/pm2/: 'redir:proc/pm2.html'
-  proc/: 'redir:proc/pm2/'
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
 
+  # FIXME:
   fonts: static:node_modules/bootstrap/fonts
 
 
