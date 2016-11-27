@@ -34,6 +34,8 @@ module.exports = ( ctx={} ) ->
 
   generate:
 
+    # XXX: initial sketch on non-stream endpoints
+
     # Data endpoint: Prepare Knex session on resource context
     db: ( rctx ) ->
       sqlctx =
@@ -48,8 +50,8 @@ module.exports = ( ctx={} ) ->
 
     # Data endpoint: the spec must lead to a JS/Coffee file to accept Knex
     sql: ( rctx ) ->
-      ctx._routers.handler('.db', rctx) rctx
-      rctx.res.sqlcb = require('./'+ rctx.route.res.path )
+      #ctx._routers.generator('.db', rctx) rctx
+      rctx.res.sqlcb = require( './'+ rctx.res.path )
       if rctx.res.options.cache
         res:
           data: rctx.res.sqlcb(rctx.knex.db, rctx)

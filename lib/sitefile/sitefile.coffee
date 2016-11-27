@@ -302,9 +302,12 @@ class Sitefile
         router_type = Router.Base
       else
         router_type = @routers.get router_name
+      ctx.routes.directories = @dirs
+
+      if not handler_name and router_type.default_handler
+        handler_name = router_type.default_handler
 
       # Resolve route spec to resource contexts, init and add Express handler
-      ctx.routes.directories = @dirs
       for rctx in router_type.resolve route, router_name, \
           handler_name, handler_spec, ctx
 
@@ -332,9 +335,6 @@ class Sitefile
           Router.builtin[router_name] rctx
 
         else
-          log route, url: rs.ref, '=', if 'path' of rs \
-              then path: rs.path else res: rs
-
           router_type.initialize router_type, rctx
 
 

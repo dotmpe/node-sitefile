@@ -23,6 +23,9 @@ routes:
   example: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
+  # Example, get data from another endpoint, the one above?
+  # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
+
   _example: static:example
 
   _pug: pug:example/**/*.pug
@@ -61,6 +64,8 @@ routes:
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
+
+  cdn: cdn:#
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts

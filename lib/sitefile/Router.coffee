@@ -36,8 +36,8 @@ builtin =
       res.type 'json'
       res.write JSON.stringify \
         if "function" is typeof rctx.res.data
-        then res.data rctx
-        else res.data
+        then rctx.res.data rctx
+        else rctx.res.data
       res.end()
 
 Base =
@@ -184,17 +184,23 @@ Base =
         _.defaultsDeep rctx.route.options, req.query
         h req, res
 
+      ctx.log rctx.name, url: rctx.res.ref, '=', ( if 'path' of rctx.res \
+        then path: rctx.res.path \
+        else res: rctx.route.name ), id: rctx.route.spec
+
     else if h and 'object' is typeof h
   
       # XXX: The object could have data, meta etc. attr and play as JSON API doc
       # For now just extend the resource context with the object it returned.
       rctx.prepare_from_obj h
-      rctx.seed h
+      _.merge rctx._data, h
 
       if h.res and 'data' of h.res
-        rctx.context.app.all builtin.data rctx
+        rctx.context.app.all rctx.res.ref, builtin.data rctx
       
-      ctx.log "Extended context from #{rctx.route.name} at #{rctx.name}"
+      ctx.log "Extension at ", url: rctx.res.ref, \
+          "from", ( name: rctx.route.name+'.'+rctx.route.handler ), \
+          id: rctx.route.spec, "at", path: rctx.name
 
     else if not h
       module.exports.warn \
