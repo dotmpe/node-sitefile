@@ -112,15 +112,19 @@ load_rc = ( ctx ) ->
 
 load_config = ( ctx={} ) ->
   if not ctx.config_name?
-    ctx.config_name = 'config/config'
+    ctx.config_name = 'config/config.coffee'
     # XXX config per client
     #scriptconfig = 'config/config-#{ctx.proc.name}'
     #configs = glob.sync path.join ctx.noderoot, scriptconfig + '.*'
     #if not _.isEmpty configs
     #  ctx.config_name = scriptconfig
-  ctx.config_envs = require path.join ctx.noderoot, ctx.config_name
-  ctx.config = ctx.config_envs[ctx.envname]
-  _.defaultsDeep ctx, ctx.config
+
+  rc = path.join '../..', ctx.config_name
+  if fs.existsSync require.resolve rc
+    ctx.config_envs = require rc
+    ctx.config = ctx.config_envs[ctx.envname]
+    _.defaultsDeep ctx, ctx.config
+
   ctx.config
 
 
@@ -132,7 +136,7 @@ prepare_context = ( ctx={} ) ->
 
   # Appl defaults if not present
   _.defaultsDeep ctx,
-    noderoot: path.dirname path.dirname __dirname
+    noderoot: '../'
     version: version
     cwd: process.cwd()
     proc:
@@ -156,10 +160,11 @@ prepare_context = ( ctx={} ) ->
         'sitefile:var/sitefile/bundles'
       ]
 
-  _.defaults ctx,
+  _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
-  _.defaults ctx,
-    pkg: require( ctx.pkg_file )
+
+  _.defaultsDeep ctx,
+    pkg: require( './../../package.json' )
 
   if not ctx.config
     load_config ctx
@@ -244,7 +249,7 @@ class Sitefile
         directories: {}
         defaults: [ 'default', 'index', 'main' ]
     }
-    ctx.prepare_properties options
+    ctx.prepare_from_obj options
     ctx.seed options
 
     # parse sitefile.routes, pass 2: process specs to handler intances

@@ -52,7 +52,7 @@ sitefile_cli = module.exports =
   run: ( done ) ->
 
     # prepare context and config data, loads sitefile
-    ctx = lib.prepare_context ctx
+    ctx = lib.prepare_context {}
     if _.isEmpty ctx.sitefile.routes
       lib.warn 'No routes'
       process.exit()
@@ -76,20 +76,24 @@ sitefile_cli = module.exports =
         lib.log "Listening", "Express server on port #{ctx.site.port}. "
 
     # "Export"
-    sitefile_cli.host = ctx.site.host
-    sitefile_cli.port = ctx.site.port
-    sitefile_cli.path = ctx.site.base
-    sitefile_cli.netpath = ctx.site.netpath
+    sitefile_cli.host = module.host = ctx.site.host
+    sitefile_cli.port = module.port = ctx.site.port
+    sitefile_cli.path = module.path = ctx.site.base
+    sitefile_cli.netpath = module.netpath = ctx.site.netpath
 
-    sitefile_cli.root = ctx
-    sitefile_cli.proc = proc
+    sitefile_cli.root = module.root = ctx
+    sitefile_cli.proc = module.exports = proc
 
     !done || done()
     proc
 
 
-# start if directly executed
-if process.argv.join(' ') == 'coffee '+require.resolve './sitefile.coffee'
+if process.argv[2] in [ '--version', '--help' ]
+ 
+  console.log "sitefile/"+lib.version
+
+else if process.argv[1].endsWith('sitefile') \
+    or process.argv[1].endsWith 'sitefile.coffee'
 
   if process.env.SITEFILE_PM2_MON
     try
@@ -101,11 +105,7 @@ if process.argv.join(' ') == 'coffee '+require.resolve './sitefile.coffee'
     
   sitefile_cli.run()
 
-else if process.argv[2] in [ '--version', '--help' ]
- 
-  console.log "sitefile/"+lib.version
-
-# TODO: detect execute or (test-mode) include
+# XXX:
 #else
 #  lib.warn "Invalid argument:", process.argv[2]
 #  process.exit(1)

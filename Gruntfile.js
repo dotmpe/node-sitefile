@@ -1,74 +1,133 @@
 'use strict';
 
+
 module.exports = function(grunt) {
 
-  grunt.initConfig({
+	grunt.initConfig({
 
-    pkg: grunt.file.readJSON('package.json'),
+		pkg: grunt.file.readJSON('package.json'),
 
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc'
-      },
-      gruntfile: {
-        src: 'Gruntfile.js'
-      },
-      "package": {
-        src: 'package.json'
-      }
-    },
+		jshint: {
+			options: {
+				jshintrc: '.jshintrc'
+			},
+			gruntfile: {
+				src: 'Gruntfile.js'
+			},
+			"package": {
+				src: '*.json'
+			},
+			"examples": {
+				src: [
+					'example/**/*.json',
+					'example/**/*.js'
+				]
+			}
+		},
 
-    coffeelint: {
-      options: {
-        configFile: '.coffeelint.json'
-      },
-      app: [
-        'bin/*.coffee',
-        'lib/**/*.coffee',
-        'config/**/*.coffee',
-        'test/**/*.coffee'
-      ]
-    },
+		coffeelint: {
+			options: {
+				configFile: '.coffeelint.json'
+			},
+			app: [
+				'bin/*.coffee',
+				'lib/**/*.coffee',
+				'config/**/*.coffee',
+				'test/**/*.coffee',
+				'example/**/*.coffee'
+			]
+		},
 
-    yamllint: {
-      all: {
-        src: [
-          'Sitefile.yaml'
-        ]
-      }
-    },
+		yamllint: {
+			all: {
+				src: [
+					'Sitefile.yaml',
+					'package.yaml'
+				]
+			}
+		},
 
-    mochaTest: {
-      test: {
-        options: {
-          reporter: 'spec',
-          require: 'coffee-script/register',
-          captureFile: 'mocha.out',
-          quiet: false,
-          clearRequireCache: false
-        },
-        src: ['test/mocha/*.coffee']
-      }
-    }
+		mochaTest: {
+			test: {
+				options: {
+					reporter: 'spec',
+					require: 'coffee-script/register',
+					captureFile: 'mocha.out',
+					quiet: false,
+					clearRequireCache: false
+				},
+				src: ['test/mocha/*.coffee']
+			}
+		},
 
-  });
+		webpack: {
+			client: {
+				entry: './lib/sitefile/client/default' ,
+				devtool: 'sourcemap',
+				output: {
+					filename: 'build/client/default.js',
+					library: "sitefile_default_client"
+				},
+				module: {
+					loaders: [
+					  // XXX babel?
+						//{
+						//	test: /\.js$/,
+						//	exclude: /node_modules/,
+						//	loaders: ['babel']
+						//},
+					]
+				},
+				resolve: {
+					extensions: [
+						'', '.js'
+					]
+				},
+			}
+		},
+		docco: {
+			debug: {
+				src: ['lib/**/*.coffee'],
+				options: {
+					output: 'build/docs/docco/'
+				}
+			}
+		},
 
-  // auto load grunt contrib tasks from package.json
-  require('load-grunt-tasks')(grunt);
+		sass: {
+			options: {
+				outputStyle: 'expanded',
+				sourceMap: true,
+			},
+			dist: {
+				files: {
+					'build/style/default.css': 'lib/sitefile/style/default.sass'
+				}
+			}
+		},
+	});
 
-  grunt.registerTask('lint', [
-    'coffeelint',
-    'jshint',
-    'yamllint'
-  ]);
+	// auto load grunt contrib tasks from package.json
+	require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('test', [
-    'mochaTest'
-  ]);
+	grunt.registerTask('lint', [
+		'coffeelint',
+		'jshint',
+		'yamllint'
+	]);
 
-  grunt.registerTask('default', [
-    'lint',
-    'test'
-  ]);
+	grunt.registerTask('test', [
+		'mochaTest'
+	]);
 
+	grunt.registerTask('default', [
+		'lint',
+		'test'
+	]);
+
+	grunt.registerTask('build', [
+		'sass',
+		'docco',
+		'webpack'
+	]);
 };

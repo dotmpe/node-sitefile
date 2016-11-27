@@ -3,11 +3,17 @@ fs = require 'fs'
 path = require 'path'
 sitefile = require '../sitefile'
 
-md = require( 'markdown' ).markdown
-
 
 # Given sitefile-context, export metadata for markdown: handlers
 module.exports = ( ctx={} ) ->
+
+  try
+    md = require( 'markdown' ).markdown
+  catch err
+    if err.code == 'MODULE_NOT_FOUND'
+      return {}
+    throw err
+
 
   name: 'markdown'
   label: 'Markdown HTML publisher'
