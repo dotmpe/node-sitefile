@@ -19,7 +19,7 @@
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
 .. _semver: https://github.com/npm/node-semver
-
+.. _JSON API: http://jsonapi.org/format/
 
 .. _json-editor: https://github.com/jdorn/json-editor
 

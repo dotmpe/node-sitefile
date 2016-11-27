@@ -36,9 +36,6 @@ module.exports = ( ctx ) ->
 
     ps: ( rctx ) ->
 
-      ctx.app.get ctx.site.base+rctx.name+'/', (req, res) ->
-        res.redirect ctx.site.base+rctx.name+'.html'
-
       # List all PM2 procs in JSON
       ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
         pm2.list (err, ps_list) ->
@@ -130,6 +127,18 @@ module.exports = ( ctx ) ->
         res.end()
 
 
-      null
+      ctx.app.get ctx.site.base+rctx.name+'/', (req, res) ->
+        res.redirect ctx.site.base+rctx.name+'.html'
 
+      # FIXME: return routes so Sitefile can set dir defaults
+      dir = path.dirname(ctx.site.base+rctx.name)
+      if dir not of ctx.routes.directories
+        ctx.routes.directories[ dir ] = []
+      ctx.routes.directories[ dir ].push path.basename rctx.name
+
+      #route:
+      #  directories:
+      #    ctx.site.base+rctx.name+'/':
+          
+      null
 

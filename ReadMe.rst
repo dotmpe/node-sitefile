@@ -108,6 +108,10 @@ See changelog_.
 Further reading
 ---------------
 
+- `Docco docs`__
+
+.. __: /doc/literate
+
 - `Sitefile planet <doc/sitefile-planet.rst>`_ on alternatives, similar ideas;
   status quo and prior art.
 

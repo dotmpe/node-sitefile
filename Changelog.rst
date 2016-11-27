@@ -38,6 +38,9 @@
     and SASS for packaging some default styles.
   - Added Twitter bootstrap, jQuery, lodash build with grunt/webpack.
     Removed old `default.js` script.
+  - Refactored ``router.generate`` so it can 1. return data or data callbacks
+    iso. Express handlers and 2. only extend the context w/o. providing any
+    handler. See `Router feature`_
 
   TODO: Preparing to add `require.js`.
 
