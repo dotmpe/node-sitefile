@@ -80,6 +80,7 @@ doubles is an example for all handlers. ", ->
 
   server = null
 
+  process.env.NODE_ENV = 'testing'
 
   before ( done ) ->
     server = require '../../bin/sitefile'

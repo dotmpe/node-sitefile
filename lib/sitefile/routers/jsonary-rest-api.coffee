@@ -15,21 +15,20 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( spec, ctx={} ) ->
-
-    fn = spec + ".json"
-    console.log "JSON storage #{fn}"
-
-    ( req, res ) ->
+  generate:
+    default: ( spec, ctx={} ) ->
+      fn = spec + ".json"
+      console.log "JSON storage #{fn}"
+      ( req, res ) ->
 
 #      if (req.query.schema)
 #        res.write fs.readFileSync fn
 
-      if req.params.action
-        res.write req.params.action
-      else
-        res.write fs.readFileSync(fn)
-      res.end()
+        if req.params.action
+          res.write req.params.action
+        else
+          res.write fs.readFileSync(fn)
+        res.end()
 
 ###
 header("Content-Type: application/json; profile=http://jsonary-rest-api.org/hyper-schema");

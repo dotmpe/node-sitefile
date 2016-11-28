@@ -48,7 +48,7 @@
       "maxLength": 255
     },
     "extended": {
-      "type": "string",
+      "type": "string"
     },
     "tags": {
       "type": "array",
@@ -62,7 +62,7 @@
       "minLength": 1,
       "maxLength": 255
     },
-    "required": ["href"],
+    "required": ["href"]
   },
 
   "links": [

@@ -13,18 +13,18 @@ bundles:
   - bootstrap 
   - pm2
 
-
 routes:
 
-  # FIXME: prefix mapping
-  media: static:public/media
-
-  scripts/default.js: static:scripts/default.js
+  client: static:build/client
+  style: static:build/style
   
+  doc/literate: static:build/docs/docco/
+
   example: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
-  _example: 'static:example'
+  # Example, get data from another endpoint, the one above?
+  # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
 
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
@@ -41,7 +41,6 @@ routes:
   'components/jsonary/test/index': static:public/components/jsonary/test/index.html
 
   # Some defaults for root
-  #FIXME: 
   '': redir:ReadMe
   index: redir:ReadMe
 
@@ -87,9 +86,8 @@ routes:
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
 
   app/pm2: pm2:pm2-procs.json
+
   proc/pm2: 'pm2.ps:'
-  proc/pm2/: 'redir:proc/pm2.html'
-  proc/: 'redir:proc/pm2/'
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
@@ -99,22 +97,31 @@ routes:
   app: static:app1646
 
   topics: pug:app1646/main.pug
+  cdn: cdn:#
+
+  # FIXME:
+  fonts: static:node_modules/bootstrap/fonts
 
 
 options:
   global:
     du:
+      link_stylesheet: true
+      scripts:
+        $ref: '#/defs/scripts/default/urls'
       stylesheets:
-        $ref: '#/defs/stylesheets/default/paths'
+        $ref: '#/defs/stylesheets/default/urls'
     rst2html:
+      link_stylesheet: true
       flags:
       - "--no-toc-backlinks"
       scripts:
-        - /components/jquery/dist/jquery.min.js
-        - /scripts/default.js
+        $ref: '#/defs/scripts/default/urls'
       stylesheets:
-        $ref: '#/defs/stylesheets/default/paths'
+        $ref: '#/defs/stylesheets/default/urls'
     pug:
+      scripts:
+        $ref: '#/defs/scripts/default/urls'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
 
@@ -148,6 +155,12 @@ options:
 
 
 defs:
+  scripts:
+    default:
+      urls:
+        - /client/default.js
+      paths:
+        - build/client/default.js
   stylesheets:
     default:
       urls:
@@ -156,12 +169,5 @@ defs:
       paths:
         - public/media/style/default.css
 
-  app:
-    base:
-      client:
-        - type: require-js
-          id: requirejs-2.1.10
-          href: //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js
-          main: requirejs-base.js
 
 

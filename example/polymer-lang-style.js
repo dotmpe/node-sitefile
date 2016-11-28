@@ -1,4 +1,4 @@
-Polymer('lang-style-select', {
+Polymer('lang-style-select', { // jshint ignore:line
 
   linkId: 'lang-style',
 

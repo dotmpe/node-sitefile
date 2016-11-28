@@ -22,16 +22,16 @@ module.exports = ( ctx={} ) ->
     prism:**/*.*
   """
 
-  generate: ( path, ctx={} ) ->
-
-    ( req, res ) ->
-      ctx.source = req.params[0]
-      ctx.format = 'pug'
-      data = fs.readFileSync req.params[0]
-      ctx.code = data.toString()
-      ctx.lines = ctx.code.split('\n')
-      if ctx.lazyCompile
-        tpl = pug.compileFile './lib/sitefile/routers/prism-js-view.pug'
-      res.write tpl ctx
-      res.end()
+  generate:
+    default: ( path, ctx={} ) ->
+      ( req, res ) ->
+        ctx.source = req.params[0]
+        ctx.format = 'pug'
+        data = fs.readFileSync req.params[0]
+        ctx.code = data.toString()
+        ctx.lines = ctx.code.split('\n')
+        if ctx.lazyCompile
+          tpl = pug.compileFile './lib/sitefile/routers/prism-js-view.pug'
+        res.write tpl ctx
+        res.end()
 

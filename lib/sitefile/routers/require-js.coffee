@@ -5,71 +5,44 @@ cc = require 'coffee-script'
 
 module.exports = ( ctx ) ->
 
-  try
-    pm2 = require 'pm2'
-  catch
-    return
 
   httprouter = require('./http') ctx
   pugrouter = require('./pug') ctx
   
-  detailPugFn = path.join( __dirname, 'pm2/view/detail.pug' )
+  detailPugFn = path.join( __dirname, 'require-js/view/detail.pug' )
 
-  listPugFn = path.join( __dirname, 'pm2/view/list.pug' )
-  listCoffeeFn = path.join( __dirname, 'pm2/view/list.coffee' )
+  listPugFn = path.join( __dirname, 'require-js/view/list.pug' )
+  listCoffeeFn = path.join( __dirname, 'require-js/view/list.coffee' )
 
-  name: 'pm2'
 
-  #route:
-  #    pm2/: 'redir:pm2.html'
+  # Export router object
+
+  name: 'require-js'
+
+  route:
+    default: '.default'
+    ps: ( rctx ) ->
+
+    bootstrap:
+      css:
+        cdn: [
+          '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min'
+          '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js'
+          '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min.css.map'
+        ]
 
   generate:
     default: ( rctx ) ->
 
       console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
       if not rctx.res.path
-        throw Error "JSON path expected (#{rctx.route.handler})"
+        throw Error "JSON path expected"
 
       data = require path.join '../../..', rctx.res.path
 
       null
 
     ps: ( rctx ) ->
-
-      # List all PM2 procs in JSON
-      ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
-        pm2.list (err, ps_list) ->
-          res.type 'json'
-          if err
-            res.status 500
-          res.write JSON.stringify ps_list
-          res.end()
-
-      # Describe single PM2 proc in JSON
-      ctx.app.get ctx.site.base+rctx.name+'/:pm_id.json', (req, res) ->
-        pm2.describe req.params.pm_id, (err, ps_list) ->
-          res.type 'json'
-          if err
-            res.status 500
-          res.write JSON.stringify ps_list[0]
-          res.end()
-
-      ctx.app.post ctx.site.base+rctx.name+'/:pm_id/restart', (req, res) ->
-        pm2.gracefulReload req.params.pm_id, ( err ) ->
-          res.type 'txt'
-          if err
-            res.status 500
-            res.write err
-          res.end()
-
-      ctx.app.post ctx.site.base+rctx.name+'/:pm_id/stop', (req, res) ->
-        pm2.stop req.params.pm_id, ( err ) ->
-          res.type 'txt'
-          if err
-            res.status 500
-            res.write err
-          res.end()
-
 
       # Serve PM2 proc HTML details
       ctx.app.get ctx.site.base+rctx.name+'/:pm_id.html', (req, res) ->
@@ -88,7 +61,7 @@ module.exports = ( ctx ) ->
               pid: process.pid
               base: ctx.site.base+rctx.name
               script: ctx.site.base+rctx.name+'.js'
-              options: rctx.route.options
+              options: rctx.options
               query: req.query
               context: rctx
               app: app
@@ -98,7 +71,7 @@ module.exports = ( ctx ) ->
 
       # Serve HTML list view
       ctx.app.get ctx.site.base+rctx.name+'.html', (req, res) ->
-
+      
         httprouter.promise.json(
           hostname: 'localhost'
           port: ctx.app.get('port')
@@ -119,26 +92,12 @@ module.exports = ( ctx ) ->
           }
           res.end()
 
-
       # Serve JS for list-view
       ctx.app.get ctx.site.base+rctx.name+'.js', (req, res) ->
         res.type 'js'
         res.write cc._compileFile listCoffeeFn
         res.end()
 
-
-      ctx.app.get ctx.site.base+rctx.name+'/', (req, res) ->
-        res.redirect ctx.site.base+rctx.name+'.html'
-
-      # FIXME: return routes so Sitefile can set dir defaults
-      dir = path.dirname(ctx.site.base+rctx.name)
-      if dir not of ctx.routes.directories
-        ctx.routes.directories[ dir ] = []
-      ctx.routes.directories[ dir ].push path.basename rctx.name
-
-      #route:
-      #  directories:
-      #    ctx.site.base+rctx.name+'/':
-          
       null
+
 

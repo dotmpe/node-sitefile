@@ -14,7 +14,11 @@
   "predef": [
     "requirejs",
     "define",
-    "describe", "it", "before", "after"
+    "knex",
+    "describe", "it", "before", "after",
+
+    //example/polymer-lang-style.js
+    "document", "Polymer"
   ]
 }
 // vim:ft=javascript:

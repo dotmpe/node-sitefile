@@ -1,5 +1,6 @@
 'use strict';
 
+
 module.exports = function(grunt) {
 
 	grunt.initConfig({
@@ -20,7 +21,13 @@ module.exports = function(grunt) {
 				src: 'Gruntfile.js'
 			},
 			"package": {
-				src: 'package.json'
+				src: '*.json'
+			},
+			"examples": {
+				src: [
+					'example/**/*.json',
+					'example/**/*.js'
+				]
 			}
 		},
 
@@ -32,14 +39,16 @@ module.exports = function(grunt) {
 				'bin/*.coffee',
 				'lib/**/*.coffee',
 				'config/**/*.coffee',
-				'test/**/*.coffee'
+				'test/**/*.coffee',
+				'example/**/*.coffee'
 			]
 		},
 
 		yamllint: {
 			all: {
 				src: [
-					'Sitefile.yaml'
+					'Sitefile.yaml',
+					'package.yaml'
 				]
 			}
 		},
@@ -55,8 +64,53 @@ module.exports = function(grunt) {
 				},
 				src: ['test/mocha/*.coffee']
 			}
-		}
+		},
 
+		webpack: {
+			client: {
+				entry: './lib/sitefile/client/default' ,
+				devtool: 'sourcemap',
+				output: {
+					filename: 'build/client/default.js',
+					library: "sitefile_default_client"
+				},
+				module: {
+					loaders: [
+					  // XXX babel?
+						//{
+						//	test: /\.js$/,
+						//	exclude: /node_modules/,
+						//	loaders: ['babel']
+						//},
+					]
+				},
+				resolve: {
+					extensions: [
+						'', '.js'
+					]
+				},
+			}
+		},
+		docco: {
+			debug: {
+				src: ['lib/**/*.coffee'],
+				options: {
+					output: 'build/docs/docco/'
+				}
+			}
+		},
+
+		sass: {
+			options: {
+				outputStyle: 'expanded',
+				sourceMap: true,
+			},
+			dist: {
+				files: {
+					'build/style/default.css': 'lib/sitefile/style/default.sass'
+				}
+			}
+		},
 	});
 
 	// auto load grunt contrib tasks from package.json
@@ -81,4 +135,10 @@ module.exports = function(grunt) {
 		'test'
 	]);
 
+	grunt.registerTask('build', [
+		'exec:compile_jsonary',
+		'sass',
+		'docco',
+		'webpack'
+	]);
 };
