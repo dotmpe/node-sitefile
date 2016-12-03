@@ -9,6 +9,12 @@ sitefile: 0.0.5-dev
 
 showStackError: true
 
+paths:
+  routers_replace: false
+  routers: [
+    'sitefile:example/routers'
+  ]
+
 bundles:
   - bootstrap 
   - pm2
@@ -101,6 +107,10 @@ routes:
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
+
+  sf-example/default: sf-example:#
+  sf-example/data1: sf-example.data1:#
+  sf-example/data2: sf-example.data2:#
 
 
 options:
