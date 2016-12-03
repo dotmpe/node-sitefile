@@ -233,6 +233,8 @@ class Routers
       p = rip
       if p.startsWith 'sitefile:'
         p = path.join @ctx.sfdir, p.substr 9
+      if not p.startsWith '/'
+        p = path.join process.env.PWD, p
       try
         router_cb = require path.join p, name
         break
