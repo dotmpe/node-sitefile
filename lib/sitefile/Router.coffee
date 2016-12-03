@@ -36,7 +36,7 @@ builtin =
       res.type 'json'
       res.write JSON.stringify \
         if "function" is typeof rctx.res.data
-        then rctx.res.data rctx
+        then rctx.res.data()
         else rctx.res.data
       res.end()
 
@@ -184,6 +184,7 @@ Base =
     else
       g = ctx._routers.generator rctx.route.name
 
+    # invoke routers selected generate function, expect a route handler object
     h = g rctx
 
     if 'function' is typeof h
@@ -212,8 +213,8 @@ Base =
           id: rctx.route.spec, "at", path: rctx.name
 
     else if not h
-      module.exports.warn \
-        "Router #{rctx.route.name} returned nothing for #{rctx.name}, ignored"
+      module.exports.warn "Router not recognized", "Router #{rctx.route.name}
+        returned nothing recognizable for #{rctx.name}, ignored"
     
 
 module.exports =

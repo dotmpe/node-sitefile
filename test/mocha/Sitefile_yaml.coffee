@@ -2,6 +2,7 @@
 chai = require 'chai'
 expect = chai.expect
 request = require 'request'
+Promise = require 'bluebird'
 
 lib = require '../../lib/sitefile'
 
@@ -76,6 +77,43 @@ doubles is an example for all handlers. ", ->
       expect( res.statusCode ).to.equal 200
       done()
 
+
+  it "should serve routes for a local extension router example", ( done ) ->
+
+    tasks = [
+      new Promise ( resolve, reject ) ->
+        url = "http://localhost:#{server.port}/sf-example/default"
+        request.get url, ( err, res, body ) ->
+          if res.statusMessage != 'OK'
+            console.log body
+          expect( res.statusMessage ).to.equal 'OK'
+          expect( res.statusCode ).to.equal 200
+          expect( body ).to.equal "Sitefile example"
+          resolve()
+      new Promise ( resolve, reject ) ->
+        url = "http://localhost:#{server.port}/sf-example/data1"
+        request.get url, ( err, res, body ) ->
+          if res.statusMessage != 'OK'
+            console.log body
+          expect( res.statusMessage ).to.equal 'OK'
+          expect( res.statusCode ).to.equal 200
+          data = JSON.parse body
+          expect( data['sf-example'] ).to.equal 'dynamic'
+          resolve()
+      new Promise ( resolve, reject ) ->
+        url = "http://localhost:#{server.port}/sf-example/data2"
+        request.get url, ( err, res, body ) ->
+          if res.statusMessage != 'OK'
+            console.log body
+          expect( res.statusMessage ).to.equal 'OK'
+          expect( res.statusCode ).to.equal 200
+          data = JSON.parse body
+          expect( data['sf-example'] ).to.equal 'static'
+          resolve()
+    ]
+    Promise.all( tasks ).then -> done()
+
+    null
 
 
   server = null

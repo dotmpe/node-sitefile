@@ -1,5 +1,6 @@
 #!/usr/bin/env coffee
 
+path = require 'path'
 lib = require '../lib/sitefile'
 _ = require 'lodash'
 
@@ -50,6 +51,8 @@ sitefile_cli = module.exports =
     }
 
   run: ( done, options={} ) ->
+
+    options.sfdir = path.dirname __dirname
 
     # prepare context and config data, loads sitefile
     ctx = lib.prepare_context options
