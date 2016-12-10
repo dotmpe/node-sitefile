@@ -37,14 +37,29 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-    "build-new": "gulp server-build",
-    "build": "grunt build",
-    "start": "NODE_ENV=development coffee bin/sitefile.coffee",
+
+    "install": " ./configure && grunt build",
+
     "test": "./configure && grunt",
+
+    "start": "NODE_ENV=development coffee bin/sitefile.coffee",
+
+
+    "build": "grunt build",
+
+    "check": "grunt check",
+
     "vulnerabilities": "snyk test",
+
+    "build-new": "gulp server-build",
+    "mocha-test": "mocha --compilers coffee:coffee-script/register test/mocha/*.coffee",
+    "check-version": "git-versioning check",
+    "check-docs": "sh ./tools/check-branch-docs.sh",
     "src-tree": "tree -I 'node_modules|build|components'",
     "src-files": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' ",
-    "src-loc": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' -not -path '*.log' | xargs cat | grep -v '^\\s*$' | wc -l | awk '{print $1}'",
+    "src-loc": "cat .gitignore | grep -v '^\\s*$' | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' -not -path '*.log' | xargs cat | grep -v '^\\s*$' | wc -l | awk '{print $1}'",
+    "git-loc-all": "git ls-files | xargs cat | wc -l ",
+    "git-loc": "git ls-files | xargs cat | grep -v '^\\s*$' | wc -l ",
     "dep-local": "echo node_modules/* | xargs basename | sort -u | awk '{print $1}'",
     "dep-local-all": "find node_modules/ -iname node_modules | xargs /bin/ls -w1 | grep -v '^$' | grep -v 'node_modules' | sort -u | awk '{print $1}'"
   },
@@ -72,7 +87,7 @@
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
     "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.11.1",
+    "coffee-script": "git@github.com:jashkenas/coffeescript.git#master",
     "coffeelint": "^1.15.7",
     "grunt": "^0.4.5",
     "grunt-cli": "^1.2.0",
@@ -80,6 +95,7 @@
     "grunt-contrib-coffee": "latest",
     "grunt-contrib-jshint": "latest",
     "grunt-docco": "^0.5.0",
+    "grunt-exec": "^1.0.0",
     "grunt-mocha-test": "latest",
     "grunt-sass": "^1.2.1",
     "grunt-webpack": "~1.0.0",

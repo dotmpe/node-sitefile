@@ -1,0 +1,42 @@
+(0.0.5)
+========
+:status: dev
+:started: 2016-10-14
+:released:
+
+.. include:: ../.defaults.rst
+
+
+- Rewrite of all contexts: handler/resolver are merged now. Root context has
+  new structures ``paths`` and ``site``. ``paths.routers`` makes it possible
+  to load extension routers from custom paths.
+
+  Router initialization extends on regular objects until router is initialized,
+  then creates proper subContext. It uses new attributes ``methods`` and
+  ``handlers`` in addition to existing ``router`` and ``res``.
+
+- Renamed ``Sitefile.{yaml,json}`` `params` attribute to `options` like
+  the object in the `resolver context` to keep term diversity low.
+
+- Refactored ``router.generate`` so it can 1. return data or data callbacks
+  iso. Express handlers and 2. only extend the context w/o. providing any
+  handler. See `Router feature`_
+
+- Went through all of the ReadMe and split into Manual and Dev docs.
+  Began drafting setup and customization guide.
+
+- Added ``grunt build`` with `docco` for document generator,
+  and SASS for packaging some default styles.
+
+- Added Twitter bootstrap, jQuery, lodash build with grunt/webpack.
+  Removed old `default.js` script.
+
+- New URL path query parsing.
+
+TODO: Preparing to add `require.js` client.
+
+FIXME: Sitefile need some knowledge of Style and Script resources, both path
+and URL. Maybe bundle them. Or better use resources exported from routers.
+
+FIXME: tie to a nodelib version!
+

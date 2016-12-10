@@ -44,6 +44,7 @@ Prerequisites
 - Python docutils is not required, but is the only document format available.
 - Installed ``coffee`` (coffee-script) globally (see ``bin/sitefile`` sha-bang).
 
+
 Description
 ------------
 The intended purpose is to implement generic handlers for misc. file-based

@@ -53,7 +53,7 @@ master [*]_
         - Want to get Polymer core-scaffold running somehow.
         - Working to add prism.js source-viewer.
 
-      f_jsonary
+      jsonary
         - Looking at jsonary as a client-side JSON schema renderer/editor.
 
       f_ph7{,_node}
@@ -61,14 +61,14 @@ master [*]_
           Tested ph7-darwin NPM packages. Seems to perform same as ph7.
           No stdout reroute yet so unusable, but functional.
 
-      f_json_editor
+      json-editor
         - Added JSON-Editor_ with one schema, no server-side api yet.
           Need to look at hyper-schema.
 
-      f_bootstrap
+      bootstrap
         - Added bower things for bootstrap, testing with server-side Jade pages.
 
-      f_gv (merged)
+      graphviz
         - Adding graphviz to render dot diagrams.
 
       pm2
@@ -109,6 +109,7 @@ master [*]_
       api-docs
         - Want to look at JSDoc features. http:/doc/literate
         - But first set up a `docco` build to see current docs. http:/doc/api
+
 
   demo
     - Merging experimental features. Should keep master clean.
