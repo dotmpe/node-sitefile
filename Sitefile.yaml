@@ -41,6 +41,8 @@ routes:
   _markdown_1: markdown:example/**/*.md
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
+  # FIXME: aliases _pu: pu:example/*.pu
+  _plantuml: plantuml:example/*.plantuml
 
   # Some defaults for root
   '': redir:ReadMe

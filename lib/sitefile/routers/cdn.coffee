@@ -44,5 +44,3 @@ module.exports = ( ctx ) ->
     index: ( rctx ) ->
       data: ctx.cdn
         
-      
-
