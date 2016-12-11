@@ -1,7 +1,7 @@
 
 set -e
 
-bin=./bin/specs.coffee
+bin=./node_modules/.bin/nodelib-specs
 
 set -- specs.rst specs-new.rst
 

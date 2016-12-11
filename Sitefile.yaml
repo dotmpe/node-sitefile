@@ -26,13 +26,11 @@ routes:
   
   doc/literate: static:build/docs/docco/
 
-  example: redir:example/main
+  example/: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   # Example, get data from another endpoint, the one above?
   # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
-
-  #example: static:example
 
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
@@ -41,6 +39,20 @@ routes:
   _markdown_1: markdown:example/**/*.md
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
+  # FIXME: aliases _pu: pu:example/*.pu
+  _plantuml: plantuml:example/*.plantuml
+
+  example: static:example
+  vendor/require.js: static:node_modules/sinon/pkg/sinon.js
+  vendor/coffee-script.js: static:node_modules/sinon/pkg/sinon.js
+
+  vendor/mocha.css: static:node_modules/mocha/mocha.css
+  vendor/mocha.js: static:node_modules/mocha/mocha.js
+  vendor/chai.js: static:node_modules/chai/chai.js
+  vendor/sinon.js: static:node_modules/sinon/pkg/sinon.js
+
+  mocha/client/*: mocha.client:#
+  mocha/server/*: mocha.test:#
 
   # Some defaults for root
   '': redir:ReadMe
@@ -132,5 +144,13 @@ defs:
         - /style/default.css
       paths:
         - build/style/default.css
+
+  app:
+    base:
+      client:
+        - type: require-js
+          id: requirejs-2.1.10
+          href: //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js
+          main: requirejs-base.js
 
 

@@ -38,7 +38,7 @@
   },
   "scripts": {
 
-    "install": " ./configure && grunt build",
+    "install": " ./configure && grunt build-test",
 
     "test": "./configure && grunt",
 
@@ -71,7 +71,7 @@
     "glob": "^7.1.0",
     "js-yaml": "^3.6.1",
     "lodash": "^4.16.1",
-    "nodelib": "git://github.com/dotmpe/nodelib#dev",
+    "nodelib": "https://github.com/dotmpe/nodelib.git#dev",
     "qs": "6.2.0",
     "semver": "^5.3.0"
   },
@@ -88,7 +88,7 @@
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
     "coffee-loader": "^0.7.2",
-    "coffee-script": "git@github.com:jashkenas/coffeescript.git#master",
+    "coffee-script": "https://github.com/jashkenas/coffeescript.git#master",
     "coffeelint": "^1.15.7",
     "grunt": "^0.4.5",
     "grunt-cli": "^1.2.0",
