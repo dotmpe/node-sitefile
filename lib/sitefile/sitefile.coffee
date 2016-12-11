@@ -160,6 +160,7 @@ prepare_context = ( ctx={} ) ->
       base: '/'
       netpath: null
     routes:
+      map: {}
       resources: []
       directories: []
     bundles: {}
@@ -194,7 +195,6 @@ split_spec = ( strspec, ctx={} ) ->
 
 class Routers
   constructor: ( @ctx ) ->
-    # XXX:
     if @ctx._routers then throw Error "_routers"
     @ctx._routers = @
     @data = {}
@@ -202,10 +202,11 @@ class Routers
   get: ( name ) ->
     return @data[ name ].object
 
+  # Lookup router generator
   generator: ( name, rctx=null, ctx=null ) ->
     if name.startsWith '.'
       handler = name.substr 1
-      name = rctx.route.name
+      name = rctx.route.type
     else if -1 != name.indexOf '.'
       [ name, handler ] = name.split '.'
     else
@@ -213,11 +214,193 @@ class Routers
    
     if name not of @data
       throw Error "No router for #{name}"
+
     if not handler or \
         handler not of @data[name].object.generate
       throw Error "No router generate handler #{handler} for #{name}"
 
     @data[ name ].object.generate[ handler ]
+
+  load: ->
+
+    routers = @parse()
+
+    log 'Required routers', name: routers.join ', '
+  
+    # parse sitefile.routes, pass 1: load & init routers
+    for name in routers
+
+      if name of Router.builtin
+        continue
+
+      # Search path and require module
+      [ router_cb, router_path ] = @find name
+      if not router_cb
+        warn "Failed to load #{name} router"
+        continue
+
+      # Initialize module using Sf root context
+      router_obj = router_cb @ctx
+      if not router_obj
+        warn "Failed to initialize #{name} router"
+        continue
+  
+      @data[name] =
+        module: router_cb
+        object: Router.define router_obj
+  
+      log "Loaded router", name: name, c.sc, router_obj.label, path: router_path
+
+    @init()
+    return
+
+  # Parse sitefile routes
+  parse: ->
+    routers = []
+    for route, strspec of @ctx.sitefile.routes
+
+      [ router_name, handler_name, handler_spec ] = split_spec strspec, @ctx
+
+      if router_name not in routers
+        routers.push router_name
+
+      if route.startsWith '/' or route.startsWith @ctx.site.base
+        warn "Non-relative route", "Route path should not include root '/' or
+          base prefix, are you sure #{route} is correct?"
+
+      @ctx.routes.map[ route ] = @ctx.getSub
+        route:
+          name: route
+          type: router_name
+          handler: handler_name
+          spec: handler_spec
+          options: null
+          globspec: null
+        res:
+          type: router_name + '.' + (
+            if handler_name then handler_name else 'default' )
+
+    return routers
+
+  # Post constructor router settings
+  init: ->
+
+    for route, rctx in @ctx.routes.map
+
+      if rctx.route.type of Router.builtin
+        rctx.route.globspec = false
+
+      else
+        rctx.route.globspec = if 'globspec' of @data[ router_name ].object \
+            then @data[ router_name ].object.globspec else true
+
+        rctx.route.options = if @ctx.sitefile.options.global and router_name \
+          of @ctx.sitefile.options.global \
+          then @ctx.resolve "sitefile.options.global.#{router_name}" else {}
+
+      # Skip route spec on missing routers
+      if router_name not of Router.builtin and router_name not of @data
+        warn "Skipping route", name: router_name, c.sc, path: handler_spec
+        continue
+
+  new_res: ( init, file_path ) ->
+    _init = _.extend {}, init, res: {
+      ref: @ctx.site.base + file_path
+      path: file_path
+      extname: path.extname file_path
+      dirname: path.dirname file_path
+    }
+    _init.res.basename = path.basename file_path, _init.res.extname
+    _init
+
+
+  # Invoke router generator and l
+  initialize: ( rsinit ) ->
+
+    r = []
+
+    if rsinit.route.type of Router.builtin
+      r.push _.extend {}, rsinit,
+        handlers: all: Router.builtin[ rsinit.route.type ]
+        methods: ['all']
+     
+    else
+      if rsinit.route.handler
+        g = @generator '.'+rsinit.route.handler, rsinit
+      else
+        g = @generator rsinit.route.type
+
+      # invoke routers selected generate function, expect a route handler object
+      h = g @ctx, rsinit
+
+      if 'function' is typeof h
+
+        r.push _.defaultsDeep {}, rsinit, {
+          methods: [ 'all' ]
+          handlers: all: ( req, res ) ->
+            _.defaultsDeep rsinit.route.options, req.query
+            h req, res
+        }
+
+      else if h and 'object' is typeof h
+    
+        if 'route' of h
+
+          # Use routes from generator FIXME: get a subcontext for each..
+          for r of h.route
+            handlers = {}
+            methods = []
+              
+            if 'string' is typeof h.route[r]
+              # TODO:  parse me
+              handlers[r] = h.route[r]
+
+            else if 'object' is typeof h.route[r]
+              for m of h.route[r]
+                if ',' in m
+                  methods = methods.concat m.split ','
+                  for m2 in m.split ','
+                    handlers[m2] = h.route[r][m]
+                else
+                  methods.push m
+                  handlers[m] = h.route[r][m]
+
+            else if 'function' is typeof h.route[r]
+              methods = [ 'all' ]
+              handlers.all = h.route[r]
+
+            else
+              throw Error "Ellegal route mapping: r -> #{h.route[r]}"
+
+            r.push _.extend {}, rsinit, \
+              methods: methods
+              handlers: handlers
+
+        else
+          # XXX: The object could have data, meta etc. attr and play as JSON API
+          # doc. For now just extend the resource context with the object it
+          # returned.
+          rsinit.prepare_from_obj h
+          _.merge rsinit._data, h
+
+          if h.res and 'data' of h.res
+            r.push _.extend {}, rsinit, \
+              methods: [ 'all ']
+              handlers: all: builtin.data rsinit
+
+          #  @ctx.app.all rsinit.res.ref, builtin.data rsinit
+          #
+          #@ctx.log "Extension at ", url: rsinit.res.ref, \
+          #    "from", ( name: rsinit.route.name+'.'+rsinit.route.handler ), \
+          #    id: rsinit.route.spec, "at", path: rsinit.name
+
+      else if not h
+        module.exports.warn "Router not recognized", \
+          "Router #{rsinit.route.name} returned nothing recognizable
+            for #{rsinit.name}, ignored"
+
+    return r
+
 
   find: ( name ) ->
     router_cb = null
@@ -235,55 +418,91 @@ class Routers
         continue
     [ router_cb, rip ]
 
-  # Pre-load routers
-  load: ->
 
-    @names = _.union (
-      router_name for [ router_name, handler_name, handler_spec ] in (
-        split_spec strspec, @ctx for route, strspec of @ctx.sitefile.routes ) )
 
-    log 'Required routers', name: @names.join ', '
+  # Resolve resource paths; concat base, sitefile map (prefixes, patterns),
+  # and/or router exports
+
+  resolve: ( rsinit ) ->
+
+    r = []
+
+    for rsinit_1 in @prepare rsinit
+      for rsinit_2 in @initialize rsinit_1
+        r.push rsinit_2
+
+    r
+
+
+  # Prepare each route
+  prepare: ( rsinit ) ->
+
+    r = []
+
+    # Spec exists as file
+    if fs.existsSync rsinit.route.spec
+      rsinit2 = @new_res rsinit, rsinit.route.spec
+      rsinit2.res.ref = @ctx.site.base + rsinit.route.name
+      r.push rsinit2
+
+    # Expand routes using glob spec (a set of existing fs paths)
+    else if rsinit.route.globspec and '*' in rsinit.route.spec
+      # OLD: route.startsWith '_'
+      for pathname in glob.sync rsinit.route.spec
+        rsinit2 = @new_res rsinit, pathname
+        if rsinit2.res.dirname == '.'
+          rsinit2.res.ref = @ctx.site.base + rsinit2.res.basename
+        else
+          rsinit2.res.ref = \
+            "#{@ctx.site.base}#{rsinit2.res.dirname}/#{rsinit2.res.basename}"
+        r.push rsinit2
+
+    # Use exact route as fs path
+    else if fs.existsSync rsinit.route.name
+      rsinit2 = @new_res rsinit, rsinit.route.name
+      r.push rsinit2
+
+    # Use route as is
+    else
+      rsinit2 = _.extend {}, rsinit, res: ref: @ctx.site.base+rsinit.route.name
+      r.push rsinit2
+ 
+    r
+
+
+  apply_express: ( rsinit ) ->
   
-    # parse sitefile.routes, pass 1: load & init routers
-    for name in @names
-      if name of Router.builtin
-        continue
-
-      [ router_cb, router_path ] = @find name
-      if not router_cb
-        warn "Failed to load #{name} router"
-        continue
-
-      router_obj = router_cb @ctx
-      if not router_obj
-        warn "Failed to initialize #{name} router"
-        continue
-  
-      @data[name] =
-        module: router_cb
-        object: Router.define router_obj
-  
-      log "Loaded router", name: name, c.sc, router_obj.label, path: router_path
+    console.log 'TODO: apply_express', rsinit
+    return
+      #@ctx.log rsinit.name, url: rsinit.res.ref, '=', ( if 'path' of rsinit.res \
+      #  then path: rsinit.res.path \
+      #  else res: rsinit.route.name ), id: rsinit.route.spec
 
 
 class Sitefile
+
   constructor: ( @ctx ) ->
     # Track all dirs for generated files, router CB's and instances, names
     _.defaults @, dirs: {}, bundles: {}
+
     # XXX:
     if @ctx._sitefile then throw Error "_sitefile"
     @ctx._sitefile = @
+
     # TODO Also need to refactor, and scan for defaults across dirs rootward
     @routers = new Routers @ctx
     @routers.load()
+
     # Load predefined resources (views, scripts, styles etc. w/ route maps)
-    @load_bundles @ctx
+    #@load_bundles @ctx
+
     # Apply routes in sitefile to Express
-    @apply_routes @ctx
+    @apply_routes()
+
     # reload ctx.{config,sitefile} whenever file changes
     reload_on_change @ctx
 
-  # Preload other, non router bundles
+  # XXX: not functional, Preload other, non router bundles
   load_bundles: ( ctx ) ->
     for bundle of ctx.sitefile.bundles
       if typeof(bundle) == 'string'
@@ -296,9 +515,9 @@ class Sitefile
         bundle_name = bundle.name
         bundle_obj = bundle
       @bundles[ bundle_name ] = bundle_obj
-      
 
-  apply_routes: ( ctx ) ->
+  # XXX: Refactoring
+  apply_routes: ->
   
     options = {
       routes:
@@ -306,20 +525,41 @@ class Sitefile
         directories: {}
         defaults: [ 'default', 'index', 'main' ]
     }
-    ctx.prepare_from_obj options
-    ctx.seed options
+    @ctx.prepare_from_obj options
+    @ctx.seed options
+
+    for rsinit in @routers.prepare()
+      console.log rsinit
+
+    return # XXX
+
+    # Parse Sitefile route mapping
+    for rsinit_1 in @routers.parse()
+
+      # Load routers and resolve resource paths
+      for rsinit_2 in @routers.resolve rsinit_1
+        
+        # routes.resources: Track all paths to router instances
+        @ctx.routes.resources.push rsinit_2.res.ref
+
+        #console.log 'rsinit_2', rsinit_2
+        # Add resource routes and handlers to Express
+        @routers.apply_express rsinit_2
+
+
+    return
 
     # parse sitefile.routes, pass 2: process specs to handler intances
-    for route, strspec of ctx.sitefile.routes
+    for route, strspec of @ctx.sitefile.routes
 
       # Skip route spec on missing routers
-      [ router_name, handler_name, handler_spec ] = split_spec strspec, ctx
+      [ router_name, handler_name, handler_spec ] = split_spec strspec, @ctx
 
       if router_name not of Router.builtin and router_name not in @routers.names
         warn "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
 
-      if route.startsWith '/' or route.startsWith ctx.site.base
+      if route.startsWith '/' or route.startsWith @ctx.site.base
         warn "Non-relative route", "Route path should not include root '/' or
           base prefix, are you sure #{route} is correct?"
 
@@ -328,14 +568,14 @@ class Sitefile
         router_type = Router.Base
       else
         router_type = @routers.get router_name
-      ctx.routes.directories = @dirs
+      @ctx.routes.directories = @dirs
 
       if not handler_name and router_type.default_handler
         handler_name = router_type.default_handler
 
       # Resolve route spec to resource contexts, init and add Express handler
       for rctx in router_type.resolve route, router_name, \
-          handler_name, handler_spec, ctx
+          handler_name, handler_spec, @ctx
 
         # Load defaults from router_type
         if 'defaults' of router_type
@@ -345,44 +585,56 @@ class Sitefile
           else if 'default' of router_type.defaults
             _.defaultsDeep rctx._data, router_type.defaults.default
           else
-            ctx.log "Missing #{router_name} default handler defaults"
+            @ctx.log "Missing #{router_name} default handler defaults"
 
         # Detect routable extension
         rs = rctx.res
-        if rs.path and (ctx.site.base+rs.path).startsWith(rs.ref) and (
-          rs.ref+rs.extname is ctx.site.base+rs.path
+        if rs.path and (@ctx.site.base+rs.path).startsWith(rs.ref) and (
+          rs.ref+rs.extname is @ctx.site.base+rs.path
         )
           # FIXME: policy on extensions
-          ctx.redir rs.ref+rs.extname, rs.ref
-          #ctx.log 'redir', rs.ref+rs.extname, rs.ref
+          @ctx.redir rs.ref+rs.extname, rs.ref
+          #@ctx.log 'redir', rs.ref+rs.extname, rs.ref
 
-        # Finally let routers generate or add routes to ctx.app Express instance
+        # Finally let routers generate or add routes to @ctx.app Express
+        # instance
         if router_name of Router.builtin
           Router.builtin[router_name] rctx
 
         else
-          router_type.initialize router_type, rctx
+          for rctx2 in @routers.initialize rctx
+            console.log rctx2
 
+            @ctx.log rsinit.name, url: rsinit.res.ref, '=', ( if 'path' of rsinit.res \
+              then path: rsinit.res.path \
+              else res: rsinit.route.name ), id: rsinit.route.spec
+
+          #for m in methods
+          #  @ctx.app[m] rsinit.route.name + r, handlers[m]
+          #@ctx.log rsinit.name, url: rsinit.res.ref, '=', ( if 'path' of rsinit.res \
+          #  then path: rsinit.res.path \
+          #  else res: rsinit.route.name ), id: rsinit.route.spec
 
     # redirect dirs to default dir-index resource
-    @add_dir_redirs ctx
-  
+    @add_dir_redirs()
+
+
   # For each given dir-name: leafs pair,
   # add a redir rule to redirect to a dir leaf
-  add_dir_redirs: ( ctx ) ->
+  add_dir_redirs: ->
     # Add redirections for dirs to default leafs
     for url, leafs of @dirs
       if leafs.length == 1
         defleaf = leafs[0]
       if leafs
-        for name in ctx.routes.defaults
+        for name in @ctx.routes.defaults
           if name in leafs
             defleaf = name
             break
         if not defleaf
           warn "Cannot choose default dir index for #{url}"
           continue
-        ctx.redir url, url+'/'+defleaf
+        @ctx.redir url, url+'/'+defleaf
         log "Dir", url: "#{url}/{->#{defleaf}}"
 
 

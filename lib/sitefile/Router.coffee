@@ -40,6 +40,7 @@ builtin =
         else rctx.res.data
       res.end()
 
+
 Base =
   name: 'Express'
   label: 'Express-Sitefile resource publisher'
@@ -154,6 +155,7 @@ Base =
 
         rs.push rctx
 
+    # Spec exists as file
     else if fs.existsSync handler_spec
       rctx = Base.file_res_ctx ctx, rsctxinit, handler_spec
       Base.default_resource_options rctx
@@ -170,51 +172,6 @@ Base =
   
     return rs
 
-  initialize: ( router_type, rctx ) ->
-
-    ctx = rctx.context
-
-    # routes.resources: Track all paths to router instances
-    ctx.routes.resources.push rctx.res.ref
-
-    # generate: let router_type return handlers for given resource
-
-    if rctx.route.handler
-      g = ctx._routers.generator '.'+rctx.route.handler, rctx
-    else
-      g = ctx._routers.generator rctx.route.name
-
-    # invoke routers selected generate function, expect a route handler object
-    h = g rctx
-
-    if 'function' is typeof h
-
-      # Add as regular Express route handler
-      rctx.context.app.all rctx.res.ref, ( req, res ) ->
-        _.defaultsDeep rctx.route.options, req.query
-        h req, res
-
-      ctx.log rctx.name, url: rctx.res.ref, '=', ( if 'path' of rctx.res \
-        then path: rctx.res.path \
-        else res: rctx.route.name ), id: rctx.route.spec
-
-    else if h and 'object' is typeof h
-  
-      # XXX: The object could have data, meta etc. attr and play as JSON API doc
-      # For now just extend the resource context with the object it returned.
-      rctx.prepare_from_obj h
-      _.merge rctx._data, h
-
-      if h.res and 'data' of h.res
-        rctx.context.app.all rctx.res.ref, builtin.data rctx
-      
-      ctx.log "Extension at ", url: rctx.res.ref, \
-          "from", ( name: rctx.route.name+'.'+rctx.route.handler ), \
-          id: rctx.route.spec, "at", path: rctx.name
-
-    else if not h
-      module.exports.warn "Router not recognized", "Router #{rctx.route.name}
-        returned nothing recognizable for #{rctx.name}, ignored"
     
 
 module.exports =
