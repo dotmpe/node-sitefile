@@ -9,14 +9,23 @@ module.exports = ( grunt ) ->
   grunt.initConfig
 
     jshint:
-      options:
-        jshintrc: '.jshintrc'
-      gulpfile: [ 'gulpfile.js' ]
-      package: [ '*.json' ]
-      examples: [
-        'example/**/*.json'
-        'example/**/*.js'
-      ]
+      gulpfile:
+        options:
+          jshintrc: '.jshintrc'
+        src: [ 'gulpfile.js' ]
+
+      package:
+        options:
+          jshintrc: '.jshintrc'
+        src: [ '*.json' ]
+
+      examples:
+        options:
+          jshintrc: '.jshintrc-client'
+        src: [
+          'example/**/*.json'
+          'example/**/*.js'
+        ]
 
     coffeelint:
       options:

@@ -10,8 +10,18 @@
   "unused": true,
   "boss": true,
   "eqnull": true,
-  "node": true,
+  "browser": true,
   "predef": [
+    "require",
+    "define",
+    "module",
+    "knex",
+    "chai",
+    "Cow",
+    "describe",
+    "it",
+    "before",
+    "after"
   ]
 }
 // vim:ft=javascript:
