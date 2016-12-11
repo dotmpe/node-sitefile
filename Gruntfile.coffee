@@ -116,13 +116,19 @@ module.exports = ( grunt ) ->
     'lint'
     'test'
   ]
+  
+  grunt.registerTask 'build', [ 'build-dev' ]
 
   # Documentation artefacts, some intial publishing
-  grunt.registerTask 'build', [
+  grunt.registerTask 'build-dev', [
+    'build-test'
+    'exec:spec_update'
+    'exec:gulp_dist_build'
+  ]
+
+  grunt.registerTask 'build-test', [
     'sass'
     'docco'
     'webpack'
-    'exec:gulp_dist_build'
-    'exec:spec_update'
   ]
 
