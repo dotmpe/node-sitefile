@@ -46,12 +46,13 @@ routes:
   vendor/require.js: static:node_modules/sinon/pkg/sinon.js
   vendor/coffee-script.js: static:node_modules/sinon/pkg/sinon.js
 
+  vendor/mocha.css: static:node_modules/mocha/mocha.css
   vendor/mocha.js: static:node_modules/mocha/mocha.js
   vendor/chai.js: static:node_modules/chai/chai.js
   vendor/sinon.js: static:node_modules/sinon/pkg/sinon.js
 
-  mocha/client/:path: mocha.client:#
-  mocha/server/:path: mocha.test:#
+  mocha/client/*: mocha.client:#
+  mocha/server/*: mocha.test:#
 
   # Some defaults for root
   '': redir:ReadMe
