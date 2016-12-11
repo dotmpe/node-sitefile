@@ -35,10 +35,10 @@ Main Features
 These are the main milestones for the development.
 
 
-.. __: `Text Markup Feature`__
-.. __: `DB Feature`__
-.. __: `Router Feature`__
-.. __: `RequireJS Feature`__
+.. __: `Text Markup Feature`_
+.. __: `DB Feature`_
+.. __: `Router Feature`_
+.. __: `RequireJS Feature`_
 
 
 
