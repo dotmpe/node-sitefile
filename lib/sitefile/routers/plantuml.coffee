@@ -11,6 +11,9 @@ module.exports = ( ctx ) ->
 
   name: "plantuml"
   usage: """
+
+  http://ogom.github.io/draw_uml/plantuml/
+  https://chocolatey.org/packages/plantuml
   """
 
   auto_export:
