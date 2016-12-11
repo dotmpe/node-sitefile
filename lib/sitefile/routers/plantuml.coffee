@@ -67,7 +67,7 @@ module.exports = ( ctx ) ->
           res.end()
 
       ctx.app.get rctx.res.ref+'.svg', (req, res) ->
-        generate(fname, 'svg').then ( stdout, stderr )->
+        generate(fname, 'svg').then ( stdout, stderr ) ->
           #if stderr
           #  res.type 'txt'
           #  res.status 500
