@@ -14,9 +14,9 @@ module.exports = ( grunt ) ->
       gulpfile: [ 'gulpfile.js' ]
       package: [ '*.json' ]
       examples: [
-          'example/**/*.json'
-          'example/**/*.js'
-        ]
+        'example/**/*.json'
+        'example/**/*.js'
+      ]
 
     coffeelint:
       options:
@@ -34,6 +34,7 @@ module.exports = ( grunt ) ->
       all: [
         'Sitefile.yaml'
         'package.yaml'
+        '**/*.meta'
       ]
 
     mochaTest:
@@ -86,6 +87,8 @@ module.exports = ( grunt ) ->
         cmd: "sh ./tools/check-branch-docs.sh"
       gulp_dist_build:
         cmd: "gulp server-build"
+      spec_update:
+        cmd: "sh ./tools/update-spec.sh"
 
     pkg: grunt.file.readJSON 'package.json'
 
@@ -120,5 +123,6 @@ module.exports = ( grunt ) ->
     'docco'
     'webpack'
     'exec:gulp_dist_build'
+    'exec:spec_update'
   ]
 

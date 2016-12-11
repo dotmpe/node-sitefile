@@ -11,20 +11,13 @@ Context = nodelib.Context
 
 liberror = require '../error'
 libconf = require '../conf'
+strutil = require '../strutil'
+c = strutil.c
 
 Router = require './Router'
 
 
 version = "0.0.5-dev" # node-sitefile
-
-
-c =
-  sc: chalk.grey ':' # sc: separator-char
-
-
-String::startsWith ?= (s) -> @[...s.length] is s
-String::endsWith   ?= (s) -> s is '' or @[-s.length..] is s
-
 
 
 

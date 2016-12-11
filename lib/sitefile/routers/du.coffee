@@ -89,7 +89,9 @@ rst2html = ( out, params={} ) ->
 
       else if prm.format == 'html'
         out.type 'html'
-        stdout = add_script(stdout, script) for script in prm.scripts
+        # coffeelint: disable=ensure_comprehensions,max_line_length
+        stdout = add_script(stdout, script) for script in prm.scripts # coffeelint: ignore:line
+        # coffeelint: enable=ensure_comprehensions,max_line_length
         out.write stdout
 
       else if prm.format == 'pseudoxml'

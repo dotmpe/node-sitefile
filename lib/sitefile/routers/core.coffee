@@ -65,7 +65,7 @@ module.exports = ( ctx ) ->
     routes: ( rctx ) ->
       res: data: [1,2,3]#rctx.context.routes
     autocomplete:
-      res: data: ( rctx )->
+      res: data: ( rctx ) ->
         jQuery_autocomplete_api req, rctx
 
 

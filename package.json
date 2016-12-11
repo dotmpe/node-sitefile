@@ -51,6 +51,7 @@
 
     "vulnerabilities": "snyk test",
 
+    "update-spec": "sh ./tools/update-spec.sh",
     "build-new": "gulp server-build",
     "mocha-test": "mocha --compilers coffee:coffee-script/register test/mocha/*.coffee",
     "check-version": "git-versioning check",
