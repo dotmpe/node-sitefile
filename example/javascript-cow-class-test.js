@@ -8,8 +8,8 @@ describe("Cow", function() {
     });
 
     it("should set cow's name if provided", function() {
-      var cow = new Cow("Kate");
-      expect(cow.name).to.equal("Kate");
+      var cow = new Cow("Carla");
+      expect(cow.name).to.equal("Carla");
     });
   });
 
@@ -21,8 +21,8 @@ describe("Cow", function() {
     });
 
     it("should greet passed target", function() {
-      var greetings = (new Cow("Kate")).greets("Baby");
-      expect(greetings).to.equal("Kate greets Baby");
+      var greetings = (new Cow("Carla")).greets("Table");
+      expect(greetings).to.equal("Carla greets Table");
     });
   });
 });

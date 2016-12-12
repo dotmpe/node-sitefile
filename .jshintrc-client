@@ -21,7 +21,8 @@
     "describe",
     "it",
     "before",
-    "after"
+    "after",
+    "sitefile"
   ]
 }
 // vim:ft=javascript:

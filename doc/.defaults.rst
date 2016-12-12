@@ -19,6 +19,8 @@
 
 .. _dev: /doc/dev.rst
 
+.. _Mocha Router docstrings: /doc/literate/mocha.html
+
 .. Releases
 .. _r0.0.1: /doc/dev/0.0.6.rst
 .. _v0.0.1: Changelog.rst#0.0.1
@@ -37,7 +39,7 @@
 .. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
 .. _semver: https://github.com/npm/node-semver
 .. _JSON API: http://jsonapi.org/format/
-
 .. _json-editor: https://github.com/jdorn/json-editor
+.. _List of Mocha reporters: https://github.com/mochajs/mocha/tree/master/lib/reporters
 
 

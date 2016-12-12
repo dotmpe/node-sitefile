@@ -77,7 +77,12 @@ module.exports = ( grunt ) ->
 
     docco:
       debug:
-        src: ['lib/**/*.coffee']
+        src: [
+          'lib/**/*.coffee'
+          'test/**/*.coffee'
+          'example/**/*.coffee'
+          'example/**/*.js'
+        ]
         options:
           output: 'build/docs/docco/'
 
