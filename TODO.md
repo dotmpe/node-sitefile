@@ -174,6 +174,9 @@ Want most features of 0.1.0 soonish.
 - ReadMe.rst:XXX the sitefile config itself can go, be replaced by external
 - ReadMe.rst:  TODO: see also sitefilerc
 
+## Client
+- TODO: look at KnockoutJS for databinding in client.
+
 ## Misc
 - ReadMe.rst:XXX specs contain as little embedded metadata as possible, focus is on
 - ReadMe.rst:- ``redir``\ specify a redirect FIXME glob behaviour?
