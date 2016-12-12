@@ -76,7 +76,8 @@ routes:
   Sitefile/handler: sitefile.handler:#
   Sitefile/global: sitefile.global:#
 
-  Sitefile/core: 'core:'
+  Sitefile/core/auto: core.autocomplete:#
+  Sitefile/core: core:#
 
   proc/pm2: 'pm2.ps:'
 

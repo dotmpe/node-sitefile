@@ -45,6 +45,8 @@
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
 
 
+    "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
+
     "build": "grunt build",
 
     "check": "grunt check",
