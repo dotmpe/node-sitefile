@@ -74,7 +74,7 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
         data = jQuery_autocomplete_api req, rctx
         res.type 'json'
-        res.write JSON.stringify datajkkkkkkkkkkkkkkk
+        res.write JSON.stringify data
         res.end()
 
 
