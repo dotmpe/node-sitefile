@@ -1,7 +1,7 @@
 
 
 Docco
-  Nifty setup, but seems braindead: no support for block comments. [#]_ [#]_
+  Nifty setup, but no support for block comments. [#]_ [#]_
 
   The idea is pretty good: annotated source-code view of two adjacent panes,
   one for highlighted source-code listing (without comments), and right an

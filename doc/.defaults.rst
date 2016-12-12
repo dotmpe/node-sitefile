@@ -16,6 +16,8 @@
 .. _DB Feature: feature-db.rst
 .. _RequireJS Feature: feature-rjs.rst
 .. _Text Markup Feature: feature-text.rst
+.. _Testing Feature: feature-testing.rst
+.. _Documentation Feature: feature-documentation.rst
 
 .. _dev: /doc/dev.rst
 

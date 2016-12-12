@@ -6,12 +6,12 @@ Main Features
 --------------
 1. hypertext representation for file-based content.
 
-   1. Text markup languages (feature-docs__, md, rst)
+   1. Text markup languages (md, rst, text-feature-docs__)
    2. Server side templates (pug)
    3. Scripts (js, coffee, requirejs)
    4. Stylesheets (sass, less, styl)
    5. Diagrams (gv, plantuml)
-   6. Data (db-feature-docs__, bookshelf-api)
+   6. Data (bookshelf-api, db-feature-docs__)
    7. Resources (http)
    8. Services (pm2)
 
@@ -25,9 +25,10 @@ Main Features
 3. work in progress: re-usable, and distributed packages of routes and
    resources.
 
-   1. YAML and JSON based setup. (route-feature-docs__)
+   1. YAML and JSON based setup.
       Look at alternatively to operate from argv/env iso. local Sitefile
    2. work-in-progress: user-defined extensions, extendable resources/routers
+      (route-feature-docs__)
    3. packages (JS/CSS/media), cdn config? (require-js-feature-docs__)
 
 
@@ -36,10 +37,19 @@ These are the main milestones for the development.
 
 
 .. __: `Text Markup Feature`_
-.. __: `DB Feature`_
 .. __: `Router Feature`_
+.. __: `DB Feature`_
 .. __: `RequireJS Feature`_
 
+
+- `Text Markup Feature`_
+- `Router Feature`_
+- `DB Feature`_
+
+Other development features:
+
+- `Testing Feature`_
+- `Documentation Feature`_
 
 
 
