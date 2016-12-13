@@ -136,8 +136,8 @@ module.exports = ( grunt ) ->
   # Documentation artefacts, some intial publishing
   grunt.registerTask 'build-dev', [
     'build-test'
-    'exec:spec_update'
     'exec:gulp_dist_build'
+    'exec:spec_update'
   ]
 
   grunt.registerTask 'build-test', [

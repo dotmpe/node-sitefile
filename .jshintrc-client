@@ -25,7 +25,7 @@
     "after",
     "sitefile",
     //example/polymer-lang-style.js
-    "document", "Polymer"
+    "document", "Polymer", "console"
   ]
 }
 // vim:ft=javascript:
