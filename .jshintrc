@@ -12,9 +12,6 @@
   "eqnull": true,
   "node": true,
   "predef": [
-    "requirejs",
-    "define",
-    "describe", "it", "before", "after"
   ]
 }
 // vim:ft=javascript:

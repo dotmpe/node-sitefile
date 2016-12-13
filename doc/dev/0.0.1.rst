@@ -1,0 +1,9 @@
+0.0.1
+========
+:status: finished
+:started: 2015-03-28
+:commit: 2015-04-19 05:28:14 +0200 679a2edeed90e1c9a795c23daaaa57674f19e448
+
+Never tagged. Some revisions where made and the 0.0.2 bump was really skipped
+without any development. The next development release was 0.0.3.
+

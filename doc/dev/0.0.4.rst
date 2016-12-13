@@ -1,0 +1,21 @@
+0.0.4
+========
+:status: released
+:started: 2016-09-24
+:commit: 2016-10-14 23:21:45 +0200 1ad68e4918a92ea295c63a8014ef62d1923c5d13
+
+.. include:: ../.defaults.rst
+
+
+More parallel development on JSON schema features, data API, rich HTML5 clients.
+Released for simple Bookshelf API based router.
+
+- Testing project publishing scripts.
+- Added graphviz.
+- Looking at jsonary, polymer in derived branches.
+- Added scripts param for rst2html, moved most code to Du router.
+- Rewrote core to allow routers to extend Express by themselves (for `DB
+  Feature`_). Added Knex/Bookshelf/API for access to SQL data.
+- Cleaned up file-to-resource heuristics and made it more consistent.
+
+

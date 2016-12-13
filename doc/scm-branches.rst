@@ -1,4 +1,7 @@
 
+.. include:: .defaults.rst
+
+
 master [*]_
   - Basic functionality; static, redir routers.
   - Document handlers: rst2html, docutils, markdown.
@@ -45,12 +48,10 @@ master [*]_
           But need to build and test EDL export, and have no EDL reader (transquoter, Scrow).
 
     Routers
-      f_client
-        - Added Bower. Experimenting with polymer.
-        - Want to get Polymer core-scaffold running somehow.
-        - Working to add prism.js source-viewer.
+      html5-client
+        `HTML5 Client Feature`_
 
-      f_jsonary
+      jsonary
         - Looking at jsonary as a client-side JSON schema renderer/editor.
 
       f_ph7{,_node}
@@ -58,15 +59,56 @@ master [*]_
           Tested ph7-darwin NPM packages. Seems to perform same as ph7.
           No stdout reroute yet so unusable, but functional.
 
-      f_json_editor
+      json-editor
         - Added JSON-Editor_ with one schema, no server-side api yet.
           Need to look at hyper-schema.
 
-      f_bootstrap
+      bootstrap
         - Added bower things for bootstrap, testing with server-side Jade pages.
 
-      f_gv (merged)
+      graphviz
         - Adding graphviz to render dot diagrams.
+
+      pm2
+        - Testing a bit with programmatic API acccess in bin/manager.
+
+        - Maybe router for starting PM2 processes from JSON, but pm2 can already
+          do this. Perhaps some simple template to link to running HTTP
+          host/port, because a simple list of host/port is still missing.
+          Ie. an HTTP/HTML app aware view of the services would be nice,
+          fetch the OPTIONS, html/head/title, etc.
+
+          Ability to interact with PM2 from HTTP would be useful. Ie. in the
+          `google-chrome-htdocs` extension.
+
+        - Can simply use JSON for ``pm2 start``, can it use this same structure
+          with ``pm2.start`` API?
+
+          http://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/#ecosystemjson
+
+      bundles
+        - Looking for a resource bundle model.
+
+      webpack
+        - Want to bundle content; package router or resource extensions to
+          sitefile.
+
+          Finished writing a simple gulp to compile all to a single module.
+          But what next? Go for non-npm installations? Would need to pack
+          dependent libs.
+
+          More interesting is packing routers and themes and stuff.
+          Merged into bundles.
+
+      require-js
+        - Setting up for integrated module configuration. Want to get stack up
+          using require-js. See `Router Feature`_ and `RequireJS Feature`_
+          docs.
+
+      api-docs
+        - `Documentation Feature`_: source/API documentation.
+        - Docco: http:/doc/literate
+
 
   demo
     - Merging experimental features. Should keep master clean.
@@ -81,7 +123,4 @@ master [*]_
 
 .. [*] Current branch.
 
-
-.. _json-editor: https://github.com/jdorn/json-editor
-.. _DB Feature: docs/feature-db
 
