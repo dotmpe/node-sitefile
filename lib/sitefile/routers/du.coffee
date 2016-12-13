@@ -116,7 +116,7 @@ module.exports = ( ctx ) ->
   name: 'du'
   label: 'Docutils Publisher'
   usage: """
-    du:**/*.rst
+    du.rst2html:**/*.rst
   """
   
   prereqs:
@@ -125,9 +125,11 @@ module.exports = ( ctx ) ->
   tools:
     rst2html: rst2html
 
+  default_handler: 'rst2html'
+
   # Generators for Sitefile route handlers
   generate:
-    default: ( rctx ) ->
+    rst2html: ( rctx ) ->
 
       # FIXME: improve Context API:
       extra = (
