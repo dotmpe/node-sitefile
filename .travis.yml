@@ -1,4 +1,5 @@
 
+# To skip builds use [ci ckip] in GIT commit-msg
 language: node_js
 
 node_js:
@@ -16,7 +17,10 @@ addons:
 branches:
   not:
   - staging_git_versioning
+  - dev
+    # FIXME travis not pattern not working
   - /^dev.*$/
+
 #  only:
 #  - 'master'
 #  - 'test.*'
@@ -24,7 +28,5 @@ branches:
 #  - 'r[0-9].*'
 
 env:
-#  - NODE_ENV=
-  - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin$PATH
-#  - NODE_ENV=production
+  - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin:$PATH ENV=testing
 
