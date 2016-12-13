@@ -9,12 +9,12 @@ nodelib = require 'nodelib'
 
 Context = nodelib.Context
 
+Router = require './Router'
+
 liberror = require '../error'
 libconf = require '../conf'
 strutil = require '../strutil'
 c = strutil.c
-
-Router = require './Router'
 
 
 version = "0.0.5-dev" # node-sitefile
@@ -200,6 +200,8 @@ class Routers
     @data = {}
 
   get: ( name ) ->
+    if name not of @data
+      throw new Exception "No such router loaded: #{name}"
     return @data[ name ].object
 
   # Lookup router generator
@@ -567,6 +569,9 @@ class Sitefile
       if router_name of Router.builtin
         router_type = Router.Base
       else
+        if router_name not of @routers.data
+          warn "Missing router #{router_name}"
+          continue
         router_type = @routers.get router_name
       @ctx.routes.directories = @dirs
 

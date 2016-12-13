@@ -1,4 +1,3 @@
-// cow.js
 (function(exports) {
   "use strict";
 

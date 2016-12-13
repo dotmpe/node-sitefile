@@ -125,7 +125,8 @@ Base =
         name: router_name
         handler: handler_name
         spec: handler_spec
-        options: if ctx.sitefile.options.global and router_name \
+        options: if 'options' of ctx.sitefile \
+          and ctx.sitefile.options.global and router_name \
           of ctx.sitefile.options.global \
           then ctx.resolve "sitefile.options.global.#{router_name}" else {}
 

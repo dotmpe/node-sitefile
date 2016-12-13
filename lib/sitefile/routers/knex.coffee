@@ -38,18 +38,19 @@ module.exports = ( ctx={} ) ->
 
     # Data endpoint: Prepare Knex session on resource context
     db: ( rctx ) ->
+      sitefile.log 'Knex DB:', rctx.res.path
       sqlctx =
         knex:
           config: knex_util.load_config rctx, ctx
 
       # Initialize and update DB
       sqlctx.knex.db = db = knex sqlctx.knex.config
-      db.migrate.latest()
-
+      knex_util.update sqlctx.knex, ctx
       sqlctx
 
     # Data endpoint: the spec must lead to a JS/Coffee file to accept Knex
     sql: ( rctx ) ->
+      sitefile.log 'Knex SQL:', rctx.res.path
       #ctx._routers.generator('.db', rctx) rctx
       rctx.res.sqlcb = require( './'+ rctx.res.path )
       if rctx.res.options.cache
@@ -61,13 +62,22 @@ module.exports = ( ctx={} ) ->
      
     # Document endpont: serve config JSON
     default: ( rctx ) ->
-
       sitefile.log 'Knex index:', rctx.res.path
       config = knex_util.load_config rctx, ctx
 
       # Initialize and update DB
       db = knex config
       db.migrate.latest()
+
+
+      sitefile.log 'Knex index:', rctx.res.path
+      sqlctx =
+        knex:
+          config: knex_util.load_config rctx, ctx
+
+      # Initialize and update DB
+      sqlctx.knex.db = knex sqlctx.knex.config
+      knex_util.update sqlctx.knex, ctx
 
       ( req, res ) ->
 

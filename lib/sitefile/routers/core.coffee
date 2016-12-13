@@ -12,17 +12,21 @@ jQuery_autocomplete_api = ( req, rctx ) ->
     prefix: ''
     recursive: true
 
+  prefix = req.query.prefix
+  term = req.query.term
+  console.log "looking for paths with #{term} and/or in #{prefix}"
+
   data = []
   values = []
   for resource in global_ctx.routes.resources
 
-    if req.query.prefix and not resource.startsWith req.query.prefix
+    if prefix and not resource.startsWith prefix
       continue
-    if req.query.prefix
-      resource = resource.substr req.query.prefix.length
+    if prefix
+      resource = resource.substr prefix.length
     if ( not req.query.recursive ) and resource.indexOf('/') != -1
       resource = resource.substring(1).split('/')[0]
-    if resource.indexOf(req.query.term) is -1
+    if term and resource.indexOf(term) is -1
       continue
     if resource in values
       continue
@@ -62,11 +66,15 @@ module.exports = ( ctx ) ->
   # Generate router API is free to either return an function to handle a
   # resource request context, or add Express handlers directly.
   generate:
-    routes: ( rctx ) ->
-      res: data: [1,2,3]#rctx.context.routes
-    autocomplete:
-      res: data: ( rctx ) ->
-        jQuery_autocomplete_api req, rctx
 
+    routes: ( rctx ) ->
+      res: data: rctx.context.routes
+
+    autocomplete: ( rctx ) ->
+      ( req, res ) ->
+        data = jQuery_autocomplete_api req, rctx
+        res.type 'json'
+        res.write JSON.stringify data
+        res.end()
 
 

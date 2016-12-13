@@ -77,7 +77,12 @@ module.exports = ( grunt ) ->
 
     docco:
       debug:
-        src: ['lib/**/*.coffee']
+        src: [
+          'lib/**/*.coffee'
+          'test/**/*.coffee'
+          'example/**/*.coffee'
+          'example/**/*.js'
+        ]
         options:
           output: 'build/docs/docco/'
 
@@ -131,8 +136,8 @@ module.exports = ( grunt ) ->
   # Documentation artefacts, some intial publishing
   grunt.registerTask 'build-dev', [
     'build-test'
-    'exec:spec_update'
     'exec:gulp_dist_build'
+    'exec:spec_update'
   ]
 
   grunt.registerTask 'build-test', [

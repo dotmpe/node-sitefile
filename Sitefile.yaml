@@ -34,6 +34,7 @@ routes:
 
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
+  _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
@@ -76,6 +77,7 @@ routes:
   Sitefile/handler: sitefile.handler:#
   Sitefile/global: sitefile.global:#
 
+  Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: 'core:'
 
   proc/pm2: pm2.default:#
@@ -92,6 +94,11 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
+  app/v0: app-0:#
+  app/reader: app-0.reader:#
+
+
+
 
   _handle_my_file: handle:**/*.my.file
   prefix/to/${ctx.res.path}: handle:**/*.my.file
@@ -100,13 +107,13 @@ routes:
 options:
   global:
     du:
-      link_stylesheet: true
+      link_stylesheets: true
       scripts:
         $ref: '#/defs/scripts/default/urls'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     rst2html:
-      link_stylesheet: true
+      link_stylesheets: true
       flags:
       - "--no-toc-backlinks"
       scripts:

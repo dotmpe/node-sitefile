@@ -1,5 +1,3 @@
-###
-###
 fs = require 'fs'
 sitefile = require '../sitefile'
 
@@ -24,6 +22,7 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
         sitefile.log "Stylus compile", rctx.res.path
         data = fs.readFileSync rctx.res.path
+        res.type 'css'
         res.write stylus.render data.toString()
         res.end()
 

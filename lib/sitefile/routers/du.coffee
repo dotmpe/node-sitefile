@@ -14,17 +14,20 @@ child_process = require 'child_process'
 sitefile = require '../sitefile'
 
 
-
 rst2html_flags = ( params ) ->
 
   flags = []
-  if params.link_stylesheet
+
+  if params.link_stylesheets
     flags.push '--link-stylesheet'
+
   if params.stylesheets? and !_.isEmpty params.stylesheets
     sheets = _.values(params.stylesheets).join ','
     flags.push "--stylesheet-path '#{sheets}'"
+
   if params.flags? and !_.isEmpty params.flags
     flags = flags.concat params.flags
+
   flags.join ' '
 
 
@@ -60,7 +63,7 @@ rst2html = ( out, params={} ) ->
   prm = _.defaultsDeep params,
     format: 'pseudoxml'
     docpath: 'index'
-    link_stylesheet: false
+    link_stylesheets: false
     stylesheets: []
     scripts: []
 
@@ -113,7 +116,7 @@ module.exports = ( ctx ) ->
   name: 'du'
   label: 'Docutils Publisher'
   usage: """
-    du:**/*.rst
+    du.rst2html:**/*.rst
   """
   
   prereqs:
@@ -122,9 +125,11 @@ module.exports = ( ctx ) ->
   tools:
     rst2html: rst2html
 
+  default_handler: 'rst2html'
+
   # Generators for Sitefile route handlers
   generate:
-    default: ( rctx ) ->
+    rst2html: ( rctx ) ->
 
       # FIXME: improve Context API:
       extra = (
