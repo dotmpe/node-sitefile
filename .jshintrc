@@ -12,7 +12,6 @@
   "eqnull": true,
   "node": true,
   "predef": [
-
   ]
 }
 // vim:ft=javascript:

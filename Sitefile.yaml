@@ -79,7 +79,19 @@ routes:
   Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: core:#
 
-  'app/src/*': 'prism:'
+  'app/src/*': prism:#
+
+  npm/npm/latest.json: 'http:'
+  npm/node-sitefile/latest.json: 'http:'
+
+  cdn: cdn:#
+
+  # FIXME:
+  fonts: static:node_modules/bootstrap/fonts
+
+  sf-example/default: sf-example:#
+  sf-example/data1: sf-example.data1:#
+  sf-example/data2: sf-example.data2:#
 
   components: static:public/components
   'components/jsonary/test': redir:components/jsonary/test/index
@@ -98,7 +110,7 @@ routes:
 
   example/polymer-app-router: static:example/polymer-app-router.html
 
-  #example: static:example
+
 
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
   #components/core-menu: static:public/components/polymer-ui-menu
