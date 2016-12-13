@@ -4,7 +4,7 @@ path = require 'path'
 sitefile = require '../sitefile'
 
 
-# Given sitefile-context, export metadata for markdown: handlers
+# Given sitefile-context, export metadata for markdown: handler
 module.exports = ( ctx={} ) ->
 
   try
@@ -14,21 +14,23 @@ module.exports = ( ctx={} ) ->
       return {}
     throw err
 
+
   name: 'markdown'
   label: 'Markdown HTML publisher'
   usage: """
     markdown:**/*.md
   """
 
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
 
-    ( req, res ) ->
-      sitefile.log 'Markdown publish', rctx.res.path
-      data = fs.readFileSync rctx.res.path
-      doc = md.toHTML data.toString()
-      res.type 'html'
-      res.write doc
-      res.end()
+      ( req, res ) ->
+        sitefile.log 'Markdown publish', rctx.res.path
+        data = fs.readFileSync rctx.res.path
+        doc = md.toHTML data.toString()
+        res.type 'html'
+        res.write doc
+        res.end()
 
 
 

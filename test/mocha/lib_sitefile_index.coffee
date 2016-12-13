@@ -6,7 +6,6 @@ _ = require 'lodash'
 
 lib = require '../../lib/sitefile'
 pkg = require '../../package.json'
-bwr = require '../../bower.json'
 
 
 describe 'Module sitefile', ->
@@ -21,7 +20,6 @@ describe 'Module sitefile', ->
 
     it 'should equal package versions', ->
       expect( lib.version ).to.eql pkg.version
-      expect( lib.version ).to.eql bwr.version
 
 
   describe '.get_local_sitefile_name', ->
@@ -78,7 +76,7 @@ describe 'Module sitefile', ->
       ctx = {}
       lib.prepare_context ctx
       sfctx = ( "basename bundles config config_envs config_name cwd envname "+
-        "ext exts fn lfn log noderoot paths pkg pkg_file port proc routes "+
+        "ext exts fn lfn log noderoot paths pkg pkg_file proc routes "+
         "site sitefile sitefilerc static version"
       ).split ' '
       ctxkys = _.keys( ctx )
@@ -105,7 +103,7 @@ describe 'Module sitefile', ->
 
       ctx = lib.prepare_context()
       expect( ctx.get 'sitefile.options.global.rst2html.stylesheets' ).to.eql {
-        $ref: '#/sitefile/defs/stylesheets/default/paths'
+        $ref: '#/sitefile/defs/stylesheets/default/urls'
       }
       obj = ctx.resolve 'sitefile.options.global.rst2html.stylesheets'
       expect( obj ).to.be.an.array

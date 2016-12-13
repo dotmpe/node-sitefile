@@ -1,5 +1,6 @@
 #!/usr/bin/env coffee
 
+path = require 'path'
 lib = require '../lib/sitefile'
 _ = require 'lodash'
 
@@ -49,10 +50,12 @@ sitefile_cli = module.exports =
             Object.keys(sitefile_cli.root.routes.directories).length
     }
 
-  run: ( done ) ->
+  run: ( done, options={} ) ->
+
+    options.sfdir = path.dirname __dirname
 
     # prepare context and config data, loads sitefile
-    ctx = lib.prepare_context {}
+    ctx = lib.prepare_context options
     if _.isEmpty ctx.sitefile.routes
       lib.warn 'No routes'
       process.exit()
@@ -76,23 +79,25 @@ sitefile_cli = module.exports =
         lib.log "Listening", "Express server on port #{ctx.site.port}. "
 
     # "Export"
-    sitefile_cli.host = ctx.site.host
-    sitefile_cli.port = ctx.site.port
-    sitefile_cli.path = ctx.site.base
-    sitefile_cli.netpath = ctx.site.netpath
+    sitefile_cli.host = module.exports.host = ctx.site.host
+    sitefile_cli.port = module.exports.port = ctx.site.port
+    sitefile_cli.path = module.exports.path = ctx.site.base
+    sitefile_cli.netpath = module.exports.netpath = ctx.site.netpath
 
-    sitefile_cli.root = ctx
-    sitefile_cli.proc = proc
+    sitefile_cli.root = module.exports.root = ctx
+    sitefile_cli.proc = module.exports.proc = proc
 
     !done || done()
-    proc
+    
+    [ sf, ctx, proc ]
 
 
 if process.argv[2] in [ '--version', '--help' ]
  
   console.log "sitefile/"+lib.version
 
-else
+else if process.argv[1].endsWith('sitefile') \
+    or process.argv[1].endsWith 'sitefile.coffee'
 
   if process.env.SITEFILE_PM2_MON
     try
@@ -104,7 +109,7 @@ else
     
   sitefile_cli.run()
 
-# TODO: detect execute or (test-mode) include
+# XXX:
 #else
 #  lib.warn "Invalid argument:", process.argv[2]
 #  process.exit(1)

@@ -1,0 +1,9 @@
+sitefile: 0.0.4
+
+routes: 
+  _du: du:**/*.rst
+  _gv: gv:**/*.gv
+  '': redir:main
+  default.css: sass:default.sass
+  default.js: coffee:default.coffee
+

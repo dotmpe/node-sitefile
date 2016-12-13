@@ -59,37 +59,39 @@ module.exports = ( ctx ) ->
     bookshelfapi:**/*.sqlite
   """
 
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
 
-    if 'path' of rctx.res
-      api = load_or_get_api rctx
+      if 'path' of rctx.res
+        api = load_or_get_api rctx
 
-      sitefile.log 'Bookshelf API from', rctx.res.path
-      ctx.app.use ctx.site.base+rctx.name, api
+        sitefile.log 'Bookshelf API from', rctx.res.path
+        ctx.app.use ctx.site.base+rctx.name, api
 
-      ctx.app.get ctx.site.base+rctx.name+'/debug', (req, res) ->
-        d = {}
-        _ctx = rctx
-        while _ctx
-          d = _.merge d, _ctx._data
-          _ctx = _ctx.context
-        res.write JSON.stringify d
-        res.end()
+        ctx.app.get ctx.site.base+rctx.name+'/debug', (req, res) ->
+          d = {}
+          _ctx = rctx
+          while _ctx
+            d = _.merge d, _ctx._data
+            _ctx = _ctx.context
+          res.write JSON.stringify d
+          res.end()
 
-    else if 'spec' of rctx.res
-      api = get_api rctx
+      else if 'spec' of rctx.res
+        api = get_api rctx
 
-      if rctx.res.spec.startsWith 'route-model.'
-        model = api rctx.route.spec.substr 12
-        ctx.app.get rctx.res.ref, model
+        if rctx.res.spec.startsWith 'route-model.'
+          model = api rctx.route.spec.substr 12
+          ctx.app.get rctx.res.ref, model
+
+        else
+          throw Error \
+            "Unexpected bookshelf-api spec: #{rctx.res.spec} (#{rctx.res.ref})"
 
       else
         throw Error \
-          "Unexpected bookshelf-api spec: #{rctx.res.spec} (#{rctx.res.ref})"
+          "Unexpected bookshelf-api resource context (#{rctx.res.ref})"
 
-    else
-      throw Error "Unexpected bookshelf-api resource context (#{rctx.res.ref})"
-
-    null
+      null
 
 
