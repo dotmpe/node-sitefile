@@ -100,7 +100,8 @@ module.exports = ( ctx ) ->
   generate:
     default: ( rctx ) ->
 
-      console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
+      #console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
+
       if not rctx.res.path
         throw Error "JSON path expected (#{rctx.route.handler})"
 
@@ -141,9 +142,7 @@ module.exports = ( ctx ) ->
           res.end()
 
       ctx.app.post ctx.site.base+rctx.name+'/:pm_id/start', (req, res) ->
-        console.log 'start', req.params.pm_id
         pm2_proc = m.get_by_id parseInt req.params.pm_id, 10
-        console.log 'start', pm2_proc.name, pm2_proc
         pm2.start pm2_proc, ( err ) ->
           res.type 'txt'
           if err
@@ -171,7 +170,6 @@ module.exports = ( ctx ) ->
       # Serve PM2 proc HTML details
       ctx.app.get ctx.site.base+rctx.name+'/:pm_id.html', (req, res) ->
 
-        console.log req.path.substring(0, req.path.length - 5) + '.json'
         httprouter.promise.json(
           hostname: 'localhost'
           port: ctx.app.get('port')

@@ -34,6 +34,7 @@ routes:
 
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
+  _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
@@ -110,23 +111,22 @@ routes:
 
   example/polymer-app-router: static:example/polymer-app-router.html
 
-
-
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
   #components/core-menu: static:public/components/polymer-ui-menu
   #components/core-item: static:public/components/polymer-ui-item
   #components/core-header-panel: static:public/components/polymer-ui-header-panel
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
 
-  app/pm2: pm2:pm2-procs.json
+  app: static:app1646
+
+  #topics: api1646:example/app/topic
+  topics: pug:app1646/main.pug
 
   proc/pm2: pm2.ps:pm2-apps.json
 
-  #topics: api1646:example/app/topic
+  app/v0: app-0:#
+  app/reader: app-0.reader:#
 
-  app: static:app1646
-
-  topics: pug:app1646/main.pug
 
 
 

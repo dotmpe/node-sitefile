@@ -18,6 +18,7 @@
 .. _Text Markup Feature: feature-text.rst
 .. _Testing Feature: feature-testing.rst
 .. _Documentation Feature: feature-documentation.rst
+.. _HTML5 Client Feature: feature-client.rst
 
 .. _dev: /doc/dev.rst
 
