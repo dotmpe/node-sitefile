@@ -14,7 +14,15 @@ html(profile="http://dotmpe.com/project/sitefile")
     block head
 
   body
+    block prologue
+    div.header
+      block document
+        p Template header
     div.document
-      block body
-
+      block document
+        p Template document
+    div.footer
+      block footer
+        p Template footer
+    block epilogue
 
