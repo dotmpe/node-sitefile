@@ -54,12 +54,6 @@ routes:
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
 
-  'app/src/*': 'prism:'
-
-  components: static:public/components
-  'components/jsonary/test': redir:components/jsonary/test/index
-  'components/jsonary/test/index': static:public/components/jsonary/test/index.html
-
   # Some defaults for root
   '': redir:ReadMe
   index: redir:ReadMe
@@ -85,6 +79,11 @@ routes:
   Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: core:#
 
+  'app/src/*': 'prism:'
+
+  components: static:public/components
+  'components/jsonary/test': redir:components/jsonary/test/index
+  'components/jsonary/test/index': static:public/components/jsonary/test/index.html
 
   _json-editor: json-editor:example/json-editor/schema/*.json
 
