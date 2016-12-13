@@ -118,13 +118,13 @@ routes:
 options:
   global:
     du:
-      link_stylesheet: true
+      link_stylesheets: true
       scripts:
         $ref: '#/defs/scripts/default/urls'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     rst2html:
-      link_stylesheet: true
+      link_stylesheets: true
       flags:
       - "--no-toc-backlinks"
       scripts:
