@@ -44,8 +44,8 @@ html.example
       div(layout, horizontal, center-center, fit)
         .container
           pre(class="language-"+format)
-            - for line in lines
-                code(class="language-"+format)= line +'\n'
+            for line in lines
+              code(class="language-"+format)= line +'\n'
 
 
 
