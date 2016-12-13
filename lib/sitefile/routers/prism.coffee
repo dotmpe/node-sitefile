@@ -24,7 +24,6 @@ module.exports = ( ctx={} ) ->
 
   generate:
     default: ( path, ctx={} ) ->
-
       ( req, res ) ->
         ctx.source = req.params[0]
         ctx.format = 'pug'

@@ -53,7 +53,7 @@ module.exports = ( ctx ) ->
   catch
     return
 
-  pug_ext(pug)
+  pug_ext pug
 
   compilePug = ( path, options ) ->
 
@@ -62,6 +62,7 @@ module.exports = ( ctx ) ->
 
     # Merge with options and context
     tpl options.merge
+
 
   name: 'pug'
   label: 'Pug templates'

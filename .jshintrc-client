@@ -12,6 +12,7 @@
   "eqnull": true,
   "browser": true,
   "predef": [
+    "requirejs",
     "require",
     "define",
     "module",
@@ -22,7 +23,9 @@
     "it",
     "before",
     "after",
-    "sitefile"
+    "sitefile",
+    //example/polymer-lang-style.js
+    "document", "Polymer"
   ]
 }
 // vim:ft=javascript:

@@ -14,7 +14,6 @@ child_process = require 'child_process'
 sitefile = require '../sitefile'
 
 
-
 rst2html_flags = ( params ) ->
 
   flags = []

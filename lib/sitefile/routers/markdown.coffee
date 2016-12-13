@@ -4,7 +4,7 @@ path = require 'path'
 sitefile = require '../sitefile'
 
 
-# Given sitefile-context, export metadata for markdown: handlers
+# Given sitefile-context, export metadata for markdown: handler
 module.exports = ( ctx={} ) ->
 
   try
