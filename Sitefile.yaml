@@ -97,6 +97,9 @@ routes:
   'app/src/*': prism:#
 
   app/v0: app-0:#
+  app/v0/base.css: app-0.cdn_css:#
+  app/v0/base.js: app-0.cdn_js:#
+  app/v0/reader.html: app-0.reader:#
   app/reader: app-0.reader:#
 
 
