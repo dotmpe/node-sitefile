@@ -1,0 +1,14 @@
+{
+  "apps" : [
+		{
+			"name"        : "sf-sf",
+			"script"      : "/opt/node-sitefile/bin/sitefile.coffee",
+			"interpreter" : "coffee",
+			"merge_logs"  : true,
+			"cwd"         : "/opt/node-sitefile",
+			"env": {
+				"SITEFILE_PORT": "2001"
+			}
+    }
+	]
+}
