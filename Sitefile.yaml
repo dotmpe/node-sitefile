@@ -15,10 +15,6 @@ paths:
     'sitefile:example/routers'
   ]
 
-bundles:
-  - bootstrap 
-  - pm2
-
 routes:
 
   client: static:build/client
@@ -92,7 +88,7 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  proc/pm2: pm2.ps:pm2-apps.json
+  proc/pm2: pm2:pm2-apps.json
 
   app/v0: app-0:#
   app/reader: app-0.reader:#
