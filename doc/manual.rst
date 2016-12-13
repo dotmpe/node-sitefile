@@ -44,6 +44,7 @@ Prerequisites
 - Python docutils is not required, but is the only document format available.
 - Installed ``coffee`` (coffee-script) globally (see ``bin/sitefile`` sha-bang).
 
+
 Description
 ------------
 The intended purpose is to implement generic handlers for misc. file-based
@@ -206,6 +207,9 @@ Current situation/plan::
   /path/literal.ext: <router>:<pg>
 
   /prefix/^: <router>:<pg>
+
+TODO: no prefixing tested yet. Also see `Router feature`_ docs.
+
 
 Mapping exts:
 

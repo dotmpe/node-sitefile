@@ -12,23 +12,31 @@ module.exports = ( ctx ) ->
   """
 
   defaults:
-    route:
-      options:
-        sitefile_default_route_option_example_key: 1
+    default:
+      route:
+        options:
+          sitefile_default_route_option_example_key: 1
 
-  generate: ( rctx ) ->
+  generate:
+    resource: ( rctx ) ->
+      data: {}
+    handler: ( rctx ) ->
+      data: {}
+    global: ( rctx ) ->
+      data: {}
+    default: ( rctx ) ->
 
-    ( req, res ) ->
+      ( req, res ) ->
 
-      console.log 'sitefile', rctx.route.handler, 'ctx debug json'
+        console.log 'sitefile', rctx.route.handler, 'ctx debug json'
 
-      res.type 'json'
+        res.type 'json'
 
-      switch rctx.route.handler
-        when "resolver" then res.write JSON.stringify rctx._data
-        when "global" then res.write JSON.stringify ctx._data
-        else res.write JSON.stringify _.defaults {}, rctx._data, ctx._data
+        switch rctx.route.handler
+          when "resolver" then res.write JSON.stringify rctx._data
+          when "global" then res.write JSON.stringify ctx._data
+          else res.write JSON.stringify _.defaults {}, rctx._data, ctx._data
 
-      res.end()
+        res.end()
 
 

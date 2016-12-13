@@ -6,7 +6,6 @@ _ = require 'lodash'
 
 lib = require '../../lib/sitefile'
 pkg = require '../../package.json'
-bwr = require '../../bower.json'
 
 
 describe 'Module sitefile', ->
@@ -21,7 +20,6 @@ describe 'Module sitefile', ->
 
     it 'should equal package versions', ->
       expect( lib.version ).to.eql pkg.version
-      expect( lib.version ).to.eql bwr.version
 
 
   describe '.get_local_sitefile_name', ->
@@ -77,9 +75,9 @@ describe 'Module sitefile', ->
     it 'Should export options', ->
       ctx = {}
       lib.prepare_context ctx
-      sfctx = ( "basename config config_envs config_name cwd envname "+
-        "ext exts fn lfn log noderoot pkg pkg_file port proc sitefile "+
-        "sitefilerc static version"
+      sfctx = ( "basename bundles config config_envs config_name cwd envname "+
+        "ext exts fn lfn log noderoot paths pkg pkg_file proc routes "+
+        "site sitefile sitefilerc static version"
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()
@@ -104,10 +102,10 @@ describe 'Module sitefile', ->
     it 'contains references, globalized after loading', ->
 
       ctx = lib.prepare_context()
-      expect( ctx.get 'sitefile.options.rst2html.stylesheets' ).to.eql {
-        $ref: '#/sitefile/defs/stylesheets/default/paths'
+      expect( ctx.get 'sitefile.options.global.rst2html.stylesheets' ).to.eql {
+        $ref: '#/sitefile/defs/stylesheets/default/urls'
       }
-      obj = ctx.resolve 'sitefile.options.rst2html.stylesheets'
+      obj = ctx.resolve 'sitefile.options.global.rst2html.stylesheets'
       expect( obj ).to.be.an.array
 
 

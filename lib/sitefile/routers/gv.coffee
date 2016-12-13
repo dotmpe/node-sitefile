@@ -15,24 +15,25 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
 
-    engine = 'dot'
-    ext = path.extname(rctx.res.path).substr(1)
-    if (ext.match(/(dot|neato|twopi)/))
-      engine = ext
+      engine = 'dot'
+      ext = path.extname(rctx.res.path).substr(1)
+      if (ext.match(/(dot|neato|twopi)/))
+        engine = ext
 
-    ( req, res ) ->
+      ( req, res ) ->
 
-      exec "#{engine} -Tpng #{rctx.res.path} -o #{rctx.res.path}.png",
-        (error, stdout, stderr) ->
-          if error != null
-            res.status 500
-          try
-            res.write fs.readFileSync rctx.res.path+'.png'
-          catch e
-            console.error e
-            console.log stdout
-            res.write e.toString()
-          res.end()
+        exec "#{engine} -Tpng #{rctx.res.path} -o #{rctx.res.path}.png",
+          (error, stdout, stderr) ->
+            if error != null
+              res.status 500
+            try
+              res.write fs.readFileSync rctx.res.path+'.png'
+            catch e
+              console.error e
+              console.log stdout
+              res.write e.toString()
+            res.end()
 

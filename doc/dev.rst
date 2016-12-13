@@ -1,20 +1,77 @@
 
 .. include:: .defaults.rst
 
-.. contents::
+
+Main Features
+--------------
+1. hypertext representation for file-based content.
+
+   1. Text markup languages (md, rst, text-feature-docs__)
+   2. Server side templates (pug)
+   3. Scripts (js, coffee, requirejs)
+   4. Stylesheets (sass, less, styl)
+   5. Diagrams (gv, plantuml)
+   6. Data (bookshelf-api, db-feature-docs__)
+   7. Resources (http)
+   8. Services (pm2)
+
+2. work in progres: hypertext protocol support, abstract resources.
+
+   1. HTTP Redirect
+   2. Static resources
+   3. Planned: variant resources
+   4. Work in progress: proxy resources
+
+3. work in progress: re-usable, and distributed packages of routes and
+   resources.
+
+   1. YAML and JSON based setup.
+      Look at alternatively to operate from argv/env iso. local Sitefile
+   2. work-in-progress: user-defined extensions, extendable resources/routers
+      (route-feature-docs__)
+   3. packages (JS/CSS/media), cdn config? (require-js-feature-docs__)
 
 
-Epics
+
+These are the main milestones for the development.
+
+
+.. __: `Text Markup Feature`_
+.. __: `Router Feature`_
+.. __: `DB Feature`_
+.. __: `RequireJS Feature`_
+
+
+- `Text Markup Feature`_
+- `Router Feature`_
+- `DB Feature`_
+
+Other development features:
+
+- `Testing Feature`_
+- `Documentation Feature`_
+
+
+
+Documentation
+-------------
+The Main documents are and will be reStructuredText. But for more flexibility
+the administration of several other documents is for now at once done in the
+TODO_ document. Some integrate them here later.
+Sections:
+
+- Hacking
+- Design
+- Roadmap
+- Tasks and Bugs
+- Project Tooling
+
+* `Manual`_ initial sketchbook on usage.
+
+
+
+Ideas
 ------
-Current:
-
-- Add hypertext capability to file-based content. See ToDo_ document.
-
-  In particular control the envelope and delivery of content. Manage style,
-  script and maybe (later) links, metadata, and then later profiles, schema..
-
-  Ie. locate, dereference, negotiate, resolve content, etc. and serve to a
-  suitable client e.g. browser.
 
 There are many possibly useful directions:
 
@@ -26,40 +83,29 @@ There are many possibly useful directions:
 - viewer for media files
 - 3D meshes using webGL
 - diagramming, dashboards, log viewers, other interactive apps defined in local
-  sketchbooks.
+  "sketchbooks". Akin to Processing, Arduino, but geared towards Web content.
+  Ie. to prototype a JS, or quickly get some templated boilerplate HTML using
+  Pug. Or CSS with SASS/SCSS/Stylus/LESS et al.
 
-- other web-related files: browse bookmarks, references.
-  An simple URL carroussel/slideshow app? An image book. A quote book.
+- Other web-related files: browse bookmarks, references. Taking notes from
+  online content easily is a big use-case.
 
-- interact with JSON data, maybe API's.
-- work with metadata, schemas, use jsonary_ or json-editor
+- Also bookmarklets. User-defined tools to use in navigation, editing. Maybe
+  some kind of bookmarklet cdn to ship, update, generate, version bookmarklets?
 
-- provide an in-browser IDE experience, support NPM, Bower or other packages.
+- An simple URL carroussel/slideshow app? An image book, like pinterest.
+  Or a quote book. Lyrics or music trivia collection.
+
+- Interact with JSON data, API's.
+
+- work with metadata, schemas, use jsonary_ or json-editor. Go from YAML to JSON
+  to some programming markup and back.
+
+- Provide an in-browser IDE experience, support NPM, Bower or other packages.
   CommonJS modules. Projects with Makefile, Gruntfile. Is excuberant CTags too
   far back?
 
-Next:
 
-- Start to index some things and serve metadata.
-  Ie. link headers.
-
-- Move to a concept of a standard file-type handler registry, posibly some
-  magic. Use Sitefile to index (only) those resources that are linked together,
-  likely introduce domain or site attribute (ie. specify a 'docuverse', or 'linking space' within which the hyperlinks/references can act, and which in other ways determines presentation, as apposed to the content which is in principle a set of plain text human readable and processable files).
-
-- Better HTTP conformance.
-
-Think about:
-
-- Want to keep it lean, and simple. Sitefile currently (<0.0.5-dev) is under 350 LoC. But:
-
-- need to integrate concept of content-type (ie. representation vs. resource) to
-  deal with parametrizing the publisher (routers). Currently the routers are purposely very naively implemented to focus on a generic, flexible Sitefile schema.
-
-- Setup some transclusion micro-protocol (over HTML+XmlHttpRequest) for dynamic branching, and mix/browser content client-side using hash-navigation, building up a client-side app essentially.
-
-  Again, keep going for dynamic, branching literal content and build on this.
-  Avoid creating rolodexes and card boxes.
 
 
 
@@ -67,23 +113,5 @@ Branch docs
 ------------
 .. include:: scm-branches.rst
 
-
-Misc.
-------
-
-Data
-  See also x-loopback. Maybe keep al backend/auth/data-proxy-middleware out
-  of Sitefile. Express is better for other middleware.
-  Maybe some simple
-  standardized data API, ie. the odata for the TODO app.
-
-  But need bigger toolkit too:
-
-  - TODO: YAML, JSON validation. Schema viewing. tv4, jsonary.
-  - TODO: JSON editor, backends, schema and hyper-schema
-  - Book `Understanding JSON Schema`_
-  - Article `Elegant APIs with JSON Schema`_
-
-See also ToDo_ document. TODO: cleanup and standardize to ttxt.
 
 

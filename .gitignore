@@ -8,8 +8,9 @@ public/script/browser
 public/script/project
 public/script/x-backbone
 public/script/x-bookmarks
-www-build/
+build/
 main.sqlite3.db
+
 # Misc. local files
 example/*.neato.png
 example/*.twopi.png

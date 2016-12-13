@@ -1,16 +1,47 @@
 
-
 .. role:: todo(strong)
 
+.. XXX: a thing like this should realy be compiled per resource. Or have more
+   expressiveness: all relative path references need to be pre-processed per
+   including document.
+
+.. Global
 .. _changelog: /Changelog.rst
 .. _examples: /example
 .. _ToDo: /TODO.md
 
-.. _DB Feature: /docs/feature-db
+.. Local
+.. _manual: manual.rst
+.. _Router Feature: feature-route.rst
+.. _DB Feature: feature-db.rst
+.. _RequireJS Feature: feature-rjs.rst
+.. _Text Markup Feature: feature-text.rst
+.. _Testing Feature: feature-testing.rst
+.. _Documentation Feature: feature-documentation.rst
 
+.. _dev: /doc/dev.rst
+
+.. _Mocha Router docstrings: /doc/literate/mocha.html
+
+.. Releases
+.. _r0.0.1: /doc/dev/0.0.6.rst
+.. _v0.0.1: Changelog.rst#0.0.1
+
+.. _r0.0.3: /doc/dev/0.0.3.rst
+.. _r0.0.4: /doc/dev/0.0.4.rst
+.. _v0.0.4: Changelog.rst#0.0.4
+
+.. _r0.0.5: /doc/dev/0.0.5.rst
+.. _r0.0.6: /doc/dev/0.0.6.rst
+
+
+.. External
 .. _jsonary: http://jsonary.com/
 .. _elegant apis with json schema: https://brandur.org/elegant-apis
 .. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
 .. _semver: https://github.com/npm/node-semver
+.. _JSON API: http://jsonapi.org/format/
+.. _json-editor: https://github.com/jdorn/json-editor
+.. _List of Mocha reporters: https://github.com/mochajs/mocha/tree/master/lib/reporters
 
 

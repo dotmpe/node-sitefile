@@ -7,10 +7,13 @@ librst2html = require './rst2html'
 rst_reader = ( out, params={} ) ->
 
   name: 'rst-reader'
-  label: 'Fancied-up single-page reader for rSt'
-  generate: ( spec, ctx ) ->
+  label: 'TODO: Fancied-up single-page reader for rSt'
+
+  generate:
+    default: ( spec, ctx ) ->
+
   route:
-    base: ctx.base_url
+    base: ctx.site.base
     'rst-reader':
       get: (req, res, next) ->
 

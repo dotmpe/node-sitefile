@@ -18,6 +18,8 @@ sitefile = require '../sitefile'
 rst2html_flags = ( params ) ->
 
   flags = []
+  if params.link_stylesheet
+    flags.push '--link-stylesheet'
   if params.stylesheets? and !_.isEmpty params.stylesheets
     sheets = _.values(params.stylesheets).join ','
     flags.push "--stylesheet-path '#{sheets}'"
@@ -55,25 +57,25 @@ Async rst2html writes to out or throws exception
 ###
 rst2html = ( out, params={} ) ->
 
-  prm = _.defaults params,
+  prm = _.defaultsDeep params,
     format: 'pseudoxml'
     docpath: 'index'
     link_stylesheet: false
     stylesheets: []
-    # FIXME: rst2html: remove hardcoded javascript
-    scripts: [ '/build/script/default.js' ]
+    scripts: []
 
   cmdflags = rst2html_flags prm
 
-  cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}'"
-  sitefile.log "Du", cmd
-
   if prm.format == 'source'
+    sitefile.log "Du.source", prm.docpath
     out.type 'text/plain'
     out.write fs.readFileSync "#{prm.docpath}"
     out.end()
 
   else
+    cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}'"
+    sitefile.log "Du.rst2html", cmd
+
     child_process.exec cmd, maxBuffer: 1024*1024, (error, stdout, stderr) ->
       if error
         out.type 'text/plain'
@@ -87,7 +89,9 @@ rst2html = ( out, params={} ) ->
 
       else if prm.format == 'html'
         out.type 'html'
-        stdout = add_script(stdout, script) for script in prm.scripts
+        # coffeelint: disable=ensure_comprehensions,max_line_length
+        stdout = add_script(stdout, script) for script in prm.scripts # coffeelint: ignore:line
+        # coffeelint: enable=ensure_comprehensions,max_line_length
         out.write stdout
 
       else if prm.format == 'pseudoxml'
@@ -104,10 +108,6 @@ module.exports = ( ctx ) ->
   if not test_for_du()
     sitefile.warn "No Docutils"
     return
-  
-  _.defaults ctx,
-    # base-url / prefix for local routes
-    base_url: 'dotmpe'
 
   # Return obj. w/ metadata & functions
   name: 'du'
@@ -115,8 +115,6 @@ module.exports = ( ctx ) ->
   usage: """
     du:**/*.rst
   """
-  route:
-    base: ctx.base_url
   
   prereqs:
     test_for_du: test_for_du
@@ -125,34 +123,30 @@ module.exports = ( ctx ) ->
     rst2html: rst2html
 
   # Generators for Sitefile route handlers
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
 
-    # FIXME: improve Context API:
-    extra = (
-      docpath: path.join(  ctx.cwd, rctx.res.path ),
-      src: format: rctx.res.extname.substr 1
-      dest: format: path.extname(rctx.res.ref)?.substr(1) or 'html'
-    )
-    rctx.prepare_properties extra
-    rctx.seed extra
+      # FIXME: improve Context API:
+      extra = (
+        docpath: path.join(  ctx.cwd, rctx.res.path ),
+        src: format: rctx.res.extname.substr 1
+        dest: format: path.extname(rctx.res.ref)?.substr(1) or 'html'
+      )
+      rctx.prepare_from_obj extra
+      rctx.seed extra
 
 
-    ( req, res, next ) ->
-      req.query = _.defaults req.query || {},
-        format: rctx.dest.format,
-        docpath: rctx.docpath
+      ( req, res, next ) ->
+        req.query = _.defaults req.query || {},
+          format: rctx.dest.format,
+          docpath: rctx.docpath
 
-      # TODO: copied to rctx.router.options, but implement router relouding first;
-      # keeping this here allows for params to be refreshed.
-      options = if ctx.sitefile.options and 'du' of ctx.sitefile.options \
-        then ctx.resolve 'sitefile.options.du' else {}
-
-      try
-        rst2html res, _.merge {}, options, req.query
-      catch error
-        console.log error
-        res.type('text/plain')
-        res.status(500)
-        res.write("exec error: "+error)
-        res.end()
+        try
+          rst2html res, _.merge {}, rctx.route.options, req.query
+        catch error
+          console.log error
+          res.type('text/plain')
+          res.status(500)
+          res.write("exec error: "+error)
+          res.end()
 
