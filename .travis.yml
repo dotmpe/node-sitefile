@@ -16,7 +16,7 @@ addons:
 branches:
   not:
   - staging_git_versioning
-  - 'dev*'
+  - /^dev.*$/
 #  only:
 #  - 'master'
 #  - 'test.*'
