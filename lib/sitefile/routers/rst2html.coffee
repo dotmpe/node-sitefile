@@ -2,10 +2,6 @@ _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
 child_process = require 'child_process'
-sitefile = require '../sitefile'
-
-
-
 
 sitefile = require '../sitefile'
 du_router_mod = require './du'

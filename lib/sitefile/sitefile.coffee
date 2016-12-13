@@ -13,12 +13,9 @@ Router = require './Router'
 
 liberror = require '../error'
 libconf = require '../conf'
+# register String:: exts
 strutil = require '../strutil'
 c = strutil.c
-
-# register String:: exts
-require './util'
-
 
 
 version = "0.0.5-dev" # node-sitefile

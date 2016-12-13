@@ -122,22 +122,12 @@ routes:
 
   proc/pm2: pm2.ps:pm2-apps.json
 
-  npm/npm/latest.json: 'http:'
-  npm/node-sitefile/latest.json: 'http:'
-
   #topics: api1646:example/app/topic
 
   app: static:app1646
 
   topics: pug:app1646/main.pug
-  cdn: cdn:#
 
-  # FIXME:
-  fonts: static:node_modules/bootstrap/fonts
-
-  sf-example/default: sf-example:#
-  sf-example/data1: sf-example.data1:#
-  sf-example/data2: sf-example.data2:#
 
 
 options:
