@@ -2,9 +2,6 @@
 
 [ -n "$ENV" ] || ENV=development
 
-#[ "$ENV" == "testing" ] && {
-#}
-
 version=0.0.5-dev # node-sitefile
 
 echo "Configuring project node-sitefile/$version" >&2
@@ -25,6 +22,9 @@ module.exports =
 HEREDOC
 ) > config/config.coffee
 
+
+#[ "$ENV" == "testing" ] && {
+#}
 
 case "$(whoami)" in
 
