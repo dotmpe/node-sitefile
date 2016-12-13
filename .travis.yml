@@ -15,11 +15,11 @@ addons:
       - python-docutils
 
 branches:
-  only:
-  - master
-  - /^test.*$/
-  - /^feature.*$/
-  - /^r[0-9].*$/
+  #only:
+  #- master
+  #- /^test.*$/
+  #- /^feature.*$/
+  #- /^r[0-9].*$/
   #not:
   #- staging_git_versioning
   #- dev
