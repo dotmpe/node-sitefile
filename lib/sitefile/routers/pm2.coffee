@@ -54,7 +54,7 @@ class PM2Manager
     pm2_app_defaults pm2_proc
     @procs.push pm2_proc
   save: ->
-  load: ( filename )->
+  load: ( filename ) ->
     cfg = new PM2Config @cwd
     cfg.load filename
     @procs = cfg.pm2_config
