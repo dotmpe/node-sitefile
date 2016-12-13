@@ -87,18 +87,15 @@ routes:
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
 
-  proc/pm2: pm2.ps:pm2-apps.json
-
-  npm/npm/latest.json: 'http:'
-  npm/node-sitefile/latest.json: 'http:'
-
-
-  # FIXME:
-  fonts: static:node_modules/bootstrap/fonts
-
   sf-example/default: sf-example:#
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
+
+  app/pm2: pm2:pm2-procs.json
+
+  proc/pm2: pm2.ps:pm2-apps.json
+
+
 
 
 options:
