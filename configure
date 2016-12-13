@@ -7,6 +7,11 @@
 
 version=0.0.5-dev # node-sitefile
 
+echo "Configuring project node-sitefile/$version" >&2
+echo "PWD (real): $(pwd) ($(pwd -P))" >&2
+echo "Host (full): $(hostname) ($(hostname -f))" >&2
+echo "ENV: $ENV"
+
 echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
 
 (
@@ -18,4 +23,14 @@ module.exports =
   production: site: port: 7013
 HEREDOC
 ) > config/config.coffee
+
+
+case "$(hostname)" in
+
+  travis )
+      # FIXME: fix pm2 hanging at Tavis
+      sed -i.bak 's/pm2//' Sitefile.yaml
+    ;;
+
+esac
 
