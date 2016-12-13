@@ -6,76 +6,43 @@ Promise = require 'bluebird'
 
 lib = require '../../lib/sitefile'
 
+tu = require './../test-utils'
+
 
 describe "The local Sitefile.yaml serves the local documentation, and
 doubles is an example for all handlers. ", ->
 
+  stu = new tu.SitefileTestUtils server
   this.timeout 6000
 
 
-  it "should serve its own ReadMe", ( done ) ->
+  describe "should serve its own ReadMe", ->
 
-    url = "http://localhost:#{server.port}/ReadMe"
-    request.get url, ( err, res, body ) ->
-      if res.statusMessage != 'OK'
-        console.log body
-      expect( res.statusMessage ).to.equal 'OK'
-      expect( res.statusCode ).to.equal 200
-      done()
+    it "without problems", stu.test_url_ok "/ReadMe"
+
+    it "redirect ReadMe.rst", stu.test_url_redirected "/ReadMe.rst"
+
+    it "serve the correct type", stu.test_url_type_ok "/ReadMe", "html"
 
 
-  it "should serve its own ReadMe and redirect ReadMe.rst", ( done ) ->
-
-    req =
-      url: "http://localhost:#{server.port}/ReadMe.rst"
-      followRedirect: false
-    request.get req, ( err, res, body ) ->
-      expect( res.statusCode ).to.equal 302
-      done()
+  it "should serve its own ChangeLog", stu.test_url_ok "/ChangeLog"
 
 
-  it "should serve its own ChangeLog", ( done ) ->
-
-    url = "http://localhost:#{server.port}/ChangeLog"
-    request.get url, ( err, res, body ) ->
-      if res.statusMessage != 'OK'
-        console.log body
-      expect( res.statusMessage ).to.equal 'OK'
-      expect( res.statusCode ).to.equal 200
-      done()
+  it "should publish a CoffeeScript file to Javascript",
+    stu.test_url_type_ok "/example/server-generated-javascript", "javascript"
 
 
-  it "should serve a CoffeeScript file to Javascript", ( done ) ->
-
-    url = "http://localhost:#{server.port}/example/server-generated-javascript"
-    request.get url, ( err, res, body ) ->
-      if res.statusMessage != 'OK'
-        console.log body
-      expect( res.statusMessage ).to.equal 'OK'
-      expect( res.statusCode ).to.equal 200
-      done()
+  it "should publish a Pug file to HTML",
+    stu.test_url_type_ok "/example/server-generated-page", "html"
 
 
-  it "should serve a Pug file to HTML", ( done ) ->
-
-    url = "http://localhost:#{server.port}/example/server-generated-page"
-    request.get url, ( err, res, body ) ->
-      if res.statusMessage != 'OK'
-        console.log body
-      expect( res.statusMessage ).to.equal 'OK'
-      expect( res.statusCode ).to.equal 200
-      done()
+  it "should publish a SASS file to CSS file",
+    stu.test_url_type_ok "/example/server-generated-stylesheet-2", "css"
 
 
-  it "should serve a Stylus file to CSS file", ( done ) ->
-
-    url = "http://localhost:#{server.port}/example/server-generated-stylesheet"
-    request.get url, ( err, res, body ) ->
-      if res.statusMessage != 'OK'
-        console.log body
-      expect( res.statusMessage ).to.equal 'OK'
-      expect( res.statusCode ).to.equal 200
-      expect( body.trim() ).to.equal """
+  it "should serve a Stylus file to CSS file",
+    stu.test_url_type_ok "/example/server-generated-stylesheet", "css", \
+      """
 .example {
   font: 14px/1.5 Helvetica, arial, sans-serif;
 }
@@ -83,7 +50,6 @@ doubles is an example for all handlers. ", ->
   border: 1px solid #f00;
 }
 """
-      done()
 
 
   it "should serve routes for a local extension router example", ( done ) ->
@@ -129,7 +95,7 @@ doubles is an example for all handlers. ", ->
   process.env.NODE_ENV = 'testing'
 
   before ( done ) ->
-    server = require '../../bin/sitefile'
+    server = stu.server = require '../../bin/sitefile'
     server.run done
 
   after ( done ) ->

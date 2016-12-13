@@ -1,5 +1,9 @@
 
 
+- Want to look at JSDoc features. http:/doc/api
+- But first set up a `docco` build to see current docs.
+  http:/doc/docco
+
 Docco
   Nifty setup, but no support for block comments. [#]_ [#]_
 

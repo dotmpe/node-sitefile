@@ -34,6 +34,7 @@ routes:
 
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
+  _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
@@ -91,9 +92,10 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  app/pm2: pm2:pm2-procs.json
-
   proc/pm2: pm2.ps:pm2-apps.json
+
+  app/v0: app-0:#
+  app/reader: app-0.reader:#
 
 
 
