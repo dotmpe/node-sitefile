@@ -79,12 +79,19 @@ routes:
   Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: core:#
 
+  npm/npm/latest.json: 'http:'
+  npm/node-sitefile/latest.json: 'http:'
+
+  cdn: cdn:#
+
+  # FIXME:
+  fonts: static:node_modules/bootstrap/fonts
+
   proc/pm2: pm2.ps:pm2-apps.json
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
 
-  cdn: cdn:#
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts

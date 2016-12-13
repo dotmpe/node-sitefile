@@ -9,12 +9,12 @@ nodelib = require 'nodelib'
 
 Context = nodelib.Context
 
+Router = require './Router'
+
 liberror = require '../error'
 libconf = require '../conf'
 strutil = require '../strutil'
 c = strutil.c
-
-Router = require './Router'
 
 
 version = "0.0.5-dev" # node-sitefile
