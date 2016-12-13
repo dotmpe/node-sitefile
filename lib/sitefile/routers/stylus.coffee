@@ -1,5 +1,3 @@
-###
-###
 fs = require 'fs'
 sitefile = require '../sitefile'
 
