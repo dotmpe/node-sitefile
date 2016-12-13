@@ -15,17 +15,17 @@ addons:
       - python-docutils
 
 branches:
-  not:
-  - staging_git_versioning
-  - dev
-    # FIXME travis not pattern not working
-  - /^dev.*$/
+  #not:
+  #- staging_git_versioning
+  #- dev
+  #  # FIXME travis not pattern not working
+  #- /^dev.*$/
 
-#  only:
-#  - 'master'
-#  - 'test.*'
-#  - 'feature.*'
-#  - 'r[0-9].*'
+  only:
+  - 'master'
+  - 'test.*'
+  - 'feature.*'
+  - 'r[0-9].*'
 
 env:
   - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin:$PATH ENV=testing
