@@ -1,0 +1,31 @@
+{
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": "nofunc",
+  "newcap": true,
+  "noarg": true,
+  "sub": true,
+  "undef": true,
+  "unused": true,
+  "boss": true,
+  "eqnull": true,
+  "browser": true,
+  "predef": [
+    "requirejs",
+    "require",
+    "define",
+    "module",
+    "knex",
+    "chai",
+    "Cow",
+    "describe",
+    "it",
+    "before",
+    "after",
+    "sitefile",
+    //example/polymer-lang-style.js
+    "document", "Polymer"
+  ]
+}
+// vim:ft=javascript:

@@ -75,6 +75,14 @@ doubles is an example for all handlers. ", ->
         console.log body
       expect( res.statusMessage ).to.equal 'OK'
       expect( res.statusCode ).to.equal 200
+      expect( body.trim() ).to.equal """
+.example {
+  font: 14px/1.5 Helvetica, arial, sans-serif;
+}
+.example #main {
+  border: 1px solid #f00;
+}
+"""
       done()
 
 

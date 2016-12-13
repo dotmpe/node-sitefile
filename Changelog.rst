@@ -1,9 +1,15 @@
-(0.0.1)
+0.0.1
   - Initial sitefile with static, rst2html and redir routers.
   - Allow stylesheet parameters for rst2html.
   - Express based server handlers. Loading routers from modules.
 
-0.0.2
+(0.0.2)
+  - Skipped version.
+
+0.0.3-test
+  * Added project versioning scripts and other build scripts.
+    But did not end up with cleanly installable project.
+
   - Added support for dynamic routes with globs.
   - Added automatic folder-default redirection.
   - Implemented some Jasmine tests.
@@ -16,9 +22,6 @@
     degrading functionality gracefully.
   - Added TODO file. Looking if markdown is suitable format.
 
-0.0.3-dev
-  - Added project versioning scripts.
-
 0.0.4
   - Testing project publishing scripts.
   - Added graphviz.
@@ -29,23 +32,16 @@
   - Cleaned up file-to-resource heuristics and made it more consistent.
 
 (0.0.5)
-  - Rewrite for lower contexts: handler/resolver.
-  - Fixed URL path query parsing.
-  - Went through all of the ReadMe and split into Manual and Dev docs.
-  - Renamed ``Sitefile.{yaml,json}`` `params` attribute to `options` like
-    the object in the `resolver context` to keep term diversity low.
-  - Added ``grunt build`` with `docco` for document generator,
-    and SASS for packaging some default styles.
-  - Added Twitter bootstrap, jQuery, lodash build with grunt/webpack.
-    Removed old `default.js` script.
-  - Refactored ``router.generate`` so it can 1. return data or data callbacks
-    iso. Express handlers and 2. only extend the context w/o. providing any
-    handler. See `Router feature`_
+  .. See doc/dev or HACKING.md for more on upcoming versions.
 
-  TODO: Preparing to add `require.js`.
+(0.0.6)
+  ..
 
-  FIXME: Sitefile need some knowledge of Style and Script resources, both path
-  and URL. Maybe bundle them. Or better use resources exported from routers.
+(0.1.0)
+  ..
+
+(1.0.0)
+  ..
 
 
 .. include:: doc/.defaults.rst

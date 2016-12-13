@@ -9,6 +9,7 @@ head
 
     each href in context.context.sitefile.defs.scripts.default.urls
       script(type="text/javascript", src= href)
+
     script(type="text/javascript", src= script)
 
   body
@@ -78,4 +79,5 @@ head
                   th= key
                   td= value
             code= JSON.stringify(app.pm2_env)
+
 

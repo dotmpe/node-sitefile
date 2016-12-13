@@ -1,6 +1,6 @@
 
 Notes on the `route` attribute in extension modules. Probably consolidate with
-Sitefile 0.0.5 `route` sheme.
+Sitefile 0.0.5 `route` scheme.
 
 
 Requirements:

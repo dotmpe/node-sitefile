@@ -1,0 +1,15 @@
+0.0.3
+========
+:status: finished
+:started: 2015-04-19
+:commit: 2015-11-13 00:33:45 +0100 4c39bf1047de76c0e98f697aa8aa6e607d041b25
+
+.. include:: ../.defaults.rst
+
+
+Worked on project tooling (Bower, Grunt, Travis CI etc.) and ended up with
+intended release not installing correctly, never tagged. After `0.0.3-test` dev
+silently continued in `0.0.4-dev` (2016-09-24).
+
+- Added project versioning scripts and other build scripts.
+

@@ -13,18 +13,14 @@ Router = require './Router'
 
 liberror = require '../error'
 libconf = require '../conf'
+strutil = require '../strutil'
+c = strutil.c
 
 # register String:: exts
 require './util'
 
 
 version = "0.0.5-dev" # node-sitefile
-
-
-c =
-  sc: chalk.grey ':' # sc: separator-char
-
-
 
 
 

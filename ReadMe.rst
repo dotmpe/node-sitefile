@@ -46,8 +46,15 @@ It is targetted at users/authors of plain-text, file-based content. It aims to
 add hypertext capabilities to documents of the literal kind, and any other
 interpeted language.
 
+.. TODO get some screenshots here, and point to the rest of the docs.
+
 It at as of 0.0.5-dev supports a couple of markup formats, a diagramming
 language, has some initial database support and other Node.JS native languages.
+
+The main documentation is written in reStructuredText format for the Python
+Docutils publisher. But as many other formats are available as `routers` can be
+written for, currently: Markdown, Stylus, SASS/SCSS, Coffee Script, Graphviz and
+others.
 
 
 
@@ -70,7 +77,15 @@ database. In the future more attention will be given to patterning URLs,
 and supporting as detailed or broad a use case required.
 
 The ``Sitefile.yaml`` with `node-sitefile` and the list of routers in
-``lib/sitefile/routers`` for now provides the best starting point.
+``lib/sitefile/routers`` for now provides the best starting point for support.
+
+Behind the scenes better documentation and testing is setup. See the dev_ docs.
+
+
+
+.. important::
+
+   This syntax will change for 0.1 and/or 1.0
 
 
 
@@ -105,30 +120,23 @@ See changelog_.
 
 
 
-Further reading
----------------
-
+Documentation
+-------------
 - `Docco docs`__
 
 .. __: /doc/literate
-
-- `Sitefile planet <doc/sitefile-planet.rst>`_ on alternatives, similar ideas;
-  status quo and prior art.
-
-- `Manual <doc/manual.rst>`_ initial sketchbook on usage.
 
 - `Development Docs <doc/dev.rst>`_
 
 
 
-----
+Further reading
+---------------
 
-.. [#] `nodejs-socketio-seed <http://github.com/dotmpe/nodejs-express-socketio-seed>`_
-.. [#] `docutils-ext <https://github.com/dotmpe/docutils-ext>`_
-.. [#] I know of two reStructuredText (re)writers, not considering pandoc or
-    XSLT approaches. But actual Du writer component implementations. Both are not
-    quite there yet. One is found in the Du Subversion rst lossless writer branch, the
-    other by yours truly is in [2]_.
+- `Sitefile planet <doc/sitefile-planet.rst>`_ on alternatives, similar ideas;
+  status quo and prior art.
+
+
 
 .. This is a reStructuredText document.
 

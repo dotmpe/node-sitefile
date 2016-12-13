@@ -25,11 +25,11 @@ module.exports = ( ctx ) ->
 
     bootstrap:
       css:
-        cdn: [
+        cdn: [ # coffeelint: disable=max_line_length
           '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min'
           '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js'
           '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min.css.map'
-        ]
+        ] # coffeelint: enable=max_line_length
 
   generate:
     default: ( rctx ) ->

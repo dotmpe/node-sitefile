@@ -1,0 +1,12 @@
+# ID                       CAT   TYPE           DOC REF
+dotmpe_conf                0     Empty
+lib_dotmpe_conf            2     SystemTest
+lib_sitefile_express       0     Check
+lib_sitefile_index         0     UnitTest
+lib_sitefile_router_du     0     Check
+Sitefile_yaml              1     SystemTest
+md                         1.1   Router             text/markdown
+
+# ID                       CAT   TYPE           DOC REF
+# 
+# Id: node-sitefile/0.0.5-dev ReadMe.rst

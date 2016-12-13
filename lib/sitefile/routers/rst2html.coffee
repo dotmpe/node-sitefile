@@ -62,7 +62,8 @@ module.exports = ( ctx={} ) ->
 #        rctx.route.options = _.defaults req.query || {}, format: 'xml'
 #
 #        try
-#          rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, rctx.route.options
+#          rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, \
+#                                                          rctx.route.options
 #          du_router.tools.rst2html res, rctx.route.options
 #        catch error
 #          console.trace error

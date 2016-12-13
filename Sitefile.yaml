@@ -26,7 +26,7 @@ routes:
   
   doc/literate: static:build/docs/docco/
 
-  example: redir:example/main
+  example/: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   # Example, get data from another endpoint, the one above?
@@ -39,6 +39,20 @@ routes:
   _markdown_1: markdown:example/**/*.md
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
+  # FIXME: aliases _pu: pu:example/*.pu
+  _plantuml: plantuml:example/*.plantuml
+
+  example: static:example
+  vendor/require.js: static:node_modules/sinon/pkg/sinon.js
+  vendor/coffee-script.js: static:node_modules/sinon/pkg/sinon.js
+
+  vendor/mocha.css: static:node_modules/mocha/mocha.css
+  vendor/mocha.js: static:node_modules/mocha/mocha.js
+  vendor/chai.js: static:node_modules/chai/chai.js
+  vendor/sinon.js: static:node_modules/sinon/pkg/sinon.js
+
+  mocha/client/*: mocha.client:#
+  mocha/server/*: mocha.test:#
 
   'app/src/*': 'prism:'
 
@@ -68,7 +82,9 @@ routes:
   Sitefile/handler: sitefile.handler:#
   Sitefile/global: sitefile.global:#
 
-  Sitefile/core: 'core:'
+  Sitefile/core/auto: core.autocomplete:#
+  Sitefile/core: core:#
+
 
   _json-editor: json-editor:example/json-editor/schema/*.json
 
@@ -93,7 +109,7 @@ routes:
 
   app/pm2: pm2:pm2-procs.json
 
-  proc/pm2: 'pm2.ps:'
+  proc/pm2: pm2.ps:pm2-apps.json
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
@@ -179,5 +195,13 @@ defs:
       paths:
         - public/media/style/default.css
 
+
+  app:
+    base:
+      client:
+        - type: require-js
+          id: requirejs-2.1.10
+          href: //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js
+          main: requirejs-base.js
 
 
