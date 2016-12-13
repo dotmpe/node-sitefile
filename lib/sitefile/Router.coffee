@@ -36,7 +36,7 @@ builtin =
       res.type 'json'
       res.write JSON.stringify \
         if "function" is typeof rctx.res.data
-        then rctx.res.data rctx
+        then rctx.res.data()
         else rctx.res.data
       res.end()
 
@@ -69,6 +69,16 @@ Base =
 
   """
 
+  # TODO: resource types? to use as 'backend' for fe route handlers..
+  resources:
+    'core.sitefile': null # Sitefile instance?
+    'core.sitefilerc': null # Subset mapped to ctx
+    'core.sitefile.extension': null # JS or coffee file
+    'core.sitefile.route.autocomplete': null # jQuery autcomplete API
+    'core.sitefile.route': null # Dynamic routes API?
+
+
+  # XXX: clean me up, route spec parsing
   #parse_spec: ( route_spec, handler_spec, ctx ) ->
 
   # process parametrized rule
@@ -81,7 +91,6 @@ Base =
   generate: ( ctx ) ->
   # XXX:
   register: ( app, ctx ) ->
-
 
   # Return resource sub-context for local file resource
   file_res_ctx: ( ctx, init, file_path ) ->
@@ -115,7 +124,8 @@ Base =
         name: router_name
         handler: handler_name
         spec: handler_spec
-        options: if ctx.sitefile.options.global and router_name \
+        options: if 'options' of ctx.sitefile \
+          and ctx.sitefile.options.global and router_name \
           of ctx.sitefile.options.global \
           then ctx.resolve "sitefile.options.global.#{router_name}" else {}
 
@@ -175,6 +185,7 @@ Base =
     else
       g = ctx._routers.generator rctx.route.name
 
+    # invoke routers selected generate function, expect a route handler object
     h = g rctx
 
     if 'function' is typeof h
@@ -203,8 +214,8 @@ Base =
           id: rctx.route.spec, "at", path: rctx.name
 
     else if not h
-      module.exports.warn \
-        "Router #{rctx.route.name} returned nothing for #{rctx.name}, ignored"
+      module.exports.warn "Router not recognized", "Router #{rctx.route.name}
+        returned nothing recognizable for #{rctx.name}, ignored"
     
 
 module.exports =

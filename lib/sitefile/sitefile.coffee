@@ -9,22 +9,15 @@ nodelib = require 'nodelib'
 
 Context = nodelib.Context
 
+Router = require './Router'
+
 liberror = require '../error'
 libconf = require '../conf'
-
-Router = require './Router'
+strutil = require '../strutil'
+c = strutil.c
 
 
 version = "0.0.5-dev" # node-sitefile
-
-
-c =
-  sc: chalk.grey ':' # sc: separator-char
-
-
-String::startsWith ?= (s) -> @[...s.length] is s
-String::endsWith   ?= (s) -> s is '' or @[-s.length..] is s
-
 
 
 
@@ -97,6 +90,16 @@ load_sitefile = ( ctx ) ->
     ctx.site.port = ctx.sitefile.port
   if ctx.sitefile.base
     ctx.site.base = ctx.sitefile.base
+
+  if 'paths' of ctx.sitefile and ctx.sitefile.paths
+    if 'routers' of ctx.sitefile.paths and ctx.sitefile.paths.routers
+
+      if 'routers_replace' of ctx.sitefile.paths \
+          and ctx.sitefile.paths.routers_replace
+        ctx.paths.routers = ctx.sitefile.paths.routers
+      else
+        ctx.paths.routers = \
+          ctx.paths.routers.concat ctx.sitefile.paths.routers
 
 
 load_rc = ( ctx ) ->
@@ -197,6 +200,8 @@ class Routers
     @data = {}
 
   get: ( name ) ->
+    if name not of @data
+      throw new Exception "No such router loaded: #{name}"
     return @data[ name ].object
 
   generator: ( name, rctx=null, ctx=null ) ->
@@ -216,13 +221,29 @@ class Routers
 
     @data[ name ].object.generate[ handler ]
 
+  find: ( name ) ->
+    router_cb = null
+    rip = null
+    for rip in @ctx.paths.routers
+      p = rip
+      if p.startsWith 'sitefile:'
+        p = path.join @ctx.sfdir, p.substr 9
+      if not p.startsWith '/'
+        p = path.join process.env.PWD, p
+      try
+        router_cb = require path.join p, name
+        break
+      catch err
+        continue
+    [ router_cb, rip ]
+
   # Pre-load routers
-  load: ( ctx ) ->
+  load: ->
 
     @names = _.union (
       router_name for [ router_name, handler_name, handler_spec ] in (
-        split_spec strspec, ctx for route, strspec of ctx.sitefile.routes ) )
-  
+        split_spec strspec, @ctx for route, strspec of @ctx.sitefile.routes ) )
+
     log 'Required routers', name: @names.join ', '
   
     # parse sitefile.routes, pass 1: load & init routers
@@ -230,18 +251,21 @@ class Routers
       if name of Router.builtin
         continue
 
-      router_cb = require './routers/' + name
-      router_obj = router_cb ctx
-  
+      [ router_cb, router_path ] = @find name
+      if not router_cb
+        warn "Failed to load #{name} router"
+        continue
+
+      router_obj = router_cb @ctx
       if not router_obj
-        warn "Failed to load #{name}"
+        warn "Failed to initialize #{name} router"
         continue
   
       @data[name] =
         module: router_cb
         object: Router.define router_obj
   
-      log "Loaded router", name: name, c.sc, router_obj.label
+      log "Loaded router", name: name, c.sc, router_obj.label, path: router_path
 
 
 class Sitefile
@@ -253,7 +277,7 @@ class Sitefile
     @ctx._sitefile = @
     # TODO Also need to refactor, and scan for defaults across dirs rootward
     @routers = new Routers @ctx
-    @routers.load @ctx
+    @routers.load()
     # Load predefined resources (views, scripts, styles etc. w/ route maps)
     @load_bundles @ctx
     # Apply routes in sitefile to Express
@@ -297,10 +321,17 @@ class Sitefile
         warn "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
 
+      if route.startsWith '/' or route.startsWith ctx.site.base
+        warn "Non-relative route", "Route path should not include root '/' or
+          base prefix, are you sure #{route} is correct?"
+
       # Get merged router_type definition
       if router_name of Router.builtin
         router_type = Router.Base
       else
+        if router_name not of @routers.data
+          warn "Missing router #{router_name}"
+          continue
         router_type = @routers.get router_name
       ctx.routes.directories = @dirs
 

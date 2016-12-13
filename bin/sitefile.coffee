@@ -1,5 +1,6 @@
 #!/usr/bin/env coffee
 
+path = require 'path'
 lib = require '../lib/sitefile'
 _ = require 'lodash'
 
@@ -51,6 +52,8 @@ sitefile_cli = module.exports =
 
   run: ( done, options={} ) ->
 
+    options.sfdir = path.dirname __dirname
+
     # prepare context and config data, loads sitefile
     ctx = lib.prepare_context options
     if _.isEmpty ctx.sitefile.routes
@@ -76,16 +79,17 @@ sitefile_cli = module.exports =
         lib.log "Listening", "Express server on port #{ctx.site.port}. "
 
     # "Export"
-    sitefile_cli.host = module.host = ctx.site.host
-    sitefile_cli.port = module.port = ctx.site.port
-    sitefile_cli.path = module.path = ctx.site.base
-    sitefile_cli.netpath = module.netpath = ctx.site.netpath
+    sitefile_cli.host = module.exports.host = ctx.site.host
+    sitefile_cli.port = module.exports.port = ctx.site.port
+    sitefile_cli.path = module.exports.path = ctx.site.base
+    sitefile_cli.netpath = module.exports.netpath = ctx.site.netpath
 
-    sitefile_cli.root = module.root = ctx
-    sitefile_cli.proc = module.exports = proc
+    sitefile_cli.root = module.exports.root = ctx
+    sitefile_cli.proc = module.exports.proc = proc
 
     !done || done()
-    proc
+    
+    [ sf, ctx, proc ]
 
 
 if process.argv[2] in [ '--version', '--help' ]

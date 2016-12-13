@@ -48,12 +48,10 @@ master [*]_
           But need to build and test EDL export, and have no EDL reader (transquoter, Scrow).
 
     Routers
-      f_client
-        - Added Bower. Experimenting with polymer.
-        - Want to get Polymer core-scaffold running somehow.
-        - Working to add prism.js source-viewer.
+      html5-client
+        `HTML5 Client Feature`_
 
-      f_jsonary
+      jsonary
         - Looking at jsonary as a client-side JSON schema renderer/editor.
 
       f_ph7{,_node}
@@ -61,14 +59,14 @@ master [*]_
           Tested ph7-darwin NPM packages. Seems to perform same as ph7.
           No stdout reroute yet so unusable, but functional.
 
-      f_json_editor
+      json-editor
         - Added JSON-Editor_ with one schema, no server-side api yet.
           Need to look at hyper-schema.
 
-      f_bootstrap
+      bootstrap
         - Added bower things for bootstrap, testing with server-side Jade pages.
 
-      f_gv (merged)
+      graphviz
         - Adding graphviz to render dot diagrams.
 
       pm2
@@ -104,11 +102,13 @@ master [*]_
 
       require-js
         - Setting up for integrated module configuration. Want to get stack up
-          using require-js. See `Router Feature`_ docs.
+          using require-js. See `Router Feature`_ and `RequireJS Feature`_
+          docs.
 
       api-docs
-        - Want to look at JSDoc features. http:/doc/literate
-        - But first set up a `docco` build to see current docs. http:/doc/api
+        - `Documentation Feature`_: source/API documentation.
+        - Docco: http:/doc/literate
+
 
   demo
     - Merging experimental features. Should keep master clean.

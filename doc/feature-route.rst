@@ -1,6 +1,6 @@
 
 Notes on the `route` attribute in extension modules. Probably consolidate with
-Sitefile 0.0.5 `route` sheme.
+Sitefile 0.0.5 `route` scheme.
 
 
 Requirements:
@@ -107,9 +107,8 @@ core/routes/api.json.yaml::
 
 Resolver
 --------
-Router.Base.resolve turns a parsed Sitefile route spec into a route context.
-
-The route context looks like::
+sitefile.Router.Base.resolve turns a parsed Sitefile route spec into a route
+context. This looks like::
 
   name: <name of resource path>
   route:
@@ -137,7 +136,7 @@ specs. Not implemented, see Generator_ spec below.
 Generator
 ---------
 
-Router.Base.generator currently implements resolving to an Express handler
+sitefile.Routers.generator currently implements resolving to an Express handler
 given a route context.
 
 A generator can return a handler function, a router context extension object,
@@ -160,6 +159,48 @@ TODO: If a type is given (set to `rctx.res.meta.type` ) load/look at ...?
 
 The data is an instance known at initialization time, or a callback accepting
 the resource context to return the instance data per route request.
+
+Resources
+---------
+TODO: attribute resources, get back at simplicity of::
+
+  /url/path: router:my/files/*.xxx
+
+But with a little extra: a seperate data and renderer instance.
+Using the `meta.type` router context defined in Generator_, the data
+can define its own API type.
+
+So that sitefile can do basic rendering or actions given the proper
+type metadata, or router can customize.
+
+And routers can re-use existing data endpoints.
+
+But need to encapsulate this in a terse syntax structure.
+
+This must work::
+
+  _id_1: du.html:**/*.md
+  _id_rst_custom_ext: du.html:**/*.rest
+  _id_rst_default: du.html:
+
+So iso.::
+
+  _foo: foo:**/*.foo
+
+maybe::
+
+  **/*.foo: foo:?meta.type=foo.Foo
+  **/*.foo: foo.view:?strip-ext=true;data=.
+
+  **/*.bar: bar.view:?strip-ext=false;data=**/*.foo
+
+Leave URL path out for 1-on-1 mappins to filesystem.
+Ie. the router spec first argument is taken from the `rctx.name`, and the spec
+(a file glob) used ID name.
+
+See `Base.resources`__ comment too.
+
+.. __: http:/doc/literate/Router.html#section-6
 
 
 builtin.data
