@@ -79,7 +79,7 @@ routes:
   Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: core:#
 
-  proc/pm2: 'pm2.ps:'
+  proc/pm2: pm2.ps:pm2-apps.json
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
