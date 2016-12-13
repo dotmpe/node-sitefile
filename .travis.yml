@@ -16,8 +16,12 @@ addons:
 branches:
   not:
   - staging_git_versioning
+  - 'dev*'
 #  only:
-#  - test
+#  - 'master'
+#  - 'test.*'
+#  - 'feature.*'
+#  - 'r[0-9].*'
 
 env:
 #  - NODE_ENV=
