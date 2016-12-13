@@ -15,16 +15,15 @@ paths:
     'sitefile:example/routers'
   ]
 
-bundles:
-  - bootstrap 
-  - pm2
-
 routes:
 
   client: static:build/client
   style: static:build/style
   
+  dist/sitefile: static:dist/sitefile.js
+
   doc/literate: static:build/docs/docco/
+  #doc/api: static:build/docs/jsdoc/
 
   example/: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
@@ -122,7 +121,7 @@ routes:
   #topics: api1646:example/app/topic
   topics: pug:app1646/main.pug
 
-  proc/pm2: pm2.ps:pm2-apps.json
+  proc/pm2: pm2.ps:#
 
   app/v0: app-0:#
   app/reader: app-0.reader:#
