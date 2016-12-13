@@ -45,7 +45,7 @@ module.exports = ( ctx ) ->
 
       add_plantuml_convertor = ( format ) ->
         ctx.app.get rctx.res.ref+'.'+format, (req, res) ->
-          console.log format
+          ctx.log 'PlantUML', "Auto publishing", format: format
           res.type format
           generate(fname, format).then ->
             fs.readFile fbname+'.'+format, (err, data) ->

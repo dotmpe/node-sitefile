@@ -17,11 +17,13 @@ addons:
 branches:
   not:
   - staging_git_versioning
+  - 'dev.*'
 #  only:
-#  - test
+#  - 'master'
+#  - 'test.*'
+#  - 'feature.*'
+#  - 'r[0-9].*'
 
 env:
-#  - NODE_ENV=
-  - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin$PATH
-#  - NODE_ENV=production
+  - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin:$PATH ENV=testing
 

@@ -49,11 +49,7 @@ master [*]_
 
     Routers
       html5-client
-        - Added Bower. Experimenting with polymer.
-        - Want to get Polymer core-scaffold running somehow.
-          See examples_ and `Polymer Getting started <doc/polymer>`_.
-        - Working to add prism.js source-viewer.
-          see `Testing prism.js </src/example/polymer-custom.pug>`_
+        `HTML5 Client Feature`_
 
       jsonary
         - Looking at jsonary as a client-side JSON schema renderer/editor.
@@ -106,11 +102,12 @@ master [*]_
 
       require-js
         - Setting up for integrated module configuration. Want to get stack up
-          using require-js. See `Router Feature`_ docs.
+          using require-js. See `Router Feature`_ and `RequireJS Feature`_
+          docs.
 
       api-docs
-        - Want to look at JSDoc features. http:/doc/literate
-        - But first set up a `docco` build to see current docs. http:/doc/api
+        - `Documentation Feature`_: source/API documentation.
+        - Docco: http:/doc/literate
 
 
   demo

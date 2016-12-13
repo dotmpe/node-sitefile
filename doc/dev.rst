@@ -4,6 +4,8 @@
 
 Main Features
 --------------
+The following are the main milestones for the development.
+
 1. hypertext representation for file-based content.
 
    1. Text markup languages (md, rst, text-feature-docs__)
@@ -31,19 +33,21 @@ Main Features
       (route-feature-docs__)
    3. packages (JS/CSS/media), cdn config? (require-js-feature-docs__)
 
+4. work in progress: a default or 'base' client,
+   with decent support for all routes (html5-client-feature-docs__)
 
-
-These are the main milestones for the development.
 
 
 .. __: `Text Markup Feature`_
 .. __: `Router Feature`_
 .. __: `DB Feature`_
 .. __: `RequireJS Feature`_
+.. __: `HTML5 Client Feature`_
 
 
 - `Text Markup Feature`_
 - `Router Feature`_
+- `HTML5 Client Feature`_
 - `DB Feature`_
 
 Other development features:

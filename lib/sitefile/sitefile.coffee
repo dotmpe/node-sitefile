@@ -201,6 +201,8 @@ class Routers
     @data = {}
 
   get: ( name ) ->
+    if name not of @data
+      throw new Exception "No such router loaded: #{name}"
     return @data[ name ].object
 
   generator: ( name, rctx=null, ctx=null ) ->
@@ -328,6 +330,9 @@ class Sitefile
       if router_name of Router.builtin
         router_type = Router.Base
       else
+        if router_name not of @routers.data
+          warn "Missing router #{router_name}"
+          continue
         router_type = @routers.get router_name
       ctx.routes.directories = @dirs
 

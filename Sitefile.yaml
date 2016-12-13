@@ -34,6 +34,7 @@ routes:
 
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
+  _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
@@ -87,15 +88,18 @@ routes:
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
 
+  sf-example/default: sf-example:#
+  sf-example/data1: sf-example.data1:#
+  sf-example/data2: sf-example.data2:#
+
   proc/pm2: pm2.ps:pm2-apps.json
 
   'app/src/*': prism:#
 
+  app/v0: app-0:#
+  app/reader: app-0.reader:#
 
 
-  sf-example/default: sf-example:#
-  sf-example/data1: sf-example.data1:#
-  sf-example/data2: sf-example.data2:#
 
   example/polymer-app-router: static:example/polymer-app-router.html
 
