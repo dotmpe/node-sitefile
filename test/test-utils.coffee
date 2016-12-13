@@ -7,12 +7,26 @@ request = require 'request'
 Function::property = (prop, desc) ->
   Object.defineProperty @prototype, prop, desc
 
+
 class SitefileTestUtils
-  constructor: ( @server )->
+  constructor: ( @dir ) ->
+    process.env.NODE_ENV = 'testing'
+    @cwd = process.cwd()
 
   @property 'url',
     get: ->
       "http://localhost:#{@server.port}"
+
+  before: ( done ) ->
+    @server = require '../bin/sitefile'
+    if @dir
+      process.chdir @dir
+    [ @sf, @ctx, @proc ] =@server.run done
+
+  after: ( done ) ->
+    @server.proc.close()
+    process.chdir @cwd
+    done()
 
   test_url_ok: ( url, self = @ ) ->
     ( done ) ->

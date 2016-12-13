@@ -12,8 +12,11 @@ tu = require './../test-utils'
 describe "The local Sitefile.yaml serves the local documentation, and
 doubles is an example for all handlers. ", ->
 
-  stu = new tu.SitefileTestUtils server
+  stu = new tu.SitefileTestUtils()
   this.timeout 6000
+
+  before stu.before.bind stu
+  after stu.after.bind stu
 
 
   describe "should serve its own ReadMe", ->
@@ -56,7 +59,7 @@ doubles is an example for all handlers. ", ->
 
     tasks = [
       new Promise ( resolve, reject ) ->
-        url = "http://localhost:#{server.port}/sf-example/default"
+        url = "http://localhost:#{stu.server.port}/sf-example/default"
         request.get url, ( err, res, body ) ->
           if res.statusMessage != 'OK'
             console.log body
@@ -65,7 +68,7 @@ doubles is an example for all handlers. ", ->
           expect( body ).to.equal "Sitefile example"
           resolve()
       new Promise ( resolve, reject ) ->
-        url = "http://localhost:#{server.port}/sf-example/data1"
+        url = "http://localhost:#{stu.server.port}/sf-example/data1"
         request.get url, ( err, res, body ) ->
           if res.statusMessage != 'OK'
             console.log body
@@ -75,7 +78,7 @@ doubles is an example for all handlers. ", ->
           expect( data['sf-example'] ).to.equal 'dynamic'
           resolve()
       new Promise ( resolve, reject ) ->
-        url = "http://localhost:#{server.port}/sf-example/data2"
+        url = "http://localhost:#{stu.server.port}/sf-example/data2"
         request.get url, ( err, res, body ) ->
           if res.statusMessage != 'OK'
             console.log body
@@ -88,19 +91,6 @@ doubles is an example for all handlers. ", ->
     Promise.all( tasks ).then -> done()
 
     null
-
-
-  server = null
-
-  process.env.NODE_ENV = 'testing'
-
-  before ( done ) ->
-    server = stu.server = require '../../bin/sitefile'
-    server.run done
-
-  after ( done ) ->
-    server.proc.close()
-    done()
 
 
 
