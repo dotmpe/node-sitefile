@@ -80,13 +80,14 @@
     "semver": "^5.3.0"
   },
   "optionalDependencies": {
-    "pug": "^2.0.0-beta6",
-    "markdown": "^0.5.0",
-    "stylus": "^0.54.5",
-    "knex": "^0.12.3",
     "bookshelf": "^0.10.2",
     "bookshelf-api": "^1.7.0",
-    "sqlite3": "^3.1.6"
+    "knex": "^0.12.3",
+    "markdown": "^0.5.0",
+    "node-sass": "^4.0.0",
+    "pug": "^2.0.0-beta6",
+    "sqlite3": "^3.1.6",
+    "stylus": "^0.54.5"
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",
