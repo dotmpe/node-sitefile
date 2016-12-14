@@ -4,7 +4,7 @@
 
 Main Features
 --------------
-The following are the main milestones for the development.
+These are features in development for the v0.1/v0.0.1 roadmap.
 
 1. hypertext representation for file-based content.
 
