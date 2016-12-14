@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var webpack = require('webpack');
-var path = require('path');
 var fs = require('fs');
 var header = require('gulp-header');
 var chmod = require('gulp-chmod');
