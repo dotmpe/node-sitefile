@@ -40,7 +40,7 @@ module.exports = ( grunt ) ->
       ]
 
     coffee:
-      compile:
+      app:
         expand: true
         flatten: true
         cwd: "#{__dirname}/lib/sitefile/routers/app-0"
@@ -181,6 +181,7 @@ module.exports = ( grunt ) ->
   grunt.registerTask 'app', [
     'sass:app'
     'webpack:app'
+    'coffee:app'
   ]
 
   grunt.registerTask 'build-test', [
