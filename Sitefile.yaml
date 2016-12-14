@@ -95,6 +95,10 @@ routes:
 
 
 
+  _ditaa: "ditaa:**/*.ditaa"
+  graph.png: "static:graph.png"
+  architecture_simplified.png: "static:architecture_simplified.png"
+
 
 options:
   global:
