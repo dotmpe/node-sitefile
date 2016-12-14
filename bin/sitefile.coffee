@@ -95,7 +95,7 @@ if process.argv[2] in [ '--version', '--help' ]
  
   console.log "sitefile/"+lib.version
 
-else if '--build' in argv
+else if '--build' in process.argv
 
   ctx = module.exports.init()
   lib.compile_site ctx
