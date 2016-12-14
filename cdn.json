@@ -1,0 +1,36 @@
+{
+  "cache": "",
+  "js": {
+    "local": {
+      "base": "file:./node_modules/",
+      "ext": ".js",
+      "packages": {
+        "jquery": "jquery/dist/jquery.min",
+        "lodash": "lodash/lodash.min",
+        "bootstrap": "bootstrap/dist/js/bootstrap"
+      }
+    },
+    "http": {
+      "ext": ".js",
+      "packages": {
+        "require": "//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min",
+        "lodash": "//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min",
+        "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery",
+        "jqueryui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui",
+        "underscore": "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore",
+        "underscore.string": "//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min",
+        "crossroads": "//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.2/crossroads.min",
+        "coffee-script": "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.11.1/coffee-script.min",
+        "cs": "//cdnjs.cloudflare.com/ajax/libs/require-cs/0.5.0/cs.min"
+      }
+    }
+  },
+  "css": {
+    "http": {
+      "ext": ".css",
+      "packages": {
+        "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min"
+      }
+    }
+  }
+}

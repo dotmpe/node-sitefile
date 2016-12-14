@@ -79,7 +79,7 @@ routes:
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
 
-  cdn: cdn:#
+  vendor/:package.:format: cdn:cdn.json
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts

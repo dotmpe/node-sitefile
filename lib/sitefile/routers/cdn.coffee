@@ -1,3 +1,5 @@
+path = require 'path'
+_ = require 'lodash'
 
 
 module.exports = ( ctx ) ->
@@ -19,19 +21,19 @@ module.exports = ( ctx ) ->
             //alt-2
           ]
     or:
-      /path/to/cdn-from-json: cdn:cnd.json
+      /path/to/cdn-from-json: cdn:cdn.json
 
     Routes
       cdn: cdn.json
       cdn.json:
-        cnd: ....
+        cdn: ....
       cdn/<module>?...
       api/cdn.json:
         meta: []
         data: [{
           module: "<module>"
         }]
-      api/cnd/<module>: static or redir
+      api/cdn/<module>: static or redir
       
   """
 
@@ -39,8 +41,24 @@ module.exports = ( ctx ) ->
 
   generate:
     cdn: ( rctx ) ->
+      console.log 'CDN', rctx.route.spec, JSON.stringify rctx.res
+      cdn = require path.join ctx.cwd, rctx.route.spec
       ( req, res ) ->
-        res.redir()
+        f = _.defaultsDeep {}, req.params
+        ext = cdn[f.format].http.ext
+        if f.format not of cdn
+          err = "No format #{f.format}"
+          res.type 500
+          res.write err
+          res.end()
+          throw new Error err
+        if f.package not of cdn[f.format].http.packages
+          err = "No #{f.format} package #{f.package}"
+          res.type 500
+          res.write err
+          res.end()
+          throw new Error err
+        res.redirect cdn[f.format].http.packages[f.package]+ext
     index: ( rctx ) ->
       data: ctx.cdn
         
