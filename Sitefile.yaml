@@ -18,7 +18,7 @@ paths:
 routes:
 
   client: static:build/client
-  style: static:build/style
+  media/style: static:build/style
   
   doc/literate: static:build/docs/docco/
 
@@ -40,8 +40,12 @@ routes:
   _plantuml: plantuml:example/*.plantuml
 
   example: static:example
-  vendor/require.js: static:node_modules/sinon/pkg/sinon.js
-  vendor/coffee-script.js: static:node_modules/sinon/pkg/sinon.js
+  vendor/jquery.js: static:node_modules/jquery/dist/jquery.js
+  vendor/bootstrap.css: static:node_modules/bootstrap/dist/css/bootstrap.css
+  vendor/bootstrap-theme.css: static:node_modules/bootstrap/dist/css/bootstrap-theme.css
+  vendor/bootstrap.js: static:node_modules/bootstrap/dist/js/bootstrap.js
+  #vendor/require.js: static:node_modules/sinon/pkg/sinon.js
+  #vendor/coffee-script.js: static:node_modules/coffee-script/register.js
 
   vendor/mocha.css: static:node_modules/mocha/mocha.css
   vendor/mocha.js: static:node_modules/mocha/mocha.js
@@ -152,13 +156,15 @@ defs:
   scripts:
     default:
       urls:
+        - /vendor/jqueryjs
         - /client/default.js
       paths:
         - build/client/default.js
   stylesheets:
     default:
       urls:
-        - /components/bootstrap/dist/css/bootstrap.css
+        - /vendor/bootstrap.css
+        - /vendor/bootstrap-theme.css
         - /media/style/default.css
       paths:
         - build/style/default.css
