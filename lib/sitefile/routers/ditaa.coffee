@@ -44,17 +44,18 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( spec, ctx={} ) ->
+  generate:
+    default: ( spec, ctx={} ) ->
 
-    fn = spec + '.ditaa'
+      fn = spec + '.ditaa'
 
-    ( req, res ) ->
+      ( req, res ) ->
 
-      sitefile.log "Ditaa", fn
-      exec "ditaa #{fn}", (error, stdout, stderr) ->
-        if error != null
-          res.status(500)
-        res.write(stdout)
-        res.end()
+        sitefile.log "Ditaa", fn
+        exec "ditaa #{fn}", (error, stdout, stderr) ->
+          if error != null
+            res.status(500)
+          res.write(stdout)
+          res.end()
 
 
