@@ -1,0 +1,14 @@
+@startuml
+
+
+actor User
+
+component Component
+
+database Database
+
+cloud Cloud
+
+
+
+@enduml

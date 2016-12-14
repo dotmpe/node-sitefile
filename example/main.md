@@ -24,12 +24,23 @@ handling.
 - [ Sh ](./sh-script) - [(script)](./sh-script.sh)
 
 
-***
+# Paremeterization
 
-- [ Back to ReadMe ](/ReadMe)
+Routers can inspect the entire application context.
 
-Graphviz
---------
+The resource context is initialized with a 'route.options' attribute to hold any
+custom data. The data is loaded from the Sitefile if given.
+
+Router modules have an defaults attribute, this can also provide 
+default 'route.options'.
+
+
+[Query to handler options](/Sitefile/debug?pretty=true&bar[baz]=foo)
+
+
+
+
+# Graphviz
 
 From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 
@@ -54,4 +65,11 @@ From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 ![ Call graph ](./graphviz-call-graph.dot)
 
 ![ Graph with edges on clusters ](./graphviz-edge-cluster-graph.dot)
+
+
+
+***
+
+- [ Back to ReadMe ](/ReadMe)
+
 

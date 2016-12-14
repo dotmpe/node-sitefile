@@ -14,18 +14,11 @@ Router = require './Router'
 
 liberror = require '../error'
 libconf = require '../conf'
+strutil = require '../strutil'
+c = strutil.c
 
 
-version = "0.0.4-dev+b2ef470" # node-sitefile
-
-
-c =
-  sc: chalk.grey ':' # sc: separator-char
-
-
-String::startsWith ?= (s) -> @[...s.length] is s
-String::endsWith   ?= (s) -> s is '' or @[-s.length..] is s
-
+version = "0.0.5-dev" # node-sitefile
 
 
 
@@ -67,7 +60,6 @@ get_local_sitefile = ( ctx={} ) ->
 
   _.defaults sitefile,
     routes: {}
-    specs: {}
 
   sitefile
 
@@ -92,11 +84,23 @@ load_sitefile = ( ctx ) ->
 
   _.transform ctx.sitefile, xform
 
+  # Map some sitefile attributes to root
   if ctx.sitefile.host
-    ctx.host = ctx.sitefile.host
-
+    ctx.site.host = ctx.sitefile.host
   if ctx.sitefile.port
-    ctx.port = ctx.sitefile.port
+    ctx.site.port = ctx.sitefile.port
+  if ctx.sitefile.base
+    ctx.site.base = ctx.sitefile.base
+
+  if 'paths' of ctx.sitefile and ctx.sitefile.paths
+    if 'routers' of ctx.sitefile.paths and ctx.sitefile.paths.routers
+
+      if 'routers_replace' of ctx.sitefile.paths \
+          and ctx.sitefile.paths.routers_replace
+        ctx.paths.routers = ctx.sitefile.paths.routers
+      else
+        ctx.paths.routers = \
+          ctx.paths.routers.concat ctx.sitefile.paths.routers
 
 
 load_rc = ( ctx ) ->
@@ -112,46 +116,71 @@ load_rc = ( ctx ) ->
 
 load_config = ( ctx={} ) ->
   if not ctx.config_name?
-    ctx.config_name = 'config/config'
+    ctx.config_name = 'config/config.coffee'
     # XXX config per client
     #scriptconfig = 'config/config-#{ctx.proc.name}'
     #configs = glob.sync path.join ctx.noderoot, scriptconfig + '.*'
     #if not _.isEmpty configs
     #  ctx.config_name = scriptconfig
-  ctx.config_envs = require path.join ctx.noderoot, ctx.config_name
-  ctx.config = ctx.config_envs[ctx.envname]
-  _.defaults ctx, ctx.config
+
+  rc = path.join '../..', ctx.config_name
+  if fs.existsSync require.resolve rc
+    ctx.config_envs = require rc
+    ctx.config = ctx.config_envs[ctx.envname]
+    _.defaultsDeep ctx, ctx.config
+    console.log "Loaded user config for #{ctx.envname}"
+
   ctx.config
 
 
+# Turn options dict into root context.
 prepare_context = ( ctx={} ) ->
 
   # Apply all static properties (set ctx.static too)
   _.merge ctx, load_rc ctx
 
-  # Appl defaults if not present
-  _.defaults ctx,
-    noderoot: path.dirname path.dirname __dirname
+  _.defaultsDeep ctx,
+    noderoot: '../../'
     version: version
     cwd: process.cwd()
     proc:
       name: path.basename process.argv[1]
-    envname: process.env.NODE_ENV or 'development'
+    envname: process.env.NODE_ENV ? 'development'
     log: log
-  _.defaults ctx,
+  _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
-  _.defaults ctx,
-    pkg: require( ctx.pkg_file )
+  _.defaultsDeep ctx,
+    pkg: require ctx.pkg_file
 
-  if not ctx.config
-    load_config ctx
+  load_config ctx
+
+  _.defaultsDeep ctx,
+    site:
+      host: ''
+      port: 8081
+      base: '/'
+      netpath: null
+    routes:
+      resources: []
+      directories: []
+    bundles: {}
+    paths: # TODO: configure lookup paths
+      routers: [
+        'sitefile:lib/sitefile/routers'
+        'sitefile:var/sitefile/routers'
+      ]
+      bundles: [
+        'sitefile:lib/sitefile/bundles'
+        'sitefile:var/sitefile/bundles'
+      ]
+
 
   # Load local sitefile (set ctx.sitefile)
   if not ctx.sitefile?
     load_sitefile ctx
 
+  console.log "Creating new context for #{ctx.envname}"
   new Context ctx
-
 
 
 # Split sitefile router specs
@@ -164,84 +193,183 @@ split_spec = ( strspec, ctx={} ) ->
   [ router_name, handler_name, hspec ]
 
 
+class Routers
+  constructor: ( @ctx ) ->
+    # XXX:
+    if @ctx._routers then throw Error "_routers"
+    @ctx._routers = @
+    @data = {}
+
+  get: ( name ) ->
+    if name not of @data
+      throw new Exception "No such router loaded: #{name}"
+    return @data[ name ].object
+
+  generator: ( name, rctx=null, ctx=null ) ->
+    if name.startsWith '.'
+      handler = name.substr 1
+      name = rctx.route.name
+    else if -1 != name.indexOf '.'
+      [ name, handler ] = name.split '.'
+    else
+      handler = 'default'
+   
+    if name not of @data
+      throw Error "No router for #{name}"
+    if not handler or \
+        handler not of @data[name].object.generate
+      throw Error "No router generate handler #{handler} for #{name}"
+
+    @data[ name ].object.generate[ handler ]
+
+  find: ( name ) ->
+    router_cb = null
+    rip = null
+    for rip in @ctx.paths.routers
+      p = rip
+      if p.startsWith 'sitefile:'
+        p = path.join @ctx.sfdir, p.substr 9
+      if not p.startsWith '/'
+        p = path.join process.env.PWD, p
+      try
+        router_cb = require path.join p, name
+        break
+      catch err
+        continue
+    [ router_cb, rip ]
+
+  # Pre-load routers
+  load: ->
+
+    @names = _.union (
+      router_name for [ router_name, handler_name, handler_spec ] in (
+        split_spec strspec, @ctx for route, strspec of @ctx.sitefile.routes ) )
+
+    log 'Required routers', name: @names.join ', '
+  
+    # parse sitefile.routes, pass 1: load & init routers
+    for name in @names
+      if name of Router.builtin
+        continue
+
+      [ router_cb, router_path ] = @find name
+      if not router_cb
+        warn "Failed to load #{name} router"
+        continue
+
+      router_obj = router_cb @ctx
+      if not router_obj
+        warn "Failed to initialize #{name} router"
+        continue
+  
+      @data[name] =
+        module: router_cb
+        object: Router.define router_obj
+  
+      log "Loaded router", name: name, c.sc, router_obj.label, path: router_path
+
+
 class Sitefile
-  constructor: ( @ctx )->
-    _.defaults @, dirs: {}, routers: {}, router_names: []
-    # Track all dirs for generated files
-    # TODO May want the same for regular routes.
+  constructor: ( @ctx ) ->
+    # Track all dirs for generated files, router CB's and instances, names
+    _.defaults @, dirs: {}, bundles: {}
+    # XXX:
+    if @ctx._sitefile then throw Error "_sitefile"
+    @ctx._sitefile = @
     # TODO Also need to refactor, and scan for defaults across dirs rootward
-    @load_routers @ctx
+    @routers = new Routers @ctx
+    @routers.load()
+    # Load predefined resources (views, scripts, styles etc. w/ route maps)
+    @load_bundles @ctx
     # Apply routes in sitefile to Express
     @apply_routes @ctx
     # reload ctx.{config,sitefile} whenever file changes
     reload_on_change @ctx
 
-  load_routers: ( ctx ) ->
+  # Preload other, non router bundles
+  load_bundles: ( ctx ) ->
+    for bundle of ctx.sitefile.bundles
+      if typeof(bundle) == 'string'
+        # Try importing, otherwise keep as name for something loaded at a later
+        # time
+        bundle_name = bundle
+        bundle_obj = name: bundle_name
+      else if typeof(bundle) == 'object'
+        # Use in-sitefile defined bundle
+        bundle_name = bundle.name
+        bundle_obj = bundle
+      @bundles[ bundle_name ] = bundle_obj
+      
 
-    @router_names = _.union (
-      router_name for [ router_name, handler_name, handler_spec ] in (
-        split_spec strspec, ctx for route, strspec of ctx.sitefile.routes ) )
+  apply_routes: ( ctx ) ->
   
-    log 'Required routers', name: @router_names.join ', '
-  
-    # parse sitefile.routes, pass 1: load & init routers
-    for name in @router_names
-      if name of Router.builtin
-        continue
+    options = {
+      routes:
+        resources: []
+        directories: {}
+        defaults: [ 'default', 'index', 'main' ]
+    }
+    ctx.prepare_from_obj options
+    ctx.seed options
 
-      router_cb = require './routers/' + name
-      router_obj = router_cb ctx
-  
-      if not router_obj
-        warn "Failed to load #{name}"
-        continue
-  
-      @routers[name] =
-        module: router_cb
-        object: Router.define router_obj
-  
-      log "Loaded router", name: name, c.sc, router_obj.label
-  
-  apply_routes: ( ctx )->
-  
-    _.defaults ctx, base: '/', dir: defaults: [ 'default', 'index', 'main' ]
-  
     # parse sitefile.routes, pass 2: process specs to handler intances
     for route, strspec of ctx.sitefile.routes
-  
+
+      # Skip route spec on missing routers
       [ router_name, handler_name, handler_spec ] = split_spec strspec, ctx
-      if router_name not of Router.builtin and not @routers[ router_name ]
+
+      if router_name not of Router.builtin and router_name not in @routers.names
         warn "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
-  
-      ctx.log 'Dynamic', url: route, '', id: router_name, '', path: handler_spec
-      for name in glob.sync handler_spec
-        extname = path.extname name
-        basename = path.basename name, extname
-        dirname = path.dirname name
-        if dirname == '.'
-          url = ctx.base + basename
-        else
-          url = "#{ctx.base}#{dirname}/#{basename}"
-          if not @dirs.hasOwnProperty ctx.base + dirname
-            @dirs[ ctx.base+dirname ] = [ basename ]
+
+      if route.startsWith '/' or route.startsWith ctx.site.base
+        warn "Non-relative route", "Route path should not include root '/' or
+          base prefix, are you sure #{route} is correct?"
+
+      # Get merged router_type definition
+      if router_name of Router.builtin
+        router_type = Router.Base
+      else
+        if router_name not of @routers.data
+          warn "Missing router #{router_name}"
+          continue
+        router_type = @routers.get router_name
+      ctx.routes.directories = @dirs
+
+      if not handler_name and router_type.default_handler
+        handler_name = router_type.default_handler
+
+      # Resolve route spec to resource contexts, init and add Express handler
+      for rctx in router_type.resolve route, router_name, \
+          handler_name, handler_spec, ctx
+
+        # Load defaults from router_type
+        if 'defaults' of router_type
+          if handler_name
+            if handler_name of router_type.defaults
+              _.defaultsDeep rctx._data, router_type.defaults[ handler_name ]
+          else if 'default' of router_type.defaults
+            _.defaultsDeep rctx._data, router_type.defaults.default
           else
-            @dirs[ ctx.base+dirname ].push basename
+            ctx.log "Missing #{router_name} default handler defaults"
 
-        ctx.log route, url: url, '=', path: name
-
-        if not ( url+extname is url )
+        # Detect routable extension
+        rs = rctx.res
+        if rs.path and (ctx.site.base+rs.path).startsWith(rs.ref) and (
+          rs.ref+rs.extname is ctx.site.base+rs.path
+        )
           # FIXME: policy on extensions
-          ctx.redir url+extname, url
-          #ctx.log 'redir', url+extname, url
+          ctx.redir rs.ref+rs.extname, rs.ref
+          #ctx.log 'redir', rs.ref+rs.extname, rs.ref
 
+        # Finally let routers generate or add routes to ctx.app Express instance
         if router_name of Router.builtin
-          Router.builtin[router_name]( route, url, handler_spec, ctx )
+          Router.builtin[router_name] rctx
+
         else
-          # use router to preprocess spec and generate handlers for resource
-          router = @routers[ router_name ].object
-          ctx.app.all url, router.generate name, ctx
-  
+          router_type.initialize router_type, rctx
+
+
     # redirect dirs to default dir-index resource
     @add_dir_redirs ctx
   
@@ -253,7 +381,7 @@ class Sitefile
       if leafs.length == 1
         defleaf = leafs[0]
       if leafs
-        for name in ctx.dir.defaults
+        for name in ctx.routes.defaults
           if name in leafs
             defleaf = name
             break
@@ -330,7 +458,6 @@ reload_on_change = ( ctx ) ->
   fs.watchFile ctx.lfn, ( cur, prev ) ->
     log "Reloading context", "because: #{ctx.lfn} changed"
     load_sitefile ctx
-    log "", id: ctx.sitefile.specs
 
 
 expand_globs = ( patterns ) ->
@@ -361,6 +488,8 @@ log_line = ( v, out=[] ) ->
           out.push chalk.magenta o
         else
           out.push o
+      else if o.res?
+        out.push chalk.green o.res
       else if o.path?
         out.push chalk.green o.path
       else if o.url?
@@ -376,18 +505,24 @@ log_line = ( v, out=[] ) ->
   out
 
 
-module.exports = {
-  version: version
-  get_local_sitefile_name: get_local_sitefile_name
-  get_local_sitefile: get_local_sitefile
-  prepare_context: prepare_context
-  load_config: load_config
-  compile_site: compile_site
-  load_rc: load_rc
-  Sitefile: Sitefile
-  reload_on_change: reload_on_change
-  log_enabled: true
-  log: log
-  warn: warn
-}
+Router.log = log
+Router.warn = warn
+
+
+module.exports =
+  {
+    version: version
+    get_local_sitefile_name: get_local_sitefile_name
+    get_local_sitefile: get_local_sitefile
+    prepare_context: prepare_context
+    load_config: load_config
+    load_rc: load_rc
+    Router: Router,
+    Sitefile: Sitefile
+    reload_on_change: reload_on_change
+    log_enabled: true
+    log: log
+    warn: warn
+  }
+
 
