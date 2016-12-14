@@ -17,3 +17,19 @@ pro
     also links (rev/rel; prev/next) etc.
 
 
+
+Data
+  See also x-loopback. Maybe keep al backend/auth/data-proxy-middleware out
+  of Sitefile. Express is better for other middleware.
+  Maybe some simple
+  standardized data API, ie. the odata for the TODO app.
+
+  But need bigger toolkit too:
+
+  - TODO: YAML, JSON validation. Schema viewing. tv4, jsonary.
+  - TODO: JSON editor, backends, schema and hyper-schema
+  - Book `Understanding JSON Schema`_
+  - Article `Elegant APIs with JSON Schema`_
+
+
+.. include:: .defaults.rst

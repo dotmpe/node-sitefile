@@ -1,5 +1,3 @@
-###
-###
 fs = require 'fs'
 sitefile = require '../sitefile'
 
@@ -19,10 +17,12 @@ module.exports = ( ctx ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( rctx ) ->
-    ( req, res ) ->
-      sitefile.log "Stylus compile", rctx.res.path
-      data = fs.readFileSync rctx.res.path
-      res.write stylus.render data.toString()
-      res.end()
+  generate:
+    default: ( rctx ) ->
+      ( req, res ) ->
+        sitefile.log "Stylus compile", rctx.res.path
+        data = fs.readFileSync rctx.res.path
+        res.type 'css'
+        res.write stylus.render data.toString()
+        res.end()
 

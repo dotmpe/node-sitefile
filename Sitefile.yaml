@@ -6,29 +6,52 @@
 #
 # Id: node-sitefile/0.0.5-dev+20161010
 sitefile: 0.0.5-dev
+
+showStackError: true
+
+paths:
+  routers_replace: false
+  routers: [
+    'sitefile:example/routers'
+  ]
+
 routes:
 
-  # FIXME: prefix mapping
-  media: static:public/media
-
-  scripts/default.js: static:scripts/default.js
+  client: static:build/client
+  style: static:build/style
   
-  example: redir:example/main
+  doc/literate: static:build/docs/docco/
+
+  example/: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
-  _example: static:example
+  # Example, get data from another endpoint, the one above?
+  # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
 
   _pug: pug:example/**/*.pug
   _stylus: stylus:example/**/*.styl
+  _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
   _markdown: markdown:*.md
   _markdown_1: markdown:example/**/*.md
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
-  components: static:public/components
+  # FIXME: aliases _pu: pu:example/*.pu
+  _plantuml: plantuml:example/*.plantuml
+
+  example: static:example
+  vendor/require.js: static:node_modules/sinon/pkg/sinon.js
+  vendor/coffee-script.js: static:node_modules/sinon/pkg/sinon.js
+
+  vendor/mocha.css: static:node_modules/mocha/mocha.css
+  vendor/mocha.js: static:node_modules/mocha/mocha.js
+  vendor/chai.js: static:node_modules/chai/chai.js
+  vendor/sinon.js: static:node_modules/sinon/pkg/sinon.js
+
+  mocha/client/*: mocha.client:#
+  mocha/server/*: mocha.test:#
 
   # Some defaults for root
-  #FIXME: 
   '': redir:ReadMe
   index: redir:ReadMe
 
@@ -50,39 +73,83 @@ routes:
   Sitefile/handler: sitefile.handler:#
   Sitefile/global: sitefile.global:#
 
-  Sitefile/core: 'core:'
+  Sitefile/core/auto: core.autocomplete:#
+  Sitefile/core: core:#
+
+  npm/npm/latest.json: 'http:'
+  npm/node-sitefile/latest.json: 'http:'
+
+  cdn: cdn:#
+
+  # FIXME:
+  fonts: static:node_modules/bootstrap/fonts
+
+  sf-example/default: sf-example:#
+  sf-example/data1: sf-example.data1:#
+  sf-example/data2: sf-example.data2:#
+
+  proc/pm2: pm2:pm2-apps.json
+
+  app/v0: app-0:#
+  app/reader: app-0.reader:#
+
+
 
 
 options:
-  du:
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/paths'
-  rst2html:
-    flags:
-    - "--no-toc-backlinks"
-    scripts:
-      - /components/jquery/dist/jquery.min.js
-      - /scripts/default.js
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/paths'
-  pug:
-    stylesheets:
-      $ref: '#/defs/stylesheets/default/urls'
+  global:
+    du:
+      link_stylesheets: true
+      scripts:
+        $ref: '#/defs/scripts/default/urls'
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/urls'
+    rst2html:
+      link_stylesheets: true
+      flags:
+      - "--no-toc-backlinks"
+      scripts:
+        $ref: '#/defs/scripts/default/urls'
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/urls'
+    pug:
+      scripts:
+        $ref: '#/defs/scripts/default/urls'
+      stylesheets:
+        $ref: '#/defs/stylesheets/default/urls'
+
+  local:
+    npm/node-sitefile/latest.json:
+      spec: 
+        hostname: 'registry.npmjs.org'
+        path: '/node-sitefile/latest'
+    npm/npm/latest.json:
+      spec: 
+        hostname: 'registry.npmjs.org'
+        path: '/npm/latest'
+    Sitefile/debug: 
+      local_var: 'fooooo'
 
 defs:
+  scripts:
+    default:
+      urls:
+        - /client/default.js
+      paths:
+        - build/client/default.js
   stylesheets:
     default:
       urls:
-        - /media/style/default.css
+        - /style/default.css
       paths:
-        - public/media/style/default.css
+        - build/style/default.css
 
-
-apps:
-  base:
-    scripts: []
-    stylesheets:
-      - href: /media/style/default.css
-        path: public/media/style/default.css
+  app:
+    base:
+      client:
+        - type: require-js
+          id: requirejs-2.1.10
+          href: //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js
+          main: requirejs-base.js
 
 

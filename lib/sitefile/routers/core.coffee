@@ -12,17 +12,21 @@ jQuery_autocomplete_api = ( req, rctx ) ->
     prefix: ''
     recursive: true
 
+  prefix = req.query.prefix
+  term = req.query.term
+  console.log "looking for paths with #{term} and/or in #{prefix}"
+
   data = []
   values = []
   for resource in global_ctx.routes.resources
 
-    if req.query.prefix and not resource.startsWith req.query.prefix
+    if prefix and not resource.startsWith prefix
       continue
-    if req.query.prefix
-      resource = resource.substr req.query.prefix.length
+    if prefix
+      resource = resource.substr prefix.length
     if ( not req.query.recursive ) and resource.indexOf('/') != -1
       resource = resource.substring(1).split('/')[0]
-    if resource.indexOf(req.query.term) is -1
+    if term and resource.indexOf(term) is -1
       continue
     if resource in values
       continue
@@ -46,35 +50,31 @@ jQuery_autocomplete_api = ( req, rctx ) ->
 
 module.exports = ( ctx ) ->
 
-  # Return obj. w/ metadata & functions
+  # Router component as a plain object
+
+  # Basic attributes
   name: 'core'
   label: 'Sitefile API service'
   usage: """
     core:
   """
-  route:
-    base: ctx.base_url
 
-  defaults:
-    route:
-      handler: 'routes'
-      options: {}
+  default_handler: 'routes'
 
-  prereqs: {}
+  # Additional (user/Sitefile) configuration defaults for this module
 
-  generate: ( rctx ) ->
-    
-    if !rctx.route.handler
-      rctx.route.handler = 'routes'
+  # Generate router API is free to either return an function to handle a
+  # resource request context, or add Express handlers directly.
+  generate:
 
-    ( req, res, next ) ->
+    routes: ( rctx ) ->
+      res: data: rctx.context.routes
 
-      res.type 'json'
-      switch rctx.route.handler
-        when "routes" then data = ctx.routes
-        when "autocomplete"
-          data = jQuery_autocomplete_api req, rctx
-      res.write JSON.stringify data
-      res.end()
+    autocomplete: ( rctx ) ->
+      ( req, res ) ->
+        data = jQuery_autocomplete_api req, rctx
+        res.type 'json'
+        res.write JSON.stringify data
+        res.end()
 
 

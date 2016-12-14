@@ -1,8 +1,11 @@
 path = require 'path'
 
+
+module.exports = {}
+
 # TODO: move back to knex router after inheritance is fixed for bookshelf-api,
 #   or other component.
-load_config = ( rctx, ctx ) ->
+module.exports.load_config = ( rctx, ctx ) ->
   if not rctx.res.path
     throw Error("Expected rctx.res.path")
   config = require path.join ctx.cwd, rctx.res.path
@@ -26,5 +29,16 @@ load_config = ( rctx, ctx ) ->
     )
   return config
 
-module.exports =
-  load_config: load_config
+module.exports.update = ( knexctx, ctx ) ->
+  knexctx.db.migrate.latest()
+    .then ->
+      ctx.log \
+        "Knex", \
+        "loaded and up to date (#{knexctx.config.connection.filename}, "+\
+          "#{knexctx.config.migrations.directory}, #{knexctx.config.models})"
+    .catch ( error ) ->
+      ctx.log \
+        "Knex", "load/migrated failed: #{error} "+\
+          "(#{knexctx.config.connection.filename}, "+\
+          "#{knexctx.config.migrations.directory}, #{knexctx.config.models})"
+

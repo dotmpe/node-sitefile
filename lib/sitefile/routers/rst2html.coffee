@@ -15,52 +15,50 @@ module.exports = ( ctx={} ) ->
     sitefile.warn "No Docutils: rst2html"
     return
 
-  _.defaults ctx,
-
-    # base-url / prefix for local routes
-    base_url: null
-
   # Return obj. w/ metadata & functions
   name: 'rst2html'
   label: 'Docutils rSt to HTML publisher'
 
   defaults:
-    route:
-      options:
-        format:'html'
+    default:
+      route:
+        options:
+          format: 'html'
 
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
 
-    rctx.route.options.docpath = path.join ctx.cwd, rctx.res.path
+      rctx.route.options.docpath = path.join ctx.cwd, rctx.res.path
 
-    ( req, res, next ) ->
+      ( req, res, next ) ->
 
-      #rctx.route.options = _.defaults rctx.route.options || {},
-      #  format: 'html'
-      #  docpath: docpath
+        #rctx.route.options = _.defaults rctx.route.options || {},
+        #  format: 'html'
+        #  docpath: docpath
 
-      #params = if ctx.sitefile.params and 'rst2html' of ctx.sitefile.params \
-      #  then ctx.resolve 'sitefile.params.rst2html' else {}
+        #params = if ctx.sitefile.params and 'rst2html' of ctx.sitefile.params \
+        #  then ctx.resolve 'sitefile.params.rst2html' else {}
 
-      try
-        du_router.tools.rst2html res, rctx.route.options
-      catch error
-        console.trace error
-        console.log error.stack
-        res.type 'text/plain'
-        res.status 500
-        res.write "exec error: #{error}"
-        res.end()
+        try
+          du_router.tools.rst2html res, rctx.route.options
+        catch error
+          console.trace error
+          console.log error.stack
+          res.type 'text/plain'
+          res.status 500
+          res.write "exec error: #{error}"
+          res.end()
 
 #  route:
-#    base: ctx.base_url
+#    base: ctx.site.base
 #    rst2html:
 #      get: (req, res, next) ->
 #
 #        rctx.route.options = _.defaults req.query || {}, format: 'xml'
 #
 #        try
-#          rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, rctx.route.options
+#          rst2html res, _.merge {}, ctx.sitefile.specs.rst2html, \
+#                                                          rctx.route.options
 #          du_router.tools.rst2html res, rctx.route.options
 #        catch error
 #          console.trace error
