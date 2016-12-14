@@ -18,9 +18,10 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( spec, ctx={} ) ->
-    #fn = spec + '.json'
-    ( req, res ) ->
-      res.write "Jsonary #{spec}"
-      res.end()
+  generate:
+    default: ( spec, ctx={} ) ->
+      #fn = spec + '.json'
+      ( req, res ) ->
+        res.write "Jsonary #{spec}"
+        res.end()
 

@@ -103,6 +103,8 @@ module.exports = ( grunt ) ->
         cmd: "gulp server-build"
       spec_update:
         cmd: "sh ./tools/update-spec.sh"
+      compile_jsonary:
+        cmd: 'cd public/components/jsonary; test -e jsonary.js || php jsonary.js.php'
 
     pkg: grunt.file.readJSON 'package.json'
 
@@ -135,6 +137,7 @@ module.exports = ( grunt ) ->
 
   # Documentation artefacts, some intial publishing
   grunt.registerTask 'build-dev', [
+    'exec:compile_jsonary'
     'build-test'
     'exec:gulp_dist_build'
     'exec:spec_update'
