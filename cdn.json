@@ -1,5 +1,4 @@
 {
-  "cache": "",
   "js": {
     "local": {
       "base": "file:./node_modules/",
