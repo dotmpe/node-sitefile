@@ -15,10 +15,6 @@ paths:
     'sitefile:example/routers'
   ]
 
-bundles:
-  - bootstrap 
-  - pm2
-
 routes:
 
   client: static:build/client
@@ -78,7 +74,7 @@ routes:
   Sitefile/global: sitefile.global:#
 
   Sitefile/core/auto: core.autocomplete:#
-  Sitefile/core: 'core:'
+  Sitefile/core: core:#
 
   proc/pm2: pm2.default:#
 

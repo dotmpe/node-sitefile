@@ -92,46 +92,62 @@ module.exports = ( ctx ) ->
   listPugFn = path.join( __dirname, 'pm2/view/list.pug' )
   listCoffeeFn = path.join( __dirname, 'pm2/view/list.coffee' )
 
+  ### TODO: PM2Manager dump/config loader
+  m = new PM2Manager ctx.cwd
+  # If given, use spec for JSON config file
+  if rctx.route.spec and rctx.route.spec != '#'
+    m.load rctx.route.spec
+
+  pm2.list (err, ps_list) ->
+    for app in ps_list
+      if m.name_exists app.name
+        m.update_by_name app
+      else
+        m.add app
+  ###
 
   generators =
     default: ( rctx ) ->
-<<<<<<< HEAD
       # FIXME: allow string descriptions;
       # auto-export routes based on route.default mapping
       console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
-=======
 
-      #console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
-
-      if not rctx.res.path
-        throw Error "JSON path expected (#{rctx.route.handler})"
-
-      data = require path.join '../../..', rctx.res.path
-
-      null
->>>>>>> dev
-
-      route:
-        '.json': get: generators.data
+      route =
+        '.json': get: generators.list
+        '-data.json': get: generators.data
         '.js': get: generators.script
         '.html': get: generators.view
         '/:pm_id.html': get: generators['view/app']
         '/:pm_id.json': get: generators['data/app']
+        '/:pm_id/start': post: generators.start
         '/:pm_id/reload': post: generators.reload
-        '/:pm_id/restart': post: generators.restart
+        '/:pm_id/restart': post: generators.reload
         '/:pm_id/stop': post: generators.stop
         '/': (req, res) ->
           res.redirect ctx.site.base+rctx.name+'.html'
 
-    xxxxxxx: ( rctx ) ->
-      # FIXME: return routes so Sitefile can set dir defaults
-      #dir = path.dirname(ctx.site.base+rctx.name)
-      if dir not of ctx.routes.directories
-        ctx.routes.directories[ dir ] = []
-      ctx.routes.directories[ dir ].push path.basename rctx.name
+      # TODO: see r0.0.6 for module generate export scheme
+      for name of route
+        for method of route[name]
+          ref = ctx.site.base+rctx.name+name
+          unless "function" is typeof route[name][method]
+            throw Error \
+              "Expected callback #{name}:#{method}:#{route[name][method]}"
+          r = route[name][method] rctx
+          if "object" is typeof r
+            throw Error "Expected callback #{name}:#{method}:#{r}"
+          ctx.app[method] ref, r
 
-<<<<<<< HEAD
+      null
+
+    # List all PM2 procs in JSON
     data: ( rctx ) ->
+      (req, res) ->
+        res.type 'json'
+        res.write JSON.stringify m.procs
+        res.end()
+
+    list: ( rctx ) ->
       (req, res) ->
         pm2.list (err, ps_list) ->
           res.type 'json'
@@ -139,31 +155,9 @@ module.exports = ( ctx ) ->
             res.status 500
           res.write JSON.stringify ps_list
           res.end()
-=======
-      m = new PM2Manager ctx.cwd
-      # If given, use spec for JSON config file
-      if rctx.route.spec and rctx.route.spec != '#'
-        m.load rctx.route.spec
 
-      pm2.list (err, ps_list) ->
-        for app in ps_list
-          if m.name_exists app.name
-            m.update_by_name app
-          else
-            m.add app
-
-      # List all PM2 procs in JSON
-      ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
-        #pm2.list (err, ps_list) ->
-        res.type 'json'
-        #if err
-        #  res.status 500
-        res.write JSON.stringify m.procs
-        res.end()
->>>>>>> dev
-
+    # Describe single PM2 proc in JSON
     'data/app': ( rctx ) ->
-      # Describe single PM2 proc in JSON
       (req, res) ->
         pm2.describe req.params.pm_id, (err, ps_list) ->
           res.type 'json'
@@ -172,94 +166,7 @@ module.exports = ( ctx ) ->
           res.write JSON.stringify ps_list[0]
           res.end()
 
-<<<<<<< HEAD
-    view: ( rctx ) ->
-      # Serve HTML list view
-      (req, res) ->
-=======
-      ctx.app.post ctx.site.base+rctx.name+'/:pm_id/start', (req, res) ->
-        pm2_proc = m.get_by_id parseInt req.params.pm_id, 10
-        pm2.start pm2_proc, ( err ) ->
-          res.type 'txt'
-          if err
-            res.status 500
-            res.write err
-          res.end()
-
-      ctx.app.post ctx.site.base+rctx.name+'/:pm_id/restart', (req, res) ->
-        pm2.gracefulReload req.params.pm_id, ( err ) ->
-          res.type 'txt'
-          if err
-            res.status 500
-            res.write err
-          res.end()
-
-      ctx.app.post ctx.site.base+rctx.name+'/:pm_id/stop', (req, res) ->
-        pm2.stop req.params.pm_id, ( err ) ->
-          res.type 'txt'
-          if err
-            res.status 500
-            res.write err
-          res.end()
-
-
-      # Serve PM2 proc HTML details
-      ctx.app.get ctx.site.base+rctx.name+'/:pm_id.html', (req, res) ->
->>>>>>> dev
-
-        httprouter.promise.json(
-          hostname: 'localhost'
-          port: ctx.app.get('port')
-          path: ctx.site.base + rctx.name + '.json'
-        ).then ( apps ) ->
-
-          res.type 'html'
-          res.write pugrouter.compile listPugFn, {
-            compile: rctx.route.options.compile
-            merge:
-              pid: process.pid
-              base: ctx.site.base+rctx.name
-              script: ctx.site.base+rctx.name+'.js'
-              options: rctx.options
-              query: req.query
-              context: rctx
-              apps: apps
-          }
-          res.end()
-
-    'view/app': ( rctx ) ->
-      # Serve PM2 proc HTML details
-      (req, res) ->
-
-        console.log req.path.substring(0, req.path.length - 5) + '.json'
-        httprouter.promise.json(
-          hostname: 'localhost'
-          port: ctx.app.get('port')
-          path: req.path.substring(0, req.path.length - 5) + '.json'
-        ).then ( app ) ->
-
-          res.type 'html'
-          res.write pugrouter.compile detailPugFn, {
-            compile: rctx.route.options.compile
-            merge:
-              pid: process.pid
-              pm2_base: ctx.site.base+rctx.name
-              script: ctx.site.base+rctx.name+'.js'
-              options: rctx.route.options
-              query: req.query
-              context: rctx
-              app: app
-          }
-          res.end()
-
-    script: ( rctx ) ->
-      # Serve JS for list-view
-      (req, res) ->
-        res.type 'js'
-        res.write cc._compileFile listCoffeeFn
-        res.end()
-
-    restart: ( rctx ) ->
+    start: ( rctx ) ->
       (req, res) ->
         pm2.gracefulReload req.params.pm_id, ( err ) ->
           res.type 'txt'
@@ -286,9 +193,67 @@ module.exports = ( ctx ) ->
             res.write err
           res.end()
 
+    # Serve JS for view(s?)
+    script: ( rctx ) ->
+      (req, res) ->
+        res.type 'js'
+        res.write cc._compileFile listCoffeeFn
+        res.end()
 
-  name: 'pm2'
+    #  XXX: pm2_proc = m.get_by_id parseInt req.params.pm_id, 10
 
+    # Serve HTML list view
+    view: ( rctx ) ->
+      (req, res) ->
+
+        httprouter.promise.json(
+          hostname: 'localhost'
+          port: ctx.app.get('port')
+          path: ctx.site.base + rctx.name + '.json'
+        ).then ( apps ) ->
+
+          res.type 'html'
+          res.write pugrouter.compile listPugFn, {
+            compile: rctx.route.options.compile
+            merge:
+              pid: process.pid
+              pm2_base: ctx.site.base+rctx.name
+              script: ctx.site.base+rctx.name+'.js'
+              options: rctx.options
+              query: req.query
+              context: rctx
+              apps: apps
+          }
+          res.end()
+
+    # Serve PM2 proc HTML details
+    'view/app': ( rctx ) ->
+      (req, res) ->
+
+        console.log req.path.substring(0, req.path.length - 5) + '.json'
+        httprouter.promise.json(
+          hostname: 'localhost'
+          port: ctx.app.get('port')
+          path: req.path.substring(0, req.path.length - 5) + '.json'
+        ).then ( app ) ->
+
+          res.type 'html'
+          res.write pugrouter.compile detailPugFn, {
+            compile: rctx.route.options.compile
+            merge:
+              pid: process.pid
+              pm2_base: ctx.site.base+rctx.name
+              script: ctx.site.base+rctx.name+'.js'
+              options: rctx.route.options
+              query: req.query
+              context: rctx
+              app: app
+          }
+          res.end()
+
+
+
+  ### # TODO: see r0.0.6
   route:
     default:
       '/': 'redir:pm2.html'
@@ -297,9 +262,13 @@ module.exports = ( ctx ) ->
       '.js': '.script'
       '/:pm_id.json': '.data/app'
       '/:pm_id.html': '.view/app'
-      '/:pm_id/restart': '.restart'
+      '/:pm_id/start': '.start'
       '/:pm_id/reload': '.reload'
       '/:pm_id/stop': '.stop'
 
+  ###
+  name: 'pm2'
+
   generate: generators
+
 

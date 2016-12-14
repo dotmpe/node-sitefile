@@ -4,18 +4,25 @@ expect = chai.expect
 request = require 'request'
 
 
-Function::property = (prop, desc) ->
-  Object.defineProperty @prototype, prop, desc
+# FIXME failures on features/pm2 with Context...
+#Function::property = ( prop, desc ) ->
+#  unless "object" is typeof desc
+#    throw new Error "Property #{prop} must be object, not #{desc}"
+#  Object.defineProperty @prototype, prop, desc
 
 
 class SitefileTestUtils
   constructor: ( @dir ) ->
     process.env.NODE_ENV = 'testing'
     @cwd = process.cwd()
+    @server = {}
+    @ctx = {}
 
-  @property 'url',
-    get: ->
-      "http://localhost:#{@server.port}"
+  #@property 'url',
+  #  get: @get_url
+    
+  get_url: ->
+    "http://localhost:#{@server.port}"
 
   before: ( done ) ->
     @server = require '../bin/sitefile'
@@ -30,14 +37,14 @@ class SitefileTestUtils
 
   test_url_ok: ( url, self = @ ) ->
     ( done ) ->
-      request.get self.url+url, ( err, res, body ) ->
+      request.get self.get_url()+url, ( err, res, body ) ->
         self.expect_ok res
         done()
 
   test_url_redirected: ( url, self = @ ) ->
     ( done ) ->
       request.get {
-        url: self.url+url
+        url: self.get_url()+url
         followRedirect: false
       }, ( err, res, body ) ->
         self.expect_redirected res
@@ -47,12 +54,12 @@ class SitefileTestUtils
     ( done ) ->
       request.get from, ( err, res, body ) ->
         self.expect_redirected res
-        self.expect_url self.url+to
+        self.expect_url self.get_url()+to
         done()
 
   test_url_type_ok: ( url, type = "html", content = null, self = @ ) ->
     ( done ) ->
-      request.get self.url+url, ( err, res, body ) ->
+      request.get self.get_url()+url, ( err, res, body ) ->
         self.expect_ok res
         if content
           expect( body.trim() ).to.equal content
