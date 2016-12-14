@@ -1,0 +1,90 @@
+doctype html
+
+head
+  head
+    title PM2 process list
+
+    each href in context.context.sitefile.defs.stylesheets.default.urls
+      link(rel="stylesheet", type="text/css", href= href)
+
+    each href in context.context.sitefile.defs.scripts.default.urls
+      script(type="text/javascript", src= href)
+
+    script(type="text/javascript", src= script)
+
+  body
+
+    .container.pm2-list(data-urlbase=pm2_base)
+
+      h3 List of PM2 processes
+
+      - states = {stopped: '', errored: 'danger', online: 'success'}
+
+      table.table.table-condensed.table-striped.table-hover
+        tr
+          th(colspan=2) PM
+
+          th Status
+          th PID
+          th CWD
+          th CMD
+          th ENV
+          th Branch
+
+          th(colspan=3) Uptime
+
+          th(colspan=3)
+
+        tr.small
+          th Id
+          th Name
+
+          th(colspan=6)
+
+          th (sec)
+          th (min)
+          th (hr)
+
+          th.small Start
+          th.small Restart
+          th.small Stop
+
+        each app in apps
+          - st = app.pm2_env.status
+          - muted = st == 'stopped' ? ' text-muted' : ''
+          - localpid_row = pid == app.pid ? ' info' : ''
+          - localpid_btn = pid == app.pid ? ' danger' : ''
+          tr(class= app.name+muted)
+            th(class= localpid_row)
+              if app.pid
+                a(href= context.site.base+context.name+"/"+app.pm_id+".json")= app.pm_id
+              else
+                span= app.pm_id
+            th(class= localpid_row)
+              if app.pid
+                a(href=context.site.base+context.name+"/"+app.pm_id+".html")= app.name
+              else
+                span= app.name
+            td(class= states[st])= app.pm2_env.status
+            td= app.pid
+            td= app.pm2_env.cwd
+            td= app.pm2_env.pm_exec_path
+            td= app.pm2_env.ENV
+            td= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
+            td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 1000).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
+            td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 60 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
+            td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 3600 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
+            td(class=localpid_btn)
+              button(type="button",data-appid=app.pm_id, disabled=app.pid).start.btn.btn-default.btn-sm
+                span.glyphicon.glyphicon-play(aria-hidden="true")
+            td(class=localpid_btn)
+              if app.pid
+                button(type="button",data-appid=app.pm_id, disabled=!app.pid).restart.btn.btn-default.btn-sm
+                  span.glyphicon.glyphicon-refresh(aria-hidden="true")
+            td(class=localpid_btn)
+              if app.pid
+                button(type="button",data-appid=app.pm_id, disabled=!app.pid).stop.btn.btn-default.btn-sm
+                  span.glyphicon.glyphicon-stop(aria-hidden="true")
+
+
+

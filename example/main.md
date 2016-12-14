@@ -40,12 +40,7 @@ default 'route.options'.
 
 
 
-***
-
-- [ Back to ReadMe ](/ReadMe)
-
-Graphviz
---------
+# Graphviz
 
 From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 
@@ -70,4 +65,11 @@ From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 ![ Call graph ](./graphviz-call-graph.dot)
 
 ![ Graph with edges on clusters ](./graphviz-edge-cluster-graph.dot)
+
+
+
+***
+
+- [ Back to ReadMe ](/ReadMe)
+
 

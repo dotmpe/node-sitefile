@@ -8,7 +8,7 @@ sitefile = require '../sitefile'
 cc = require 'coffee-script'
 
 
-# Given sitefile-context, export metadata for coffee: handlers
+# Given sitefile-context, export metadata for coffee: handler
 module.exports = ( ctx={} ) ->
 
   #_.defaults ctx,
@@ -20,12 +20,14 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( rctx ) ->
+  generate:
+    default: ( rctx ) ->
 
-    ( req, res ) ->
-      sitefile.log 'Coffe-Script compile', rctx.res.path
-      res.write cc._compileFile rctx.res.path
-      res.end()
+      ( req, res ) ->
+        sitefile.log 'Coffe-Script compile', rctx.res.path
+        res.type 'js'
+        res.write cc._compileFile rctx.res.path
+        res.end()
 
 
 

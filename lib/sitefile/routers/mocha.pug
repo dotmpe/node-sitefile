@@ -1,0 +1,35 @@
+doctype html
+
+head
+  head
+    title Mocha tests
+
+    each href in context.context.sitefile.defs.stylesheets.default.urls
+      link(rel="stylesheet", type="text/css", href= href)
+
+    each href in context.context.sitefile.defs.scripts.default.urls
+      script(type="text/javascript", src= href)
+    script(type="text/javascript", src= script)
+
+    link(rel="stylesheet", type="text/css", href="/vendor/mocha.css")
+
+  body
+
+    .container.pm2-list(data-urlbase=context.site.base)
+
+      #mocha
+        p
+          a(href=".") Index
+      #messages
+      #fixtures
+      script( src="/vendor/mocha.js" )
+      script( src="/vendor/chai.js" )
+      script( src="/vendor/sinon.js" )
+      script( src= test_object )
+      script mocha.setup('bdd')
+      script( src= test_file )
+      script mocha.run()
+
+
+
+
