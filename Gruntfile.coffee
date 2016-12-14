@@ -122,7 +122,7 @@ module.exports = ( grunt ) ->
 
   # Tests server-side
   grunt.registerTask 'test', [
-    'mochaTest'
+    'mochaTest:test'
   ]
 
   # Everything
@@ -141,8 +141,8 @@ module.exports = ( grunt ) ->
   ]
 
   grunt.registerTask 'build-test', [
-    'sass'
-    'docco'
-    'webpack'
+    'sass:dist'
+    'docco:debug'
+    'webpack:client'
   ]
 
