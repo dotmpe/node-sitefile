@@ -121,7 +121,7 @@ routes:
   #topics: api1646:example/app/topic
   topics: pug:app1646/main.pug
 
-  proc/pm2: pm2.ps:#
+  proc/pm2: pm2:#
 
   app/v0: app-0:#
   app/reader: app-0.reader:#
