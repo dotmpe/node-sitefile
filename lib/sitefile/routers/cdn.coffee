@@ -1,3 +1,4 @@
+fs = require 'fs'
 path = require 'path'
 _ = require 'lodash'
 
@@ -41,8 +42,14 @@ module.exports = ( ctx ) ->
 
   generate:
     cdn: ( rctx ) ->
-      console.log 'CDN', rctx.route.spec, JSON.stringify rctx.res
-      cdn = require path.join ctx.cwd, rctx.route.spec
+      cdnjson = path.join ctx.cwd, rctx.route.spec
+      if not fs.existsSync cdnjson
+        cdnjson = path.join ctx.sfdir, rctx.route.spec
+      if not fs.existsSync cdnjson
+        log.warn "CDN requires JSON config"
+        return
+      console.log 'CDN', cdnjson, JSON.stringify rctx.res
+      cdn = require cdnjson
       ( req, res ) ->
         f = _.defaultsDeep {}, req.params
         ext = cdn[f.format].http.ext

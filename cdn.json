@@ -1,12 +1,16 @@
 {
   "js": {
     "local": {
-      "base": "file:./node_modules/",
       "ext": ".js",
       "packages": {
-        "jquery": "jquery/dist/jquery.min",
-        "lodash": "lodash/lodash.min",
-        "bootstrap": "bootstrap/dist/js/bootstrap"
+        "require": "node_modules/requirejs/require",
+        "lodash": "node_modules/lodash/lodash.min",
+        "jquery": "node_modules/jquery/dist/jquery.min",
+        "bootstrap": "node_modules/bootstrap/dist/js/bootstrap",
+        "coffee-script": "node_modules/sinon/pkg/sinon",
+        "mocha": "node_modules/mocha/mocha",
+        "chai": "node_modules/chai/chai",
+        "sinon": "node_modules/sinon/pkg/sinon"
       }
     },
     "http": {
@@ -25,6 +29,11 @@
     }
   },
   "css": {
+    "local": {
+      "packages": {
+        "mocha.css": "node_modules/mocha/mocha.css"
+      }
+    },
     "http": {
       "ext": ".css",
       "packages": {
