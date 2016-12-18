@@ -38,6 +38,7 @@
   },
   "scripts": {
 
+
     "install": " ./configure && grunt build-test",
 
     "test": "./configure && grunt",
@@ -55,6 +56,8 @@
     "vulnerabilities": "snyk test",
 
     "echo": "echo 'Note that npm run accept arguments (try npm run echo foo):'",
+
+    "cruft": "./tools/tags.sh",
 
     "update-spec": "sh ./tools/update-spec.sh",
     "build-new": "gulp server-build",
