@@ -4,10 +4,10 @@ exec = require('child_process').exec
 Promise = require 'bluebird'
 
 
-plantuml = "java -jar plantuml.jar"
-
-
 module.exports = ( ctx ) ->
+
+  plantuml = "java -jar #{ctx.sfdir}/plantuml.jar"
+
 
   name: "plantuml"
   usage: """
