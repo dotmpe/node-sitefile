@@ -1,7 +1,14 @@
 # git-versioning main: node-sitefile
 
 - type: application/x-project-mpe
+  main: node-sitefile
   name: node-sitefile
   version: 0.0.5-dev # node-sitefile
   environments: [ 'development' ]
+
+  pd-meta:
+    init: "sh:./configure grunt:build-test"
+    test: "sh:./configure grunt:test"
+    check: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools grunt:check :git:status"
+    cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
 

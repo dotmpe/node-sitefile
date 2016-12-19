@@ -219,9 +219,13 @@ module.exports = ( grunt ) ->
     'exec:spec_update'
   ]
 
-  grunt.registerTask 'build-test', [
+  grunt.registerTask 'client', [
     'sass:dist'
-    'docco:debug'
     'webpack:client'
+  ]
+
+  grunt.registerTask 'build-test', [
+    'client'
+    'docco:debug'
   ]
 
