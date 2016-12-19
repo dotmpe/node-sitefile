@@ -37,25 +37,15 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-
-    "install": " ./configure && grunt build-test",
-
+    "post-install": " ./configure && grunt build-test",
     "test": "./configure && grunt",
-
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
-
-
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
     "strict": "nodemon bin/sitefile.coffee --use_strict -w Sitefile.yaml -w lib/ -w bin/",
-
     "build": "grunt build",
-
     "check": "grunt check",
-
     "vulnerabilities": "snyk test",
-
     "echo": "echo 'Note that npm run accept arguments (try npm run echo foo):'",
-
     "update-spec": "sh ./tools/update-spec.sh",
     "build-new": "gulp server-build",
     "mocha": "mocha --compilers coffee:coffee-script/register test/mocha/*.coffee",
@@ -93,6 +83,8 @@
     "stylus": "^0.54.5"
   },
   "devDependencies": {
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
     "coffee-loader": "^0.7.2",
@@ -109,19 +101,19 @@
     "grunt-sass": "^1.2.1",
     "grunt-webpack": "~1.0.0",
     "grunt-yamllint": "^0.2.0",
-    "jquery": "^3.1.1",
-    "load-grunt-config": "latest",
-    "load-grunt-tasks": "latest",
     "gulp": "latest",
     "gulp-chmod": "^2.0.0",
     "gulp-header": "^1.8.8",
     "gulp-rename": "latest",
+    "jquery": "^3.1.1",
     "json-loader": "latest",
-    "pug-loader": "latest",
-    "rename-loader": "^1.0.0",
+    "load-grunt-config": "latest",
+    "load-grunt-tasks": "latest",
     "path": "latest",
     "pm2": "latest",
     "pmx": "^0.6.8",
+    "pug-loader": "latest",
+    "rename-loader": "^1.0.0",
     "request": "latest",
     "source-map-support": "latest",
     "text-table": "latest",

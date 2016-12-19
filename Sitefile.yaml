@@ -20,7 +20,10 @@ routes:
   client: static:build/client
   style: static:build/style
   
+  dist/sitefile: static:dist/sitefile.js
+
   doc/literate: static:build/docs/docco/
+  #doc/api: static:build/docs/jsdoc/
 
   example/: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
@@ -37,7 +40,8 @@ routes:
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
-  _plantuml: plantuml:example/*.plantuml
+  _pu: plantuml:example/*.plantuml
+  _pu_dev_doc: plantuml:doc/dev/*.plantuml
 
   example: static:example
   vendor/require.js: static:node_modules/sinon/pkg/sinon.js
@@ -88,7 +92,7 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  proc/pm2: pm2:pm2-apps.json
+  proc/pm2: pm2:#
 
   app/v0: app-0:#
   app/reader: app-0.reader:#
@@ -130,10 +134,27 @@ options:
     Sitefile/debug: 
       local_var: 'fooooo'
 
+    app/main:
+      $ref: '#/defs/app/base'
+
+    topics:
+      client:
+        - type: require-js
+          id: requirejs-2.1.10
+          href: //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js
+          main: /app/requirejs.js
+      stylesheets:
+        urls:
+          - /style/default.css
+        paths:
+          - build/style/default.css
+
+
 defs:
   scripts:
     default:
       urls:
+        - //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js
         - /client/default.js
       paths:
         - build/client/default.js
@@ -143,6 +164,7 @@ defs:
         - /style/default.css
       paths:
         - build/style/default.css
+
 
   app:
     base:

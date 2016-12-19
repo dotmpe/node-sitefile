@@ -1,0 +1,13 @@
+@startuml
+
+cloud "Browser HTTP(S) client" {
+}
+
+node "Server NodeJS stack" {
+  folder "sitefile" {
+  }
+  frame "Sitefile" {
+  }
+}
+
+@enduml

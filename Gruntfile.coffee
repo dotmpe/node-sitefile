@@ -1,5 +1,8 @@
 'use strict'
 
+path = require 'path'
+webpack = require 'webpack'
+
 
 module.exports = ( grunt ) ->
 
@@ -12,7 +15,7 @@ module.exports = ( grunt ) ->
       gulpfile:
         options:
           jshintrc: '.jshintrc'
-        src: [ 'gulpfile.js' ]
+        src: [ 'gulpfile-old.js' ]
 
       package:
         options:
@@ -59,21 +62,97 @@ module.exports = ( grunt ) ->
     webpack:
       client:
         entry: './lib/sitefile/client/default'
-        devtool: 'sourcemap'
+        #devtool: 'sourcemap'
         output:
           filename: 'build/client/default.js'
           library: "sitefile_default_client"
         module:
           loaders: [
-            #  XXX babel?
-            # {
-            #   test: /\.js$/,
-            #   exclude: /node_modules/,
-            #   loaders: ['babel']
-            # },
+              test: /\.js$/,
+              exclude: /node_modules/,
+              loaders: ['babel-loader']
+            ,
+              test: /\.coffee$/,
+              exclude: /node_modules/,
+              loader: "coffee"
+            ,
+              test: /\.json$/,
+              loader: "json"
+            ,
+              test: /\.pug$/,
+              exclude: /node_modules/,
+              loader: "pug"
           ]
+        plugins: [
+          new webpack.IgnorePlugin(/^(markdown|pug|pug-runtime|stylus|pm2|pmx|knex)$/)
+          new webpack.IgnorePlugin(/\.(css|less)$/)
+          #new webpack.BannerPlugin('require("source-map-support").install();',
+          #                         { raw: true, entryOnly: false })
+        ]
+#externals: nodeModules
+        resolve:
+          extensions: [
+            '', '.coffee', '.js', '.json', '.pug'
+          ]
+      server:
+        entry: './bin/sitefile.coffee'
+        devtool: 'sourcemap'
+        output:
+          path: path.join __dirname, 'dist'
+          filename: 'sitefile.js'
+          libraryTarget: "commonjs2"
+          library: "sitefile_cli"
+        ###  XXX server build?
+        module:
+          loaders: [
+            {
+              test: /\.js$/,
+              exclude: /node_modules/,
+              loaders: ['babel']
+            },
+            {
+              test: /\.coffee$/,
+              exclude: /node_modules/,
+              loader: "coffee"
+            },
+            {
+              test: /\.json$/,
+              loader: "json"
+            },
+            {
+              test: /\.pug$/,
+              exclude: /node_modules/,
+              loader: "pug"
+            },
+          ]
+        },
+        plugins: [
+          new webpack.IgnorePlugin(/^(markdown|pug|pug-runtime|stylus|pm2|pmx|knex)$/),
+          new webpack.IgnorePlugin(/\.(css|less)$/),
+          new webpack.BannerPlugin('require("source-map-support").install();',
+                                   { raw: true, entryOnly: false }),
+        ],
+        externals: nodeModules,
+        resolve: {
+          extensions: [
+            '', '.coffee', '.js', '.json', '.pug'
+          ]
+        },
+        ###
         resolve:
           extensions: [ '', '.js' ]
+
+    ###
+    jsdoc : {
+        dist : {
+            src: ['dist/*.js'],
+            options: {
+                destination: 'build/docs/jsdoc/'
+            }
+        }
+    },
+
+    ###
 
     docco:
       debug:
