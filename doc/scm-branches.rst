@@ -109,6 +109,10 @@ master [*]_
         - `Documentation Feature`_: source/API documentation.
         - Docco: http:/doc/literate
 
+      cdn
+        - Handle JSON file to configure packages for frontend use.
+        - TODO: generate require.js config
+        - TODO: handle require for stylesheets and fonts
 
   demo
     - Merging experimental features. Should keep master clean.
