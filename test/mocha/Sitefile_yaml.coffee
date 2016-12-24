@@ -91,12 +91,14 @@ doubles is an example for all handlers. ", ->
     Promise.all( tasks ).then -> done()
 
     null
-
+  
+  ###
   if stu.module_installed 'pm2'
     it "should publish a PM2 client",
       stu.test_url_type_ok "/proc/pm2.html", "text/html"
     it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2/"
     it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2"
+  ###
 
   it "should publish a client JS",
     stu.test_url_type_ok "/client/default.js", "application/javascript"
