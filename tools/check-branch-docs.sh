@@ -10,7 +10,7 @@ git show-ref | grep refs.remotes.$1.features | cut -d' ' -f2 \
 do
 
   grep -q "^\s*$feature\s*$" doc/scm-branches.rst && {
-    echo "Branch doc: '$feature' OK" 1>&2
+    echo "Branch doc: '$feature' OK"
   } || {
     echo "Branch doc does not mention '$feature'!" 1>&2
   }

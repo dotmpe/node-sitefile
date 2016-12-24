@@ -123,8 +123,12 @@ module.exports = ( ctx ) ->
         '/:pm_id/reload': post: generators.reload
         '/:pm_id/restart': post: generators.reload
         '/:pm_id/stop': post: generators.stop
-        '/': (req, res) ->
-          res.redirect ctx.site.base+rctx.name+'.html'
+        '': get: (rctx) ->
+          (req, res) ->
+            res.redirect ctx.site.base+rctx.name+'.html'
+        '/': get: (rctx)->
+          (req, res) ->
+            res.redirect ctx.site.base+rctx.name+'.html'
 
       # TODO: see r0.0.6 for module generate export scheme
       for name of route
@@ -206,7 +210,7 @@ module.exports = ( ctx ) ->
     view: ( rctx ) ->
       (req, res) ->
 
-        httprouter.promise.json(
+        httprouter.promise.resource(
           hostname: 'localhost'
           port: ctx.app.get('port')
           path: ctx.site.base + rctx.name + '.json'

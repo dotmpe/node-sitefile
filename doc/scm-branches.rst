@@ -109,6 +109,8 @@ master [*]_
         - `Documentation Feature`_: source/API documentation.
         - Docco: http:/doc/literate
 
+      gherkin
+        The `Gherkin Feature`_ is for routing gherkin test specifications.
 
   demo
     - Merging experimental features. Should keep master clean.

@@ -83,7 +83,7 @@ routes:
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
 
-  cdn: cdn:#
+  vendor/:package.:format: cdn:cdn.json
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
@@ -92,7 +92,7 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  proc/pm2: pm2:pm2-apps.json
+  #proc/pm2: pm2:pm2-apps.json
 
   'app/src/*': prism:#
 
@@ -103,10 +103,7 @@ routes:
   app/reader: app-0.reader:#
 
 
-
   example/polymer-app-router: static:example/polymer-app-router.html
-
-
 
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
   #components/core-menu: static:public/components/polymer-ui-menu
@@ -173,7 +170,7 @@ defs:
     base:
       client:
         - type: require-js
-          id: requirejs-2.1.10
-          href: //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js
-          main: requirejs-base.js
+          id: require-js-base-app
+          href: /vendor/require.js
+          main: require-js-base.js
 
