@@ -11,3 +11,8 @@ Gherkin
   - `Gherkin Feature`_.
   - `Testing Feature`_.
 
+Outliner
+  - Looked at h5o but only works in browser.
+    To retrieve, maybe using PhantomJS, probably
+    require a too complex setup for now.
+

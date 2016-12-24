@@ -97,10 +97,6 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  components: static:public/components
-  'components/jsonary/test': redir:components/jsonary/test/index
-  'components/jsonary/test/index': static:public/components/jsonary/test/index.html
-
   _json-editor: json-editor:example/json-editor/schema/*.json
 
   jsonary: redir:example/jsonary
@@ -125,12 +121,10 @@ routes:
   #topics: api1646:example/app/topic
   topics: pug:app1646/main.pug
 
-  proc/pm2: pm2:#
+  #proc/pm2: pm2:pm2-apps.json
 
   app/v0: app-0:#
   app/reader: app-0.reader:#
-
-
 
 
 options:
