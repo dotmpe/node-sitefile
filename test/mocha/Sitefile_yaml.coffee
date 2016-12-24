@@ -13,7 +13,7 @@ describe "The local Sitefile.yaml serves the local documentation, and
 doubles is an example for all handlers. ", ->
 
   stu = new tu.SitefileTestUtils()
-  this.timeout 6000
+  this.timeout 12000
 
   before stu.before.bind stu
   after stu.after.bind stu
