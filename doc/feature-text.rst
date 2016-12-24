@@ -1,3 +1,4 @@
+.. include:: .defaults.rst
 
 
 reStructuredText
@@ -6,4 +7,7 @@ reStructuredText
 Markdown
   Router for native NodeJS implementation.
 
+Gherkin
+  - `Gherkin Feature`_.
+  - `Testing Feature`_.
 
