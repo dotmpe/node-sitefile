@@ -13,7 +13,7 @@ describe "The local Sitefile.yaml serves the local documentation, and
 doubles is an example for all handlers. ", ->
 
   stu = new tu.SitefileTestUtils()
-  this.timeout 6000
+  this.timeout 12000
 
   before stu.before.bind stu
   after stu.after.bind stu
@@ -91,6 +91,19 @@ doubles is an example for all handlers. ", ->
     Promise.all( tasks ).then -> done()
 
     null
+  
+  ###
+  if stu.module_installed 'pm2'
+    it "should publish a PM2 client",
+      stu.test_url_type_ok "/proc/pm2.html", "text/html"
+    it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2/"
+    it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2"
+  ###
 
+  it "should publish a client JS",
+    stu.test_url_type_ok "/client/default.js", "application/javascript"
+
+  it "should publish a client css",
+    stu.test_url_type_ok "/style/default.css", "text/css"
 
 
