@@ -7,9 +7,6 @@ promise_resource = ( spec, type='application/json') ->
 
   new Promise (resolve, reject) ->
     http
-      .on 'error', (e) ->
-        console.log("Got error: #{e.message}")
-        reject e
       .get spec, ( res ) ->
         statusCode = res.statusCode
         contentType = res.headers['content-type']
@@ -38,6 +35,9 @@ promise_resource = ( spec, type='application/json') ->
               catch e
                 console.log e.message
                 reject e.message
+            .on 'error', (e) ->
+              console.log("Got error: #{e.message}")
+              reject e
 
         else
           res

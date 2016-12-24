@@ -210,7 +210,7 @@ module.exports = ( ctx ) ->
     view: ( rctx ) ->
       (req, res) ->
 
-        httprouter.promise.json(
+        httprouter.promise.resource(
           hostname: 'localhost'
           port: ctx.app.get('port')
           path: ctx.site.base + rctx.name + '.json'
