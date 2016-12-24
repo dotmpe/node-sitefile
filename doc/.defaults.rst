@@ -19,6 +19,7 @@
 .. _Testing Feature: feature-testing.rst
 .. _Documentation Feature: feature-documentation.rst
 .. _HTML5 Client Feature: feature-client.rst
+.. _Gherkin Feature: feature-gherkin.rst
 
 .. _dev: /doc/dev.rst
 
