@@ -87,6 +87,7 @@
   "devDependencies": {
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
+    "chromedriver": "^2.25.1",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.12.2",
     "coffeelint": "^1.15.7",
@@ -117,6 +118,7 @@
     "pug-loader": "latest",
     "rename-loader": "^1.0.0",
     "request": "latest",
+    "selenium-webdriver": "^3.0.1",
     "source-map-support": "latest",
     "text-table": "latest",
     "webpack": "^1.13.3"
