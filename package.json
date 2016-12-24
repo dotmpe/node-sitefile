@@ -122,6 +122,8 @@
     "json-loader": "latest",
     "load-grunt-config": "latest",
     "load-grunt-tasks": "latest",
+    "mocha": "^3.2.0",
+    "webpack-dev-server": "^1.16.2",
     "path": "latest",
     "pm2": "latest",
     "pmx": "^0.6.8",
