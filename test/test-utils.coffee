@@ -59,6 +59,7 @@ class SitefileTestUtils
 
   test_url_type_ok: ( url, type = "html", content = null, self = @ ) ->
     ( done ) ->
+      console.log self.get_url()+url
       request.get self.get_url()+url, ( err, res, body ) ->
         self.expect_ok res
         if content
