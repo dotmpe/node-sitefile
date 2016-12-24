@@ -7,8 +7,11 @@
   environments: [ 'development' ]
 
   pd-meta:
+    run:
+      cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
+      features: "./bin/behat:--tags:~@skip"
     init: "sh:./configure grunt:build-test"
-    test: "sh:./configure grunt:test"
+    test: "sh:./configure grunt:test ./bin/behat:--tags:~@skip"
     check: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools grunt:check :git:status"
     cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
 

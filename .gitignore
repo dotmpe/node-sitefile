@@ -17,3 +17,7 @@ example/*.neato.png
 example/*.twopi.png
 example/*.dot.png
 *.sqlite
+
+composer.lock
+bin/behat
+vendor/
