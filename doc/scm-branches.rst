@@ -114,6 +114,9 @@ master [*]_
         - TODO: generate require.js config
         - TODO: handle require for stylesheets and fonts
 
+      gherkin
+        The `Gherkin Feature`_ is for routing gherkin test specifications.
+
   demo
     - Merging experimental features. Should keep master clean.
 

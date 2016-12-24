@@ -187,7 +187,7 @@ Want most features of 0.1.0 soonish.
 # Project tooling
 - PLAN: make some guards to determine version increment, maybe some gherkin specs.
   TODO: cleanup and standardize to ttxt?
-
+- TODO: cucumber-js coffee-script setup.
 - https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
 - TODO: have a look again at Express middleware
 

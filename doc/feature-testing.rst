@@ -8,7 +8,7 @@ Mocha Router Examples
   globals and needs some sort of dependency injection. Currently the
   ``mocha`` router hardcodes the chai and Cow dependency.
 
-  To re-run moch in the same Node process, the router needs to clear
+  To re-run mocha in the same Node process, the router needs to clear
   the testcase require.cache entries before adding::
 
         mocha = new Mocha()
@@ -34,6 +34,9 @@ Mocha Router Examples
   - `List of mocha reporters`_
   - See `Mocha Router docstrings`_ for annotated source.
   - TODO `app_base_sitefile Mocha test docstrings`_.
+
+  * See also `Gherkin Feature`_ for docs on related specification markup
+    format.
 
   The same Mocha client example, but included statically as reStructuredText raw HTML:
 

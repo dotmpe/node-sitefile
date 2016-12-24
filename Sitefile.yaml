@@ -92,12 +92,10 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  proc/pm2: pm2:#
+  #proc/pm2: pm2:pm2-apps.json
 
   app/v0: app-0:#
   app/reader: app-0.reader:#
-
-
 
 
 options:
