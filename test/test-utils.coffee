@@ -84,6 +84,14 @@ class SitefileTestUtils
     expect( res.headers['content-type'] ).to.be.a "string"
     expect( res.headers['content-type'] ).to.contain type
 
+  module_installed: ( name ) ->
+    try
+      mod = require name
+      return true
+    catch error
+      if error.code != 'MODULE_NOT_FOUND'
+        return false
+      throw error
 
 
 module.exports = {}

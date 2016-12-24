@@ -4,6 +4,7 @@ language: node_js
 
 node_js:
   - "0.12"
+  - "6.0"
 
 before_script:
 - test -x "$(which rst2html)" || { mkdir ~/bin && cd ~/bin && ln -s $(which rst2html.py) rst2html; }
