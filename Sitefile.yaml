@@ -41,6 +41,7 @@ routes:
   _gv: gv:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
   _plantuml: plantuml:example/*.plantuml
+  _gherkin: gherkin:example/*.feature
 
   example: static:example
   vendor/require.js: static:node_modules/sinon/pkg/sinon.js
