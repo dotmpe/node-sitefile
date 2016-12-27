@@ -94,7 +94,7 @@ options:
     du:
       link_stylesheets: true
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     rst2html:
@@ -102,12 +102,12 @@ options:
       flags:
       - "--no-toc-backlinks"
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     pug:
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
 
@@ -125,12 +125,13 @@ options:
     Sitefile/debug: 
       local_var: 'fooooo'
 
+
 defs:
   scripts:
     default:
       urls:
-        - /vendor/jquery.js
-        - /media/script/sitefile-client.js
+      - /vendor/jquery.js
+      - /media/script/sitefile-client.js
       paths:
         - build/client/default.js
   stylesheets:
