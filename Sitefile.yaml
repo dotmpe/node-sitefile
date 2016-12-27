@@ -112,7 +112,7 @@ options:
         $ref: '#/defs/stylesheets/default/urls'
 
   local:
-    shadows/: []
+    shadows/: {}
       
     npm/node-sitefile/latest.json:
       spec: 
