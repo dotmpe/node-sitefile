@@ -13,6 +13,7 @@ Router = require './Router'
 
 liberror = require '../error'
 libconf = require '../conf'
+# register String:: exts
 strutil = require '../strutil'
 c = strutil.c
 
@@ -195,13 +196,13 @@ split_spec = ( strspec, ctx={} ) ->
 class Routers
   constructor: ( @ctx ) ->
     # XXX:
-    if @ctx._routers then throw Error "_routers"
+    if @ctx._routers then throw new Error "_routers"
     @ctx._routers = @
     @data = {}
 
   get: ( name ) ->
     if name not of @data
-      throw new Exception "No such router loaded: #{name}"
+      throw new Error "No such router loaded: #{name}"
     return @data[ name ].object
 
   generator: ( name, rctx=null, ctx=null ) ->
@@ -214,10 +215,10 @@ class Routers
       handler = 'default'
    
     if name not of @data
-      throw Error "No router for #{name}"
+      throw new Error "No router for #{name}"
     if not handler or \
         handler not of @data[name].object.generate
-      throw Error "No router generate handler #{handler} for #{name}"
+      throw new Error "No router generate handler #{handler} for #{name}"
 
     @data[ name ].object.generate[ handler ]
 
@@ -273,7 +274,7 @@ class Sitefile
     # Track all dirs for generated files, router CB's and instances, names
     _.defaults @, dirs: {}, bundles: {}
     # XXX:
-    if @ctx._sitefile then throw Error "_sitefile"
+    if @ctx._sitefile then throw new Error "_sitefile"
     @ctx._sitefile = @
     # TODO Also need to refactor, and scan for defaults across dirs rootward
     @routers = new Routers @ctx
