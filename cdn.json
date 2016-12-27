@@ -34,7 +34,7 @@
   "css": {
     "local": {
       "packages": {
-        "mocha": "node_modules/mocha/mocha.css",
+        "mocha": "node_modules/mocha/mocha",
         "bootstrap": "node_modules/bootstrap/dist/css/bootstrap.min",
         "bootstrap-theme": "node_modules/bootstrap/dist/css/bootstrap-theme.min"
       }
@@ -42,6 +42,7 @@
     "http": {
       "ext": ".css",
       "packages": {
+        "mocha": "/npm/packages/mocha/mocha",
         "bootstrap": "/npm/packages/bootstrap/dist/css/bootstrap.min",
         "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min"
       }
