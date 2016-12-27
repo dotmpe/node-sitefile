@@ -37,9 +37,7 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-
     "install": " ./configure && grunt app build-test",
-
     "test": "./configure && grunt",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
@@ -74,6 +72,7 @@
     "mime-types": "^2.1.13",
     "minimatch": "^3.0.3",
     "nodelib": "https://github.com/dotmpe/nodelib.git#dev",
+    "prism-themes": "^1.0.0",
     "qs": "6.2.0",
     "semver": "^5.3.0"
   },

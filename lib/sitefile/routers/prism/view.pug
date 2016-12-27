@@ -1,0 +1,24 @@
+doctype html
+
+
+html.example
+
+  head
+    title Source Browser
+
+    script(type="text/javascript", src="/components/platform/platform.js")
+    link(rel="import", href="/components/prism-js/prism-js.html")
+
+    //link(rel="stylesheets", href="/vendor/prism-theme-duotone-light.css")
+
+
+  body(unresolved, fullbleed)
+
+    .container
+      .meta
+        div Format:
+        code.span.format= format
+      prism-js(language=format, inputValue=code, theme="okaidia")
+      ///vendor/prism-theme-duotone-light.css")
+
+

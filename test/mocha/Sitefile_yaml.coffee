@@ -118,6 +118,14 @@ doubles as an example for all handlers. ", ->
       stu.test_url_redirected "/example/graphviz-binary-search-tree-graph.dot"
 
 
+  it "should serve Prism.JS source views", stu.test_url_type_ok \
+      "/src/example/polymer-custom.pug", "html"
+
+
+  it "should serve Prism.JS source views", stu.test_url_type_ok \
+      "/src.0/example/polymer-custom.pug", "html"
+
+
   describe "has a CDN-redirection router instance at vendor/", ->
 
     it "should serve require.js", stu.test_url_type_ok \

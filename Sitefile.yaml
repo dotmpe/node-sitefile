@@ -22,7 +22,9 @@ routes:
   
   doc/literate: static:build/docs/docco/
 
-  example/: redir:example/main
+  example/: static:example
+
+  example: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   # Example, get data from another endpoint, the one above?
@@ -38,8 +40,6 @@ routes:
   _gv: gv:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
   _plantuml: plantuml:example/*.plantuml
-
-  example: static:example
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -84,7 +84,9 @@ routes:
 
   proc/pm2: pm2:pm2-apps.json
 
-  'app/src/*': prism:#
+  src/prism/themes: static:public/components/prism/themes
+  'src/*': prism:#
+  'src.0/*': prism.view0:#
 
   app/v0: app-0:#
   app/v0/base.css: app-0.cdn_css:#
@@ -94,11 +96,11 @@ routes:
 
   example/polymer-app-router: static:example/polymer-app-router.html
 
-  #components/core-toolbar: static:public/components/polymer-ui-toolbar
-  #components/core-menu: static:public/components/polymer-ui-menu
-  #components/core-item: static:public/components/polymer-ui-item
-  #components/core-header-panel: static:public/components/polymer-ui-header-panel
-  #components/core-toolbar: static:public/components/polymer-ui-toolbar
+  components/core-toolbar: static:public/components/polymer-ui-toolbar
+  components/core-menu: static:public/components/polymer-ui-menu
+  components/core-item: static:public/components/polymer-ui-item
+  components/core-header-panel: static:public/components/polymer-ui-header-panel
+  components: static:public/components
 
   #/shadows/:path: convert.filter:**/*.png
 

@@ -12,8 +12,28 @@ module.exports = ( ctx={} ) ->
 
   _.defaults ctx, lazyCompile: true
 
-  if not ctx.lazyCompile
-    tpl = pug.compileFile './lib/sitefile/routers/prism-js-view.pug'
+  view = './lib/sitefile/routers/prism/view.pug'
+  view0 = './lib/sitefile/routers/prism/view-0.pug'
+
+  #if not ctx.lazyCompile
+  #  tpl = pug.compileFile view
+
+  generate = ( view ) ->
+    ( req, res ) ->
+
+      data = fs.readFileSync req.params[0]
+
+      # XXX: if not tpl
+      tpl = pug.compileFile view
+
+      ctx.source = req.params[0]
+      ctx.format = 'pug'
+      ctx.code = data.toString()
+      ctx.lines = ctx.code.split('\n')
+
+      res.type 'html'
+      res.write tpl ctx
+      res.end()
 
   name: 'prism'
   label: 'Source browser with Prism Syntax Highlighter'
@@ -24,14 +44,7 @@ module.exports = ( ctx={} ) ->
 
   generate:
     default: ( path, ctx={} ) ->
-      ( req, res ) ->
-        ctx.source = req.params[0]
-        ctx.format = 'pug'
-        data = fs.readFileSync req.params[0]
-        ctx.code = data.toString()
-        ctx.lines = ctx.code.split('\n')
-        if ctx.lazyCompile
-          tpl = pug.compileFile './lib/sitefile/routers/prism-js-view.pug'
-        res.write tpl ctx
-        res.end()
+      generate(view)
+    view0: ( path, ctx={} ) ->
+      generate(view0)
 

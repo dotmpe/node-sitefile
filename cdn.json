@@ -44,7 +44,8 @@
       "packages": {
         "mocha": "/npm/packages/mocha/mocha",
         "bootstrap": "/npm/packages/bootstrap/dist/css/bootstrap.min",
-        "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min"
+        "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min",
+        "prism-theme-duotone-light": "//rawgit.com/PrismJS/prism-themes/master/themes/prism-duotone-light"
       }
     }
   }
