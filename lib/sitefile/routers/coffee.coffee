@@ -11,8 +11,6 @@ cc = require 'coffee-script'
 # Given sitefile-context, export metadata for coffee: handler
 module.exports = ( ctx={} ) ->
 
-  #_.defaults ctx,
-
   name: 'coffee'
   label: 'Coffee-Script publisher'
   usage: """

@@ -17,8 +17,8 @@ paths:
 
 routes:
 
-  client: static:build/client
-  style: static:build/style
+  media/script/sitefile-client.js: static:build/client/default.js
+  media/style: static:build/style
   
   dist/sitefile: static:dist/sitefile.js
 
@@ -47,13 +47,6 @@ routes:
   gherkin: gherkin.steps:example/*.feature,test/features/*.feature
 
   example: static:example
-  vendor/require.js: static:node_modules/sinon/pkg/sinon.js
-  vendor/coffee-script.js: static:node_modules/sinon/pkg/sinon.js
-
-  vendor/mocha.css: static:node_modules/mocha/mocha.css
-  vendor/mocha.js: static:node_modules/mocha/mocha.js
-  vendor/chai.js: static:node_modules/chai/chai.js
-  vendor/sinon.js: static:node_modules/sinon/pkg/sinon.js
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -87,6 +80,7 @@ routes:
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
+  npm/packages/: static:node_modules/
 
   vendor/:package.:format: cdn:cdn.json
 
@@ -96,6 +90,8 @@ routes:
   sf-example/default: sf-example:#
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
+
+  proc/pm2: pm2:pm2-apps.json
 
   _json-editor: json-editor:example/json-editor/schema/*.json
 
@@ -121,10 +117,8 @@ routes:
   #topics: api1646:example/app/topic
   topics: pug:app1646/main.pug
 
-  #proc/pm2: pm2:pm2-apps.json
-
-  app/v0: app-0:#
-  app/reader: app-0.reader:#
+  #app/v0: app-0:#
+  #app/reader: app-0.reader:#
 
 
 options:
@@ -182,17 +176,18 @@ defs:
   scripts:
     default:
       urls:
-        - /client/default.js
+        - /vendor/jquery.js
+        - /media/script/sitefile-client.js
       paths:
         - build/client/default.js
   stylesheets:
     default:
       urls:
-        - /components/bootstrap/dist/css/bootstrap.css
+        - /vendor/bootstrap.css
+        - /vendor/bootstrap-theme.css
         - /media/style/default.css
       paths:
         - public/media/style/default.css
-
 
   app:
     base:
@@ -201,5 +196,4 @@ defs:
           id: require-js-base-app
           href: /vendor/require.js
           main: require-js-base.js
-
 

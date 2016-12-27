@@ -5,7 +5,7 @@ Sitefile 0.0.5 `route` scheme.
 
 Requirements:
 
-- play cdn
+- play cdns
 - reuse handlers
 - possibly specify type of content, and at which endpoints
 - standalone use: Sitefile route/... specs for components, JSON pointers [RFC6901]

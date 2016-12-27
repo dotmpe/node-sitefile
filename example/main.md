@@ -63,27 +63,27 @@ Source viewer.
 
 From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 
-![ Small dot graph ](./graphviz-small-graph.dot "Small diagram")
+![ Small dot graph ](./graphviz-small-graph.dot.png "Small diagram")
 
-![ Fancy dot graph ](./graphviz-fancy-graph.dot "Fancy diagram")
+![ Fancy dot graph ](./graphviz-fancy-graph.dot.png "Fancy diagram")
 
-![ Polygonal labels dot graph ](./graphviz-polygonal-labels-graph.dot "Diagram with polygonal labels")
+![ Polygonal labels dot graph ](./graphviz-polygonal-labels-graph.dot.png "Diagram with polygonal labels")
 
-![ Record labels dot graph ](./graphviz-record-labels-graph.dot "Diagram with record labels")
+![ Record labels dot graph ](./graphviz-record-labels-graph.dot.png "Diagram with record labels")
 
-![ HTML-like tables dot graph ](./graphviz-html-labels-graph.dot "Diagram with html labels")
+![ HTML-like tables dot graph ](./graphviz-html-labels-graph.dot.png "Diagram with html labels")
 
-![ Hash table dot graph ](./graphviz-hash-table-graph.dot)
+![ Hash table dot graph ](./graphviz-hash-table-graph.dot.png)
 
-![ Constrained dot graph ](./graphviz-constrained-graph.dot)
+![ Constrained dot graph ](./graphviz-constrained-graph.dot.png)
 
-![ Binary search tree dot graph ](./graphviz-binary-search-tree-graph.dot)
+![ Binary search tree dot graph ](./graphviz-binary-search-tree-graph.dot.png)
 
-![ Process diagram with clusters ](./graphviz-process-cluster-graph.dot)
+![ Process diagram with clusters ](./graphviz-process-cluster-graph.dot.png)
 
-![ Call graph ](./graphviz-call-graph.dot)
+![ Call graph ](./graphviz-call-graph.dot.png)
 
-![ Graph with edges on clusters ](./graphviz-edge-cluster-graph.dot)
+![ Graph with edges on clusters ](./graphviz-edge-cluster-graph.dot.png)
 
 
 
