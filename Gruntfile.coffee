@@ -14,7 +14,7 @@ module.exports = ( grunt ) ->
       gulpfile:
         options:
           jshintrc: '.jshintrc'
-        src: [ 'gulpfile.js' ]
+        src: [ 'gulpfile-old.js' ]
 
       package:
         options:
