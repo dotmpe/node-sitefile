@@ -71,7 +71,7 @@ routes:
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
-  npm/packages/: static:node_modules/
+  npm/packages/: 'static:{,sitefile:}node_modules/'
 
   vendor/:package.:format: cdn:cdn.json
 
