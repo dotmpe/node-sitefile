@@ -125,18 +125,6 @@ module.exports = ( grunt ) ->
         resolve:
           extensions: [ '', '.js' ]
 
-    ###
-    jsdoc : {
-        dist : {
-            src: ['dist/*.js'],
-            options: {
-                destination: 'build/docs/jsdoc/'
-            }
-        }
-    },
-
-    ###
-
       app:
         entry: './lib/sitefile/client/app-0'
         devtool: 'sourcemap'
@@ -154,6 +142,19 @@ module.exports = ( grunt ) ->
           ]
         resolve:
           extensions: [ '', '.js' ]
+
+    ###
+    jsdoc : {
+        dist : {
+            src: ['dist/*.js'],
+            options: {
+                destination: 'build/docs/jsdoc/'
+            }
+        }
+    },
+
+    ###
+
 
     docco:
       debug:
