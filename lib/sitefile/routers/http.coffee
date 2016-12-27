@@ -155,7 +155,7 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
         f = _.defaultsDeep {}, req.params
         ext = cdn[f.format].http.ext
-        console.log 'http.vendor', req.res.ref
+        console.log 'http.vendor', rctx.res.ref
         if f.format not of cdn
           err = "No format #{f.format}"
           res.type 500
@@ -175,7 +175,7 @@ module.exports = ( ctx ) ->
       res:
         data: ( dctx ) ->
           console.log 'requirejs', rctx.res.ref
-          { paths, shims } = Router.parse_kw_spec rctx
+          { baseUrl, paths, shims, main, deps } = Router.parse_kw_spec rctx
           if paths and paths.startsWith '$ref:'
             paths = Router.read_xref ctx, paths.substr 5
           else if 'string' is typeof paths
@@ -184,9 +184,10 @@ module.exports = ( ctx ) ->
             shims = {}
           if not shims
             shims = {}
-          baseUrl: rctx.res.ref
+          baseUrl: baseUrl or rctx.res.ref
           paths: paths
           shims: shims
+          deps: [ main ]
 
     requirejs_main: ( rctx ) ->
       ( req, res ) ->
@@ -196,6 +197,6 @@ module.exports = ( ctx ) ->
         console.log 'requirejs-main', url
         res.type "text/javascript"
         res.write "/* Config from #{url} ( #{rrctx.route.spec} ) */ "
-        res.write "require.config(#{rjs_opts});"
+        res.write "requirejs.config(#{rjs_opts});"
         res.end()
 

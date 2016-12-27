@@ -78,8 +78,10 @@ routes:
   res/:ref: http.res:#
   site/:site/:path: http.site:sites.json
 
-  app/requirejs.json: http.requirejs:paths=$ref:cdn.json#/js/http/packages
-  app/requirejs: http.requirejs_main:app/requirejs.json
+  client: static:lib/sitefile/client
+  requirejs/app-0.json: http.requirejs:paths=$ref:cdn.json#/js/http/packages;baseUrl=vendor;main=/client/base.js
+  #cs!../node
+  requirejs/app-0.js: http.requirejs_main:requirejs/app-0.json
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
@@ -136,8 +138,6 @@ options:
         $ref: '#/defs/stylesheets/default/urls'
 
   local:
-    shadows/: {}
-      
     npm/node-sitefile/latest.json:
       spec: 
         hostname: 'registry.npmjs.org'
@@ -148,10 +148,10 @@ options:
         path: '/npm/latest'
     Sitefile/debug: 
       local_var: 'fooooo'
-
-    app/main:
-      $ref: '#/defs/app/base'
-
+    app/v0:
+      clients:
+        $ref: '#/defs/app/base/clients'
+    shadows/: {}
 
 defs:
   scripts:
@@ -172,9 +172,10 @@ defs:
 
   app:
     base:
-      client:
+      clients:
         - type: require-js
-          id: require-js-base-app
+          id: require-js-v0-base-app
           href: /vendor/require.js
-          main: require-js-base.js
+          main: /requirejs/app-0
+
 

@@ -31,6 +31,14 @@ module.exports = ( ctx ) ->
     default: ( rctx ) ->
       ( req, res ) ->
 
+        opts = {
+          stylesheets: urls: ['/app/v0/base.css']
+          scripts: urls: ['/app/v0/base.js']
+          clients: []
+        }
+        opts = _.defaultsDeep rctx.route.options, opts
+        console.log 'app-0 opts', opts
+
         mainPugFn = path.join __dirname, 'app-0', 'main.pug'
 
         res.type 'html'
@@ -39,9 +47,7 @@ module.exports = ( ctx ) ->
           merge:
             base: ctx.site.base+rctx.name
             script: ctx.site.base+rctx.name+'.js'
-            options:
-              stylesheets: urls: ['/app/v0/base.css']
-              scripts: urls: ['/app/v0/base.js']
+            options: opts
             query: req.query
             context: rctx
         }
