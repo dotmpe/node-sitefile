@@ -17,7 +17,7 @@ paths:
 
 routes:
 
-  client: static:build/client
+  media/script/sitefile-client.js: static:build/client/default.js
   media/style: static:build/style
   
   doc/literate: static:build/docs/docco/
@@ -154,7 +154,7 @@ defs:
     default:
       urls:
         - /vendor/jqueryjs
-        - /client/default.js
+        - /media/script/sitefile-client.js
       paths:
         - build/client/default.js
   stylesheets:

@@ -101,10 +101,11 @@ doubles as an example for all handlers. ", ->
 
 
   it "should publish a client JS",
-    stu.test_url_type_ok "/client/default.js", "application/javascript"
+    stu.test_url_type_ok \
+      "/media/script/sitefile-client.js", "application/javascript"
 
   it "should publish a client css",
-    stu.test_url_type_ok "/style/default.css", "text/css"
+    stu.test_url_type_ok "/media/style/default.css", "text/css"
 
 
   describe "has a Graphviz router for DOT diagram to PNG format", ->
