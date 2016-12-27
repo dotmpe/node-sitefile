@@ -40,17 +40,6 @@ routes:
   _plantuml: plantuml:example/*.plantuml
 
   example: static:example
-  vendor/jquery.js: static:node_modules/jquery/dist/jquery.js
-  vendor/bootstrap.css: static:node_modules/bootstrap/dist/css/bootstrap.css
-  vendor/bootstrap-theme.css: static:node_modules/bootstrap/dist/css/bootstrap-theme.css
-  vendor/bootstrap.js: static:node_modules/bootstrap/dist/js/bootstrap.js
-  #vendor/require.js: static:node_modules/sinon/pkg/sinon.js
-  #vendor/coffee-script.js: static:node_modules/coffee-script/register.js
-
-  vendor/mocha.css: static:node_modules/mocha/mocha.css
-  vendor/mocha.js: static:node_modules/mocha/mocha.js
-  vendor/chai.js: static:node_modules/chai/chai.js
-  vendor/sinon.js: static:node_modules/sinon/pkg/sinon.js
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -92,7 +81,7 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  #proc/pm2: pm2:pm2-apps.json
+  proc/pm2: pm2:pm2-apps.json
 
   'app/src/*': prism:#
 
@@ -101,7 +90,6 @@ routes:
   app/v0/base.js: app-0.cdn_js:#
   app/v0/reader.html: app-0.reader:#
   app/reader: app-0.reader:#
-
 
   example/polymer-app-router: static:example/polymer-app-router.html
 
