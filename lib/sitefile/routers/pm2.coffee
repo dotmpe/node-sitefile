@@ -80,6 +80,7 @@ class PM2Manager
 module.exports = ( ctx ) ->
 
   try
+    pug = require 'pug'
     pm2 = require 'pm2'
   catch
     return
