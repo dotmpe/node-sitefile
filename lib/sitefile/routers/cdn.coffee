@@ -48,7 +48,6 @@ module.exports = ( ctx ) ->
       if not fs.existsSync cdnjson
         log.warn "CDN requires JSON config"
         return
-      console.log 'CDN', cdnjson, JSON.stringify rctx.res
       cdn = require cdnjson
       ( req, res ) ->
         f = _.defaultsDeep {}, req.params

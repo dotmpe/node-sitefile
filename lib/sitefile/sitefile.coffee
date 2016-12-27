@@ -185,7 +185,9 @@ prepare_context = ( ctx={} ) ->
 
 # Split sitefile router specs
 split_spec = ( strspec, ctx={} ) ->
-  [ handler_path, hspec ] = strspec.split(':')
+  idx = strspec.indexOf ':'
+  handler_path = strspec.substr 0, idx
+  hspec = strspec.substr idx+1
   if handler_path.indexOf '.' != -1
     [ router_name, handler_name ] = handler_path.split '.'
   else
