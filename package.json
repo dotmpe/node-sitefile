@@ -37,9 +37,7 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-
     "install": " ./configure && grunt build-test",
-
     "test": "./configure && grunt",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
@@ -124,6 +122,7 @@
     "pug-loader": "latest",
     "rename-loader": "^1.0.0",
     "request": "latest",
+    "sinon": "^1.17.6",
     "source-map-support": "latest",
     "text-table": "latest",
     "webpack": "^1.13.3",

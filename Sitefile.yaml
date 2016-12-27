@@ -74,6 +74,7 @@ routes:
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
+  npm/packages/: static:node_modules/
 
   vendor/:package.:format: cdn:cdn.json
 
@@ -125,7 +126,7 @@ defs:
   scripts:
     default:
       urls:
-        - /vendor/jqueryjs
+        - /vendor/jquery.js
         - /media/script/sitefile-client.js
       paths:
         - build/client/default.js

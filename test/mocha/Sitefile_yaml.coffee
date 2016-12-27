@@ -117,8 +117,48 @@ doubles as an example for all handlers. ", ->
     it "should redirect",
       stu.test_url_redirected "/example/graphviz-binary-search-tree-graph.dot"
 
-    #it "should redirect to a PNG format",
-    #  stu.test_url_type_ok \
-    #     "/example/graphviz-binary-search-tree-graph.dot.gv", "image/png"
+
+  describe "has a CDN-redirection router instance at vendor/", ->
+
+    it "should serve require.js", stu.test_url_type_ok \
+        "/vendor/require.js", "application/javascript"
+
+    it "should serve coffee-script.js", stu.test_url_type_ok \
+        "/vendor/coffee-script.js", "application/javascript"
+
+    it "should serve bootstrap.css", stu.test_url_type_ok \
+        "/vendor/bootstrap.css", "text/css"
+
+    it "should serve bootstrap-theme.css", stu.test_url_type_ok \
+        "/vendor/bootstrap-theme.css", "text/css"
+
+    it "should serve jquery.js", stu.test_url_type_ok \
+        "/vendor/jquery.js", "application/javascript"
+
+    it "should serve jqueryui.js", stu.test_url_type_ok \
+        "/vendor/jqueryui.js", "application/javascript"
+
+    it "should serve lodash.js", stu.test_url_type_ok \
+        "/vendor/lodash.js", "application/javascript"
+
+    it "should serve underscore.js", stu.test_url_type_ok \
+        "/vendor/underscore.js", "application/javascript"
+
+    it "should serve underscore.string.js", stu.test_url_type_ok \
+        "/vendor/underscore.string.js", "application/javascript"
+
+    it "should serve mocha.css", stu.test_url_type_ok \
+        "/vendor/mocha.css", "text/css"
+
+    it "should serve mocha.js", stu.test_url_type_ok \
+        "/vendor/mocha.js", "application/javascript"
+
+    it "should serve chai.js", stu.test_url_type_ok \
+        "/vendor/chai.js", "application/javascript"
+
+    it "should serve sinon.js", stu.test_url_type_ok \
+        "/vendor/sinon.js", "application/javascript"
+
+
 
 
