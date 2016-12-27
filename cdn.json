@@ -23,6 +23,9 @@
         "underscore": "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore",
         "underscore.string": "//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min",
         "crossroads": "//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.2/crossroads.min",
+        "mocha": "/npm/packages/mocha/mocha",
+        "chai": "/npm/packages/chai/chai",
+        "sinon": "//rawgit.com/sinonjs/sinon/master/lib/sinon",
         "coffee-script": "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.11.1/coffee-script.min",
         "cs": "//cdnjs.cloudflare.com/ajax/libs/require-cs/0.5.0/cs.min"
       }
@@ -31,13 +34,17 @@
   "css": {
     "local": {
       "packages": {
-        "mocha.css": "node_modules/mocha/mocha.css"
+        "mocha": "node_modules/mocha/mocha",
+        "bootstrap": "node_modules/bootstrap/dist/css/bootstrap.min",
+        "bootstrap-theme": "node_modules/bootstrap/dist/css/bootstrap-theme.min"
       }
     },
     "http": {
       "ext": ".css",
       "packages": {
-        "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min"
+        "mocha": "/npm/packages/mocha/mocha",
+        "bootstrap": "/npm/packages/bootstrap/dist/css/bootstrap.min",
+        "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min"
       }
     }
   }

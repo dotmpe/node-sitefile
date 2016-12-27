@@ -17,8 +17,8 @@ paths:
 
 routes:
 
-  client: static:build/client
-  style: static:build/style
+  media/script/sitefile-client.js: static:build/client/default.js
+  media/style: static:build/style
   
   doc/literate: static:build/docs/docco/
 
@@ -44,13 +44,6 @@ routes:
   gherkin: gherkin.steps:example/*.feature,test/features/*.feature
 
   example: static:example
-  vendor/require.js: static:node_modules/sinon/pkg/sinon.js
-  vendor/coffee-script.js: static:node_modules/sinon/pkg/sinon.js
-
-  vendor/mocha.css: static:node_modules/mocha/mocha.css
-  vendor/mocha.js: static:node_modules/mocha/mocha.js
-  vendor/chai.js: static:node_modules/chai/chai.js
-  vendor/sinon.js: static:node_modules/sinon/pkg/sinon.js
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -82,6 +75,7 @@ routes:
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
+  npm/packages/: static:node_modules/
 
   vendor/:package.:format: cdn:cdn.json
 
@@ -92,10 +86,7 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  #proc/pm2: pm2:pm2-apps.json
-
-  app/v0: app-0:#
-  app/reader: app-0.reader:#
+  proc/pm2: pm2:pm2-apps.json
 
 
 options:
@@ -136,13 +127,16 @@ defs:
   scripts:
     default:
       urls:
-        - /client/default.js
+        - /vendor/jquery.js
+        - /media/script/sitefile-client.js
       paths:
         - build/client/default.js
   stylesheets:
     default:
       urls:
-        - /style/default.css
+        - /vendor/bootstrap.css
+        - /vendor/bootstrap-theme.css
+        - /media/style/default.css
       paths:
         - build/style/default.css
 
@@ -153,5 +147,4 @@ defs:
           id: require-js-base-app
           href: /vendor/require.js
           main: require-js-base.js
-
 
