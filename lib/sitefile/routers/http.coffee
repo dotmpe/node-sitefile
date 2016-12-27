@@ -1,4 +1,5 @@
 
+_ = require 'lodash'
 http = require 'http'
 path = require 'path'
 fs = require 'fs'
