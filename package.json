@@ -37,11 +37,9 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-
     "post-install": " ./configure && grunt build-test",
-
     "install": " ./configure && grunt build-test",
-    "test": "./configure && grunt",
+    "test": "./configure && grunt build-test test",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
     "strict": "nodemon bin/sitefile.coffee --use_strict -w Sitefile.yaml -w lib/ -w bin/",
@@ -49,9 +47,7 @@
     "check": "grunt check",
     "vulnerabilities": "snyk test",
     "echo": "echo 'Note that npm run accept arguments (try npm run echo foo):'",
-
     "cruft": "./tools/tags.sh",
-
     "update-spec": "sh ./tools/update-spec.sh",
     "build-new": "gulp server-build",
     "mocha": "mocha --compilers coffee:coffee-script/register test/mocha/*.coffee",
@@ -90,6 +86,7 @@
     "stylus": "^0.54.5"
   },
   "devDependencies": {
+    "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "bootstrap": "^3.3.7",
