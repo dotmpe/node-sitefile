@@ -6,6 +6,7 @@ Promise = require 'bluebird'
 
 module.exports = ( ctx ) ->
 
+  # FIXME: check if jar runs, Java etc.
   plantuml = "java -jar #{ctx.sfdir}/plantuml.jar"
 
 

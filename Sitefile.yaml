@@ -25,7 +25,9 @@ routes:
   doc/literate: static:build/docs/docco/
   #doc/api: static:build/docs/jsdoc/
 
-  example/: redir:example/main
+  # FIXME: example/: redir:example/main
+  example: static:example
+
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   # Example, get data from another endpoint, the one above?
@@ -45,8 +47,6 @@ routes:
   _gherkin_test: gherkin:test/features/*.feature
   
   gherkin: gherkin.steps:example/*.feature,test/features/*.feature
-
-  example: static:example
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -123,13 +123,17 @@ routes:
   #topics: api1646:example/app/topic
   topics: pug:app1646/main.pug
 
+  #/shadows/:path: convert.filter:**/*.png
+
+  tools: static:tools
+
 
 options:
   global:
     du:
       link_stylesheets: true
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     rst2html:
@@ -137,16 +141,18 @@ options:
       flags:
       - "--no-toc-backlinks"
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     pug:
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
 
   local:
+    shadows/: []
+      
     npm/node-sitefile/latest.json:
       spec: 
         hostname: 'registry.npmjs.org'
@@ -190,7 +196,7 @@ defs:
         - /vendor/bootstrap-theme.css
         - /media/style/default.css
       paths:
-        - public/media/style/default.css
+        - build/media/style/default.css
 
   app:
     base:
