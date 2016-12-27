@@ -61,7 +61,9 @@ Documentation
 -------------
 The Main documents are and will be reStructuredText. But for more flexibility
 the administration of several other documents is for now at once done in the
-TODO_ document. Some integrate them here later.
+TODO_ document. Some integrate them here later. First, more use-cases
+in the feature docs. And ideally some kind of feedback from a BDD test setup.
+
 Sections:
 
 - Hacking
