@@ -10,10 +10,10 @@ tu = require './../test-utils'
 
 
 describe "The local Sitefile.yaml serves the local documentation, and
-doubles is an example for all handlers. ", ->
+doubles as an example for all handlers. ", ->
 
   stu = new tu.SitefileTestUtils()
-  this.timeout 6000
+  this.timeout 12000
 
   before stu.before.bind stu
   after stu.after.bind stu
@@ -54,7 +54,6 @@ doubles is an example for all handlers. ", ->
 }
 """
 
-
   it "should serve routes for a local extension router example", ( done ) ->
 
     tasks = [
@@ -91,6 +90,35 @@ doubles is an example for all handlers. ", ->
     Promise.all( tasks ).then -> done()
 
     null
+  
+  ###
+  if stu.module_installed 'pm2'
+    it "should publish a PM2 client",
+      stu.test_url_type_ok "/proc/pm2.html", "text/html"
+    it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2/"
+    it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2"
+  ###
 
+
+  it "should publish a client JS",
+    stu.test_url_type_ok \
+      "/media/script/sitefile-client.js", "application/javascript"
+
+  it "should publish a client css",
+    stu.test_url_type_ok "/media/style/default.css", "text/css"
+
+
+  describe "has a Graphviz router for DOT diagram to PNG format", ->
+
+    it "should render a PNG format",
+      stu.test_url_type_ok \
+        "/example/graphviz-binary-search-tree-graph.dot.png", "image/png"
+
+    it "should redirect",
+      stu.test_url_redirected "/example/graphviz-binary-search-tree-graph.dot"
+
+    #it "should redirect to a PNG format",
+    #  stu.test_url_type_ok \
+    #     "/example/graphviz-binary-search-tree-graph.dot.gv", "image/png"
 
 
