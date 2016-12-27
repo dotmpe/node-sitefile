@@ -12,12 +12,13 @@ module.exports = ( ctx={} ) ->
   """
 
   # generators for Sitefile route handlers
-  generate: ( spec, ctx={} ) ->
+  generate:
+    default: ( spec, ctx={} ) ->
 
-    fn = spec + '.json'
+      fn = spec + '.json'
 
-    ( req, res ) ->
-      res.write 'TODO:'+fn
-      res.end()
+      ( req, res ) ->
+        res.write 'TODO:'+fn
+        res.end()
 
 
