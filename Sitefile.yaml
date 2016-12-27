@@ -123,6 +123,7 @@ routes:
   #topics: api1646:example/app/topic
   topics: pug:app1646/main.pug
 
+  
   #/shadows/:path: convert.filter:**/*.png
 
   tools: static:tools
@@ -151,7 +152,7 @@ options:
         $ref: '#/defs/stylesheets/default/urls'
 
   local:
-    shadows/: []
+    shadows/: {}
       
     npm/node-sitefile/latest.json:
       spec: 
