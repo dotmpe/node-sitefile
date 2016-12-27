@@ -10,6 +10,7 @@ addons:
   apt:
     packages:
       - python-docutils
+      - graphviz
 
 before_script:
 - test -x "$(which rst2html)" || { mkdir ~/bin && cd ~/bin && ln -s $(which rst2html.py) rst2html; }
