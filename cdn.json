@@ -34,7 +34,7 @@
   "css": {
     "local": {
       "packages": {
-        "mocha": "node_modules/mocha/mocha.css",
+        "mocha": "node_modules/mocha/mocha",
         "bootstrap": "node_modules/bootstrap/dist/css/bootstrap.min",
         "bootstrap-theme": "node_modules/bootstrap/dist/css/bootstrap-theme.min"
       }
