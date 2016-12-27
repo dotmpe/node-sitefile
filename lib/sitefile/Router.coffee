@@ -8,7 +8,6 @@ _ = require 'lodash'
 
 expand_path_spec_to_route = ( rctx ) ->
   spec = rctx.route.spec
-  console.log 'spec', spec
   if spec and '#' != spec
     # Expand non-glob from spec to paths
     srcs = minimatch.braceExpand spec

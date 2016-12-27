@@ -10,5 +10,9 @@ database Database
 cloud Cloud
 
 
+note left of Cloud
+  This is a note
+end note
+
 
 @enduml

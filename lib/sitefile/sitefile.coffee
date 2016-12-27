@@ -441,10 +441,8 @@ log_line = ( v, out=[] ) ->
           out.push chalk.magenta o
         else
           out.push o
-      else if o.res?
+      else if o.res? or o.format? or o.path?
         out.push chalk.green o.res
-      else if o.path?
-        out.push chalk.green o.path
       else if o.url?
         out.push chalk.yellow o.url
       else if o.name?

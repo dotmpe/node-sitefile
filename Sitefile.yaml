@@ -100,13 +100,17 @@ routes:
   #components/core-header-panel: static:public/components/polymer-ui-header-panel
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
 
+  #/shadows/:path: convert.filter:**/*.png
+
+  tools: static:tools
+
 
 options:
   global:
     du:
       link_stylesheets: true
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     rst2html:
@@ -114,16 +118,18 @@ options:
       flags:
       - "--no-toc-backlinks"
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     pug:
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
 
   local:
+    shadows/: []
+      
     npm/node-sitefile/latest.json:
       spec: 
         hostname: 'registry.npmjs.org'
@@ -137,6 +143,7 @@ options:
 
     app/main:
       $ref: '#/defs/app/base'
+
 
 defs:
   scripts:
