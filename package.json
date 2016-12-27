@@ -37,9 +37,7 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-
     "install": " ./configure && grunt build-test",
-
     "test": "./configure && grunt",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
@@ -114,15 +112,16 @@
     "load-grunt-config": "latest",
     "load-grunt-tasks": "latest",
     "mocha": "^3.2.0",
-    "webpack-dev-server": "^1.16.2",
     "path": "latest",
     "pm2": "latest",
     "pmx": "^0.6.8",
     "pug-loader": "latest",
     "rename-loader": "^1.0.0",
     "request": "latest",
+    "sinon": "^1.17.6",
     "source-map-support": "latest",
     "text-table": "latest",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
   }
 }
