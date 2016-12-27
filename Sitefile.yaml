@@ -122,6 +122,10 @@ routes:
 
   #topics: api1646:example/app/topic
   topics: pug:app1646/main.pug
+  
+  #/shadows/:path: convert.filter:**/*.png
+
+  tools: static:tools
 
 
 options:
@@ -129,7 +133,7 @@ options:
     du:
       link_stylesheets: true
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     rst2html:
@@ -137,16 +141,18 @@ options:
       flags:
       - "--no-toc-backlinks"
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     pug:
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
 
   local:
+    shadows/: {}
+      
     npm/node-sitefile/latest.json:
       spec: 
         hostname: 'registry.npmjs.org'
@@ -179,8 +185,8 @@ defs:
   scripts:
     default:
       urls:
-        - /vendor/jquery.js
-        - /media/script/sitefile-client.js
+      - /vendor/jquery.js
+      - /media/script/sitefile-client.js
       paths:
         - build/client/default.js
   stylesheets:
