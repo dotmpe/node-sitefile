@@ -12,8 +12,15 @@ Currently
 
 ToDo
 
-Want some CDN-like router. But also provide CDN urls directly without routing
-ourselfs, using a redirect.
+CDN
+  Want some CDN-like router.
+  Provide a list at try each before serving as resource, redirect?
+
+  TODO: provide lists of alternative URLs
+  TODO: optionally have path attribute for routers that like both URL and local
+  path.
+
+  "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min"
 
 
 ----
