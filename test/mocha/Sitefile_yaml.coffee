@@ -117,10 +117,6 @@ doubles as an example for all handlers. ", ->
     it "should redirect",
       stu.test_url_redirected "/example/graphviz-binary-search-tree-graph.dot"
 
-    #it "should redirect to a PNG format",
-    #  stu.test_url_type_ok \
-    #     "/example/graphviz-binary-search-tree-graph.dot.gv", "image/png"
-
 
   describe "has a CDN-redirection router instance at vendor/", ->
 
@@ -151,6 +147,9 @@ doubles as an example for all handlers. ", ->
     it "should serve underscore.string.js", stu.test_url_type_ok \
         "/vendor/underscore.string.js", "application/javascript"
 
+    it "should serve mocha.css", stu.test_url_type_ok \
+        "/vendor/mocha.css", "text/css"
+
     it "should serve mocha.js", stu.test_url_type_ok \
         "/vendor/mocha.js", "application/javascript"
 
@@ -159,6 +158,7 @@ doubles as an example for all handlers. ", ->
 
     it "should serve sinon.js", stu.test_url_type_ok \
         "/vendor/sinon.js", "application/javascript"
+
 
 
 
