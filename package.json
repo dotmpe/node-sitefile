@@ -37,28 +37,16 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-
-
     "install": " ./configure && grunt build-test",
-
     "test": "./configure && grunt",
-
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
-
-
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
     "strict": "nodemon bin/sitefile.coffee --use_strict -w Sitefile.yaml -w lib/ -w bin/",
-
     "build": "grunt build",
-
     "check": "grunt check",
-
     "vulnerabilities": "snyk test",
-
     "echo": "echo 'Note that npm run accept arguments (try npm run echo foo):'",
-
     "cruft": "./tools/tags.sh",
-
     "update-spec": "sh ./tools/update-spec.sh",
     "build-new": "gulp server-build",
     "mocha": "mocha --compilers coffee:coffee-script/register test/mocha/*.coffee",
@@ -81,6 +69,7 @@
     "glob": "^7.1.0",
     "js-yaml": "^3.6.1",
     "lodash": "^4.16.1",
+    "mime-types": "^2.1.13",
     "nodelib": "https://github.com/dotmpe/nodelib.git#dev",
     "qs": "6.2.0",
     "semver": "^5.3.0"
