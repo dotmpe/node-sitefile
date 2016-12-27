@@ -41,6 +41,18 @@ module.exports = ( grunt ) ->
         'example/**/*.coffee'
       ]
 
+    coffee:
+      app:
+        expand: true
+        flatten: true
+        cwd: "#{__dirname}/lib/sitefile/routers/app-0"
+        src: [
+           "*.coffee"
+        ],
+        dest: 'dist/app-0'
+        ext: '.js'
+
+
     yamllint:
       all: [
         'Sitefile.yaml'
@@ -125,6 +137,24 @@ module.exports = ( grunt ) ->
 
     ###
 
+      app:
+        entry: './lib/sitefile/client/app-0'
+        devtool: 'sourcemap'
+        output:
+          filename: 'dist/app-0/main.js'
+          library: "sitefile_prototype"
+        module:
+          loaders: [
+            #  XXX babel?
+            # {
+            #   test: /\.js$/,
+            #   exclude: /node_modules/,
+            #   loaders: ['babel']
+            # },
+          ]
+        resolve:
+          extensions: [ '', '.js' ]
+
     docco:
       debug:
         src: [
@@ -143,6 +173,9 @@ module.exports = ( grunt ) ->
       dist:
         files:
           'build/style/default.css': 'lib/sitefile/style/default.sass'
+      app:
+        files:
+          'dist/app-0.css': 'lib/sitefile/routers/app-0/default.sass'
 
     exec:
       check_version:
@@ -195,8 +228,15 @@ module.exports = ( grunt ) ->
     'webpack:client'
   ]
 
+  grunt.registerTask 'app', [
+    'sass:app'
+    'webpack:app'
+    'coffee:app'
+  ]
+
   grunt.registerTask 'build-test', [
     'client'
+    'app'
     'docco:debug'
   ]
 

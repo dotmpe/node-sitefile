@@ -104,6 +104,12 @@ routes:
 
   api/elegant/: jsonary-rest-api:example/jsonary-rest-api/elegant
 
+  app/v0: app-0:#
+  app/v0/base.css: app-0.cdn_css:#
+  app/v0/base.js: app-0.cdn_js:#
+  app/v0/reader.html: app-0.reader:#
+  app/reader: app-0.reader:#
+
   example/polymer-app-router: static:example/polymer-app-router.html
 
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
@@ -116,9 +122,6 @@ routes:
 
   #topics: api1646:example/app/topic
   topics: pug:app1646/main.pug
-
-  #app/v0: app-0:#
-  #app/reader: app-0.reader:#
 
 
 options:

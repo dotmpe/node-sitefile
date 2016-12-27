@@ -1,4 +1,8 @@
 
+#$ = jQuery = require '../../../node_modules/jquery/dist/jquery.min.js'
+#_ = lodash = require '../../../node_modules/lodash/lodash.min.js'
+#bootstrap = require '../../../node_modules/bootstrap/dist/js/bootstrap.js'
+
 $(document).ready ->
 
   appid_base = $('.container.pm2-list').data('urlbase')

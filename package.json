@@ -38,8 +38,7 @@
   },
   "scripts": {
 
-
-    "install": " ./configure && grunt build-test",
+    "install": " ./configure && grunt app build-test",
 
     "test": "./configure && grunt",
 
