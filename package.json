@@ -70,6 +70,7 @@
     "js-yaml": "^3.6.1",
     "lodash": "^4.16.1",
     "mime-types": "^2.1.13",
+    "minimatch": "^3.0.3",
     "nodelib": "https://github.com/dotmpe/nodelib.git#dev",
     "qs": "6.2.0",
     "semver": "^5.3.0"
