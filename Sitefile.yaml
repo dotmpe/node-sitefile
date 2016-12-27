@@ -22,9 +22,9 @@ routes:
   
   doc/literate: static:build/docs/docco/
 
-  example/: static:example
+  # FIXME: example/: redir:example/main
+  example: static:example
 
-  example: redir:example/main
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   # Example, get data from another endpoint, the one above?
@@ -73,7 +73,13 @@ routes:
   npm/node-sitefile/latest.json: 'http:'
   npm/packages/: 'static:{,sitefile:}node_modules/'
 
-  vendor/:package.:format: cdn:cdn.json
+  vendor/:package.:format: http.vendor:cdn.json
+  ref/:ref: http.ref:#
+  res/:ref: http.res:#
+  site/:site/:path: http.site:sites.json
+
+  app/requirejs.json: http.requirejs:paths=$ref:cdn.json#/js/http/packages
+  app/requirejs: http.requirejs_main:app/requirejs.json
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
@@ -130,7 +136,7 @@ options:
         $ref: '#/defs/stylesheets/default/urls'
 
   local:
-    shadows/: []
+    shadows/: {}
       
     npm/node-sitefile/latest.json:
       spec: 
