@@ -11,15 +11,14 @@ module.exports = ( grunt ) ->
   grunt.initConfig
 
     jshint:
-      gulpfile:
-        options:
-          jshintrc: '.jshintrc'
-        src: [ 'gulpfile-old.js' ]
 
       package:
         options:
           jshintrc: '.jshintrc'
-        src: [ '*.json' ]
+        src: [
+          '*.json'
+          'gulpfile-old.js'
+        ]
 
       examples:
         options:

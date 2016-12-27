@@ -82,7 +82,10 @@ routes:
   npm/node-sitefile/latest.json: 'http:'
   npm/packages/: 'static:{,sitefile:}node_modules/'
 
-  vendor/:package.:format: cdn:cdn.json
+  vendor/:package.:format: http.vendor:cdn.json
+  ref/:ref: http.ref:#
+  res/:ref: http.res:#
+  site/:site/:path: http.site:sites.json
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
