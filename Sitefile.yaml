@@ -17,8 +17,8 @@ paths:
 
 routes:
 
-  client: static:build/client
-  style: static:build/style
+  media/script/sitefile-client.js: static:build/client/default.js
+  media/style: static:build/style
   
   doc/literate: static:build/docs/docco/
 
@@ -40,13 +40,6 @@ routes:
   _plantuml: plantuml:example/*.plantuml
 
   example: static:example
-  vendor/require.js: static:node_modules/sinon/pkg/sinon.js
-  vendor/coffee-script.js: static:node_modules/sinon/pkg/sinon.js
-
-  vendor/mocha.css: static:node_modules/mocha/mocha.css
-  vendor/mocha.js: static:node_modules/mocha/mocha.js
-  vendor/chai.js: static:node_modules/chai/chai.js
-  vendor/sinon.js: static:node_modules/sinon/pkg/sinon.js
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -88,10 +81,7 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  #proc/pm2: pm2:pm2-apps.json
-
-  app/v0: app-0:#
-  app/reader: app-0.reader:#
+  proc/pm2: pm2:pm2-apps.json
 
   _json-editor: json-editor:example/json-editor/schema/*.json
 
@@ -135,13 +125,16 @@ defs:
   scripts:
     default:
       urls:
-        - /client/default.js
+        - /vendor/jqueryjs
+        - /media/script/sitefile-client.js
       paths:
         - build/client/default.js
   stylesheets:
     default:
       urls:
-        - /style/default.css
+        - /vendor/bootstrap.css
+        - /vendor/bootstrap-theme.css
+        - /media/style/default.css
       paths:
         - build/style/default.css
 
@@ -152,5 +145,4 @@ defs:
           id: require-js-base-app
           href: /vendor/require.js
           main: require-js-base.js
-
 

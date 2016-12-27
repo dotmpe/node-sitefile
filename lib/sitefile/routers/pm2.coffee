@@ -28,7 +28,7 @@ class PM2Config
     if path.dirname(filename) != filename
       @pm2_config_dir = path.join @cwd, path.dirname filename
       if not fs.existsSync @pm2_config_dir
-        throw new Exception "Directory should exist: #{filename}"
+        throw new Error "Directory should exist: #{filename}"
     @pm2_config_file = path.join @cwd, filename
     if fs.existsSync @pm2_config_file
       @pm2_config = require(@pm2_config_file).apps
@@ -44,7 +44,7 @@ class PM2Dump
     @pm2_dump_file = filename
     @pm2_dump_file = path.join @cwd, filename
     if not fs.existsSync @pm2_dump_file
-      throw new Exception "No such file #{filename}"
+      throw new Error "No such file #{filename}"
     @pm2_dump = require(@pm2_dump_file)
 
 class PM2Manager
@@ -80,6 +80,7 @@ class PM2Manager
 module.exports = ( ctx ) ->
 
   try
+    pug = require 'pug'
     pm2 = require 'pm2'
   catch
     return
