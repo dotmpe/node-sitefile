@@ -78,6 +78,9 @@ routes:
   res/:ref: http.res:#
   site/:site/:path: http.site:sites.json
 
+  app/requirejs.json: http.requirejs:paths=$ref:cdn.json#/js/http/packages
+  app/requirejs: http.requirejs_main:app/requirejs.json
+
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
 

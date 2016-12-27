@@ -196,7 +196,7 @@ Base =
     ctx = rctx.context
 
     # routes.resources: Track all paths to router instances
-    ctx.routes.resources.push rctx.res.ref
+    ctx.routes.resources[rctx.res.ref] = rctx
 
     # generate: let router_type return handlers for given resource
 
@@ -228,7 +228,7 @@ Base =
 
       if h.res and 'data' of h.res
         rctx.context.app.all rctx.res.ref, builtin.data rctx
-      
+
       ctx.log "Extension at ", url: rctx.res.ref, \
           "from", ( name: rctx.route.name+'.'+rctx.route.handler ), \
           id: rctx.route.spec, "at", path: rctx.name
@@ -246,4 +246,30 @@ module.exports =
   define: ( mixin ) ->
     _.assign {}, Base, mixin
 
+  expand_path_spec_to_route: expand_path_spec_to_route
+
+  parse_kw_spec: ( rctx ) ->
+    kw = {}
+    specs = rctx.route.spec.split ';'
+    for spec in specs
+      x = spec.indexOf '='
+      k = spec.substr(0, x)
+      kw[k] = spec.substr x+1
+    kw
+    
+  read_xref: ( ctx, spec ) ->
+    if '#' not in spec
+      throw new Error spec
+    [ jsonf, spec ] = spec.split '#'
+    if not jsonf.startsWith path.sep
+      jsonf = path.join ctx.cwd, jsonf
+    p = spec.split '/'
+    if not p[0]
+      p.shift()
+    o = require jsonf
+    c = o
+    while p.length
+      e = p.shift()
+      c = c[e]
+    return c
 
