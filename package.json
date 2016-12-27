@@ -38,9 +38,9 @@
   },
   "scripts": {
 
-
     "post-install": " ./configure && grunt build-test",
 
+    "install": " ./configure && grunt build-test",
     "test": "./configure && grunt",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
@@ -74,6 +74,7 @@
     "glob": "^7.1.0",
     "js-yaml": "^3.6.1",
     "lodash": "^4.16.1",
+    "mime-types": "^2.1.13",
     "nodelib": "https://github.com/dotmpe/nodelib.git#dev",
     "qs": "6.2.0",
     "semver": "^5.3.0"
@@ -124,6 +125,7 @@
     "pug-loader": "latest",
     "rename-loader": "^1.0.0",
     "request": "latest",
+    "sinon": "^1.17.6",
     "source-map-support": "latest",
     "text-table": "latest",
     "webpack": "^1.13.3",
