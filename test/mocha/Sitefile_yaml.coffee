@@ -10,7 +10,7 @@ tu = require './../test-utils'
 
 
 describe "The local Sitefile.yaml serves the local documentation, and
-doubles is an example for all handlers. ", ->
+doubles as an example for all handlers. ", ->
 
   stu = new tu.SitefileTestUtils()
   this.timeout 12000
@@ -53,7 +53,6 @@ doubles is an example for all handlers. ", ->
   border: 1px solid #f00;
 }
 """
-
 
   it "should serve routes for a local extension router example", ( done ) ->
 
@@ -100,10 +99,25 @@ doubles is an example for all handlers. ", ->
     it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2"
   ###
 
+
   it "should publish a client JS",
     stu.test_url_type_ok "/client/default.js", "application/javascript"
 
   it "should publish a client css",
     stu.test_url_type_ok "/style/default.css", "text/css"
+
+
+  describe "has a Graphviz router for DOT diagram to PNG format", ->
+
+    it "should render a PNG format",
+      stu.test_url_type_ok \
+        "/example/graphviz-binary-search-tree-graph.dot.png", "image/png"
+
+    it "should redirect",
+      stu.test_url_redirected "/example/graphviz-binary-search-tree-graph.dot"
+
+    #it "should redirect to a PNG format",
+    #  stu.test_url_type_ok \
+    #     "/example/graphviz-binary-search-tree-graph.dot.gv", "image/png"
 
 
