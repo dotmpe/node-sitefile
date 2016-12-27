@@ -22,7 +22,9 @@ routes:
   
   doc/literate: static:build/docs/docco/
 
-  example/: redir:example/main
+  # FIXME: example/: redir:example/main
+  example: static:example
+
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   # Example, get data from another endpoint, the one above?
@@ -38,8 +40,6 @@ routes:
   _gv: gv:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
   _plantuml: plantuml:example/*.plantuml
-
-  example: static:example
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -130,8 +130,8 @@ defs:
   scripts:
     default:
       urls:
-      - /vendor/jquery.js
-      - /media/script/sitefile-client.js
+        - /vendor/jquery.js
+        - /media/script/sitefile-client.js
       paths:
         - build/client/default.js
   stylesheets:
