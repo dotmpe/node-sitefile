@@ -125,7 +125,7 @@ module.exports = ( grunt ) ->
     'mochaTest:test'
   ]
 
-  # Everything
+  # Essentials
   grunt.registerTask 'default', [
     'lint'
     'test'

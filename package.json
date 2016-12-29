@@ -51,6 +51,8 @@
     "build-new": "gulp server-build",
     "mocha": "mocha --compilers coffee:coffee-script/register test/mocha/*.coffee",
     "mocha-test": "mocha --compilers coffee:coffee-script/register",
+    "cucumber": "npm run cucumber-test test/features/",
+    "cucumber-test": "./node_modules/.bin/cucumber-js --compiler coffee:coffee-script/register",
     "check-version": "git-versioning check",
     "check-docs": "sh ./tools/check-branch-docs.sh",
     "src-tree": "tree -I 'node_modules|build|components'",
