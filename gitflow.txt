@@ -1,0 +1,8 @@
+master
+  ..
+dev
+  features/gherkin
+    features/selenium
+      ..
+  features/api-docs
+    ..
