@@ -17,12 +17,14 @@ paths:
 
 routes:
 
-  client: static:build/client
-  style: static:build/style
+  media/script/sitefile-client.js: static:build/client/default.js
+  media/style: static:build/style
   
   doc/literate: static:build/docs/docco/
 
-  example/: redir:example/main
+  # FIXME: example/: redir:example/main
+  example: static:example
+
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   # Example, get data from another endpoint, the one above?
@@ -38,15 +40,6 @@ routes:
   _gv: gv:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
   _plantuml: plantuml:example/*.plantuml
-
-  example: static:example
-  vendor/require.js: static:node_modules/sinon/pkg/sinon.js
-  vendor/coffee-script.js: static:node_modules/sinon/pkg/sinon.js
-
-  vendor/mocha.css: static:node_modules/mocha/mocha.css
-  vendor/mocha.js: static:node_modules/mocha/mocha.js
-  vendor/chai.js: static:node_modules/chai/chai.js
-  vendor/sinon.js: static:node_modules/sinon/pkg/sinon.js
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -78,8 +71,12 @@ routes:
 
   npm/npm/latest.json: 'http:'
   npm/node-sitefile/latest.json: 'http:'
+  npm/packages/: 'static:{,sitefile:}node_modules/'
 
-  cdn: cdn:#
+  vendor/:package.:format: http.vendor:cdn.json
+  ref/:ref: http.ref:#
+  res/:ref: http.res:#
+  site/:site/:path: http.site:sites.json
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
@@ -90,10 +87,9 @@ routes:
 
   proc/pm2: pm2:pm2-apps.json
 
-  app/v0: app-0:#
-  app/reader: app-0.reader:#
+  #/shadows/:path: convert.filter:**/*.png
 
-
+  tools: static:tools
 
 
 options:
@@ -101,7 +97,7 @@ options:
     du:
       link_stylesheets: true
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     rst2html:
@@ -109,16 +105,18 @@ options:
       flags:
       - "--no-toc-backlinks"
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     pug:
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
 
   local:
+    shadows/: {}
+      
     npm/node-sitefile/latest.json:
       spec: 
         hostname: 'registry.npmjs.org'
@@ -130,17 +128,21 @@ options:
     Sitefile/debug: 
       local_var: 'fooooo'
 
+
 defs:
   scripts:
     default:
       urls:
-        - /client/default.js
+        - /vendor/jquery.js
+        - /media/script/sitefile-client.js
       paths:
         - build/client/default.js
   stylesheets:
     default:
       urls:
-        - /style/default.css
+        - /vendor/bootstrap.css
+        - /vendor/bootstrap-theme.css
+        - /media/style/default.css
       paths:
         - build/style/default.css
 
@@ -148,8 +150,7 @@ defs:
     base:
       client:
         - type: require-js
-          id: requirejs-2.1.10
-          href: //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js
-          main: requirejs-base.js
-
+          id: require-js-base-app
+          href: /vendor/require.js
+          main: require-js-base.js
 

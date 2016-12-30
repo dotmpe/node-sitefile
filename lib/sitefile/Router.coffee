@@ -1,7 +1,23 @@
 path = require 'path'
 fs = require 'fs'
+minimatch = require 'minimatch'
 glob = require 'glob'
 _ = require 'lodash'
+
+
+
+expand_path_spec_to_route = ( rctx ) ->
+  spec = rctx.route.spec
+  if spec and '#' != spec
+    # Expand non-glob from spec to paths
+    srcs = minimatch.braceExpand spec
+  else
+    # Or fall back to verbatim route name as path
+    srcs = [ rctx.name ]
+  for src, idx in srcs
+    if src.startsWith 'sitefile:'
+      srcs[idx] = src.replace 'sitefile:', rctx.sfdir+path.sep
+  return srcs
 
 
 builtin =
@@ -16,18 +32,22 @@ builtin =
     # 303: See Other
 
     #rctx.context.redir status, url, p
-    rctx.context.app.all url, (req, res) ->
+    rctx.context.app.all url, ( req, res ) ->
       res.redirect p
     rctx.context.log '      ', url: url, '->', url: p
 
   static: ( rctx ) ->
-    url = rctx.site.base + rctx.name
-    if rctx.route.spec.startsWith '/'
-      p = rctx.route.spec
-    else
-      p = path.join rctx.cwd, rctx.route.spec
-    rctx.context.app.use url, rctx.context.static_proto p
+
+    url = rctx.res.ref
+
+    srcs = expand_path_spec_to_route rctx
+
+    rctx.context.app.use url, [
+      rctx.context.static_proto src for src in srcs
+    ]
+
     rctx.context.log 'Static', url: url, '=', path: rctx.route.spec
+
 
   # Take care of rendering from a rctx with data, for a (data) handler that does
   # not care too itself since it is a very common task.

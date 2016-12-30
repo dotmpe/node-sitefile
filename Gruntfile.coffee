@@ -9,15 +9,13 @@ module.exports = ( grunt ) ->
   grunt.initConfig
 
     jshint:
-      gulpfile:
-        options:
-          jshintrc: '.jshintrc'
-        src: [ 'gulpfile.js' ]
-
       package:
         options:
           jshintrc: '.jshintrc'
-        src: [ '*.json' ]
+        src: [
+          '*.json'
+          'gulpfile.js'
+        ]
 
       examples:
         options:
@@ -140,9 +138,13 @@ module.exports = ( grunt ) ->
     'exec:spec_update'
   ]
 
-  grunt.registerTask 'build-test', [
+  grunt.registerTask 'client', [
     'sass:dist'
-    'docco:debug'
     'webpack:client'
+  ]
+
+  grunt.registerTask 'build-test', [
+    'client'
+    'docco:debug'
   ]
 
