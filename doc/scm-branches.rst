@@ -111,7 +111,11 @@ master [*]_
         - Docco: http:/doc/literate
 
       gherkin
-        The `Gherkin Feature`_ is for routing gherkin test specifications.
+        - The `Gherkin Feature`_ is for routing gherkin test specifications.
+          Only generating JSON.
+        - Added behat initially. But later found cucumber-js.
+	- Maybe combine JSON with Pug. 
+          For now installed grunt gherkin_report for HTML but its not pretty.
 
       selenium
         - Initial mocha+chai+selenium setup
