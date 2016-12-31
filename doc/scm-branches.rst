@@ -110,7 +110,12 @@ master [*]_
         - Docco: http:/doc/literate
 
       gherkin
-        The `Gherkin Feature`_ is for routing gherkin test specifications.
+        - The `Gherkin Feature`_ is for routing gherkin test specifications.
+        - Added behat initially. But later found cucumber-js.
+
+      selenium
+        - Initial mocha+chai+selenium setup
+        - Testing to see if sf-v0 client initializes
 
   demo
     - Merging experimental features. Should keep master clean.

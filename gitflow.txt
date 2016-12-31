@@ -1,3 +1,37 @@
+master
+  ..
 dev
   features/gherkin
     features/selenium
+      ..
+
+  features/api-docs
+    ..
+  features/bootstrap
+    ..
+  features/bundles
+    ..
+  features/db-knex
+    ..
+  features/diagrams-ditaa
+    ..
+  features/html5-client
+    ..
+  features/json-editor
+    ..
+  features/jsonary
+    ..
+  features/pm2
+    ..
+  features/sitebuild
+    ..
+  features/webpack
+    ..
+
+  features/cdn
+    - dev
+  features/graphviz
+    - dev
+  features/outliner
+    - dev
+
