@@ -120,6 +120,9 @@ example for all handlers.
   it "should publish a client css",
     stu.test_url_type_ok "/media/style/default.css", "text/css"
 
+  it "should publish literate doc",
+    stu.test_url_type_ok "/doc/literate/", "html"
+
 
   describe "has a Graphviz router for DOT diagram to PNG format", ->
 
