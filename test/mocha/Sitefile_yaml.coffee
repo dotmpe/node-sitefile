@@ -154,7 +154,10 @@ example for all handlers.
 
         before ->
           @driver = new sewd.Builder().
-            withCapabilities(sewd.Capabilities.chrome()).
+            withCapabilities(
+              browserName: 'firefox'
+              #sewd.Capabilities.chrome()
+            ).
             build()
           chai.use require('chai-webdriver') @driver
           @driver.getWindowHandle()
