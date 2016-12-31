@@ -88,10 +88,13 @@ module.exports = ( grunt ) ->
             },
           ]
         plugins: [
-          new webpack.IgnorePlugin(/^(markdown|pug|pug-runtime|stylus|pm2|pmx|knex)$/),
-          new webpack.IgnorePlugin(/\.(css|less)$/),
-          new webpack.BannerPlugin('require("source-map-support").install();',
-                                   { raw: true, entryOnly: false }),
+          new webpack.IgnorePlugin(
+            /^(markdown|pug|pug-runtime|stylus|pm2|pmx|knex)$/)
+          new webpack.IgnorePlugin(/\.(css|less)$/)
+          new webpack.IgnorePlugin(/^cs/)
+          new webpack.BannerPlugin(
+            'require("source-map-support").install();',
+                                   { raw: true, entryOnly: false })
         ],
         #externals: nodeModules,
         resolve:
@@ -194,11 +197,13 @@ module.exports = ( grunt ) ->
 
   grunt.registerTask 'client', [
     'sass:dist'
-    # XXX: using rjs cs client for now 'webpack:client'
+    # XXX: using rjs cs client for now
+    'webpack:client'
   ]
 
   grunt.registerTask 'build-test', [
     'client'
+    'jsdoc:dist'
     'docco:debug'
   ]
 
