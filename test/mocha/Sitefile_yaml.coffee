@@ -107,12 +107,15 @@ example for all handlers.
       stu.test_url_type_ok "/proc/pm2.html", "text/html"
     it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2/"
     it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2"
-  ###
 
+
+  XXX: now using requirejs client
 
   it "should publish a client JS",
     stu.test_url_type_ok \
       "/media/script/sitefile-client.js", "application/javascript"
+
+  ###
 
   it "should publish a client css",
     stu.test_url_type_ok "/media/style/default.css", "text/css"
@@ -171,8 +174,18 @@ example for all handlers.
             expect('h1.title').dom.to.contain.text "Sitefile"
           ]
 
+
         browser.it "has one or more bootstrap container", ->
-          expect('.container').dom.to.have.count 3
+          driver = @driver
+          new Promise ( resolve, reject ) ->
+            driver.wait(
+              sewd.until.elementLocated sewd.By.className 'container'
+            ).catch( reject ).then ->
+              driver.getWindowHandle()
+              Promise.all([
+                expect('.container').dom.to.have.count 1
+              ]).catch( reject ).then resolve
+
 
         browser.it "has dynamic breadcrumb", ->
           driver = @driver
