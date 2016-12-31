@@ -221,6 +221,9 @@ example for all handlers.
     it "should serve coffee-script.js", stu.test_url_type_ok \
         "/vendor/coffee-script.js", "application/javascript"
 
+    it "should serve bootstrap.js", stu.test_url_type_ok \
+        "/vendor/bootstrap.js", "application/javascript"
+
     it "should serve bootstrap.css", stu.test_url_type_ok \
         "/vendor/bootstrap.css", "text/css"
 
