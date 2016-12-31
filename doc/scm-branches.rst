@@ -106,6 +106,8 @@ master [*]_
           docs.
 
       api-docs
+        - Want to look at JSDoc features. http:/doc/literate
+        - But first set up a `docco` build to see current docs. http:/doc/api
         - `Documentation Feature`_: source/API documentation.
         - Docco: http:/doc/literate
 
