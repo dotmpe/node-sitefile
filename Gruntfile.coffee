@@ -1,4 +1,4 @@
-#'use strict'
+
 
 webpack = require 'webpack'
 

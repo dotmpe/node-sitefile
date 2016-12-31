@@ -3,7 +3,8 @@
 language: node_js
 
 node_js:
-  - "0.12"
+  # FIXME: strict with webdriver (Travis #510.1) 
+  # - "0.12"
   - "6.0"
 
 addons:
