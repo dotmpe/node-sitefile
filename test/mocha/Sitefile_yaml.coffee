@@ -120,6 +120,9 @@ example for all handlers.
   it "should publish a client css",
     stu.test_url_type_ok "/media/style/default.css", "text/css"
 
+  it "should publish literate doc",
+    stu.test_url_type_ok "/doc/literate/", "html"
+
 
   describe "has a Graphviz router for DOT diagram to PNG format", ->
 
@@ -220,6 +223,9 @@ example for all handlers.
 
     it "should serve coffee-script.js", stu.test_url_type_ok \
         "/vendor/coffee-script.js", "application/javascript"
+
+    it "should serve bootstrap.js", stu.test_url_type_ok \
+        "/vendor/bootstrap.js", "application/javascript"
 
     it "should serve bootstrap.css", stu.test_url_type_ok \
         "/vendor/bootstrap.css", "text/css"

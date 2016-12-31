@@ -11,7 +11,7 @@ module.exports = ( grunt ) ->
   grunt.initConfig
 
     jshint:
-      package:
+      all:
         options:
           jshintrc: '.jshintrc'
         src: [
