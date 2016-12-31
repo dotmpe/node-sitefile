@@ -1,3 +1,79 @@
+
+.. upstream branches and their downstreams, some with lists of merge targets
+
+master
+  ..
+
 dev
+  - master
+
+    - test
+
   features/gherkin
     features/selenium
+      ..
+
+  features/api-docs
+    ..
+  features/bootstrap
+    ..
+  features/bundles
+    ..
+  features/db-knex
+    ..
+  features/diagrams-ditaa
+    ..
+  features/html5-client
+    ..
+  features/json-editor
+    ..
+  features/jsonary
+    ..
+  features/pm2
+    ..
+  features/sitebuild
+    ..
+  features/webpack
+    ..
+  features/core-builtins
+    ..
+  features/db-odata
+    ..
+  features/require-js
+    ..
+
+  features/cdn
+    - dev
+  features/graphviz
+    - dev
+  features/outliner
+    - dev
+
+..
+
+  f_ditaa
+  f_du
+  f_ph7
+  f_ph7_node
+  f_sh
+  f_sitebuild
+
+
+.. other downstreams is the above tree in reverse
+.. for branches that have more (a lot) upstreams
+
+:downstream:
+  demo
+    - features/pm2
+    - features/html5-client
+  r0.0.4
+    ..
+  r0.0.5
+    dev
+      ..
+  r0.0.6
+    ..
+  staging_git_versioning
+    ..
+
+
