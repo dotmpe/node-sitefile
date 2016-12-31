@@ -101,8 +101,13 @@ routes:
   #app/v0/base.js: app-0.cdn_js:build/client/sf-v0.js
   app/v0/reader.html: app-0.reader:#
   app/reader: app-0.reader:#
-
   app: static:lib/sitefile/client
+  #app: static:app1646
+
+  api: jsonary-rest-api:example/jsonary-rest-api/bookmarks
+  api/$action: jsonary-rest-api:example/jsonary-rest-api/bookmarks
+  api/elegant/: jsonary-rest-api:example/jsonary-rest-api/elegant
+
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
@@ -118,17 +123,6 @@ routes:
   jsonary_test: jsonary:test
   #jsonary: redir:components/jsonary/index.html
 
-  api: jsonary-rest-api:example/jsonary-rest-api/bookmarks
-  api/$action: jsonary-rest-api:example/jsonary-rest-api/bookmarks
-
-  api/elegant/: jsonary-rest-api:example/jsonary-rest-api/elegant
-
-  app/v0: app-0:#
-  app/v0/base.css: app-0.cdn_css:#
-  app/v0/base.js: app-0.cdn_js:#
-  app/v0/reader.html: app-0.reader:#
-  app/reader: app-0.reader:#
-
   example/polymer-app-router: static:example/polymer-app-router.html
 
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
@@ -137,7 +131,6 @@ routes:
   #components/core-header-panel: static:public/components/polymer-ui-header-panel
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
 
-  app: static:app1646
 
   #topics: api1646:example/app/topic
   topics: pug:app1646/main.pug
