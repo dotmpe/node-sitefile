@@ -15,9 +15,9 @@ module.exports = ( ctx ) ->
     css: 'dist/app-0.css'
     js: 'dist/app-0/main.js'
     font: 'dist/app-0'
-  build.data =
-    css: fs.readFileSync build.files.css
-    js: fs.readFileSync build.files.js
+  build.data = {}
+    #css: fs.readFileSync build.files.css
+    #js: fs.readFileSync build.files.js
     #font: fs.readFileSync build.files.font
 
   name: 'app-0'
@@ -35,7 +35,7 @@ module.exports = ( ctx ) ->
 
         opts = {
           stylesheets: urls: ['/app/v0/base.css']
-          scripts: urls: ['/app/v0/base.js']
+          scripts: urls: [] #['/app/v0/base.js']
           clients: []
         }
         opts = _.defaultsDeep rctx.route.options, opts
@@ -72,6 +72,8 @@ module.exports = ( ctx ) ->
 
 
     cdn_js: ( rctx ) ->
+      if rctx.route.spec
+        build.files.js = rctx.route.spec
       ( req, res ) ->
         build.data.js = fs.readFileSync build.files.js
         res.type 'js'
@@ -79,6 +81,8 @@ module.exports = ( ctx ) ->
         res.end()
 
     cdn_css: ( rctx ) ->
+      if rctx.route.spec
+        build.files.css = rctx.route.spec
       ( req, res ) ->
         build.data.css = fs.readFileSync build.files.css
         res.type 'css'

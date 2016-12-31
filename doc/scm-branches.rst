@@ -106,6 +106,8 @@ master [*]_
           docs.
 
       api-docs
+        - Want to look at JSDoc features. http:/doc/literate
+        - But first set up a `docco` build to see current docs. http:/doc/api
         - `Documentation Feature`_: source/API documentation.
         - Docco: http:/doc/literate
 
@@ -116,6 +118,9 @@ master [*]_
       selenium
         - Initial mocha+chai+selenium setup
         - Testing to see if sf-v0 client initializes
+
+      cdn
+        - Initial cdn router. Later merged with http.
 
   demo
     - Merging experimental features. Should keep master clean.

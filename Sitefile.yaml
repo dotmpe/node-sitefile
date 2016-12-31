@@ -17,7 +17,7 @@ paths:
 
 routes:
 
-  media/script/sitefile-client.js: static:build/client/default.js
+  media/script/sitefile-client.js: static:build/client/sf-v0.js
   media/style: static:build/style
   
   doc/literate: static:build/docs/docco/
@@ -92,8 +92,8 @@ routes:
 
   # TODO: deprecated app-0 router
   app/v0: app-0:#
-  app/v0/base.css: app-0.cdn_css:#
-  app/v0/base.js: app-0.cdn_js:#
+  app/v0/base.css: app-0.cdn_css:build/style/default.css
+  #app/v0/base.js: app-0.cdn_js:build/client/sf-v0.js
   app/v0/reader.html: app-0.reader:#
   app/reader: app-0.reader:#
 
