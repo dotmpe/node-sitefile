@@ -14,7 +14,7 @@ module.exports = ( grunt ) ->
 
     jshint:
 
-      package:
+      all:
         options:
           jshintrc: '.jshintrc'
         src: [
@@ -106,7 +106,22 @@ module.exports = ( grunt ) ->
           new webpack.BannerPlugin('require("source-map-support").install();',
                                    { raw: true, entryOnly: false }),
         ],
-        #externals: nodeModules,
+        #externals: nodeModules
+        resolve:
+          extensions: [
+            '', '.coffee', '.js', '.json', '.pug'
+          ]
+
+    ###
+        #  XXX server build?
+      server:
+        entry: './bin/sitefile.coffee'
+        devtool: 'sourcemap'
+        output:
+          path: path.join __dirname, 'dist'
+          filename: 'sitefile.js'
+          libraryTarget: "commonjs2"
+          library: "sitefile_cli"
         resolve:
           extensions: [
             '', '.coffee', '.js', '.json', '.pug'
@@ -131,16 +146,16 @@ module.exports = ( grunt ) ->
           extensions: [ '', '.js' ]
 
     ###
-    jsdoc : {
-        dist : {
-            src: ['dist/*.js'],
-            options: {
-                destination: 'build/docs/jsdoc/'
-            }
-        }
-    },
 
-    ###
+
+    jsdoc:
+      dist:
+        src: [
+          'build/client/*.js'
+        ]
+        options:
+          destination: 'build/docs/jsdoc/'
+
 
 
     docco:

@@ -23,7 +23,7 @@ routes:
   dist/sitefile: static:dist/sitefile.js
 
   doc/literate: static:build/docs/docco/
-  #doc/api: static:build/docs/jsdoc/
+  doc/api: static:build/docs/jsdoc/
 
   # FIXME: example/: redir:example/main
   example: static:example
