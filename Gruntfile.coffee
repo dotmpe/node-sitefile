@@ -1,4 +1,6 @@
-'use strict'
+
+
+webpack = require 'webpack'
 
 path = require 'path'
 
@@ -66,25 +68,16 @@ module.exports = ( grunt ) ->
           require: 'coffee-script/register'
           captureFile: 'mocha.out'
           quiet: false
-          clearRequireCache: false
+          clearRequireCache: false # do explicitly as needed
         src: ['test/mocha/*.coffee']
 
     webpack:
       client:
-        entry: './lib/sitefile/client/default'
+        entry: './lib/sitefile/client/lib/sf-v0'
         devtool: 'sourcemap'
         output:
-          filename: 'build/client/default.js'
-          library: "sitefile_default_client"
-      server:
-        entry: './bin/sitefile.coffee'
-        devtool: 'sourcemap'
-        output:
-          path: path.join __dirname, 'dist'
-          filename: 'sitefile.js'
-          libraryTarget: "commonjs2"
-          library: "sitefile_cli"
-        ###  XXX server build?
+          filename: 'build/client/sf-v0.js'
+          library: "sitefile_client"
         module:
           loaders: [
             {
@@ -107,22 +100,17 @@ module.exports = ( grunt ) ->
               loader: "pug"
             },
           ]
-        },
         plugins: [
           new webpack.IgnorePlugin(/^(markdown|pug|pug-runtime|stylus|pm2|pmx|knex)$/),
           new webpack.IgnorePlugin(/\.(css|less)$/),
           new webpack.BannerPlugin('require("source-map-support").install();',
                                    { raw: true, entryOnly: false }),
         ],
-        externals: nodeModules,
-        resolve: {
+        #externals: nodeModules,
+        resolve:
           extensions: [
             '', '.coffee', '.js', '.json', '.pug'
           ]
-        },
-        ###
-        resolve:
-          extensions: [ '', '.js' ]
 
       app:
         entry: './lib/sitefile/client/app-0'
@@ -225,7 +213,7 @@ module.exports = ( grunt ) ->
 
   grunt.registerTask 'client', [
     'sass:dist'
-    'webpack:client'
+    # XXX: using rjs cs client for now 'webpack:client'
   ]
 
   grunt.registerTask 'app', [

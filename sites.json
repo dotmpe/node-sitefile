@@ -41,6 +41,9 @@
     "base": "//localhost:2003",
     "names": {
       "dev": {
+        "base": "//localhost:8067"
+      },
+      "test": {
         "base": "//localhost:4501"
       }
     }

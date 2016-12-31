@@ -1,4 +1,7 @@
 
+.. include:: .defaults.rst
+
+
 - Added Bower. Experimenting with polymer.
 - Want to get Polymer core-scaffold running somehow.
   See examples_ and `Polymer Getting started <doc/polymer>`_.
