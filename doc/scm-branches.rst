@@ -116,6 +116,9 @@ master [*]_
         - Initial mocha+chai+selenium setup
         - Testing to see if sf-v0 client initializes
 
+      cdn
+        - Initial cdn router. Later merged with http.
+
   demo
     - Merging experimental features. Should keep master clean.
 

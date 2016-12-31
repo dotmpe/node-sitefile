@@ -1,11 +1,16 @@
 
-.. List root branches and downstream features etc. and target branches/releases
+.. List root branches and downstream features etc. and some target branches/releases
 .. document in rSt format
+
 
 master
   ..
 
 dev
+  - master
+
+    - test
+
   features/gherkin
     features/selenium
       ..
@@ -32,6 +37,12 @@ dev
     ..
   features/webpack
     ..
+  features/core-builtins
+    ..
+  features/db-odata
+    ..
+  features/require-js
+    ..
 
   features/cdn
     - dev
@@ -40,7 +51,32 @@ dev
   features/outliner
     - dev
 
-demo
-  :src:
+..
+
+  f_ditaa
+  f_du
+  f_ph7
+  f_ph7_node
+  f_sh
+  f_sitebuild
+
+
+.. other downstreams is the above tree in reverse
+.. for branches that have more (a lot) upstreams
+
+:downstream:
+  demo
     - dev
+    - features/pm2
+    - features/html5-client
+  r0.0.4
+    ..
+  r0.0.5
+    dev
+      ..
+  r0.0.6
+    ..
+  staging_git_versioning
+    ..
+
 
