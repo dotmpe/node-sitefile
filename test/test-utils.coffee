@@ -19,7 +19,7 @@ class SitefileTestUtils
     @ctx = {}
 
   env_browser: ->
-    if process.USER is 'travis'
+    if process.env.USER is 'travis'
       return 'firefox'
     else
       return 'chrome'
