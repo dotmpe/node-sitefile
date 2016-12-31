@@ -20,16 +20,17 @@ dev
     ..
   features/jsonary
     ..
-  features/outliner
-    ..
   features/pm2
     ..
   features/sitebuild
     ..
   features/webpack
     ..
+
   features/cdn
     - dev
   features/graphviz
+    - dev
+  features/outliner
     - dev
 
