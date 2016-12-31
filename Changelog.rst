@@ -34,6 +34,7 @@
 (0.0.5)
   .. See doc/dev or HACKING.md for more on upcoming versions.
 
+
 (0.0.6)
   ..
 

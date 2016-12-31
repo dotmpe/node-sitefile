@@ -161,7 +161,7 @@ prepare_context = ( ctx={} ) ->
       base: '/'
       netpath: null
     routes:
-      resources: []
+      resources: {}
       directories: []
     bundles: {}
     paths: # TODO: configure lookup paths
@@ -185,7 +185,9 @@ prepare_context = ( ctx={} ) ->
 
 # Split sitefile router specs
 split_spec = ( strspec, ctx={} ) ->
-  [ handler_path, hspec ] = strspec.split(':')
+  idx = strspec.indexOf ':'
+  handler_path = strspec.substr 0, idx
+  hspec = strspec.substr idx+1
   if handler_path.indexOf '.' != -1
     [ router_name, handler_name ] = handler_path.split '.'
   else
@@ -305,7 +307,7 @@ class Sitefile
   
     options = {
       routes:
-        resources: []
+        resources: {}
         directories: {}
         defaults: [ 'default', 'index', 'main' ]
     }
@@ -439,10 +441,8 @@ log_line = ( v, out=[] ) ->
           out.push chalk.magenta o
         else
           out.push o
-      else if o.res?
+      else if o.res? or o.format? or o.path?
         out.push chalk.green o.res
-      else if o.path?
-        out.push chalk.green o.path
       else if o.url?
         out.push chalk.yellow o.url
       else if o.name?
