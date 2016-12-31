@@ -1,7 +1,7 @@
 # Id: node-sitefile/0.0.5-dev test/mocha/Sitefile_yaml.coffee
 
 chai = require 'chai'
-chai.use require 'chai-as-promised'
+#chai.use require 'chai-as-promised'
 expect = chai.expect
 
 sewd = require 'selenium-webdriver'
