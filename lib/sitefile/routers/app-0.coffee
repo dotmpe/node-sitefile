@@ -72,6 +72,7 @@ module.exports = ( ctx ) ->
 
 
     cdn_js: ( rctx ) ->
+      #build.files.js = rctx.route.spec
       ( req, res ) ->
         build.data.js = fs.readFileSync build.files.js
         res.type 'js'
@@ -79,6 +80,7 @@ module.exports = ( ctx ) ->
         res.end()
 
     cdn_css: ( rctx ) ->
+      build.files.css = rctx.route.spec
       ( req, res ) ->
         build.data.css = fs.readFileSync build.files.css
         res.type 'css'
