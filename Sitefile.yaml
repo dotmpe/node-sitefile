@@ -73,10 +73,27 @@ routes:
   npm/node-sitefile/latest.json: 'http:'
   npm/packages/: 'static:{,sitefile:}node_modules/'
 
+  proc/pm2: pm2:pm2-apps.json
+
   vendor/:package.:format: http.vendor:cdn.json
   ref/:ref: http.ref:#
   res/:ref: http.res:#
   site/:site/:path: http.site:sites.json
+
+  app/rjs-sf-v0.json: http.requirejs/config:paths=$ref:cdn.json#/js/http/packages;baseUrl=/app/lib;main=cs!sf-v0
+  app/rjs-sf-v0.js: http.requirejs/main:app/rjs-sf-v0.json
+
+  # TODO: move app-0 to http
+  #app/v0: http.requirejs:view=main.pug;main=app/rjs-sf-v0
+
+  # TODO: deprecated app-0 router
+  app/v0: app-0:#
+  app/v0/base.css: app-0.cdn_css:#
+  app/v0/base.js: app-0.cdn_js:#
+  app/v0/reader.html: app-0.reader:#
+  app/reader: app-0.reader:#
+
+  app: static:lib/sitefile/client
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
@@ -84,8 +101,6 @@ routes:
   sf-example/default: sf-example:#
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
-
-  proc/pm2: pm2:pm2-apps.json
 
   #/shadows/:path: convert.filter:**/*.png
 
@@ -127,6 +142,9 @@ options:
         path: '/npm/latest'
     Sitefile/debug: 
       local_var: 'fooooo'
+    app/v0:
+      clients:
+        $ref: '#/defs/app/base/clients'
 
 
 defs:
@@ -148,9 +166,10 @@ defs:
 
   app:
     base:
-      client:
+      clients:
         - type: require-js
-          id: require-js-base-app
+          id: require-js-sitefile-v0-app
           href: /vendor/require.js
-          main: require-js-base.js
+          main: /app/rjs-sf-v0.js
+
 

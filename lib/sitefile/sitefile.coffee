@@ -161,7 +161,7 @@ prepare_context = ( ctx={} ) ->
       base: '/'
       netpath: null
     routes:
-      resources: []
+      resources: {}
       directories: []
     bundles: {}
     paths: # TODO: configure lookup paths
@@ -307,7 +307,7 @@ class Sitefile
   
     options = {
       routes:
-        resources: []
+        resources: {}
         directories: {}
         defaults: [ 'default', 'index', 'main' ]
     }

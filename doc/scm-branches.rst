@@ -112,6 +112,10 @@ master [*]_
       gherkin
         The `Gherkin Feature`_ is for routing gherkin test specifications.
 
+      selenium
+        - Initial mocha+chai+selenium setup
+        - Testing to see if sf-v0 client initializes
+
   demo
     - Merging experimental features. Should keep master clean.
 

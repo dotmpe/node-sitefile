@@ -1,4 +1,7 @@
 
+.. include:: .defaults.rst
+
+
 - Added Bower. Experimenting with polymer.
 - Want to get Polymer core-scaffold running somehow.
 - Working to add prism.js source-viewer.
