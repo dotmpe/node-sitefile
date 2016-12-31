@@ -11,6 +11,6 @@
       cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
     init: "sh:./configure grunt:build-test"
     test: "sh:./configure grunt:test"
-    check: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools grunt:check :git:status"
+    check: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools htd:gitflow-check-doc :git:status grunt:check"
     cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
 
