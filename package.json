@@ -1,7 +1,7 @@
 {
   "name": "node-sitefile",
-  "version": "0.0.5-dev",
   "description": "Bootstrap Express webserver for misc. resources using Sitefile",
+  "version": "0.0.5-dev",
   "homepage": "https://github.com/dotmpe/node-sitefile",
   "author": {
     "name": "B. van Berkum",
@@ -13,6 +13,13 @@
     "restructuredtext",
     "docutils"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dotmpe/node-sitefile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dotmpe/node-sitefile/issues"
+  },
   "license": "GPL-3.0",
   "licenses": [
     {
@@ -21,15 +28,8 @@
     }
   ],
   "contributors": [],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dotmpe/node-sitefile.git"
-  },
-  "bugs": {
-    "url": "https://github.com/dotmpe/node-sitefile/issues"
-  },
   "engines": {
-    "node": "0.12.x",
+    "node": ">= 0.12.0",
     "npm": "2.7.x"
   },
   "main": "./bin/sitefile.coffee",
@@ -42,8 +42,8 @@
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
     "strict": "nodemon bin/sitefile.coffee --use_strict -w Sitefile.yaml -w lib/ -w bin/",
-    "build": "grunt build",
     "check": "grunt check",
+    "build": "grunt build",
     "vulnerabilities": "snyk test",
     "echo": "echo 'Note that npm run accept arguments (try npm run echo foo):'",
     "cruft": "./tools/tags.sh",
@@ -73,7 +73,8 @@
     "js-yaml": "^3.6.1",
     "lodash": "^4.16.1",
     "mime-types": "^2.1.13",
-    "nodelib": "https://github.com/dotmpe/nodelib.git#dev",
+    "minimatch": "^3.0.3",
+    "nodelib": "https://github.com/dotmpe/nodelib.git",
     "qs": "6.2.0",
     "semver": "^5.3.0"
   },
@@ -90,6 +91,7 @@
   "devDependencies": {
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
+    "chai-webdriver": "^1.2.0",
     "chromedriver": "^2.25.1",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.12.2",
@@ -103,6 +105,7 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-docco": "^0.5.0",
     "grunt-exec": "^0.4.6",
+    "grunt-gherkin-report": "^0.1.11",
     "grunt-mocha-test": "^0.12.7",
     "grunt-sass": "^1.2.1",
     "grunt-webpack": "~1.0.0",
@@ -122,7 +125,7 @@
     "pug-loader": "latest",
     "rename-loader": "^1.0.0",
     "request": "latest",
-    "selenium-webdriver": "^3.0.1",
+    "selenium-webdriver": "~2.53.0",
     "sinon": "^1.17.6",
     "source-map-support": "latest",
     "text-table": "latest",

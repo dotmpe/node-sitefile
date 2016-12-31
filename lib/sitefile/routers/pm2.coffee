@@ -111,7 +111,7 @@ module.exports = ( ctx ) ->
     default: ( rctx ) ->
       # FIXME: allow string descriptions;
       # auto-export routes based on route.default mapping
-      console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
+      # XXX: console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
 
       route =
         '.json': get: generators.list
@@ -127,7 +127,7 @@ module.exports = ( ctx ) ->
         '': get: (rctx) ->
           (req, res) ->
             res.redirect ctx.site.base+rctx.name+'.html'
-        '/': get: (rctx)->
+        '/': get: (rctx) ->
           (req, res) ->
             res.redirect ctx.site.base+rctx.name+'.html'
 
