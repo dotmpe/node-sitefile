@@ -7,15 +7,20 @@
         "lodash": "node_modules/lodash/lodash.min",
         "jquery": "node_modules/jquery/dist/jquery.min",
         "bootstrap": "node_modules/bootstrap/dist/js/bootstrap",
-        "coffee-script": "node_modules/sinon/pkg/sinon",
+        "cs": "/component/require-cs/cs",
+        "crossroads": "/npm/packages/crossroads/dist/crossroads",
+        "signals": "node_modules/crossroads/node_modules/signals/dist/signals",
+        "hasher": "node_modules/hasher/dist/js/hasher",
         "mocha": "node_modules/mocha/mocha",
         "chai": "node_modules/chai/chai",
-        "sinon": "node_modules/sinon/pkg/sinon"
+        "sinon": "node_modules/sinon/pkg/sinon",
+        "cookies-js": "node_modules/cookies-js/dist/cookies"
       }
     },
     "http": {
       "ext": ".js",
       "packages": {
+
         "require": "//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min",
         "lodash": "//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min",
         "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery",
@@ -23,7 +28,17 @@
         "underscore": "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore",
         "underscore.string": "//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min",
         "crossroads": "//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.2/crossroads.min",
-        "coffee-script": "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.11.1/coffee-script.min",
+        "x-signals": "/npm/packages/crossroads/node_modules/signals/dist/signals",
+        "signals": "//cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min",
+        "hasher": "//cdnjs.cloudflare.com/ajax/libs/hasher/1.2.0/hasher.min",
+        "mocha": "//cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.min",
+        "chai": "//cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.min",
+        "sinon": "//rawgit.com/sinonjs/sinon/master/lib/sinon",
+
+        "cookies-js": "//cdnjs.cloudflare.com/ajax/libs/Cookies.js/1.2.1/cookies.min",
+
+        "1-coffees-cript": "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.12.1/coffee-script.min",
+        "coffee-script": "//rawgit.com/yyfearth/coffee-script/extras/extras/coffee-script",
         "cs": "//cdnjs.cloudflare.com/ajax/libs/require-cs/0.5.0/cs.min"
       }
     }
@@ -31,13 +46,17 @@
   "css": {
     "local": {
       "packages": {
-        "mocha.css": "node_modules/mocha/mocha.css"
+        "mocha": "node_modules/mocha/mocha",
+        "bootstrap": "node_modules/bootstrap/dist/css/bootstrap.min",
+        "bootstrap-theme": "node_modules/bootstrap/dist/css/bootstrap-theme.min"
       }
     },
     "http": {
       "ext": ".css",
       "packages": {
-        "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min"
+        "mocha": "/npm/packages/mocha/mocha",
+        "bootstrap": "/npm/packages/bootstrap/dist/css/bootstrap.min",
+        "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min"
       }
     }
   }
