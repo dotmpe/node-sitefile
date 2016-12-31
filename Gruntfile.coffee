@@ -118,17 +118,14 @@ module.exports = ( grunt ) ->
     ###
 
 
-    ###
-    jsdoc : {
-        dist : {
-            src: ['dist/*.js'],
-            options: {
-                destination: 'build/docs/jsdoc/'
-            }
-        }
-    },
+    jsdoc:
+      dist:
+        src: [
+          'build/client/*.js'
+        ]
+        options:
+          destination: 'build/docs/jsdoc/'
 
-    ###
 
     docco:
       debug:
