@@ -1,0 +1,47 @@
+
+html
+  head
+    script(src="/npm/packages/jsonary/core/jsonary-core.js")
+    link(rel="stylesheet",href="/npm/packages/jsonary/core/jsonary-core.css")
+
+    //link(rel="stylesheet",href="/npm/packages/jsonary/renderers/basic.jsonary.css")
+    //link(rel="stylesheet",href="/npm/packages/jsonary/renderers/api.jsonary.css")
+
+    script(src="/npm/packages/jsonary/plugins/jsonary.render.table.js")
+    link(rel="stylesheet",href="/npm/packages/jsonary/plugins/jsonary.render.table.css")
+    //script(src="/npm/packages/jsonary/renderers/basic.jsonary.js")
+    //script(src="/npm/packages/jsonary/renderers/plain.jsonary.js")
+
+  body
+    #render-container
+
+    p
+      a(href="/npm/packages/jsonary/index.html") See original docs for more info
+      | . 
+      | Or have a look at the 
+      a(href="/npm/packages/jsonary/walkthrough-basic/browser.html#../demos/json/") client
+      | . 
+
+    script
+      | var data = Jsonary.create({
+      |     "id": 125,
+      |     "authorId": 25,
+      |     "title": "Example data"
+      | });
+      | var schema = Jsonary.createSchema({
+      |     "title": "Example hyper-schema",
+      |     "links": [
+      |         {
+      |             "rel": "self",
+      |             "href": "http://example.com/items/{id}"
+      |         },
+      |         {
+      |             "rel": "author",
+      |             "href": "http://example.com/users/{authorId}"
+      |         }
+      |     ]
+      | });
+      | data.addSchema(schema);
+      | data.renderTo(document.getElementById('render-container'));
+
+

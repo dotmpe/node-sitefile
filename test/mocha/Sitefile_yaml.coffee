@@ -124,6 +124,10 @@ example for all handlers.
     stu.test_url_type_ok "/doc/literate/", "html"
 
 
+  it "should publish jsonary example",
+    stu.test_url_type_ok "/example/jsonary", "html"
+
+
   describe "has a Graphviz router for DOT diagram to PNG format", ->
 
     it "should render a PNG format",
