@@ -155,7 +155,7 @@ example for all handlers.
         before ->
           @driver = new sewd.Builder().
             withCapabilities(
-              browserName: 'firefox'
+              browserName: stu.env_browser()
               #sewd.Capabilities.chrome()
             ).
             build()
