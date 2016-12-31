@@ -115,8 +115,7 @@ module.exports = ( grunt ) ->
             '', '.coffee', '.js', '.json', '.pug'
           ]
 
-    ###
-        #  XXX server build?
+      #  XXX server build?
       server:
         entry: './bin/sitefile.coffee'
         devtool: 'sourcemap'
@@ -148,7 +147,6 @@ module.exports = ( grunt ) ->
         resolve:
           extensions: [ '', '.js' ]
 
-    ###
 
 
     jsdoc:
