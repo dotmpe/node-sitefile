@@ -1,5 +1,5 @@
 digraph g {
-  node [shape = record,height=.1];
+  node [ shape = record, height=.1 ];
   node0[label = "<f0> |<f1> G|<f2> "];
   node1[label = "<f0> |<f1> E|<f2> "];
   node2[label = "<f0> |<f1> B|<f2> "];

@@ -18,6 +18,12 @@ class SitefileTestUtils
     @server = {}
     @ctx = {}
 
+  env_browser: ->
+    if process.env.USER is 'travis'
+      return 'firefox'
+    else
+      return 'chrome'
+
   #@property 'url',
   #  get: @get_url
     

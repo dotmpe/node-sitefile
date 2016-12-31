@@ -1,7 +1,55 @@
 path = require 'path'
 fs = require 'fs'
+minimatch = require 'minimatch'
 glob = require 'glob'
 _ = require 'lodash'
+
+nodelib = require 'nodelib'
+Context = nodelib.Context
+
+
+
+expand_path_spec_to_route = ( rctx ) ->
+  spec = rctx.route.spec
+  if spec and '#' != spec
+    # Expand non-glob from spec to paths
+    srcs = minimatch.braceExpand spec
+  else
+    # Or fall back to verbatim route name as path
+    srcs = [ rctx.name ]
+  for src, idx in srcs
+    if src.startsWith 'sitefile:'
+      srcs[idx] = src.replace 'sitefile:', rctx.sfdir+path.sep
+  return srcs
+
+
+resolve_route_options = ( ctx, route, router_name ) ->
+  opts = {}
+
+  if 'options' of ctx.sitefile
+
+    if ctx.sitefile.options.global and router_name
+      if router_name of ctx.sitefile.options.global
+        global_opts = null
+        try
+          global_opts = ctx.resolve "sitefile.options.global.#{router_name}"
+        catch error
+          null
+        if global_opts
+          opts = _.defaultsDeep global_opts, opts
+
+    if ctx.sitefile.options.local and route
+      if route of ctx.sitefile.options.local
+        local_opts = null
+        esc = route.replace '.', '\\.'
+        try
+          local_opts = ctx.resolve "sitefile.options.local.#{esc}"
+        catch error
+          null
+        if local_opts
+          opts = _.defaultsDeep local_opts, opts
+
+  opts
 
 
 builtin =
@@ -16,18 +64,22 @@ builtin =
     # 303: See Other
 
     #rctx.context.redir status, url, p
-    rctx.context.app.all url, (req, res) ->
+    rctx.context.app.all url, ( req, res ) ->
       res.redirect p
     rctx.context.log '      ', url: url, '->', url: p
 
   static: ( rctx ) ->
-    url = rctx.site.base + rctx.name
-    if rctx.route.spec.startsWith '/'
-      p = rctx.route.spec
-    else
-      p = path.join rctx.cwd, rctx.route.spec
-    rctx.context.app.use url, rctx.context.static_proto p
+
+    url = rctx.res.ref
+
+    srcs = expand_path_spec_to_route rctx
+
+    rctx.context.app.use url, [
+      rctx.context.static_proto src for src in srcs
+    ]
+
     rctx.context.log 'Static', url: url, '=', path: rctx.route.spec
+
 
   # Take care of rendering from a rctx with data, for a (data) handler that does
   # not care too itself since it is a very common task.
@@ -124,10 +176,7 @@ Base =
         name: router_name
         handler: handler_name
         spec: handler_spec
-        options: if 'options' of ctx.sitefile \
-          and ctx.sitefile.options.global and router_name \
-          of ctx.sitefile.options.global \
-          then ctx.resolve "sitefile.options.global.#{router_name}" else {}
+        options: resolve_route_options( ctx, route, router_name )
 
     # Use exact route as fs path
     if fs.existsSync route
@@ -176,7 +225,7 @@ Base =
     ctx = rctx.context
 
     # routes.resources: Track all paths to router instances
-    ctx.routes.resources.push rctx.res.ref
+    ctx.routes.resources[rctx.res.ref] = rctx
 
     # generate: let router_type return handlers for given resource
 
@@ -208,7 +257,7 @@ Base =
 
       if h.res and 'data' of h.res
         rctx.context.app.all rctx.res.ref, builtin.data rctx
-      
+
       ctx.log "Extension at ", url: rctx.res.ref, \
           "from", ( name: rctx.route.name+'.'+rctx.route.handler ), \
           id: rctx.route.spec, "at", path: rctx.name
@@ -221,9 +270,42 @@ Base =
 module.exports =
 
   builtin: builtin
+
   Base: Base
+
   # Current way of 'instantiating' router
   define: ( mixin ) ->
     _.assign {}, Base, mixin
 
+  resolve_route_options: resolve_route_options
+
+  # XXX: spec parse helper
+  expand_path_spec_to_route: expand_path_spec_to_route
+
+  # XXX: spec parse helper
+  parse_kw_spec: ( rctx ) ->
+    kw = {}
+    specs = rctx.route.spec.split ';'
+    for spec in specs
+      x = spec.indexOf '='
+      k = spec.substr(0, x)
+      kw[k] = spec.substr x+1
+    kw
+
+  # XXX: Read JSON + jspath
+  read_xref: ( ctx, spec ) ->
+    if '#' not in spec
+      throw new Error spec
+    [ jsonf, spec ] = spec.split '#'
+    if not jsonf.startsWith path.sep
+      jsonf = path.join ctx.cwd, jsonf
+    p = spec.split '/'
+    if not p[0]
+      p.shift()
+    o = require jsonf
+    c = o
+    while p.length
+      e = p.shift()
+      c = c[e]
+    return c
 

@@ -14,6 +14,7 @@ Router = require './Router'
 
 liberror = require '../error'
 libconf = require '../conf'
+# register String:: exts
 strutil = require '../strutil'
 c = strutil.c
 
@@ -161,7 +162,7 @@ prepare_context = ( ctx={} ) ->
       base: '/'
       netpath: null
     routes:
-      resources: []
+      resources: {}
       directories: []
     bundles: {}
     paths: # TODO: configure lookup paths
@@ -185,7 +186,9 @@ prepare_context = ( ctx={} ) ->
 
 # Split sitefile router specs
 split_spec = ( strspec, ctx={} ) ->
-  [ handler_path, hspec ] = strspec.split(':')
+  idx = strspec.indexOf ':'
+  handler_path = strspec.substr 0, idx
+  hspec = strspec.substr idx+1
   if handler_path.indexOf '.' != -1
     [ router_name, handler_name ] = handler_path.split '.'
   else
@@ -196,13 +199,13 @@ split_spec = ( strspec, ctx={} ) ->
 class Routers
   constructor: ( @ctx ) ->
     # XXX:
-    if @ctx._routers then throw Error "_routers"
+    if @ctx._routers then throw new Error "_routers"
     @ctx._routers = @
     @data = {}
 
   get: ( name ) ->
     if name not of @data
-      throw new Exception "No such router loaded: #{name}"
+      throw new Error "No such router loaded: #{name}"
     return @data[ name ].object
 
   generator: ( name, rctx=null, ctx=null ) ->
@@ -215,10 +218,10 @@ class Routers
       handler = 'default'
    
     if name not of @data
-      throw Error "No router for #{name}"
+      throw new Error "No router for #{name}"
     if not handler or \
         handler not of @data[name].object.generate
-      throw Error "No router generate handler #{handler} for #{name}"
+      throw new Error "No router generate handler #{handler} for #{name}"
 
     @data[ name ].object.generate[ handler ]
 
@@ -274,7 +277,7 @@ class Sitefile
     # Track all dirs for generated files, router CB's and instances, names
     _.defaults @, dirs: {}, bundles: {}
     # XXX:
-    if @ctx._sitefile then throw Error "_sitefile"
+    if @ctx._sitefile then throw new Error "_sitefile"
     @ctx._sitefile = @
     # TODO Also need to refactor, and scan for defaults across dirs rootward
     @routers = new Routers @ctx
@@ -305,7 +308,7 @@ class Sitefile
   
     options = {
       routes:
-        resources: []
+        resources: {}
         directories: {}
         defaults: [ 'default', 'index', 'main' ]
     }
@@ -488,10 +491,8 @@ log_line = ( v, out=[] ) ->
           out.push chalk.magenta o
         else
           out.push o
-      else if o.res?
+      else if o.res? or o.format? or o.path?
         out.push chalk.green o.res
-      else if o.path?
-        out.push chalk.green o.path
       else if o.url?
         out.push chalk.yellow o.url
       else if o.name?

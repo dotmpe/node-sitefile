@@ -27,7 +27,7 @@ Node Sitefile
     :alt: Build
 
   .. image:: https://img.shields.io/github/issues/dotmpe/node-sitefile.svg
-    :target: http://githubstats.com/dotmpe/script-mpe/issues
+    :target: http://githubstats.com/dotmpe/node-sitefile/issues
     :alt: GitHub issues
 
 :repository:
