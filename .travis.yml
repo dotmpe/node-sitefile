@@ -3,7 +3,8 @@
 language: node_js
 
 node_js:
-  - "0.12"
+  # FIXME: strict with webdriver (Travis #510.1) 
+  # - "0.12"
   - "6.0"
 
 addons:
@@ -11,8 +12,15 @@ addons:
     packages:
       - python-docutils
       - graphviz
+  firefox: "45"
 
 before_script:
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3 # give xvfb some time to start
+- "wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
+- "java -jar selenium-server-standalone-2.53.0.jar > /dev/null &"
+- sleep 3
 - test -x "$(which rst2html)" || { mkdir ~/bin && cd ~/bin && ln -s $(which rst2html.py) rst2html; }
 - rst2html --version
 

@@ -25,6 +25,8 @@ define 'sf-v0/page', [
     constructor: ( @container=$('body'), @options = {} ) ->
       super @container, @options
 
+      $(@container, '.document').addClass 'container'
+
       # TODO: apply based on html meta-data profile
 
       profileUrl = $('html').attr('profile')
