@@ -38,7 +38,11 @@ config.module.loaders = [
 				"eslint",
 			],
 		},
-		{ test: /\.coffee$/, loader: "coffee" },
+		{
+		  test: /\.coffee$/,
+			exclude: /node_modules/,
+		  loader: "coffee"
+		},
 		{ test: /\.json$/, loader: "json" }
 	]
 
@@ -51,7 +55,7 @@ config.resolve = {
 config.plugins = [
   new webpack.BannerPlugin('require("source-map-support").install();',
                                    { raw: true, entryOnly: false }),
-  new webpack.IgnorePlugin(/markdown|pug|stylus|pm2|pmx|knex|bookshelfapi/)
+  new webpack.IgnorePlugin(/markdown|pug|pug-runtime|stylus|pm2|pmx|knex|bookshelfapi/)
 ]
 
 config.devtool = 'sourcemap'

@@ -1,0 +1,28 @@
+doctype html
+include html
+
+
+html(profile="http://dotmpe.com/project/sitefile")
+
+  - var main = null // Main client
+
+  head 
+
+    // XXX: +html-meta("sitefile.main", "base", "sitefile")
+    +std-html-head "Sitefile Base Client - Home"
+
+    block head
+
+  body
+    block prologue
+    div.header
+      block header
+        p Template header
+    div.document
+      block document
+        p Template document
+    div.footer
+      block footer
+        p Template footer
+    block epilogue
+
