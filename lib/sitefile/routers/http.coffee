@@ -78,6 +78,8 @@ module.exports = ( ctx ) ->
   defaults:
     route:
       options:
+        compile: {}
+        merge: {}
         spec:
           url: 'http://nodejs.org/dist/index.json'
 
@@ -90,7 +92,6 @@ module.exports = ( ctx ) ->
 
       ( req, res ) ->
         url = rctx.route.options.spec + req.params.ref
-        console.log 'http.json', url
         promise_resource(
           url: url
           accType: 'application/json'
@@ -129,7 +130,6 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
         base = nso.names[  req.params.site ]
         url = base.base+'/'+req.params.path
-        console.log 'http.res', url
         u = URL.parse req.protocol+':'+url
         port = parseInt(u.port)
         promise_resource(
@@ -155,7 +155,6 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
         f = _.defaultsDeep {}, req.params
         ext = cdn[f.format].http.ext
-        console.log 'http.vendor', req.res.ref
         if f.format not of cdn
           err = "No format #{f.format}"
           res.type 500
@@ -171,31 +170,70 @@ module.exports = ( ctx ) ->
         res.redirect cdn[f.format].http.packages[f.package]+ext
 
     # Return registry for require-js app
-    requirejs: ( rctx ) ->
+    'requirejs/config': ( rctx ) ->
       res:
         data: ( dctx ) ->
-          console.log 'requirejs', rctx.res.ref
-          { paths, shims } = Router.parse_kw_spec rctx
+          { baseUrl, paths, map, shims, main, deps } = \
+            Router.parse_kw_spec rctx
+
           if paths and paths.startsWith '$ref:'
             paths = Router.read_xref ctx, paths.substr 5
           else if 'string' is typeof paths
             paths = {}
+
+          if 'object' is typeof map or not map
+            map = {}
+    
+          map["*"] = {
+            "sitefile": "sf-v0"
+          }
+
           if 'string' is typeof shims
             shims = {}
+
           if not shims
             shims = {}
-          baseUrl: rctx.res.ref
-          paths: paths
-          shims: shims
 
-    requirejs_main: ( rctx ) ->
+          baseUrl: baseUrl or rctx.res.ref
+          paths: paths
+          map: map
+          shims: shims
+          deps: [ main ]
+
+    'requirejs/main': ( rctx ) ->
       ( req, res ) ->
         url = ctx.site.base+rctx.route.spec
         rrctx = ctx.routes.resources[url]
         rjs_opts = JSON.stringify rrctx.res.data rctx
-        console.log 'requirejs-main', url
-        res.type "text/javascript"
+        res.type "application/javascript"
         res.write "/* Config from #{url} ( #{rrctx.route.spec} ) */ "
-        res.write "require.config(#{rjs_opts});"
+        res.write "requirejs.config(#{rjs_opts});"
         res.end()
+
+    'requirejs': ( rctx ) ->
+      ( req, res ) ->
+        opts = _.defaultsDeep rctx.route.options, {
+          stylesheets: urls: []
+          scripts: urls: []
+          clients: [
+            type: null
+            id: null
+            href: null
+            main: null
+          ]
+        }
+        { view, main } = Router.parse_kw_spec rctx
+        viewPugFn = path.join __dirname, '..', 'client', view
+        main = ctx.site.base+rctx.route.spec+'.js'
+        res.type 'html'
+        res.write pugrouter.compile viewPugFn, {
+          compile: rctx.route.options.compile
+          merge:
+            base: ctx.site.base+rctx.name
+            options: opts
+            query: req.query
+            context: rctx
+        }
+        res.end()
+
 

@@ -4,6 +4,9 @@ minimatch = require 'minimatch'
 glob = require 'glob'
 _ = require 'lodash'
 
+nodelib = require 'nodelib'
+Context = nodelib.Context
+
 
 
 expand_path_spec_to_route = ( rctx ) ->
@@ -18,6 +21,35 @@ expand_path_spec_to_route = ( rctx ) ->
     if src.startsWith 'sitefile:'
       srcs[idx] = src.replace 'sitefile:', rctx.sfdir+path.sep
   return srcs
+
+
+resolve_route_options = ( ctx, route, router_name ) ->
+  opts = {}
+
+  if 'options' of ctx.sitefile
+
+    if ctx.sitefile.options.global and router_name
+      if router_name of ctx.sitefile.options.global
+        global_opts = null
+        try
+          global_opts = ctx.resolve "sitefile.options.global.#{router_name}"
+        catch error
+          null
+        if global_opts
+          opts = _.defaultsDeep global_opts, opts
+
+    if ctx.sitefile.options.local and route
+      if route of ctx.sitefile.options.local
+        local_opts = null
+        esc = route.replace '.', '\\.'
+        try
+          local_opts = ctx.resolve "sitefile.options.local.#{esc}"
+        catch error
+          null
+        if local_opts
+          opts = _.defaultsDeep local_opts, opts
+
+  opts
 
 
 builtin =
@@ -144,10 +176,7 @@ Base =
         name: router_name
         handler: handler_name
         spec: handler_spec
-        options: if 'options' of ctx.sitefile \
-          and ctx.sitefile.options.global and router_name \
-          of ctx.sitefile.options.global \
-          then ctx.resolve "sitefile.options.global.#{router_name}" else {}
+        options: resolve_route_options( ctx, route, router_name )
 
     # Use exact route as fs path
     if fs.existsSync route
@@ -241,13 +270,19 @@ Base =
 module.exports =
 
   builtin: builtin
+
   Base: Base
+
   # Current way of 'instantiating' router
   define: ( mixin ) ->
     _.assign {}, Base, mixin
 
+  resolve_route_options: resolve_route_options
+
+  # XXX: spec parse helper
   expand_path_spec_to_route: expand_path_spec_to_route
 
+  # XXX: spec parse helper
   parse_kw_spec: ( rctx ) ->
     kw = {}
     specs = rctx.route.spec.split ';'
@@ -256,7 +291,8 @@ module.exports =
       k = spec.substr(0, x)
       kw[k] = spec.substr x+1
     kw
-    
+
+  # XXX: Read JSON + jspath
   read_xref: ( ctx, spec ) ->
     if '#' not in spec
       throw new Error spec
