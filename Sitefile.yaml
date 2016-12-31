@@ -42,8 +42,9 @@ routes:
   _plantuml: plantuml:example/*.plantuml
   _gherkin_example: gherkin:example/*.feature
   _gherkin_test: gherkin:test/features/*.feature
-  
   gherkin: gherkin.steps:example/*.feature,test/features/*.feature
+
+  html/gherkin: static:build/gherkin-features/index.html
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#

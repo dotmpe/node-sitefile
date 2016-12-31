@@ -126,6 +126,21 @@ module.exports = ( grunt ) ->
       spec_update:
         cmd: "sh ./tools/update-spec.sh"
 
+    gherkin_report:
+      all:
+        options:
+          title: 'Sitefile features'
+          subtitle: 'Generated on '+(new Date()).toISOString()+', version: '+(
+            grunt.option('versionNumber') || 'unknown' )
+          destination: 'build/gherkin-features/index.html'
+        files: [
+          cwd: 'example'
+          src: [
+            '**/*.feature'
+          ]
+        ]
+
+
     pkg: grunt.file.readJSON 'package.json'
 
 
@@ -170,5 +185,6 @@ module.exports = ( grunt ) ->
   grunt.registerTask 'build-test', [
     'client'
     'docco:debug'
+    'gherkin_report'
   ]
 

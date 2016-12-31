@@ -37,19 +37,13 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-
-
     "install": " ./configure && grunt build-test",
-
     "test": "./configure && grunt",
-
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
     "strict": "nodemon bin/sitefile.coffee --use_strict -w Sitefile.yaml -w lib/ -w bin/",
-
     "check": "grunt check",
     "build": "grunt build",
-
     "vulnerabilities": "snyk test",
     "echo": "echo 'Note that npm run accept arguments (try npm run echo foo):'",
     "cruft": "./tools/tags.sh",
@@ -109,6 +103,7 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-docco": "^0.5.0",
     "grunt-exec": "^0.4.6",
+    "grunt-gherkin-report": "^0.1.11",
     "grunt-mocha-test": "^0.12.7",
     "grunt-sass": "^1.2.1",
     "grunt-webpack": "~1.0.0",
