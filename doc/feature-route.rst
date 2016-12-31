@@ -1,14 +1,57 @@
 
+.. include:: .defaults.rst
+
 Notes on the `route` attribute in extension modules. Probably consolidate with
 Sitefile 0.0.5 `route` scheme.
 
 
 Requirements:
 
-- play cdn
 - reuse handlers
 - possibly specify type of content, and at which endpoints
 - standalone use: Sitefile route/... specs for components, JSON pointers [RFC6901]
+
+
+Use cases
+---------
+
+1. Static files
+    TODO: test setup.
+
+2. Third-party Content Delivery
+      TODO: Using the ``cdn`` router, serve the first available resource
+      (local, or global).
+
+   Want some CDN-like router.
+   Provide a list at try each before serving as resource, redirect?
+
+   TODO: provide lists of alternative URLs
+   TODO: optionally have path attribute for routers that like both URL and local
+   path.
+
+   "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min"
+
+3. Maybe: provide a base dir prefix for "dynamic" files, ie. those generated
+   from other files.
+
+   But want to override back to normal, on maybe per-route basis?
+   Use case: some files are checked into SCM, or expected in the working tree.
+
+   But for most generated files, don't pollute?
+
+   Maybe alternatively track and cleanup dynamic files on closedown or a special
+   command.
+
+4. TODO: Add shadows to DOT diagrams.
+
+   See http:/tools/diagram-shadows.sh
+
+   Requires two graphviz renders and an ImageMagick CLI recipe.
+
+   Going to have convert.filter router take local options for route.
+   Need to use path with params, see if glob still kicks in.
+
+   And have graphviz accept more params.
 
 
 JSON API
