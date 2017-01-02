@@ -4,10 +4,11 @@ exec = require('child_process').exec
 Promise = require 'bluebird'
 
 
-plantuml = "java -jar plantuml.jar"
-
-
 module.exports = ( ctx ) ->
+
+  # FIXME: check if jar runs, Java etc.
+  plantuml = "java -jar #{ctx.sfdir}/plantuml.jar"
+
 
   name: "plantuml"
   usage: """
@@ -20,13 +21,15 @@ module.exports = ( ctx ) ->
     route:
       _plantuml: "plantuml:**/*.plantuml"
     
-  default_handler: 'auto'
-
   defaults:
-    default:
-      route:
-        options:
-          xxx: 1
+    handler: 'auto'
+    params: ''
+    route:
+      global:
+        default:
+          options:
+            xxx: 1
+      local: {}
 
   generate:
     auto: ( rctx ) ->

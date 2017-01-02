@@ -18,6 +18,20 @@ class SitefileTestUtils
     @server = {}
     @ctx = {}
 
+  env_browser: ->
+    if process.env.USER is 'travis'
+      return 'firefox'
+    else
+      return 'chrome'
+
+  get_sitefile: ->
+    lib = require '../lib/sitefile'
+    if @dir
+      process.chdir @dir
+    sitefile = lib.prepare_context().sitefile
+    process.chdir @cwd
+    sitefile 
+
   #@property 'url',
   #  get: @get_url
     

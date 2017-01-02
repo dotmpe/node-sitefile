@@ -1,4 +1,6 @@
-'use strict'
+
+
+webpack = require 'webpack'
 
 path = require 'path'
 webpack = require 'webpack'
@@ -12,15 +14,13 @@ module.exports = ( grunt ) ->
   grunt.initConfig
 
     jshint:
-      gulpfile:
+      all:
         options:
           jshintrc: '.jshintrc'
-        src: [ 'gulpfile-old.js' ]
-
-      package:
-        options:
-          jshintrc: '.jshintrc'
-        src: [ '*.json' ]
+        src: [
+          '*.json'
+          'gulpfile.js'
+        ]
 
       examples:
         options:
@@ -56,16 +56,16 @@ module.exports = ( grunt ) ->
           require: 'coffee-script/register'
           captureFile: 'mocha.out'
           quiet: false
-          clearRequireCache: false
+          clearRequireCache: false # do explicitly as needed
         src: ['test/mocha/*.coffee']
 
     webpack:
       client:
-        entry: './lib/sitefile/client/default'
-        #devtool: 'sourcemap'
+        entry: './lib/sitefile/client/lib/sf-v0'
+        devtool: 'sourcemap'
         output:
-          filename: 'build/client/default.js'
-          library: "sitefile_default_client"
+          filename: 'build/client/sf-v0.js'
+          library: "sitefile_client"
         module:
           loaders: [
               test: /\.js$/,
@@ -89,6 +89,7 @@ module.exports = ( grunt ) ->
           #new webpack.BannerPlugin('require("source-map-support").install();',
           #                         { raw: true, entryOnly: false })
         ]
+        #externals: nodeModules,
         resolve:
           extensions: [
             '', '.coffee', '.js', '.json', '.pug'
@@ -211,7 +212,7 @@ module.exports = ( grunt ) ->
 
   grunt.registerTask 'client', [
     'sass:dist'
-    'webpack:client'
+    # XXX: using rjs cs client for now 'webpack:client'
   ]
 
   grunt.registerTask 'build-test', [

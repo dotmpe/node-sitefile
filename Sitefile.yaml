@@ -2,7 +2,7 @@
 #
 # Sitefile for node-sitefile document server
 # A note of caution: this example config does shameless things like executing any shell
-# script if you want to, like call http://localhost/clean.sh. Ymmv. 
+# script if you want to, like call http://localhost/clean.sh. Ymmv.
 #
 # Id: node-sitefile/0.0.5-dev+20161010
 sitefile: 0.0.5-dev
@@ -15,9 +15,12 @@ paths:
     'sitefile:example/routers'
   ]
 
+#autoExport:
+#  - rjs: /app/rjs
+
 routes:
 
-  media/script/sitefile-client.js: static:build/client/default.js
+  media/script/sitefile-client.js: static:build/client/sf-v0.js
   media/style: static:build/style
   
   dist/sitefile: static:dist/sitefile.js
@@ -25,7 +28,9 @@ routes:
   doc/literate: static:build/docs/docco/
   #doc/api: static:build/docs/jsdoc/
 
-  example/: redir:example/main
+  # FIXME: example/: redir:example/main
+  example: static:example
+
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   # Example, get data from another endpoint, the one above?
@@ -43,8 +48,6 @@ routes:
   _pu: plantuml:example/*.plantuml
   _pu_dev_doc: plantuml:doc/dev/*.plantuml
 
-  example: static:example
-
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
 
@@ -57,11 +60,11 @@ routes:
   #ReadMe: redir:ReadMe.html
   #ReadMe.html: du:ReadMe.rst
   #ReadMe.xml: du:ReadMe.rst
-  
+
   # Dynamic rules using glob spec
   _du: du:**/*.rst
   #_rst2html: rst2html:**/*.rst
-  
+
   Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
   Sitefile.json: sitefile:?resolve=sitefile
@@ -73,20 +76,46 @@ routes:
   Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: core:#
 
-  npm/npm/latest.json: 'http:'
-  npm/node-sitefile/latest.json: 'http:'
-  npm/packages/: static:node_modules/
+  # Proxy JSON metadata, settings in options.local.npm/...
+  npm/npm/latest.json: http:#
+  npm/node-sitefile/latest.json: http:#
 
-  vendor/:package.:format: cdn:cdn.json
+  # Look for installed package in PWD and Sitefile dir
+  npm/packages/: 'static:{,sitefile:}node_modules/'
 
-  # FIXME:
+  # FIXME: display current PM2 procs and/or preconfigured apps status
+  proc/pm2: pm2:pm2-apps.json
+
+  # Some HTTP redirect handlers configured on JSON mappings
+  vendor/:package.:format: http.vendor:cdn.json
+  ref/:ref: http.ref:#
+  res/:ref: http.res:#
+  site/:site/:path: http.site:sites.json
+
+  # Three seperate resources, layered for the RequireJS client.
+  # The JSON is a path object extracted from cdn.json, and a shim and map and
+  # other RequireJS option objects.
+  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;baseUrl=/app/lib;main=cs!sf-v0
+  # The JSON is wrapped in a script to initialize RequireJS
+  app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
+  # Finally a specific router is wired to display a pug template with all of the
+  # above.
+  app/v0: pug:sitefile-client:rjs.pug#
+  # Serve coffee script for RequireJS client
+  app: static:lib/sitefile/client
+
+  # FIXME: fonts? want to build CSS+font loading into RequireJS client
   fonts: static:node_modules/bootstrap/fonts
 
+  # Just an instance of the example router in example/routers
   sf-example/default: sf-example:#
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  proc/pm2: pm2:pm2-apps.json
+  # TODO: imagemacking processing?
+  #/shadows/:path: convert.filter:**/*.png
+
+  tools: static:tools
 
 
 options:
@@ -94,7 +123,7 @@ options:
     du:
       link_stylesheets: true
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
     rst2html:
@@ -102,29 +131,31 @@ options:
       flags:
       - "--no-toc-backlinks"
       scripts:
-        $ref: '#/defs/scripts/default/urls'
+        $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
-    pug:
-      scripts:
-        $ref: '#/defs/scripts/default/urls'
-      stylesheets:
-        $ref: '#/defs/stylesheets/default/urls'
+    #pug:
+    #  merge:
+    #    scripts:
+    #      $ref: '#/defs/scripts/default'
+    #    stylesheets:
+    #      $ref: '#/defs/stylesheets/default/urls'
 
   local:
+    shadows/: {}
+
     npm/node-sitefile/latest.json:
-      spec: 
+      spec:
         hostname: 'registry.npmjs.org'
         path: '/node-sitefile/latest'
+
     npm/npm/latest.json:
-      spec: 
+      spec:
         hostname: 'registry.npmjs.org'
         path: '/npm/latest'
-    Sitefile/debug: 
-      local_var: 'fooooo'
 
-    app/main:
-      $ref: '#/defs/app/base'
+    Sitefile/debug:
+      local_var: 'fooooo'
 
     topics:
       client:
@@ -138,16 +169,42 @@ options:
         paths:
           - build/style/default.css
 
+    app/v0:
+      merge:
+        stylesheets:
+          - /vendor/bootstrap.css
+        scripts:
+          - /vendor/jquery.js
+        clients:
+          $ref: '#/defs/app/base/clients'
+
+    example/server-generated-page:
+      merge:
+        stylesheets:
+          - /vendor/bootstrap.css
+          - /vendor/bootstrap-theme.css
+          - /media/style/default.css
+          - /example/server-generated-stylesheet
+        scripts:
+          - /vendor/jquery.js
+          #- /vendor/require.js
+          #- /vendor/source-map-support.js
+          - /vendor/coffee-script.js
+          - /example/server-generated-javascript
+        links:
+          - type: text/coffescript
+            href: /example/script.coffee
 
 defs:
   scripts:
     default:
-      urls:
-        - /vendor/require.js
-        - /vendor/jquery.js
-        - /media/script/sitefile-client.js
-      paths:
-        - build/client/default.js
+      - /vendor/require.js
+      - /vendor/jquery.js
+      #- /vendor/require.js
+      #- /vendor/source-map-support.js
+      - /vendor/coffee-script.js
+      #- src: /media/script/sitefile-client.js
+      #  path: build/client/default.js
   stylesheets:
     default:
       urls:
@@ -160,9 +217,10 @@ defs:
 
   app:
     base:
-      client:
+      clients:
         - type: require-js
-          id: require-js-base-app
+          id: require-js-sitefile-v0-app
           href: /vendor/require.js
-          main: require-js-base.js
+          main: /app/rjs-sf-v0.js
+
 

@@ -1,10 +1,74 @@
 path = require 'path'
 fs = require 'fs'
+minimatch = require 'minimatch'
 glob = require 'glob'
 _ = require 'lodash'
 
+nodelib = require 'nodelib'
+Context = nodelib.Context
+
+
+
+expand_path = ( src, rctx ) ->
+  base = rctx.sfdir+'/'
+  if src.startsWith 'sitefile:'
+    return src.replace 'sitefile:', base
+  libdir = base+'lib/sitefile/'
+  if src.startsWith 'sitefile-lib:'
+    return src.replace 'sitefile-lib:', libdir
+  if src.startsWith 'sitefile-client:'
+    return src.replace 'sitefile-client:', libdir+'client/'
+  src
+
+
+expand_paths_spec_to_route = ( rctx ) ->
+  spec = rctx.route.spec
+  if spec and '#' != spec
+    # Expand non-glob from spec to paths
+    srcs = minimatch.braceExpand spec
+  else
+    # Or fall back to verbatim route name as path
+    srcs = [ rctx.name ]
+  for src, idx in srcs
+    srcs[idx] = expand_path src, rctx
+  return srcs
+
+
+# Load default options from Sitefile
+resolve_route_options = ( ctx, route, router_name ) ->
+  opts = {}
+
+  if 'options' of ctx.sitefile
+
+    # Global sitefile options (per router)
+    if ctx.sitefile.options.global and router_name
+      if router_name of ctx.sitefile.options.global
+        global_opts = null
+        #ctx.get "sitefile.options.global.#{router_name}"
+        try
+          global_opts = ctx.resolve "sitefile.options.global.#{router_name}"
+        catch error
+          null
+        if global_opts
+          opts = _.defaults {}, global_opts, opts
+
+    # Local (per route) sitefile options
+    if ctx.sitefile.options.local and route
+      if route of ctx.sitefile.options.local
+        local_opts = null
+        esc = route.replace '.', '\\.'
+        try
+          local_opts = ctx.resolve "sitefile.options.local.#{esc}"
+        catch error
+          null
+        if local_opts
+          opts = _.defaultsDeep {}, local_opts, opts
+
+  opts
+
 
 builtin =
+
 
   # TODO: extend redir spec for status code
   redir: ( rctx, url=null, status=302 ) ->
@@ -16,18 +80,23 @@ builtin =
     # 303: See Other
 
     #rctx.context.redir status, url, p
-    rctx.context.app.all url, (req, res) ->
+    rctx.context.app.all url, ( req, res ) ->
       res.redirect p
     rctx.context.log '      ', url: url, '->', url: p
 
+
   static: ( rctx ) ->
-    url = rctx.site.base + rctx.name
-    if rctx.route.spec.startsWith '/'
-      p = rctx.route.spec
-    else
-      p = path.join rctx.cwd, rctx.route.spec
-    rctx.context.app.use url, rctx.context.static_proto p
+
+    url = rctx.res.ref
+
+    srcs = expand_paths_spec_to_route rctx
+
+    rctx.context.app.use url, [
+      rctx.context.static_proto src for src in srcs
+    ]
+
     rctx.context.log 'Static', url: url, '=', path: rctx.route.spec
+
 
   # Take care of rendering from a rctx with data, for a (data) handler that does
   # not care too itself since it is a very common task.
@@ -104,13 +173,30 @@ Base =
     # Create resolver sub-context
     ctx.getSub init
 
-  default_resource_options: ( rctx ) ->
-    ctx = rctx.context
-    if ctx.sitefile.options and ctx.sitefile.options.local \
-    and rctx.name of ctx.sitefile.options.local
-      _.defaultsDeep rctx._data.route.options,
-        ctx.sitefile.options.local[rctx.name]
-      # XXX: ctx.resolve "sitefile.options.local.#{rctx.name}"
+  prepare_dyn_path_res: ( rctx, ctx ) ->
+    if rctx.res.dirname == '.'
+      rctx.res.ref = ctx.site.base + rctx.res.basename
+    else
+      rctx.res.ref = \
+        "#{ctx.site.base}#{rctx.res.dirname}/#{rctx.res.basename}"
+      dirurl = ctx.site.base + rctx.res.dirname
+      # XXX: dir tracking 
+      if not ctx.routes.directories.hasOwnProperty dirurl
+        ctx.routes.directories[ dirurl ] = [ rctx.res.basename ]
+      else
+        ctx.routes.directories[ dirurl ].push rctx.res.basename
+      #rctx.path = dirurl
+
+  default_resource_options: ( rctx, ctx, updateRef=false ) ->
+    router = rctx.route.name
+    if updateRef
+      if 'string' is typeof updateRef
+        rctx.res.ref = updateRef
+      else
+        Base.prepare_dyn_path_res rctx, ctx
+    # Now parse dynamic path back from ref  and look for defaults
+    route = rctx.res.ref.substr ctx.site.base.length
+    rctx.route.options = resolve_route_options( ctx, route, router )
 
   # Return resource paths
   resolve: ( route, router_name, handler_name, handler_spec, ctx ) ->
@@ -124,15 +210,11 @@ Base =
         name: router_name
         handler: handler_name
         spec: handler_spec
-        options: if 'options' of ctx.sitefile \
-          and ctx.sitefile.options.global and router_name \
-          of ctx.sitefile.options.global \
-          then ctx.resolve "sitefile.options.global.#{router_name}" else {}
 
     # Use exact route as fs path
     if fs.existsSync route
       rctx = Base.file_res_ctx ctx, rsctxinit, route
-      Base.default_resource_options rctx
+      Base.default_resource_options rctx, ctx
       rs.push rctx
 
     # Use route as ID for glob spec (a set of existing fs paths)
@@ -140,25 +222,12 @@ Base =
       ctx.log 'Dynamic', url: route, '', path: handler_spec
       for name in glob.sync handler_spec
         rctx = Base.file_res_ctx ctx, rsctxinit, name
-        Base.default_resource_options rctx
-        if rctx.res.dirname == '.'
-          rctx.res.ref = ctx.site.base + rctx.res.basename
-        else
-          rctx.res.ref = \
-            "#{ctx.site.base}#{rctx.res.dirname}/#{rctx.res.basename}"
-          dirurl = ctx.site.base + rctx.res.dirname
-          if not ctx.routes.directories.hasOwnProperty dirurl
-            ctx.routes.directories[ dirurl ] = [ rctx.res.basename ]
-          else
-            ctx.routes.directories[ dirurl ].push rctx.res.basename
-          #rctx.path = dirurl
-
+        Base.default_resource_options rctx, ctx, true
         rs.push rctx
 
     else if fs.existsSync handler_spec
       rctx = Base.file_res_ctx ctx, rsctxinit, handler_spec
-      Base.default_resource_options rctx
-      rctx.res.ref = ctx.site.base + route
+      Base.default_resource_options rctx, ctx, ctx.site.base + route
       rs.push rctx
 
     # Use route as is
@@ -166,7 +235,7 @@ Base =
       init = res: ref: ctx.site.base + route
       _.defaultsDeep init, rsctxinit
       rctx = ctx.getSub init
-      Base.default_resource_options rctx
+      Base.default_resource_options rctx, ctx
       rs.push rctx
   
     return rs
@@ -176,7 +245,7 @@ Base =
     ctx = rctx.context
 
     # routes.resources: Track all paths to router instances
-    ctx.routes.resources.push rctx.res.ref
+    ctx.routes.resources[rctx.res.ref] = rctx
 
     # generate: let router_type return handlers for given resource
 
@@ -208,7 +277,7 @@ Base =
 
       if h.res and 'data' of h.res
         rctx.context.app.all rctx.res.ref, builtin.data rctx
-      
+
       ctx.log "Extension at ", url: rctx.res.ref, \
           "from", ( name: rctx.route.name+'.'+rctx.route.handler ), \
           id: rctx.route.spec, "at", path: rctx.name
@@ -221,9 +290,43 @@ Base =
 module.exports =
 
   builtin: builtin
+
   Base: Base
+
   # Current way of 'instantiating' router
   define: ( mixin ) ->
     _.assign {}, Base, mixin
 
+  resolve_route_options: resolve_route_options
+
+  # XXX: spec parse helper
+  expand_paths_spec_to_route: expand_paths_spec_to_route
+  expand_path: expand_path
+
+  # XXX: spec parse helper
+  parse_kw_spec: ( rctx ) ->
+    kw = {}
+    specs = rctx.route.spec.split ';'
+    for spec in specs
+      x = spec.indexOf '='
+      k = spec.substr(0, x)
+      kw[k] = spec.substr x+1
+    kw
+
+  # XXX: Read JSON + jspath
+  read_xref: ( ctx, spec ) ->
+    if '#' not in spec
+      throw new Error spec
+    [ jsonf, spec ] = spec.split '#'
+    if not jsonf.startsWith path.sep
+      jsonf = path.join ctx.cwd, jsonf
+    p = spec.split '/'
+    if not p[0]
+      p.shift()
+    o = require jsonf
+    c = o
+    while p.length
+      e = p.shift()
+      c = c[e]
+    return c
 

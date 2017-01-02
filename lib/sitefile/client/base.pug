@@ -1,0 +1,25 @@
+doctype html
+include html
+
+
+html(profile="http://dotmpe.com/project/sitefile")
+
+  - var main = null // Main or primary client is the first one loaded
+
+  head 
+    block head
+      +std-html-head "Sitefile Base Client"
+
+  body
+    block prologue
+    div.header.container
+      block header
+        p Template header
+    div.document.container
+      block document
+        p Template document
+    div.footer.container
+      block footer
+        p Template footer
+    block epilogue
+
