@@ -127,7 +127,8 @@ module.exports = ( ctx ) ->
   tools:
     rst2html: rst2html
 
-  default_handler: 'rst2html'
+  defaults:
+    handler: 'rst2html'
 
   # Generators for Sitefile route handlers
   generate:
