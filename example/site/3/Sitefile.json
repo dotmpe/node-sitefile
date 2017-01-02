@@ -1,0 +1,21 @@
+{
+  "sitefile": "0.0.5-dev",
+  "routes": {},
+  "options": {
+    "global": {
+      "du": {
+        "link_stylesheets": true,
+        "scripts": {
+          "$ref": "#/defs/scripts/default"
+        }
+      }
+    }
+  },
+  "defs": {
+    "scripts": {
+      "default": [
+        "/vendor/jquery.js"
+      ]
+    }
+  }
+}

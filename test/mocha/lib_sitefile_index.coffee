@@ -7,6 +7,8 @@ _ = require 'lodash'
 lib = require '../../lib/sitefile'
 pkg = require '../../package.json'
 
+tu = require '../test-utils'
+
 
 describe 'Module sitefile', ->
 
@@ -108,5 +110,52 @@ describe 'Module sitefile', ->
       obj = ctx.resolve 'sitefile.options.global.rst2html.stylesheets'
       expect( obj ).to.be.an.array
 
+
+  describe 'load sitefile', ->
+
+    sitefile = {
+      sitefile: '0.0.4'
+      routes:
+        _du: 'du:**/*.rst'
+        _gv: 'gv:**/*.gv'
+        '': 'redir:main'
+        'default.css': 'sass:default.sass'
+        'default.js': 'coffee:default.coffee'
+      path: "Sitefile.yml"
+    }
+
+    it 'has expected sitefile routes/options (site 2)', ->
+      stu = new tu.SitefileTestUtils 'example/site/2'
+      obj = stu.get_sitefile()
+      expect( obj ).to.eql sitefile
+
+
+    sitefile_2 = {
+      sitefile: '0.0.5-dev'
+      routes: {}
+      options:
+        global:
+          du:
+            link_stylesheets: true
+            scripts:
+              $ref: '#/sitefile/defs/scripts/default'
+      defs:
+        scripts:
+          default: [
+            '/vendor/jquery.js' ]
+      path: "Sitefile.yml"
+    }
+
+    it 'has expected sitefile routes/options (site 3, JSON)', ->
+      stu = new tu.SitefileTestUtils 'example/site/3'
+      obj = stu.get_sitefile()
+      sitefile_2.path = "Sitefile.json"
+      expect( obj ).to.eql sitefile_2
+
+    it 'has expected sitefile routes/options (site 4, YAML)', ->
+      stu = new tu.SitefileTestUtils 'example/site/4'
+      obj = stu.get_sitefile()
+      sitefile_2.path = "Sitefile.yml"
+      expect( obj ).to.eql sitefile_2
 
 

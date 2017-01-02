@@ -59,7 +59,8 @@ module.exports = ( ctx ) ->
     core:
   """
 
-  default_handler: 'routes'
+  defaults:
+    handler: 'routes'
 
   # Additional (user/Sitefile) configuration defaults for this module
 
