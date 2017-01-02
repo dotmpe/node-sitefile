@@ -79,7 +79,7 @@ describe 'Module sitefile', ->
       lib.prepare_context ctx
       sfctx = ( "basename bundles config config_envs config_name cwd envname "+
         "ext exts fn lfn log noderoot paths pkg pkg_file proc routes "+
-        "site sitefile sitefilerc static version"
+        "site sitefile sitefilerc static verbose version"
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()
@@ -105,7 +105,7 @@ describe 'Module sitefile', ->
 
       ctx = lib.prepare_context()
       expect( ctx.get 'sitefile.options.global.rst2html.stylesheets' ).to.eql {
-        $ref: '#/sitefile/defs/stylesheets/default/urls'
+        $ref: '#/sitefile/defs/stylesheets/default'
       }
       obj = ctx.resolve 'sitefile.options.global.rst2html.stylesheets'
       expect( obj ).to.be.an.array
