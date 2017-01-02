@@ -89,60 +89,50 @@ module.exports = ( grunt ) ->
           #new webpack.BannerPlugin('require("source-map-support").install();',
           #                         { raw: true, entryOnly: false })
         ]
-#externals: nodeModules
         resolve:
           extensions: [
             '', '.coffee', '.js', '.json', '.pug'
           ]
       server:
         entry: './bin/sitefile.coffee'
-        devtool: 'sourcemap'
+        #devtool: 'sourcemap'
         output:
           path: path.join __dirname, 'dist'
           filename: 'sitefile.js'
           libraryTarget: "commonjs2"
           library: "sitefile_cli"
-        ###  XXX server build?
+
         module:
           loaders: [
-            {
               test: /\.js$/,
               exclude: /node_modules/,
-              loaders: ['babel']
-            },
-            {
+              loaders: ['babel-loader']
+            ,
               test: /\.coffee$/,
               exclude: /node_modules/,
               loader: "coffee"
-            },
-            {
+            ,
               test: /\.json$/,
               loader: "json"
-            },
-            {
+            ,
               test: /\.pug$/,
               exclude: /node_modules/,
               loader: "pug"
-            },
           ]
-        },
         plugins: [
           new webpack.IgnorePlugin(/^(markdown|pug|pug-runtime|stylus|pm2|pmx|knex)$/),
           new webpack.IgnorePlugin(/\.(css|less)$/),
           new webpack.BannerPlugin('require("source-map-support").install();',
                                    { raw: true, entryOnly: false }),
         ],
-        externals: nodeModules,
-        resolve: {
+        #externals: nodeModules,
+        resolve:
           extensions: [
             '', '.coffee', '.js', '.json', '.pug'
           ]
-        },
-        ###
-        resolve:
-          extensions: [ '', '.js' ]
 
     ###
+
     jsdoc : {
         dist : {
             src: ['dist/*.js'],
