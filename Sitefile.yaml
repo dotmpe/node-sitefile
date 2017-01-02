@@ -191,12 +191,10 @@ defs:
         #  path: build/client/default.js
   stylesheets:
     default:
-      urls:
-        - /vendor/bootstrap.css
-        - /vendor/bootstrap-theme.css
-        - /media/style/default.css
-      paths:
-        - build/style/default.css
+      - url: /vendor/bootstrap.css
+      - url: /vendor/bootstrap-theme.css
+      - url: /media/style/default.css
+        path: build/style/default.css
 
   v0:
     base:
