@@ -7,6 +7,8 @@ _ = require 'lodash'
 lib = require '../../lib/sitefile'
 pkg = require '../../package.json'
 
+Ajv = require 'ajv'
+
 tu = require '../test-utils'
 
 
@@ -157,5 +159,46 @@ describe 'Module sitefile', ->
       obj = stu.get_sitefile()
       sitefile_2.path = "Sitefile.yml"
       expect( obj ).to.eql sitefile_2
+
+
+  describe "uses JSON schema", ->
+
+    stu = new tu.SitefileTestUtils()
+    stu.load_schema 'ex1', 'example/json-schema.json'
+    stu.load_schema 'ac_full', 'var/autocomplete-schema.json'
+    stu.load_schema 'ac_simple', 'var/autocomplete-schema-1.json'
+
+    it "to validate and invalidate data", ->
+      ex1 = stu.schema.ex1
+      expect( ex1 1.5 ).to.equal true
+      expect( ex1 5 ).to.equal true
+      expect( ex1 4 ).to.equal true
+      expect( ex1 4.5 ).to.equal false
+      expect( ex1 2.5 ).to.equal true
+      expect( ex1 3.5 ).to.equal false
+
+      ac_simple = stu.schema.ac_simple
+      expect( ac_simple ["string"] ).to.equal true
+      expect( ac_simple [{"foo":"string"}] ).to.equal false
+      expect( ac_simple [{"label":"Foo"}] ).to.equal false
+
+      ac_full = stu.schema.ac_full
+      expect( ac_full ["string"] ).to.equal true
+      expect( ac_full [{"foo":"string"}] ).to.equal false
+      expect( ac_full [{"label":"Foo"}] ).to.equal true
+      expect( ac_full [{"category":"Foo"}] ).to.equal false
+      expect( ac_full [{"label":"Foo", "category":"Notes"}] ).to.equal true
+
+
+    it "to validate AC data (Simple)", -> stu.req_json_file_valid \
+      "../example/autocomplete-data-2.json", stu.schema.ac_simple
+
+    it "to (in)validate AC data (Full)", ->
+      v = stu.schema.ac_full
+      Promise.all [
+        stu.req_json_file_valid "../example/autocomplete-data.json", v
+        stu.req_json_file_valid "../example/data.json", v, false
+        stu.req_json_file_valid "../example/autocomplete-data-1.json", v, false
+      ]
 
 
