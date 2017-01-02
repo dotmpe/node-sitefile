@@ -212,7 +212,7 @@ options:
         scripts:
           - /vendor/jquery.js
         clients:
-          $ref: '#/defs/app/base/clients'
+          $ref: '#/defs/app/v0/clients'
 
     example/server-generated-page:
       merge:
@@ -242,14 +242,12 @@ defs:
         #  path: build/client/default.js
   stylesheets:
     default:
-      urls:
-        - /vendor/bootstrap.css
-        - /vendor/bootstrap-theme.css
-        - /media/style/default.css
-      paths:
-        - build/media/style/default.css
+      - url: /vendor/bootstrap.css
+      - url: /vendor/bootstrap-theme.css
+      - url: /media/style/default.css
+        path: build/style/default.css
 
-  app:
+  v0:
     base:
       clients:
         - type: require-js
