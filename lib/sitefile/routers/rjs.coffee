@@ -33,7 +33,6 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
             id: 'require-js-sitefile-v0-app'
             href: '/vendor/require.js'
             main: '/app/rjs-sf-v0.js'
-            #  $ref: '#/defs/app/base/clients'
           ]
 
 
@@ -53,21 +52,18 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
       #{mount}/json: rjs.data:paths=;map=;main=;baseUrl=
       #{mount}: pug:tpl=sitefile-client:rjs.pug
     """
-    global:
-      options:
-        merge:
-          stylesheets: urls: [ '/app/v0/base.css' ]
-          scripts: urls: [ ]
-          clients: [
-            type: 'require-js'
-            id: 'require-js-sitefile-v0-app'
-            href: '/vendor/require.js'
-            main: '/app/rjs-sf-v0.js'
-            map: {}
-            shims: {}
-            paths: {}
-          ]
-
+    global: {}
+    ### FIXME: would want to set defaults for pug view. but setup auto-export
+      first
+      default:
+        options:
+          merge:
+      Also all settings in sitefile for now, later rebuild rctx init like in pug
+      config:
+        options: {}
+      main:
+        options: {}
+    ###
 
   generate:
 

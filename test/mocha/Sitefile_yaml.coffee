@@ -153,9 +153,6 @@ example for all handlers.
           }]
           expect(obj.merge.stylesheets).to.eql [
             '/vendor/bootstrap.css'
-            '/vendor/bootstrap-theme.css'
-            '/media/style/default.css'
-            '/example/server-generated-stylesheet'
           ]
           clients = stu.ctx.resolve 'sitefile.options.local.app/v0.merge.clients'
           expect(clients).to.be.a 'array'

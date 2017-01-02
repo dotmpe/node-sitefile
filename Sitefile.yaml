@@ -34,7 +34,6 @@ routes:
   # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
 
   _pug: pug:example/**/*.pug
-
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
@@ -73,17 +72,21 @@ routes:
   Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: core:#
 
-  npm/npm/latest.json: 'http:'
-  npm/node-sitefile/latest.json: 'http:'
+  # Proxy JSON metadata, settings in options.local.npm/...
+  npm/npm/latest.json: http:#
+  npm/node-sitefile/latest.json: http:#
+
+  # Look for installed package in PWD and Sitefile dir
   npm/packages/: 'static:{,sitefile:}node_modules/'
 
+  # FIXME: display current PM2 procs and/or preconfigured apps status
   proc/pm2: pm2:pm2-apps.json
 
+  # Some HTTP redirect handlers configured on JSON mappings
   vendor/:package.:format: http.vendor:cdn.json
   ref/:ref: http.ref:#
   res/:ref: http.res:#
   site/:site/:path: http.site:sites.json
-
 
   # Three seperate resources, layered for the RequireJS client.
   # The JSON is a path object extracted from cdn.json, and a shim and map and
@@ -93,24 +96,19 @@ routes:
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
   # Finally a specific router is wired to display a pug template with all of the
   # above.
-
   app/v0: pug:sitefile-client:rjs.pug#
-
-  # TODO: deprecate app-0 router, move app-0 to http?
-  app/v0/base.css: app-0.cdn_css:build/style/default.css
-  #app/v0/base.js: app-0.cdn_js:build/client/sf-v0.js
-  app/v0/reader.html: app-0.reader:#
-  app/reader: app-0.reader:#
+  # Serve coffee script for RequireJS client
   app: static:lib/sitefile/client
-  #app: static:app1646
 
-  # FIXME:
+  # FIXME: fonts? want to build CSS+font loading into RequireJS client
   fonts: static:node_modules/bootstrap/fonts
 
+  # Just an instance of the example router in example/routers
   sf-example/default: sf-example:#
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
+  # TODO: imagemacking processing?
   #/shadows/:path: convert.filter:**/*.png
 
   tools: static:tools
@@ -159,9 +157,6 @@ options:
       merge:
         stylesheets:
           - /vendor/bootstrap.css
-          - /vendor/bootstrap-theme.css
-          - /media/style/default.css
-          - /example/server-generated-stylesheet
         scripts:
           - /vendor/jquery.js
         clients:
