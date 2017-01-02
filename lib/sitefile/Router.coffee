@@ -9,8 +9,8 @@ Context = nodelib.Context
 
 
 
-expand_path = ( src, rctx ) ->
-  base = rctx.sfdir+'/'
+expand_path = ( src, ctx ) ->
+  base = ctx.sfdir+'/'
   if src.startsWith 'sitefile:'
     return src.replace 'sitefile:', base
   libdir = base+'lib/sitefile/'
@@ -318,6 +318,7 @@ module.exports =
     if '#' not in spec
       throw new Error spec
     [ jsonf, spec ] = spec.split '#'
+    jsonf = expand_path jsonf, ctx
     if not jsonf.startsWith path.sep
       jsonf = path.join ctx.cwd, jsonf
     p = spec.split '/'
