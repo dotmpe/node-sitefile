@@ -103,7 +103,7 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
         url = ctx.site.base+rctx.route.spec
         if url not of ctx.routes.resources \
         or not 'object' is typeof ctx.routes.resources[url]
-          throw new Exception "Must be a loaded route: #{url}"
+          throw new Error "Must be a loaded route: #{url}"
         rrctx = ctx.routes.resources[url]
         rjs_opts = JSON.stringify rrctx.res.data rctx
         res.type "application/javascript"
