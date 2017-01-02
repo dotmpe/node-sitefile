@@ -147,11 +147,20 @@ example for all handlers.
         it "from Sitefile", ( done ) ->
           obj = stu.ctx.sitefile.options.local["app/v0"]
           expect(obj).to.be.a 'object'
-          expect(obj.clients).to.be.a 'object'
-          clients = stu.ctx.resolve 'sitefile.options.local.app/v0.clients'
+          expect(obj.merge).to.be.a 'object'
+          expect(obj.merge.clients).to.eql [{
+            type: 'require-js'
+            id: 'require-js-sitefile-v0-app'
+            href: '/vendor/require.js'
+            main: '/app/rjs-sf-v0.js'
+          }]
+          expect(obj.merge.stylesheets).to.eql [
+            '/vendor/bootstrap.css'
+          ]
+          clients = stu.ctx.resolve 'sitefile.options.local.app/v0.merge.clients'
+          expect(clients).to.be.a 'array'
           expect(clients[0].type).to.equal 'require-js'
           expect(clients[0].href).to.equal '/vendor/require.js'
-
           stu.test_url_type_ok(clients[0].main, "application/javascript") done
 
 
@@ -192,7 +201,7 @@ example for all handlers.
             ).catch( reject ).then ->
               driver.getWindowHandle()
               Promise.all([
-                expect('.container').dom.to.have.count 1
+                expect('.container').dom.to.have.count 3
               ]).catch( reject ).then resolve
 
 
