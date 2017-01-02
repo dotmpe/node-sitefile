@@ -58,8 +58,9 @@
     "src-tree": "tree -I 'node_modules|build|components'",
     "src-files": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' ",
     "src-loc": "cat .gitignore | grep -v '^\\s*$' | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' -not -path '*.log' | xargs cat | grep -v '^\\s*$' | wc -l | awk '{print $1}'",
-    "git-loc-all": "git ls-files | xargs cat | wc -l ",
-    "git-loc": "git ls-files | xargs cat | grep -v '^\\s*$' | wc -l ",
+    "git-loc-all": "git ls-files | grep -v plantuml.jar | xargs cat | wc -l ",
+    "git-loc": "git ls-files | grep -v plantuml.jar | xargs cat | grep -v '^\\s*$' | wc -l ",
+    "git-src": "git ls-files | grep -v plantuml.jar",
     "dep-local": "echo node_modules/* | xargs basename | sort -u | awk '{print $1}'",
     "dep-local-all": "find node_modules/ -iname node_modules | xargs /bin/ls -w1 | grep -v '^$' | grep -v 'node_modules' | sort -u | awk '{print $1}'"
   },

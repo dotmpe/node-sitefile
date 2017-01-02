@@ -9,7 +9,19 @@ Context = nodelib.Context
 
 
 
-expand_path_spec_to_route = ( rctx ) ->
+expand_path = ( src, rctx ) ->
+  base = rctx.sfdir+'/'
+  if src.startsWith 'sitefile:'
+    return src.replace 'sitefile:', base
+  libdir = base+'lib/sitefile/'
+  if src.startsWith 'sitefile-lib:'
+    return src.replace 'sitefile-lib:', libdir
+  if src.startsWith 'sitefile-client:'
+    return src.replace 'sitefile-client:', libdir+'client/'
+  src
+
+
+expand_paths_spec_to_route = ( rctx ) ->
   spec = rctx.route.spec
   if spec and '#' != spec
     # Expand non-glob from spec to paths
@@ -18,26 +30,29 @@ expand_path_spec_to_route = ( rctx ) ->
     # Or fall back to verbatim route name as path
     srcs = [ rctx.name ]
   for src, idx in srcs
-    if src.startsWith 'sitefile:'
-      srcs[idx] = src.replace 'sitefile:', rctx.sfdir+path.sep
+    srcs[idx] = expand_path src, rctx
   return srcs
 
 
+# Load default options from Sitefile
 resolve_route_options = ( ctx, route, router_name ) ->
   opts = {}
 
   if 'options' of ctx.sitefile
 
+    # Global sitefile options (per router)
     if ctx.sitefile.options.global and router_name
       if router_name of ctx.sitefile.options.global
         global_opts = null
+        #ctx.get "sitefile.options.global.#{router_name}"
         try
           global_opts = ctx.resolve "sitefile.options.global.#{router_name}"
         catch error
           null
         if global_opts
-          opts = _.defaultsDeep global_opts, opts
+          opts = _.defaults {}, global_opts, opts
 
+    # Local (per route) sitefile options
     if ctx.sitefile.options.local and route
       if route of ctx.sitefile.options.local
         local_opts = null
@@ -47,12 +62,13 @@ resolve_route_options = ( ctx, route, router_name ) ->
         catch error
           null
         if local_opts
-          opts = _.defaultsDeep local_opts, opts
+          opts = _.defaultsDeep {}, local_opts, opts
 
   opts
 
 
 builtin =
+
 
   # TODO: extend redir spec for status code
   redir: ( rctx, url=null, status=302 ) ->
@@ -68,11 +84,12 @@ builtin =
       res.redirect p
     rctx.context.log '      ', url: url, '->', url: p
 
+
   static: ( rctx ) ->
 
     url = rctx.res.ref
 
-    srcs = expand_path_spec_to_route rctx
+    srcs = expand_paths_spec_to_route rctx
 
     rctx.context.app.use url, [
       rctx.context.static_proto src for src in srcs
@@ -156,13 +173,30 @@ Base =
     # Create resolver sub-context
     ctx.getSub init
 
-  default_resource_options: ( rctx ) ->
-    ctx = rctx.context
-    if ctx.sitefile.options and ctx.sitefile.options.local \
-    and rctx.name of ctx.sitefile.options.local
-      _.defaultsDeep rctx._data.route.options,
-        ctx.sitefile.options.local[rctx.name]
-      # XXX: ctx.resolve "sitefile.options.local.#{rctx.name}"
+  prepare_dyn_path_res: ( rctx, ctx ) ->
+    if rctx.res.dirname == '.'
+      rctx.res.ref = ctx.site.base + rctx.res.basename
+    else
+      rctx.res.ref = \
+        "#{ctx.site.base}#{rctx.res.dirname}/#{rctx.res.basename}"
+      dirurl = ctx.site.base + rctx.res.dirname
+      # XXX: dir tracking 
+      if not ctx.routes.directories.hasOwnProperty dirurl
+        ctx.routes.directories[ dirurl ] = [ rctx.res.basename ]
+      else
+        ctx.routes.directories[ dirurl ].push rctx.res.basename
+      #rctx.path = dirurl
+
+  default_resource_options: ( rctx, ctx, updateRef=false ) ->
+    router = rctx.route.name
+    if updateRef
+      if 'string' is typeof updateRef
+        rctx.res.ref = updateRef
+      else
+        Base.prepare_dyn_path_res rctx, ctx
+    # Now parse dynamic path back from ref  and look for defaults
+    route = rctx.res.ref.substr ctx.site.base.length
+    rctx.route.options = resolve_route_options( ctx, route, router )
 
   # Return resource paths
   resolve: ( route, router_name, handler_name, handler_spec, ctx ) ->
@@ -176,12 +210,11 @@ Base =
         name: router_name
         handler: handler_name
         spec: handler_spec
-        options: resolve_route_options( ctx, route, router_name )
 
     # Use exact route as fs path
     if fs.existsSync route
       rctx = Base.file_res_ctx ctx, rsctxinit, route
-      Base.default_resource_options rctx
+      Base.default_resource_options rctx, ctx
       rs.push rctx
 
     # Use route as ID for glob spec (a set of existing fs paths)
@@ -189,25 +222,12 @@ Base =
       ctx.log 'Dynamic', url: route, '', path: handler_spec
       for name in glob.sync handler_spec
         rctx = Base.file_res_ctx ctx, rsctxinit, name
-        Base.default_resource_options rctx
-        if rctx.res.dirname == '.'
-          rctx.res.ref = ctx.site.base + rctx.res.basename
-        else
-          rctx.res.ref = \
-            "#{ctx.site.base}#{rctx.res.dirname}/#{rctx.res.basename}"
-          dirurl = ctx.site.base + rctx.res.dirname
-          if not ctx.routes.directories.hasOwnProperty dirurl
-            ctx.routes.directories[ dirurl ] = [ rctx.res.basename ]
-          else
-            ctx.routes.directories[ dirurl ].push rctx.res.basename
-          #rctx.path = dirurl
-
+        Base.default_resource_options rctx, ctx, true
         rs.push rctx
 
     else if fs.existsSync handler_spec
       rctx = Base.file_res_ctx ctx, rsctxinit, handler_spec
-      Base.default_resource_options rctx
-      rctx.res.ref = ctx.site.base + route
+      Base.default_resource_options rctx, ctx, ctx.site.base + route
       rs.push rctx
 
     # Use route as is
@@ -215,7 +235,7 @@ Base =
       init = res: ref: ctx.site.base + route
       _.defaultsDeep init, rsctxinit
       rctx = ctx.getSub init
-      Base.default_resource_options rctx
+      Base.default_resource_options rctx, ctx
       rs.push rctx
   
     return rs
@@ -280,7 +300,8 @@ module.exports =
   resolve_route_options: resolve_route_options
 
   # XXX: spec parse helper
-  expand_path_spec_to_route: expand_path_spec_to_route
+  expand_paths_spec_to_route: expand_paths_spec_to_route
+  expand_path: expand_path
 
   # XXX: spec parse helper
   parse_kw_spec: ( rctx ) ->
