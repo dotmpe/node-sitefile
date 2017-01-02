@@ -160,7 +160,7 @@ options:
       scripts:
         $ref: '#/defs/scripts/default'
       stylesheets:
-        $ref: '#/defs/stylesheets/default/urls'
+        $ref: '#/defs/stylesheets/default'
     rst2html:
       link_stylesheets: true
       flags:
@@ -168,13 +168,13 @@ options:
       scripts:
         $ref: '#/defs/scripts/default'
       stylesheets:
-        $ref: '#/defs/stylesheets/default/urls'
+        $ref: '#/defs/stylesheets/default'
     #pug:
     #  merge:
     #    scripts:
     #      $ref: '#/defs/scripts/default'
     #    stylesheets:
-    #      $ref: '#/defs/stylesheets/default/urls'
+    #      $ref: '#/defs/stylesheets/default'
 
   local:
     shadows/: {}
@@ -234,12 +234,12 @@ options:
 defs:
   scripts:
     default:
-        - /vendor/jquery.js
-        #- /vendor/require.js
-        #- /vendor/source-map-support.js
-        - /vendor/coffee-script.js
-        #- src: /media/script/sitefile-client.js
-        #  path: build/client/default.js
+      - /vendor/jquery.js
+      #- /vendor/require.js
+      #- /vendor/source-map-support.js
+      - /vendor/coffee-script.js
+      #- src: /media/script/sitefile-client.js
+      #  path: build/client/default.js
   stylesheets:
     default:
       - url: /vendor/bootstrap.css
@@ -247,8 +247,8 @@ defs:
       - url: /media/style/default.css
         path: build/style/default.css
 
-  v0:
-    base:
+  app:
+    v0:
       clients:
         - type: require-js
           id: require-js-sitefile-v0-app
