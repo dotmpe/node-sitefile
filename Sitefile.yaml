@@ -51,6 +51,8 @@ routes:
   
   gherkin: gherkin.steps:example/*.feature,test/features/*.feature
 
+  _json: data.json:example/*.json
+
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
 
