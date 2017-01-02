@@ -112,8 +112,8 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
         url = ctx.site.base+rctx.route.spec
 
         if fs.existsSync rctx.route.spec
-          p = path.join '.', rctx.route.spec
-          rjs_opts = requirejs p
+          p = path.join ctx.cwd, rctx.route.spec
+          rjs_opts = JSON.stringify require p
           write url, p, rjs_opts
 
         else if url of ctx.routes.resources
