@@ -1,5 +1,6 @@
 # Id: node-sitefile/0.0.5-dev test/mocha/Sitefile_yaml.coffee
 
+_ = require 'lodash'
 chai = require 'chai'
 #chai.use require 'chai-as-promised'
 expect = chai.expect
@@ -44,7 +45,6 @@ example for all handlers.
 
   it "should serve its own ChangeLog", stu.test_url_ok "/ChangeLog"
 
-
   it "should publish a CoffeeScript file to Javascript",
     stu.test_url_type_ok "/example/server-generated-javascript", "javascript"
 
@@ -77,21 +77,29 @@ example for all handlers.
 }
       """
 
+
   describe "has an auto complete API", ->
 
-    autocomplete_schema = require '../../var/autocomplete-schema.json'
-    validate_ac_json = new Ajv().compile autocomplete_schema
-
-    it "serves routes in auto-complete JSON", stu.test_url_type_ok \
+    it "serves JSON", stu.test_url_type_ok \
       "/Sitefile/core/auto", "application/json"
 
-    it "serves valid JSON", ( done ) ->
+    it "serves valid auto-complete JSON, non-empty, has Sitefile routes", ->
+
+      stu.load_schema 'ac_full', 'var/autocomplete-schema.json'
+      validate_ac_json = stu.schema.ac_full
+
       stu.req_url_ok "/Sitefile/core/auto", stu, ( err, res, body ) ->
+
         data = JSON.parse body
+        expect(data).to.not.be.empty
+
         v = validate_ac_json data
         expect(v).to.be.true
-        done()
 
+        exp_one = { "label":"/ReadMe", "category":"File"}
+        k = _.findKey( data, [ 'label', '/ReadMe' ] )
+        expect( data[k] ).to.eql exp_one
+            
 
   ###
   if stu.module_installed 'pm2'
