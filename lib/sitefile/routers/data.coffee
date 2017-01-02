@@ -15,10 +15,21 @@ module.exports = ( ctx ) ->
     default: 'json'
 
   generate:
-    json: ( rctx ) ->
+    'json/load': ( rctx ) ->
+      res:
+        data: ( dctx ) ->
+          fs.readFileSync rctx.res.path
+
+    'json': ( rctx ) ->
       ( req, res ) ->
-        sitefile.log "JSON", rctx.res.path
-        data = fs.readFileSync rctx.res.path
+        url = rctx.res.path
+        sitefile.log "JSON", url
+        if url in ctx.routes.resources
+          if 'object' is typeof ctx.routes.resources[url]
+            rrctx = ctx.routes.resources[url]
+            data = rrctx.res.data rctx
+        else
+          data = fs.readFileSync url
         res.type 'json'
         res.write data
         res.end()

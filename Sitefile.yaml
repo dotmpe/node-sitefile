@@ -51,7 +51,9 @@ routes:
   
   gherkin: gherkin.steps:example/*.feature,test/features/*.feature
 
-  _json: data.json:example/*.json
+  # TOTEST: test each functions equiavalent _json: data.json:example/*.json
+  example/data.json: data.json:example/data.json
+  app/rjs-sf-v0.0.js: rjs.main:example/data.json
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
