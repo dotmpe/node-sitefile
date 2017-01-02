@@ -2,7 +2,7 @@
 #
 # Sitefile for node-sitefile document server
 # A note of caution: this example config does shameless things like executing any shell
-# script if you want to, like call http://localhost/clean.sh. Ymmv. 
+# script if you want to, like call http://localhost/clean.sh. Ymmv.
 #
 # Id: node-sitefile/0.0.5-dev+20161010
 sitefile: 0.0.5-dev
@@ -15,11 +15,14 @@ paths:
     'sitefile:example/routers'
   ]
 
+#autoExport:
+#  - rjs: /app/rjs
+
 routes:
 
   media/script/sitefile-client.js: static:build/client/sf-v0.js
   media/style: static:build/style
-  
+
   doc/literate: static:build/docs/docco/
 
   # FIXME: example/: redir:example/main
@@ -31,6 +34,7 @@ routes:
   # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
 
   _pug: pug:example/**/*.pug
+
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
@@ -53,11 +57,11 @@ routes:
   #ReadMe: redir:ReadMe.html
   #ReadMe.html: du:ReadMe.rst
   #ReadMe.xml: du:ReadMe.rst
-  
+
   # Dynamic rules using glob spec
   _du: du:**/*.rst
   #_rst2html: rst2html:**/*.rst
-  
+
   Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
   Sitefile.json: sitefile:?resolve=sitefile
@@ -80,20 +84,25 @@ routes:
   res/:ref: http.res:#
   site/:site/:path: http.site:sites.json
 
-  app/rjs-sf-v0.json: http.requirejs/config:paths=$ref:cdn.json#/js/http/packages;baseUrl=/app/lib;main=cs!sf-v0
-  app/rjs-sf-v0.js: http.requirejs/main:app/rjs-sf-v0.json
 
-  # TODO: move app-0 to http
-  #app/v0: http.requirejs:view=main.pug;main=app/rjs-sf-v0
+  # Three seperate resources, layered for the RequireJS client.
+  # The JSON is a path object extracted from cdn.json, and a shim and map and
+  # other RequireJS option objects.
+  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;baseUrl=/app/lib;main=cs!sf-v0
+  # The JSON is wrapped in a script to initialize RequireJS
+  app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
+  # Finally a specific router is wired to display a pug template with all of the
+  # above.
 
-  # TODO: deprecated app-0 router
-  app/v0: app-0:#
+  app/v0: pug:sitefile-client:rjs.pug#
+
+  # TODO: deprecate app-0 router, move app-0 to http?
   app/v0/base.css: app-0.cdn_css:build/style/default.css
   #app/v0/base.js: app-0.cdn_js:build/client/sf-v0.js
   app/v0/reader.html: app-0.reader:#
   app/reader: app-0.reader:#
-
   app: static:lib/sitefile/client
+  #app: static:app1646
 
   # FIXME:
   fonts: static:node_modules/bootstrap/fonts
@@ -123,38 +132,67 @@ options:
         $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default/urls'
-    pug:
-      scripts:
-        $ref: '#/defs/scripts/default'
-      stylesheets:
-        $ref: '#/defs/stylesheets/default/urls'
+    #pug:
+    #  merge:
+    #    scripts:
+    #      $ref: '#/defs/scripts/default'
+    #    stylesheets:
+    #      $ref: '#/defs/stylesheets/default/urls'
 
   local:
     shadows/: {}
-      
+
     npm/node-sitefile/latest.json:
-      spec: 
+      spec:
         hostname: 'registry.npmjs.org'
         path: '/node-sitefile/latest'
+
     npm/npm/latest.json:
-      spec: 
+      spec:
         hostname: 'registry.npmjs.org'
         path: '/npm/latest'
-    Sitefile/debug: 
-      local_var: 'fooooo'
-    app/v0:
-      clients:
-        $ref: '#/defs/app/base/clients'
 
+    Sitefile/debug:
+      local_var: 'fooooo'
+
+    app/v0:
+      merge:
+        stylesheets:
+          - /vendor/bootstrap.css
+          - /vendor/bootstrap-theme.css
+          - /media/style/default.css
+          - /example/server-generated-stylesheet
+        scripts:
+          - /vendor/jquery.js
+        clients:
+          $ref: '#/defs/app/base/clients'
+
+    example/server-generated-page:
+      merge:
+        stylesheets:
+          - /vendor/bootstrap.css
+          - /vendor/bootstrap-theme.css
+          - /media/style/default.css
+          - /example/server-generated-stylesheet
+        scripts:
+          - /vendor/jquery.js
+          #- /vendor/require.js
+          #- /vendor/source-map-support.js
+          - /vendor/coffee-script.js
+          - /example/server-generated-javascript
+        links:
+          - type: text/coffescript
+            href: /example/script.coffee
 
 defs:
   scripts:
     default:
-      urls:
         - /vendor/jquery.js
-        - /media/script/sitefile-client.js
-      paths:
-        - build/client/default.js
+        #- /vendor/require.js
+        #- /vendor/source-map-support.js
+        - /vendor/coffee-script.js
+        #- src: /media/script/sitefile-client.js
+        #  path: build/client/default.js
   stylesheets:
     default:
       urls:

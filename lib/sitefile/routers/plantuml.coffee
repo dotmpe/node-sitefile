@@ -21,13 +21,15 @@ module.exports = ( ctx ) ->
     route:
       _plantuml: "plantuml:**/*.plantuml"
     
-  default_handler: 'auto'
-
   defaults:
-    default:
-      route:
-        options:
-          xxx: 1
+    handler: 'auto'
+    params: ''
+    route:
+      global:
+        default:
+          options:
+            xxx: 1
+      local: {}
 
   generate:
     auto: ( rctx ) ->
