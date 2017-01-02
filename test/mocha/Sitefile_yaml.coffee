@@ -67,6 +67,16 @@ example for all handlers.
 }
 """
 
+  it "should serve JSON data", stu.test_url_type_ok \
+      "/example/data.json", "application/json", """
+{
+  "data": [ {
+    "value": 123
+  } ]
+}
+      """
+
+
   it "should serve routes for a local extension router example", ->
 
     tasks = [
@@ -271,7 +281,5 @@ example for all handlers.
 
     it "should serve sinon.js", stu.test_url_type_ok \
         "/vendor/sinon.js", "application/javascript"
-
-
 
 
