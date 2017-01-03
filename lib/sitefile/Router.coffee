@@ -211,8 +211,18 @@ Base =
         handler: handler_name
         spec: handler_spec
 
+    # Route is RegEx
+    if route.startsWith 'r:'
+      init = res:
+        ref: ctx.site.base + route.substr 2
+        match: new RegExp route.substr 2
+      _.defaultsDeep init, rsctxinit
+      rctx = ctx.getSub init
+      Base.default_resource_options rctx, ctx
+      rs.push rctx
+
     # Use exact route as fs path
-    if fs.existsSync route
+    else if fs.existsSync route
       rctx = Base.file_res_ctx ctx, rsctxinit, route
       Base.default_resource_options rctx, ctx
       rs.push rctx
@@ -257,10 +267,12 @@ Base =
     # invoke routers selected generate function, expect a route handler object
     h = g rctx
 
+    ref = if rctx.res.match then rctx.res.match else rctx.res.ref
+
     if 'function' is typeof h
 
       # Add as regular Express route handler
-      rctx.context.app.all rctx.res.ref, ( req, res ) ->
+      rctx.context.app.all ref, ( req, res ) ->
         _.defaultsDeep rctx.route.options, req.query
         h req, res
 
@@ -276,7 +288,7 @@ Base =
       _.merge rctx._data, h
 
       if h.res and 'data' of h.res
-        rctx.context.app.all rctx.res.ref, builtin.data rctx
+        rctx.context.app.all ref, builtin.data rctx
 
       ctx.log "Extension at ", url: rctx.res.ref, \
           "from", ( name: rctx.route.name+'.'+rctx.route.handler ), \

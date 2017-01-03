@@ -135,10 +135,12 @@ define 'sf-v0/page', [
     # coffeelint: enable=max_line_length
 
     resolve_page:  ( ref, baseref ) ->
+      if ref.substr(0,1) == '#'
+        return baseref+ref
       if ref.substr(0,1) == '/'
         return ref
       if ref.substr(0,4) == 'http'
-        return ref
+        return '/ref/'+ref
       baseref = dirname(baseref)
       if baseref != '/'
         baseref = baseref+'/'
@@ -167,11 +169,13 @@ define 'sf-v0/page', [
       #hasher.setHash window.location.hash
 
     route_page: ( ref, cref ) ->
-      console.log 'route_page A', ref, cref
+      console.log 'route_page A', @, ref, cref
       ref = @resolve_page ref, cref
-      console.log 'route_page B', ref, cref
+      console.log 'route_page B', @, ref, cref
       self = @
-      $('.placeholder').empty()
+      # Clean listeners on element
+      $('.placeholder').replaceWith('<div class="container placeholder"></div>')
+      # Load content
       $('.placeholder').load ref+' .document > *', ( rsTxt, txtStat, jqXhr ) ->
         if txtStat not in [ "success", "notmodified" ]
           console.log 'jQ.load fail, TODO', arguments

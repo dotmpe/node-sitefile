@@ -46,6 +46,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
           }]
           expect(obj.merge.stylesheets).to.eql [
             '/vendor/bootstrap.css'
+            '/vendor/jquery-ui.css'
           ]
           clients = stu.ctx.resolve \
                     'sitefile.options.local.app/v0.merge.clients'
@@ -91,7 +92,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             ).catch( reject ).then ->
               driver.getWindowHandle()
               Promise.all([
-                expect('.container').dom.to.have.count 3
+                expect('.container').dom.to.have.count 4
               ]).catch( reject ).then resolve
 
 
