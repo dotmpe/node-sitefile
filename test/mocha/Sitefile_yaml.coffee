@@ -120,18 +120,29 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
       stu.load_schema 'ac_full', 'var/autocomplete-schema.json'
       validate_ac_json = stu.schema.ac_full
+      url = stu.get_url()+"/Sitefile/core/auto"
 
-      stu.req_url_ok "/Sitefile/core/auto", stu, ( err, res, body ) ->
+      new Promise ( resolve, reject ) ->
+        request.get url, ( err, res, body ) ->
+          if err then reject err
+          else
+            expect( res.statusMessage ).to.equal 'OK'
 
-        data = JSON.parse body
-        expect(data).to.not.be.empty
+            data = JSON.parse body
+            expect(data).to.not.be.empty
 
-        v = validate_ac_json data
-        expect(v).to.be.true
+            v = validate_ac_json data
+            expect(v).to.be.true
 
-        exp_one = { "label":"/ReadMe", "category":"File"}
-        k = _.findKey( data, [ 'label', '/ReadMe' ] )
-        expect( data[k] ).to.eql exp_one
+            k = _.findKey( data, [ 'label', '/ReadMe' ] )
+            expect( data[k] ).to.eql {
+              "label": "/ReadMe"
+              "category": "File"
+              "restype": "StaticPath"
+              "router": "du.rst2html"
+            }
+
+            resolve()
 
 
   describe "and has routes for local extensions in example/routers/..", ->
@@ -141,32 +152,35 @@ describe "The local Sitefile.yaml serves the local documentation, and \
         new Promise ( resolve, reject ) ->
           url = "http://localhost:#{stu.server.port}/sf-example/default"
           request.get url, ( err, res, body ) ->
-            if res.statusMessage != 'OK'
-              console.log body
-            expect( res.statusMessage ).to.equal 'OK'
-            expect( res.statusCode ).to.equal 200
-            expect( body ).to.equal "Sitefile example"
-            resolve()
+            if err then reject err
+            else
+              if res.statusMessage != 'OK' then console.log body
+              expect( res.statusMessage ).to.equal 'OK'
+              expect( res.statusCode ).to.equal 200
+              expect( body ).to.equal "Sitefile example"
+              resolve()
         new Promise ( resolve, reject ) ->
           url = "http://localhost:#{stu.server.port}/sf-example/data1"
           request.get url, ( err, res, body ) ->
-            if res.statusMessage != 'OK'
-              console.log body
-            expect( res.statusMessage ).to.equal 'OK'
-            expect( res.statusCode ).to.equal 200
-            data = JSON.parse body
-            expect( data['sf-example'] ).to.equal 'dynamic'
-            resolve()
+            if err then reject err
+            else
+              if res.statusMessage != 'OK' then console.log body
+              expect( res.statusMessage ).to.equal 'OK'
+              expect( res.statusCode ).to.equal 200
+              data = JSON.parse body
+              expect( data['sf-example'] ).to.equal 'dynamic'
+              resolve()
         new Promise ( resolve, reject ) ->
           url = "http://localhost:#{stu.server.port}/sf-example/data2"
           request.get url, ( err, res, body ) ->
-            if res.statusMessage != 'OK'
-              console.log body
-            expect( res.statusMessage ).to.equal 'OK'
-            expect( res.statusCode ).to.equal 200
-            data = JSON.parse body
-            expect( data['sf-example'] ).to.equal 'static'
-            resolve()
+            if err then reject err
+            else
+              if res.statusMessage != 'OK' then console.log body
+              expect( res.statusMessage ).to.equal 'OK'
+              expect( res.statusCode ).to.equal 200
+              data = JSON.parse body
+              expect( data['sf-example'] ).to.equal 'static'
+              resolve()
       ]
 
 

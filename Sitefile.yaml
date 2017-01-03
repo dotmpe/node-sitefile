@@ -158,6 +158,7 @@ options:
       merge:
         stylesheets:
           - /vendor/bootstrap.css
+          - /vendor/jquery-ui.css
         scripts:
           - /vendor/jquery.js
         clients:
