@@ -37,17 +37,20 @@ jQuery_autocomplete_api = ( req, rctx ) ->
     if resource in matches
       continue
 
-    data = {}
+    data = label: resource
+
     data.router = \
       gctx.routes.resources[resource].route.name+'.'+\
       gctx.routes.resources[resource].route.handler
 
     if -1 < resource.indexOf ':'
-      data.type = 'ParameterizedPath'
+      data.restype = 'ParameterizedPath'
     else if resource.startsWith '_'
-      data.type = 'DynamicPath'
-    else if gctx.routes.resources[resource].res
-      data.type = 'StaticPath'
+      data.restype = 'DynamicPath'
+    else if gctx.routes.resources[resource].res?.path
+      data.restype = 'StaticPath'
+    else
+      data.restype = 'OpaqueResource'
 
     data.category = if resource.startsWith '/note' then "Notes" \
       else if resource.startsWith '/personal' then "Personal" \
