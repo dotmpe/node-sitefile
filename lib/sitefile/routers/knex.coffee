@@ -67,7 +67,7 @@ module.exports = ( ctx={} ) ->
 
       # Initialize and update DB
       db = knex config
-      db.migrate.latest()
+      # FIXME: db.migrate.latest()
 
 
       sitefile.log 'Knex index:', rctx.res.path

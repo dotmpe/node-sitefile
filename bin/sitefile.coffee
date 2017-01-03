@@ -70,13 +70,18 @@ sitefile_cli = module.exports =
     ctx.site.netpath = "//"+ctx.site.host+':'+ctx.site.port+ctx.site.base
 
     # serve forever
-    console.log "Starting server at localhost:#{ctx.site.port}"
+    if ctx.verbose
+      console.log "Starting server at localhost:#{ctx.site.port}"
     if ctx.site.host
       proc = ctx.server.listen ctx.site.port, ctx.site.host, ->
-        lib.log "Listening", "Express server on port #{ctx.site.port}. "
+        if ctx.verbose
+          lib.log "Listening", "Express server on port #{ctx.site.port}. "
+        !done || done()
     else
       proc = ctx.server.listen ctx.site.port, ->
-        lib.log "Listening", "Express server on port #{ctx.site.port}. "
+        if ctx.verbose
+          lib.log "Listening", "Express server on port #{ctx.site.port}. "
+        !done || done()
 
     # "Export"
     sitefile_cli.host = module.exports.host = ctx.site.host
@@ -86,8 +91,6 @@ sitefile_cli = module.exports =
 
     sitefile_cli.root = module.exports.root = ctx
     sitefile_cli.proc = module.exports.proc = proc
-
-    !done || done()
     
     [ sf, ctx, proc ]
 

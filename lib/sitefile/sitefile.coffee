@@ -151,6 +151,8 @@ prepare_context = ( ctx={} ) ->
     log: log
     verbose: false
 
+  ctx.verbose = ctx.envname is 'development'
+
   _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
   _.defaultsDeep ctx,
