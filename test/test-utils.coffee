@@ -39,19 +39,18 @@ class SitefileTestUtils
       process.chdir @dir
     sitefile = lib.prepare_context().sitefile
     process.chdir @cwd
-    sitefile 
+    sitefile
 
-  #@property 'url',
-  #  get: @get_url
-    
   get_url: ->
     "http://localhost:#{@server.port}"
 
   before: ( done ) ->
+    if not _.isEmpty @server
+      throw new Error "Already initialized a server"
     @server = require '../bin/sitefile'
     if @dir
       process.chdir @dir
-    [ @sf, @ctx, @proc ] =@server.run done
+    [ @sf, @ctx, @proc ] = @server.run done
 
   after: ( done ) ->
     @server.proc.close()
@@ -85,13 +84,16 @@ class SitefileTestUtils
         done()
 
   test_url_type_ok: ( url, type = "html", content = null, self = @ ) ->
-    ( done ) ->
-      request.get self.get_url()+url, ( err, res, body ) ->
-        self.expect_ok res
-        if content
-          expect( body.trim() ).to.equal content
-        self.expect_content_type res, type
-        done()
+    ->
+      new Promise ( resolve, reject ) ->
+        request.get self.get_url()+url, ( err, res, body ) ->
+          if err
+            reject err
+          self.expect_ok res
+          if content
+            expect( body.trim() ).to.equal content
+          self.expect_content_type res, type
+          resolve()
 
   expect_ok: ( res ) ->
     if res.statusMessage != 'OK'
@@ -101,9 +103,6 @@ class SitefileTestUtils
 
   expect_redirected: ( res ) ->
     expect( res.statusCode ).to.equal 302
-
-  expect_url: ( res ) ->
-    # TODO 
 
   expect_content_type: ( res, type ) ->
     expect( res ).has.ownProperty 'headers'
