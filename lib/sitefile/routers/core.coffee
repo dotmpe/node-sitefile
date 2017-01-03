@@ -18,7 +18,7 @@ jQuery_autocomplete_api = ( req, rctx ) ->
 
   data = []
   values = []
-  for resource in global_ctx.routes.resources
+  for resource of global_ctx.routes.resources
 
     if prefix and not resource.startsWith prefix
       continue

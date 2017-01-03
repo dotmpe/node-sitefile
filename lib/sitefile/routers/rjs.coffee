@@ -13,6 +13,8 @@ version = '0.0.1'
 
 module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
 
+  httprouter = require('./http') ctx
+
   mount = ctx.get_auto_export( 'rjs' ) or 'app/rjs'
 
   # Additional defaults
@@ -100,16 +102,27 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
 
     main: ( rctx ) ->
       ( req, res ) ->
-        url = ctx.site.base+rctx.route.spec
-        # XXX: Get config JSON from another router
-        if url not of ctx.routes.resources \
-        or not 'object' is typeof ctx.routes.resources[url]
-          throw new Error "Must be a loaded route: #{url}"
-        rrctx = ctx.routes.resources[url]
-        rjs_opts = JSON.stringify rrctx.res.data rctx
-        res.type "application/javascript"
-        res.write "/* Config from #{url} ( #{rrctx.route.spec} ) */ "
-        res.write "requirejs.config(#{rjs_opts});"
-        res.end()
 
+        write = ( url, srcPath, data ) ->
+          res.type "application/javascript"
+          res.write "/* Config from #{url} ( #{srcPath} ) */ "
+          res.write "requirejs.config(#{data});"
+          res.end()
+
+        url = ctx.site.base+rctx.route.spec
+
+        if fs.existsSync rctx.route.spec
+          p = path.join ctx.cwd, rctx.route.spec
+          rjs_opts = JSON.stringify require p
+          write url, p, rjs_opts
+
+        else if url of ctx.routes.resources
+          rrctx = ctx.routes.resources[url]
+          rjs_opts = JSON.stringify rrctx.res.data rctx
+          write url, rrctx.route.spec, rjs_opts
+
+        else
+          httprouter.promise.resource(url).then ( data ) ->
+            rjs_opts = JSON.stringify data
+            write url, url, rjs_opts
 

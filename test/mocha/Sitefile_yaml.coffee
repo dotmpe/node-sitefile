@@ -9,6 +9,7 @@ browser = require 'selenium-webdriver/testing'
 
 request = require 'request'
 Promise = require 'bluebird'
+Ajv = require 'ajv'
 
 
 lib = require '../../lib/sitefile'
@@ -76,40 +77,21 @@ example for all handlers.
 }
       """
 
+  describe "has an auto complete API", ->
 
-  it "should serve routes for a local extension router example", ->
+    autocomplete_schema = require '../../var/autocomplete-schema.json'
+    validate_ac_json = new Ajv().compile autocomplete_schema
 
-    tasks = [
-      new Promise ( resolve, reject ) ->
-        url = "http://localhost:#{stu.server.port}/sf-example/default"
-        request.get url, ( err, res, body ) ->
-          if res.statusMessage != 'OK'
-            console.log body
-          expect( res.statusMessage ).to.equal 'OK'
-          expect( res.statusCode ).to.equal 200
-          expect( body ).to.equal "Sitefile example"
-          resolve()
-      new Promise ( resolve, reject ) ->
-        url = "http://localhost:#{stu.server.port}/sf-example/data1"
-        request.get url, ( err, res, body ) ->
-          if res.statusMessage != 'OK'
-            console.log body
-          expect( res.statusMessage ).to.equal 'OK'
-          expect( res.statusCode ).to.equal 200
-          data = JSON.parse body
-          expect( data['sf-example'] ).to.equal 'dynamic'
-          resolve()
-      new Promise ( resolve, reject ) ->
-        url = "http://localhost:#{stu.server.port}/sf-example/data2"
-        request.get url, ( err, res, body ) ->
-          if res.statusMessage != 'OK'
-            console.log body
-          expect( res.statusMessage ).to.equal 'OK'
-          expect( res.statusCode ).to.equal 200
-          data = JSON.parse body
-          expect( data['sf-example'] ).to.equal 'static'
-          resolve()
-    ]
+    it "serves routes in auto-complete JSON", stu.test_url_type_ok \
+      "/Sitefile/core/auto", "application/json"
+
+    it "serves valid JSON", ( done ) ->
+      stu.req_url_ok "/Sitefile/core/auto", stu, ( err, res, body ) ->
+        data = JSON.parse body
+        v = validate_ac_json data
+        expect(v).to.be.true
+        done()
+
 
   ###
   if stu.module_installed 'pm2'
@@ -279,4 +261,39 @@ example for all handlers.
     it "should serve sinon.js", stu.test_url_type_ok \
         "/vendor/sinon.js", "application/javascript"
 
+
+
+  it "should serve routes for a local extension router example", ->
+
+    tasks = [
+      new Promise ( resolve, reject ) ->
+        url = "http://localhost:#{stu.server.port}/sf-example/default"
+        request.get url, ( err, res, body ) ->
+          if res.statusMessage != 'OK'
+            console.log body
+          expect( res.statusMessage ).to.equal 'OK'
+          expect( res.statusCode ).to.equal 200
+          expect( body ).to.equal "Sitefile example"
+          resolve()
+      new Promise ( resolve, reject ) ->
+        url = "http://localhost:#{stu.server.port}/sf-example/data1"
+        request.get url, ( err, res, body ) ->
+          if res.statusMessage != 'OK'
+            console.log body
+          expect( res.statusMessage ).to.equal 'OK'
+          expect( res.statusCode ).to.equal 200
+          data = JSON.parse body
+          expect( data['sf-example'] ).to.equal 'dynamic'
+          resolve()
+      new Promise ( resolve, reject ) ->
+        url = "http://localhost:#{stu.server.port}/sf-example/data2"
+        request.get url, ( err, res, body ) ->
+          if res.statusMessage != 'OK'
+            console.log body
+          expect( res.statusMessage ).to.equal 'OK'
+          expect( res.statusCode ).to.equal 200
+          data = JSON.parse body
+          expect( data['sf-example'] ).to.equal 'static'
+          resolve()
+    ]
 

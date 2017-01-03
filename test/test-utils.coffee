@@ -1,8 +1,13 @@
+_ = require 'lodash'
+path = require 'path'
 
 chai = require 'chai'
 expect = chai.expect
 request = require 'request'
+Promise = require 'bluebird'
+Ajv = require 'ajv'
 
+ajv = new Ajv()
 
 # FIXME failures on features/pm2 with Context...
 #Function::property = ( prop, desc ) ->
@@ -17,6 +22,10 @@ class SitefileTestUtils
     @cwd = process.cwd()
     @server = {}
     @ctx = {}
+    # JSON schema
+    @schema = {}
+    @schemaSrc = {}
+    @schemaSrcData = {}
 
   env_browser: ->
     if process.env.USER is 'travis'
@@ -49,9 +58,13 @@ class SitefileTestUtils
     process.chdir @cwd
     done()
 
+  # Get local site path
+  req_url_ok: ( url, self = @, cb ) ->
+    request.get self.get_url()+url, cb
+
   test_url_ok: ( url, self = @ ) ->
     ( done ) ->
-      request.get self.get_url()+url, ( err, res, body ) ->
+      self.req_url_ok url, self, ( err, res, body ) ->
         self.expect_ok res
         done()
 
@@ -90,6 +103,7 @@ class SitefileTestUtils
     expect( res.statusCode ).to.equal 302
 
   expect_url: ( res ) ->
+    # TODO 
 
   expect_content_type: ( res, type ) ->
     expect( res ).has.ownProperty 'headers'
@@ -106,6 +120,27 @@ class SitefileTestUtils
       if error.code != 'MODULE_NOT_FOUND'
         return false
       throw error
+
+  req_json_file_valid: ( path, validator, valid=true ) ->
+    new Promise ( resolve, reject ) ->
+      data = require path
+      try
+        if validator data
+          if valid then resolve()
+          else reject(new Error("Validator should have passed"))
+        else
+          if valid then reject(new Error("Validator should have failed"))
+          else resolve()
+      catch err
+        reject(new Error("Validator exception: #{err}"))
+
+  load_schema: ( name, filepath ) ->
+    @schemaSrc[name] = path.join process.cwd(), filepath
+    @schemaSrcData[name] = require @schemaSrc[name]
+    if _.isEmpty @schemaSrcData[name]
+      throw new Error "No data for #{name} (#{filepath})"
+    @schema[name] = ajv.compile @schemaSrcData[name]
+
 
 
 module.exports = {}
