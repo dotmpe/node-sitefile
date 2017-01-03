@@ -12,14 +12,17 @@ html(profile="http://dotmpe.com/project/sitefile")
 
   body
     block prologue
-    div.header.container
+    .header.container
       block header
         p Template header
-    div.document.container
+        hr
+    block main
+    .document.container
       block document
         p Template document
-    div.footer.container
+    .footer.container
       block footer
+        hr
         p Template footer
     block epilogue
 

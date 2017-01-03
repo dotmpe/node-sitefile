@@ -8,6 +8,8 @@ Router = require '../Router'
 
 Promise = require 'bluebird'
 
+sitefile = require '../sitefile'
+
 
 clientAcc = \
   'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
@@ -23,48 +25,51 @@ promise_resource = ( { url, accType = null, reqType, opts = {} } ) ->
   if url
     opts.url = url
 
-  #= 'application/json'
   new Promise (resolve, reject) ->
-    http
-      .get opts, ( res ) ->
-        statusCode = res.statusCode
-        contentType = res.headers['content-type']
-        error = null
-        if statusCode != 200
-          error = new Error("Request Failed.\n" +
-                            "Status Code: #{statusCode}")
-        else if reqType and contentType != reqType
-          error = new Error("Invalid content-type.\n" +
-                      "Expected #{reqType} but received #{contentType}")
-        if error
-          console.log(error.message)
-          # consume response data to free up memory
-          res.resume()
-          return
+    console.log 'promise_resource', opts
+    try
+      http
+        .get opts, ( res ) ->
+          statusCode = res.statusCode
+          contentType = res.headers['content-type']
+          error = null
+          if statusCode != 200
+            error = new Error("Request Failed.\n" +
+                              "Status Code: #{statusCode}")
+          else if reqType and contentType != reqType
+            error = new Error("Invalid content-type.\n" +
+                        "Expected #{reqType} but received #{contentType}")
+          if error
+            console.log(error.message)
+            # consume response data to free up memory
+            res.resume()
+            return
 
-        res.setEncoding('utf8')
-        rawData = ''
-        res.on 'data', (chunk) -> rawData += chunk
-        if reqType == 'application/json'
-          res
-            .on 'end', ->
-              try
-                parsedData = JSON.parse rawData
-                resolve parsedData
-              catch e
-                console.log e.message
-                reject e.message
-            .on 'error', (e) ->
-              console.log("Got error: #{e.message}")
-              reject e
+          res.setEncoding('utf8')
+          rawData = ''
+          res.on 'data', (chunk) -> rawData += chunk
+          if reqType == 'application/json'
+            res
+              .on 'end', ->
+                try
+                  parsedData = JSON.parse rawData
+                  resolve [ parsedData, contentType ]
+                catch e
+                  console.log e.message
+                  reject e.message
+              .on 'error', (e) ->
+                console.log("Got error: #{e.message}")
+                reject e
 
-        else
-          res
-            .on 'end', ->
-              resolve rawData
-            .on 'error', (e) ->
-              console.log("Got error: #{e.message}")
-              reject e
+          else
+            res
+              .on 'end', ->
+                resolve [ rawData, contentType ]
+              .on 'error', (e) ->
+                console.log("Got error: #{e.message}")
+                reject e
+    catch err
+      reject err
 
 
 
@@ -101,25 +106,49 @@ module.exports = ( ctx ) ->
 
     ref: ( rctx ) ->
       ( req, res ) ->
-        url = rctx.route.options.spec + req.params.ref
+        if not req.params or req.params.length > 1
+          throw new Error "http.ref requires 1 parameter"
+        url = req.params[0]
+        sitefile.log "http.ref", url
         promise_resource(
           opts: {
             method: 'head'
           }
           url: url
           accType: clientAcc
-        ).then (data) ->
+        ).then( ( [ data, contentType ] ) ->
+          res.type contentType
           res.write data
+          res.end()
+        ).catch ( err ) ->
+          res.status 500
+          res.type 'txt'
+          res.write err
           res.end()
 
     res: ( rctx ) ->
       ( req, res ) ->
-        url = rctx.route.options.spec + req.params.ref
+        if not req.params or req.params.length > 1
+          throw new Error "http.res requires 1 parameter"
+        url = req.params[0]
+        u = URL.parse url
+        port = parseInt(u.port)
+        sitefile.log "http.res", url
         promise_resource(
-          url: url
+          opts: {
+            host: u.hostname
+            port: port or 80
+            path: u.path
+          }
           accType: clientAcc
-        ).then (data) ->
+        ).then( ( [ data, contentType ] ) ->
+          res.type contentType
           res.write data
+          res.end()
+        ).catch ( err ) ->
+          res.status 500
+          res.type 'txt'
+          res.write err
           res.end()
 
     # Redirect/proxy named domains/netpaths?
@@ -138,8 +167,14 @@ module.exports = ( ctx ) ->
             path: u.path
           }
           accType: clientAcc
-        ).then (data) ->
+        ).then( ( [ data, contentType ] ) ->
+          res.type contentType
           res.write data
+          res.end()
+        ).catch ( err ) ->
+          res.status 500
+          res.type 'txt'
+          res.write err
           res.end()
 
     # Redirect package/format to CDN or other library

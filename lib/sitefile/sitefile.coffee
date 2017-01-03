@@ -151,6 +151,8 @@ prepare_context = ( ctx={} ) ->
     log: log
     verbose: false
 
+  ctx.verbose = ctx.envname is 'development'
+
   _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
   _.defaultsDeep ctx,
@@ -432,7 +434,7 @@ class Sitefile
         # Then update rctx.route with local and global sitefile and router defaults.
 
         if router_type.defaults?
-          # Add global and local router context defaults now. 
+          # Add global and local router context defaults now.
           if router_type.defaults.global?
             if handler_name of router_type.defaults.global
               _.defaultsDeep rctx.route, \

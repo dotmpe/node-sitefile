@@ -12,6 +12,12 @@
         "label": {
           "type": "string"
         },
+        "restype": {
+          "type": "string"
+        },
+        "router": {
+          "type": "string"
+        },
         "category": {
           "type": "string",
           "enum": [ "File", "Notes", "Development", "Personal" ]

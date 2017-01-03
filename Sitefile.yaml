@@ -85,8 +85,8 @@ routes:
 
   # Some HTTP redirect handlers configured on JSON mappings
   vendor/:package.:format: http.vendor:cdn.json
-  ref/:ref: http.ref:#
-  res/:ref: http.res:#
+  r:ref/(.*): http.ref:#
+  r:res/(.*): http.res:#
   site/:site/:path: http.site:sites.json
 
   # Three seperate resources, layered for the RequireJS client.
@@ -158,6 +158,7 @@ options:
       merge:
         stylesheets:
           - /vendor/bootstrap.css
+          - /vendor/jquery-ui.css
         scripts:
           - /vendor/jquery.js
         clients:
