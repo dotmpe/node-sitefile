@@ -133,8 +133,6 @@ Documentation
 
 - `Development Docs <doc/dev.rst>`_
 
-- examples_
-
 
 .. __: /doc/literate
 
