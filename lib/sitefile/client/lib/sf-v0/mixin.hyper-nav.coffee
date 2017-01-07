@@ -19,6 +19,19 @@ define 'sf-v0/mixin.hyper-nav', [
   HNavDocument:
 
     init_placeholder: ( homeref, self=@ ) ->
+      @init_placeholder_a_href homeref, self
+      @init_placeholder_img_src homeref, self
+      $('ol.breadcrumb').remove()
+      @init_breadcrumb()
+
+    # Update image src attribute while embedded at another base
+    init_placeholder_img_src: ( homeref, self=@ ) ->
+      $(".placeholder img").each ->
+        ref = self.resolve_page $(this).attr("src"), homeref
+        $(this).attr "src", ref
+
+    # Update a href onclick for embedded use
+    init_placeholder_a_href: ( homeref, self=@ ) ->
       $(".placeholder").on "click", "a", (evt) ->
         evt.preventDefault()
         ref = self.resolve_page $(this).attr("href"), homeref
@@ -28,8 +41,6 @@ define 'sf-v0/mixin.hyper-nav', [
         else
           hasher.setHash ref
         return true
-      $('ol.breadcrumb').remove()
-      @init_breadcrumb()
 
     init_router: ( self=@ ) ->
       # setup crossroads

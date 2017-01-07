@@ -39,15 +39,15 @@ module.exports = ( ctx={} ) ->
               stylesheets: []
               clients: []
 
+
   generate:
+
     default: ( rctx ) ->
       pug = ctx._routers.get 'pug'
       ( req, res ) ->
         sitefile.log 'Markdown default html publish', rctx.res.path
         data = fs.readFileSync rctx.res.path
         doc = md.toHTML data.toString()
-
-        console.log 'static+sf', rctx.route.options
 
         pugOpts = _.defaultsDeep rctx.route.options.pug, {
           tpl: './lib/sitefile/client/view.pug'
@@ -62,16 +62,15 @@ module.exports = ( ctx={} ) ->
               document: doc
               footer: ''
         }
-
-        console.log pugOpts
-
         res.type 'html'
         res.write pug.compile pugOpts
         res.end()
 
+
     raw: ( rctx ) ->
       ( req, res ) ->
         sitefile.log 'Markdown raw html publish', rctx.res.path
+
         data = fs.readFileSync rctx.res.path
         doc = md.toHTML data.toString()
         res.type 'html'
