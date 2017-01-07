@@ -126,6 +126,10 @@ routes:
 
   components: static:public/components
 
+
+  local: static:public/local
+
+
   # TODO: imagemacking processing?
   #/shadows/:path: convert.filter:**/*.png
 
@@ -178,6 +182,11 @@ options:
           - /vendor/jquery.js
         clients:
           $ref: '#/defs/app/v0/clients'
+        links:
+          - rel: import
+            href: /components/paper-button/paper-button.html
+          - rel: import
+            href: /components/paper-input/paper-input.html
 
     example/server-generated-page:
       merge:

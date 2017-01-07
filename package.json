@@ -37,7 +37,6 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-
     "install": " bower install && ./configure && grunt build-test",
     "test": "./configure && grunt",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
@@ -132,5 +131,11 @@
     "text-table": "latest",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
+  },
+  "volo": {
+    "dependencies": {
+      "element": "github:requirejs/element/0.0.1#element.js",
+      "public/element.js": "github:requirejs/element/0.0.1#element.js"
+    }
   }
 }
