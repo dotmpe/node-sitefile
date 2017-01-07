@@ -1,7 +1,7 @@
 {
   "name": "node-sitefile",
-  "version": "0.0.5-dev",
   "description": "Bootstrap Express webserver for misc. resources using Sitefile",
+  "version": "0.0.5-dev",
   "homepage": "https://github.com/dotmpe/node-sitefile",
   "author": {
     "name": "B. van Berkum",
@@ -13,6 +13,13 @@
     "restructuredtext",
     "docutils"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dotmpe/node-sitefile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dotmpe/node-sitefile/issues"
+  },
   "license": "GPL-3.0",
   "licenses": [
     {
@@ -21,15 +28,8 @@
     }
   ],
   "contributors": [],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dotmpe/node-sitefile.git"
-  },
-  "bugs": {
-    "url": "https://github.com/dotmpe/node-sitefile/issues"
-  },
   "engines": {
-    "node": "0.12.x",
+    "node": ">= 0.12.0",
     "npm": "2.7.x"
   },
   "main": "./bin/sitefile.coffee",
@@ -38,38 +38,29 @@
   },
   "scripts": {
 
-    "install": " ./configure && grunt app build-test",
-
+    "install": " bower install && ./configure && grunt build-test",
     "test": "./configure && grunt",
-
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
-
-
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
     "strict": "nodemon bin/sitefile.coffee --use_strict -w Sitefile.yaml -w lib/ -w bin/",
-
-    "build": "grunt build",
-
-
     "check": "grunt check",
-
+    "build": "grunt build",
     "vulnerabilities": "snyk test",
-
     "echo": "echo 'Note that npm run accept arguments (try npm run echo foo):'",
-
     "cruft": "./tools/tags.sh",
-
     "update-spec": "sh ./tools/update-spec.sh",
     "build-new": "gulp server-build",
     "mocha": "mocha --compilers coffee:coffee-script/register test/mocha/*.coffee",
     "mocha-test": "mocha --compilers coffee:coffee-script/register",
+    "cucumber-js": "./node_modules/.bin/cucumber-js --compilers coffee:coffee-script/register test/cucumber-js/*.coffee",
     "check-version": "git-versioning check",
     "check-docs": "sh ./tools/check-branch-docs.sh",
     "src-tree": "tree -I 'node_modules|build|components'",
     "src-files": "cat .gitignore | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' ",
     "src-loc": "cat .gitignore | grep -v '^\\s*$' | sed -e 's/\\(.*\\)/-not -path \"*\\1*\" /' | xargs find ./ -type f -not -path '*/.git/*' -not -path '*.log' | xargs cat | grep -v '^\\s*$' | wc -l | awk '{print $1}'",
-    "git-loc-all": "git ls-files | xargs cat | wc -l ",
-    "git-loc": "git ls-files | xargs cat | grep -v '^\\s*$' | wc -l ",
+    "git-loc-all": "git ls-files | grep -v plantuml.jar | xargs cat | wc -l ",
+    "git-loc": "git ls-files | grep -v plantuml.jar | xargs cat | grep -v '^\\s*$' | wc -l ",
+    "git-src": "git ls-files | grep -v plantuml.jar",
     "dep-local": "echo node_modules/* | xargs basename | sort -u | awk '{print $1}'",
     "dep-local-all": "find node_modules/ -iname node_modules | xargs /bin/ls -w1 | grep -v '^$' | grep -v 'node_modules' | sort -u | awk '{print $1}'"
   },
@@ -85,7 +76,8 @@
     "minimatch": "^3.0.3",
     "nodelib": "https://github.com/dotmpe/nodelib.git",
     "prism-themes": "^1.0.0",
-    "qs": "6.2.0",
+    "qs": "6.3.0",
+    "request-promise": "^4.1.1",
     "semver": "^5.3.0"
   },
   "optionalDependencies": {
@@ -99,8 +91,10 @@
     "stylus": "^0.54.5"
   },
   "devDependencies": {
+    "ajv": "^4.10.3",
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
+    "chai-webdriver": "^1.2.0",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.12.2",
     "coffeelint": "^1.15.7",
@@ -132,6 +126,7 @@
     "pug-loader": "latest",
     "rename-loader": "^1.0.0",
     "request": "latest",
+    "selenium-webdriver": "~2.53.0",
     "sinon": "^1.17.6",
     "source-map-support": "latest",
     "text-table": "latest",

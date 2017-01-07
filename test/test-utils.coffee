@@ -1,8 +1,13 @@
+_ = require 'lodash'
+path = require 'path'
 
 chai = require 'chai'
 expect = chai.expect
 request = require 'request'
+Promise = require 'bluebird'
+Ajv = require 'ajv'
 
+ajv = new Ajv()
 
 # FIXME failures on features/pm2 with Context...
 #Function::property = ( prop, desc ) ->
@@ -17,27 +22,48 @@ class SitefileTestUtils
     @cwd = process.cwd()
     @server = {}
     @ctx = {}
+    # JSON schema
+    @schema = {}
+    @schemaSrc = {}
+    @schemaSrcData = {}
 
-  #@property 'url',
-  #  get: @get_url
-    
+  env_browser: ->
+    if process.env.USER is 'travis'
+      return 'firefox'
+    else
+      return 'chrome'
+
+  get_sitefile: ->
+    lib = require '../lib/sitefile'
+    if @dir
+      process.chdir @dir
+    sitefile = lib.prepare_context().sitefile
+    process.chdir @cwd
+    sitefile
+
   get_url: ->
     "http://localhost:#{@server.port}"
 
   before: ( done ) ->
+    if not _.isEmpty @server
+      throw new Error "Already initialized a server"
     @server = require '../bin/sitefile'
     if @dir
       process.chdir @dir
-    [ @sf, @ctx, @proc ] =@server.run done
+    [ @sf, @ctx, @proc ] = @server.run done
 
   after: ( done ) ->
     @server.proc.close()
     process.chdir @cwd
     done()
 
+  # Get local site path
+  req_url_ok: ( url, self = @, cb ) ->
+    request.get self.get_url()+url, cb
+
   test_url_ok: ( url, self = @ ) ->
     ( done ) ->
-      request.get self.get_url()+url, ( err, res, body ) ->
+      self.req_url_ok url, self, ( err, res, body ) ->
         self.expect_ok res
         done()
 
@@ -58,13 +84,16 @@ class SitefileTestUtils
         done()
 
   test_url_type_ok: ( url, type = "html", content = null, self = @ ) ->
-    ( done ) ->
-      request.get self.get_url()+url, ( err, res, body ) ->
-        self.expect_ok res
-        if content
-          expect( body.trim() ).to.equal content
-        self.expect_content_type res, type
-        done()
+    ->
+      new Promise ( resolve, reject ) ->
+        request.get self.get_url()+url, ( err, res, body ) ->
+          if err
+            reject err
+          self.expect_ok res
+          if content
+            expect( body.trim() ).to.equal content
+          self.expect_content_type res, type
+          resolve()
 
   expect_ok: ( res ) ->
     if res.statusMessage != 'OK'
@@ -74,8 +103,6 @@ class SitefileTestUtils
 
   expect_redirected: ( res ) ->
     expect( res.statusCode ).to.equal 302
-
-  expect_url: ( res ) ->
 
   expect_content_type: ( res, type ) ->
     expect( res ).has.ownProperty 'headers'
@@ -92,6 +119,27 @@ class SitefileTestUtils
       if error.code != 'MODULE_NOT_FOUND'
         return false
       throw error
+
+  req_json_file_valid: ( path, validator, valid=true ) ->
+    new Promise ( resolve, reject ) ->
+      data = require path
+      try
+        if validator data
+          if valid then resolve()
+          else reject(new Error("Validator should have passed"))
+        else
+          if valid then reject(new Error("Validator should have failed"))
+          else resolve()
+      catch err
+        reject(new Error("Validator exception: #{err}"))
+
+  load_schema: ( name, filepath ) ->
+    @schemaSrc[name] = path.join process.cwd(), filepath
+    @schemaSrcData[name] = require @schemaSrc[name]
+    if _.isEmpty @schemaSrcData[name]
+      throw new Error "No data for #{name} (#{filepath})"
+    @schema[name] = ajv.compile @schemaSrcData[name]
+
 
 
 module.exports = {}

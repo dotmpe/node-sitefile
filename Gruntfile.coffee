@@ -1,4 +1,6 @@
-'use strict'
+
+
+webpack = require 'webpack'
 
 
 module.exports = ( grunt ) ->
@@ -9,7 +11,7 @@ module.exports = ( grunt ) ->
   grunt.initConfig
 
     jshint:
-      package:
+      all:
         options:
           jshintrc: '.jshintrc'
         src: [
@@ -63,27 +65,49 @@ module.exports = ( grunt ) ->
           require: 'coffee-script/register'
           captureFile: 'mocha.out'
           quiet: false
-          clearRequireCache: false
+          clearRequireCache: false # do explicitly as needed
         src: ['test/mocha/*.coffee']
 
     webpack:
       client:
-        entry: './lib/sitefile/client/default'
+        entry: './lib/sitefile/client/lib/sf-v0'
         devtool: 'sourcemap'
         output:
-          filename: 'build/client/default.js'
-          library: "sitefile_default_client"
+          filename: 'build/client/sf-v0.js'
+          library: "sitefile_client"
         module:
           loaders: [
-            #  XXX babel?
-            # {
-            #   test: /\.js$/,
-            #   exclude: /node_modules/,
-            #   loaders: ['babel']
-            # },
+            {
+              test: /\.js$/,
+              exclude: /node_modules/,
+              loaders: ['babel']
+            },
+            {
+              test: /\.coffee$/,
+              exclude: /node_modules/,
+              loader: "coffee"
+            },
+            {
+              test: /\.json$/,
+              loader: "json"
+            },
+            {
+              test: /\.pug$/,
+              exclude: /node_modules/,
+              loader: "pug"
+            },
           ]
+        plugins: [
+          new webpack.IgnorePlugin(/^(markdown|pug|pug-runtime|stylus|pm2|pmx|knex)$/),
+          new webpack.IgnorePlugin(/\.(css|less)$/),
+          new webpack.BannerPlugin('require("source-map-support").install();',
+                                   { raw: true, entryOnly: false }),
+        ],
+        #externals: nodeModules,
         resolve:
-          extensions: [ '', '.js' ]
+          extensions: [
+            '', '.coffee', '.js', '.json', '.pug'
+          ]
 
       app:
         entry: './lib/sitefile/client/app-0'
@@ -141,7 +165,8 @@ module.exports = ( grunt ) ->
   # Static analysis of source files
   grunt.registerTask 'lint', [
     'coffeelint'
-    'jshint'
+    'jshint:all'
+    'jshint:examples'
     'yamllint'
   ]
 
@@ -173,7 +198,7 @@ module.exports = ( grunt ) ->
 
   grunt.registerTask 'client', [
     'sass:dist'
-    'webpack:client'
+    # XXX: using rjs cs client for now 'webpack:client'
   ]
 
   grunt.registerTask 'app', [
