@@ -25,8 +25,8 @@ routes:
 
   doc/literate: static:build/docs/docco/
 
-  # FIXME: example/: redir:example/main
   example: static:example
+  # FIXME: example/: redir:example/main
 
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json

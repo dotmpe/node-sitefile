@@ -131,10 +131,12 @@ Documentation
 -------------
 - `Docco docs`__
 
-.. __: /doc/literate
-
 - `Development Docs <doc/dev.rst>`_
 
+- examples_
+
+
+.. __: /doc/literate
 
 
 Further reading

@@ -74,7 +74,13 @@ define 'sf-v0/mixin.hyper-nav', [
       #$('.placeholder').replaceWith('<div class="container placeholder"></div>')
       $('.placeholder').off 'click'
       # Load content
-      $('.placeholder').load ref+' .document > *', ( rsTxt, txtStat, jqXhr ) ->
+      x = ref.indexOf '#sf:xref:'
+      if -1 < x
+        xref = ref.substr(0,x)+' '+decodeURI ref.substr x+9
+      else
+        xref = ref+' .document>*'
+      console.log 'xref', x, xref
+      $('.placeholder').load xref, ( rsTxt, txtStat, jqXhr ) ->
         if txtStat not in [ "success", "notmodified" ]
           console.log 'jQ.load fail, TODO', arguments
         else

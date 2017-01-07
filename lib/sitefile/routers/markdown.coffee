@@ -21,16 +21,61 @@ module.exports = ( ctx={} ) ->
     markdown:**/*.md
   """
 
+  defaults:
+    global:
+      default:
+        options:
+          pug:
+            compile:
+              pretty: false
+              debug: false
+              compileDebug: false
+              globals: []
+              filters: []
+            merge:
+              format: 'html'
+              links: []
+              scripts: []
+              stylesheets: []
+              clients: []
+
   generate:
     default: ( rctx ) ->
-
+      pug = ctx._routers.get 'pug'
       ( req, res ) ->
-        sitefile.log 'Markdown publish', rctx.res.path
+        sitefile.log 'Markdown default html publish', rctx.res.path
+        data = fs.readFileSync rctx.res.path
+        doc = md.toHTML data.toString()
+
+        console.log 'static+sf', rctx.route.options
+
+        pugOpts = _.defaultsDeep rctx.route.options.pug, {
+          tpl: './lib/sitefile/client/view.pug'
+          merge:
+            ref: rctx.res.ref
+            #route: rctx.route
+            #options: rctx.route.options
+            #context: rctx
+
+            view:
+              main: ''
+              document: doc
+              footer: ''
+        }
+
+        console.log pugOpts
+
+        res.type 'html'
+        res.write pug.compile pugOpts
+        res.end()
+
+    raw: ( rctx ) ->
+      ( req, res ) ->
+        sitefile.log 'Markdown raw html publish', rctx.res.path
         data = fs.readFileSync rctx.res.path
         doc = md.toHTML data.toString()
         res.type 'html'
         res.write doc
         res.end()
-
 
 
