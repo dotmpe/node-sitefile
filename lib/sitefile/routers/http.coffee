@@ -1,76 +1,13 @@
 _ = require 'lodash'
-http = require 'http'
 path = require 'path'
 fs = require 'fs'
 URL = require 'url'
 
-Router = require '../Router'
-
-Promise = require 'bluebird'
 
 sitefile = require '../sitefile'
+deref = require '../deref'
 
-
-clientAcc = \
-  'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
-
-promise_resource = ( { url, accType = null, reqType, opts = {} } ) ->
-
-  if not accType and not reqType
-    reqType = 'application/json'
-  if not opts.headers
-    opts.headers = {
-      "Accept-Type": accType or reqType
-    }
-  if url
-    opts.url = url
-
-  new Promise (resolve, reject) ->
-    console.log 'promise_resource', opts
-    try
-      http
-        .get opts, ( res ) ->
-          statusCode = res.statusCode
-          contentType = res.headers['content-type']
-          error = null
-          if statusCode != 200
-            error = new Error("Request Failed.\n" +
-                              "Status Code: #{statusCode}")
-          else if reqType and contentType != reqType
-            error = new Error("Invalid content-type.\n" +
-                        "Expected #{reqType} but received #{contentType}")
-          if error
-            console.log(error.message)
-            # consume response data to free up memory
-            res.resume()
-            return
-
-          res.setEncoding('utf8')
-          rawData = ''
-          res.on 'data', (chunk) -> rawData += chunk
-          if reqType == 'application/json'
-            res
-              .on 'end', ->
-                try
-                  parsedData = JSON.parse rawData
-                  resolve [ parsedData, contentType ]
-                catch e
-                  console.log e.message
-                  reject e.message
-              .on 'error', (e) ->
-                console.log("Got error: #{e.message}")
-                reject e
-
-          else
-            res
-              .on 'end', ->
-                resolve [ rawData, contentType ]
-              .on 'error', (e) ->
-                console.log("Got error: #{e.message}")
-                reject e
-    catch err
-      reject err
-
+clientAcc = deref.client_headers.accept_type
 
 
 module.exports = ( ctx ) ->
@@ -88,7 +25,7 @@ module.exports = ( ctx ) ->
           url: 'http://nodejs.org/dist/index.json'
 
   promise:
-    resource: promise_resource
+    resource: deref.promise.http_resource
 
   generate:
 
@@ -96,7 +33,7 @@ module.exports = ( ctx ) ->
 
       ( req, res ) ->
         url = rctx.route.options.spec + req.params.ref
-        promise_resource(
+        ctx._routers.get('http').promise.resource(
           url: url
           accType: 'application/json'
         ).then (data) ->
@@ -110,7 +47,7 @@ module.exports = ( ctx ) ->
           throw new Error "http.ref requires 1 parameter"
         url = req.params[0]
         sitefile.log "http.ref", url
-        promise_resource(
+        ctx._routers.get('http').promise.resource(
           opts: {
             method: 'head'
           }
@@ -134,7 +71,7 @@ module.exports = ( ctx ) ->
         u = URL.parse url
         port = parseInt(u.port)
         sitefile.log "http.res", url
-        promise_resource(
+        ctx._routers.get('http').promise.resource(
           opts: {
             host: u.hostname
             port: port or 80
@@ -160,7 +97,7 @@ module.exports = ( ctx ) ->
         url = base.base+'/'+req.params.path
         u = URL.parse req.protocol+':'+url
         port = parseInt(u.port)
-        promise_resource(
+        ctx._routers.get('http').promise.resource(
           opts: {
             host: u.hostname
             port: port or 80
