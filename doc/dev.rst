@@ -55,6 +55,8 @@ Other development features:
 - `Testing Feature`_
 - `Documentation Feature`_
 
+- examples_
+
 
 
 Documentation
