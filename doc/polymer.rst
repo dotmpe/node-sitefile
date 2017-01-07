@@ -2,8 +2,11 @@ Getting started with Polymer
 ============================
 
 - The webscape is a bit convoluted. Lots of projects around polymer pop up on
-  NPM, or Bower. 
-- Keeping notes on points that matter.
+  NPM, or Bower. Polymer has a bit of a learning curve.
+
+- The preferred (or official) way to deal with Polymer looks to be Bower,
+  so re-adding that on the features/polymer branch and see how that goes.
+
 
 Getting started::
 
@@ -25,6 +28,8 @@ rest. https://www.polymer-project.org
 
 ----
 
+Intro
+------
 Using Polymer is one way to step up from the old HTML hypertext document
 semantics to new customized 'document schemas', adapted to specific domains and
 methodologies but build from re-usable components.
@@ -34,7 +39,7 @@ back to the core of website design: disclosing and representing multimedia conte
 One further topic regarding custom elements databinding, and Polymer's ideas of
 Model Driven Views.
 
-To step back again, consider some other topics of `modern web scripting <http://superherojs.com>`_. 
+To step back again, consider some other topics of `modern web scripting <http://superherojs.com>`_.
 
 ----
 

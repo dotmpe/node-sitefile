@@ -35,7 +35,7 @@ define 'sf-v0/mixin.hyper-nav', [
       $(".placeholder").on "click", "a", (evt) ->
         evt.preventDefault()
         ref = self.resolve_page $(this).attr("href"), homeref
-        console.log 'ref', $(this).attr("href"), ref, homeref
+        #console.log 'ref', $(this).attr("href"), ref, homeref
         if '/' == ref.substr 0, 1
           hasher.setHash ref.substr 1
         else
@@ -54,7 +54,7 @@ define 'sf-v0/mixin.hyper-nav', [
           newHash = '/'+newHash
         if oldHash and '/' != oldHash.substr 0, 1
           oldHash = '/'+oldHash
-        console.log 'parseHash', newHash, oldHash
+        #console.log 'parseHash', newHash, oldHash
         self.route_page newHash, oldHash
         
       hasher.initialized.add(parseHash) # parse initial hash
@@ -77,9 +77,9 @@ define 'sf-v0/mixin.hyper-nav', [
       return baseref+ref
 
     route_page: ( ref, cref ) ->
-      console.log 'route_page A', @, ref, cref
+      #console.log 'route_page A', @, ref, cref
       ref = @resolve_page ref, cref
-      console.log 'route_page B', @, ref, cref
+      #console.log 'route_page B', @, ref, cref
       self = @
       # Clean listeners on element by dropping
       #$('.placeholder').replaceWith('<div class="container placeholder"></div>')
@@ -90,7 +90,7 @@ define 'sf-v0/mixin.hyper-nav', [
         xref = ref.substr(0,x)+' '+decodeURI ref.substr x+9
       else
         xref = ref+' .document>*'
-      console.log 'xref', x, xref
+      #console.log 'xref', x, xref
       $('.placeholder').load xref, ( rsTxt, txtStat, jqXhr ) ->
         if txtStat not in [ "success", "notmodified" ]
           console.log 'jQ.load fail, TODO', arguments
