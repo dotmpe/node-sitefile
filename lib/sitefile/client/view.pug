@@ -1,0 +1,27 @@
+
+extends base
+
+block prologue
+
+  // Base tpl usable as view with placeholders
+  // for use with markdown router initially
+
+  .container.view-placeholder!= view.prologue
+
+block header
+  .container.view-placeholder!= view.header
+  hr
+
+block main
+  .container.view-placeholder!= view.main
+
+block document
+  .container.view-placeholder!= view.document
+
+block footer
+  hr
+  .container.view-placeholder!= view.footer
+
+block epilogue
+  .container.view-placeholder!= view.epilogue
+

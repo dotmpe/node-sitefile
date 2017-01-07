@@ -28,8 +28,8 @@ routes:
   doc/literate: static:build/docs/docco/
   doc/api: static:build/docs/jsdoc/
 
-  # FIXME: example/: redir:example/main
   example: static:example
+  # FIXME: example/: redir:example/main
 
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
@@ -71,6 +71,7 @@ routes:
   # Dynamic rules using glob spec
   _du: du:**/*.rst
   #_rst2html: rst2html:**/*.rst
+  gitflow: du:.gitflow.rst
 
   Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml

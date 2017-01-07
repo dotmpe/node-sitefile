@@ -128,6 +128,7 @@ module.exports = ( ctx ) ->
         params = _.defaultsDeep req.params, rctx.route.params
 
         pugOpts = _.defaultsDeep rctx.route.pug, {
+          tpl: './lib/sitefile/routers/mocha.pug'
           merge:
             ref: rctx.res.ref
             route: rctx.route
@@ -140,7 +141,7 @@ module.exports = ( ctx ) ->
             test_file: dud.replace('.js', req.query.suffix+'.js')
         }
 
-        res.write pug.compile './lib/sitefile/routers/mocha.pug', pugOpts
+        res.write pug.compile pugOpts
         res.end()
 
 
