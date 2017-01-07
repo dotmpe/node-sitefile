@@ -61,6 +61,7 @@ routes:
   # Dynamic rules using glob spec
   _du: du:**/*.rst
   #_rst2html: rst2html:**/*.rst
+  gitflow: du:.gitflow.rst
 
   Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
