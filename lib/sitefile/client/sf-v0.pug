@@ -13,10 +13,14 @@ block main
   hr
 
 block document
-  h3.subtitle Sitefile v0 - RequireJS Client
+  h3.subtitle Sitefile v0 - RequireJS Client w. Polyfill
 
 block footer
   hr
+  paper-button(raised, onclick="sf_info_toast.open()") Popup info toast
 
 block epilogue
+  paper-toast(id="sf_info_toast", text="This toast auto-closes after 3 seconds")
+
+
 

@@ -98,7 +98,7 @@ routes:
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
   # Finally a specific router is wired to display a pug template with all of the
   # above.
-  app/v0: pug:sitefile-client:rjs.pug#
+  app/v0: pug:sitefile-client:sf-v0.pug#
   # Serve coffee script for RequireJS client
   app: static:lib/sitefile/client
 
@@ -187,6 +187,8 @@ options:
             href: /components/paper-button/paper-button.html
           - rel: import
             href: /components/paper-input/paper-input.html
+          - rel: import
+            href: /components/paper-toast/paper-toast.html
 
     example/server-generated-page:
       merge:

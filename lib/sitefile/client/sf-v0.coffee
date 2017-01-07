@@ -4,17 +4,19 @@ define 'sf-v0', [
   'cs!sitefile/page',
   'cs!./console'
 
-], ( $, SitefilePage ) ->
+
+], ( $, SitefilePage, csl ) ->
 
 
-  console.log 'sf-v0 rjs loading'
+  console.debug 'sf-v0 rjs loading'
 
 
   $(document).ready ( $ ) ->
-    console.log "sitefile page loaded"
+    console.debug "sitefile page loaded"
 
     new SitefilePage()
 
-    console.log "Sitefile page initialized"
-
+    console.info "Sitefile page initialized"
+    console.warn "Sitefile page initialized"
+    console.log csl, csl.logs
 

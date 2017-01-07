@@ -89,7 +89,8 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
           }
 
           if 'string' is typeof shims
-            shims = {}
+            shims = {
+            }
 
           if not shims
             shims = {}
