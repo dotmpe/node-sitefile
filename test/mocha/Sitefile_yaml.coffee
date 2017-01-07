@@ -118,6 +118,15 @@ describe "The local Sitefile.yaml serves the local documentation, and \
     it "should redirect", stu.test_url_redirected \
         "/example/graphviz-binary-search-tree-graph.dot"
 
+  it "should serve Prism.JS source views", stu.test_url_type_ok \
+      "/src/example/polymer-custom.pug", "html"
+
+
+  it "should serve Prism.JS source views", stu.test_url_type_ok \
+      "/src.0/example/polymer-custom.pug", "html"
+
+
+
 
   describe "has an auto complete API", ->
 

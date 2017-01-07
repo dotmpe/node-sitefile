@@ -9,6 +9,7 @@ Context = nodelib.Context
 
 
 
+
 expand_path = ( src, ctx ) ->
   base = ctx.sfdir+'/'
   if src.startsWith 'sitefile:'
@@ -50,7 +51,7 @@ resolve_route_options = ( ctx, route, router_name ) ->
         catch error
           null
         if global_opts
-          opts = _.defaults {}, global_opts, opts
+          opts = _.defaultsDeep {}, global_opts, opts
 
     # Local (per route) sitefile options
     if ctx.sitefile.options.local and route
@@ -82,7 +83,7 @@ builtin =
     # 302: Found
     # 303: See Other
 
-    console.log 'redir', rctx.roue
+    rctx.context.log 'redir', url, p
 
     if rctx.route.handler == 'temp'
       rctx.context.redir 302, url, p

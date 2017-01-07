@@ -1,0 +1,30 @@
+doctype html
+
+
+html
+  head
+    // 1. Load webcomponents-lite.min.js for polyfill support,
+    script(src="/components/webcomponentsjs/webcomponents-lite.min.js")
+
+    // 2. Use an HTML Import to bring in some elements.
+    link(rel="import", href="/components/paper-button/paper-button.html")
+    link(rel="import", href="/components/paper-input/paper-input.html")
+
+  body
+    // 3. Declare the element. Configure using its attributes.
+    paper-input(label="Your name here")
+    paper-button Say Hello
+    #greeting
+
+    script
+      | // To ensure that elements are ready on polyfilled browsers, 
+      | // wait for WebComponentsReady. 
+      | document.addEventListener('WebComponentsReady', function() {
+      |   var input = document.querySelector('paper-input');
+      |   var button = document.querySelector('paper-button');
+      |   var greeting = document.getElementById("greeting");
+      |   button.addEventListener('click', function() {
+      |     greeting.textContent = 'Hello, ' + input.value;
+      |   });
+      | });
+

@@ -120,6 +120,7 @@ routes:
   api/$action: jsonary-rest-api:example/jsonary-rest-api/bookmarks
   api/elegant/: jsonary-rest-api:example/jsonary-rest-api/elegant
 
+  # XXX: app/reader: app-0.reader:#
 
   # FIXME: fonts? want to build CSS+font loading into RequireJS client
   fonts: static:node_modules/bootstrap/fonts
@@ -135,13 +136,19 @@ routes:
   jsonary_test: jsonary:test
   #jsonary: redir:components/jsonary/index.html
 
+  src/prism/themes: static:public/components/prism/themes
+  'src/*': prism:#
+  'src.0/*': prism.view0:#
+
   example/polymer-app-router: static:example/polymer-app-router.html
 
+  # TODO: replace with JSON mapping
   #components/core-toolbar: static:public/components/polymer-ui-toolbar
   #components/core-menu: static:public/components/polymer-ui-menu
   #components/core-item: static:public/components/polymer-ui-item
   #components/core-header-panel: static:public/components/polymer-ui-header-panel
-  #components/core-toolbar: static:public/components/polymer-ui-toolbar
+
+  components: static:public/components
 
 
   #topics: api1646:example/app/topic
@@ -178,8 +185,6 @@ options:
     #      $ref: '#/defs/stylesheets/default'
 
   local:
-    shadows/: {}
-
     npm/node-sitefile/latest.json:
       spec:
         hostname: 'registry.npmjs.org'

@@ -60,7 +60,8 @@
         "mocha": "/npm/packages/mocha/mocha",
         "bootstrap": "/npm/packages/bootstrap/dist/css/bootstrap.min",
         "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min",
-        "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui"
+        "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui",
+        "prism-theme-duotone-light": "//rawgit.com/PrismJS/prism-themes/master/themes/prism-duotone-light"
       }
     }
   }

@@ -38,8 +38,7 @@
   },
   "scripts": {
 
-    "install": " ./configure && grunt app build-test",
-
+    "install": " bower install && ./configure && grunt build-test",
     "test": "./configure && grunt",
 
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
@@ -81,6 +80,7 @@
     "mime-types": "^2.1.13",
     "minimatch": "^3.0.3",
     "nodelib": "https://github.com/dotmpe/nodelib.git",
+    "prism-themes": "^1.0.0",
     "qs": "6.3.0",
     "request-promise": "^4.1.1",
     "semver": "^5.3.0"
