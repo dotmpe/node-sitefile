@@ -75,13 +75,22 @@ builtin =
     if not url
       url = rctx.site.base + rctx.name
     p = rctx.site.base + rctx.route.spec
+
     # 301: Moved (Permanently)
     # 302: Found
     # 303: See Other
 
-    #rctx.context.redir status, url, p
-    rctx.context.app.all url, ( req, res ) ->
-      res.redirect p
+    rctx.context.log 'redir', url, p
+
+    if rctx.route.handler == 'temp'
+      rctx.context.redir 302, url, p
+    else if rctx.route.handler == 'perm'
+      rctx.context.redir 301, url, p
+    else
+      #rctx.context.redir status, url, p
+      rctx.context.app.all url, ( req, res ) ->
+        res.redirect p
+
     rctx.context.log '      ', url: url, '->', url: p
 
 
