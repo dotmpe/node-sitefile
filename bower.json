@@ -29,10 +29,22 @@
     "jquery": "~2.1.4",
     "paper-icon-button": "Polymer/paper-icon-button#~0.5.5",
     "paper-item": "Polymer/paper-item#~0.5.5",
-    "polymer": "Polymer/polymer#^0.5",
     "prism-js": "git@github.com:dotmpe/prism-js.git#dev",
     "prism": "*",
-    "polymer-platform": "~0.4.2",
-    "swipe-pages": "~0.2.0"
+    "swipe-pages": "~0.2.0",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.10",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7"
+  },
+  "resolutions": {
+    "polymer": "^1.2.1",
+    "platform": "^0.4.0",
+    "core-input": "^0.5",
+    "core-component-page": "^0.5",
+    "webcomponentsjs": "^0.7.20",
+    "paper-icon-button": "^1.0.0",
+    "paper-button": "^1.0.0",
+    "paper-ripple": "^1.0.0",
+    "font-roboto": "^1.0.1",
+    "paper-item": "^1.0.0"
   }
 }

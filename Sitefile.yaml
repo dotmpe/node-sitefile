@@ -119,10 +119,10 @@ routes:
   example/polymer-app-router: static:example/polymer-app-router.html
 
   # TODO: replace with JSON mapping
-  components/core-toolbar: static:public/components/polymer-ui-toolbar
-  components/core-menu: static:public/components/polymer-ui-menu
-  components/core-item: static:public/components/polymer-ui-item
-  components/core-header-panel: static:public/components/polymer-ui-header-panel
+  #components/core-toolbar: static:public/components/polymer-ui-toolbar
+  #components/core-menu: static:public/components/polymer-ui-menu
+  #components/core-item: static:public/components/polymer-ui-item
+  #components/core-header-panel: static:public/components/polymer-ui-header-panel
 
   components: static:public/components
 

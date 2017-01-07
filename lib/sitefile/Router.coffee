@@ -333,7 +333,6 @@ module.exports =
       x = spec.indexOf '='
       k = spec.substr(0, x)
       kw[k] = spec.substr x+1
-    console.log 'kw', kw
     kw
 
   # XXX: Read JSON + jspath
