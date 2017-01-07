@@ -98,6 +98,13 @@ dev_ docs.
 
 Installation
 ------------
+Prerequisites:
+
+- NodeJS
+- NPM
+- Bower: ``npm install -g bower``
+- Volo: ``npm install -g volo``
+
 For a stale version::
 
   npm install node-sitefile

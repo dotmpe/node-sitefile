@@ -44,6 +44,7 @@ default 'route.options'.
 HTML5 polyfills etc. (custom elements, shadow DOM, client-side router)
 
 - [ Polymer Example ](./polymer-example)
+- [ Polymer Paper Hello World Example ](./polymer-paper-hello-world)
 - [ Prism Examples with Polymer Style Selector ](./prism)
 - [ Polymer Simple Custom Element Example ](./polymer-custom)
 - [ Polymer Page Swipe](./polymer-page-swipe)
