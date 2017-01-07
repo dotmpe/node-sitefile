@@ -1,7 +1,8 @@
 define 'sf-v0', [
 
   'jquery',
-  'cs!./sf-v0/page',
+  'cs!sitefile/page',
+  'cs!./console'
 
 ], ( $, SitefilePage ) ->
 
