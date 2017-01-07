@@ -80,7 +80,8 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             expect('.document').dom.to.have.count 1
             #expect('.document').dom.to.have.attribute 'sf-page'
             expect('.header').dom.to.have.count 1
-            expect('h1.title').dom.to.contain.text "Sitefile"
+            expect('h3.subtitle').dom.to.contain.text \
+              "Sitefile v0 - RequireJS Client"
           ]
 
 

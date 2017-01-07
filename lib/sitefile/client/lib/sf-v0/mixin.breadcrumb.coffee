@@ -10,30 +10,41 @@ define 'sf-v0/mixin.breadcrumb', [
     init_breadcrumb: ( path = window.location.href ) ->
 
       if not $('ol.breadcrumb').length
-        location_ol = $ '<ol class="breadcrumb"/>'
-        paths = path.split /[\/#]/
-        depth = paths.length
+        paths = path.split /[#]/
+        aspects = paths.length
         while paths.length
-          path = paths.join('/')
-          el = paths.pop()
-          li = $ '<li/>'
-          if !el
-            if paths.length
-              li.addClass "default"
-            else
-              li.addClass "root"
-          if depth > paths.length+1
-            li.addClass "directory"
-            dir_ref = $ '<a/>'
-            dir_ref.attr 'href', path
-            dir_ref.append el
-            li.append dir_ref
-          else
-            li.addClass "file"
-            li.append el
-          li.prependTo location_ol
+          location_ol = $ '<ol class="breadcrumb"/>'
+          p = paths.pop()
+          pels = p.split /[\/]/
+          depth = pels.length
+       
+          while pels.length
+            path = pels.join('/')
+            el = pels.pop()
+            li = $ '<li/>'
 
-        $('.header').prepend location_ol
+            if !el
+              if paths.length
+                li.addClass "default"
+              else
+                li.addClass "root"
+
+            if depth > paths.length+1
+              li.addClass "directory"
+              dir_ref = $ '<a/>'
+              dir_ref.attr 'href', path
+              dir_ref.append el
+              li.append dir_ref
+            else
+              li.addClass "file"
+              fn_ref = $ '<a/>'
+              fn_ref.attr 'href', path
+              fn_ref.append el
+              li.append fn_ref
+
+            li.prependTo location_ol
+
+          $('.header').prepend location_ol
 
       # coffeelint: disable=max_line_length
       location_edit = $ '<span class="edit-breadcrumb"><input class="form-control" id="breadcrumb"/>/</span>'
