@@ -5,13 +5,17 @@ actor User
 
 component Component
 
-database Database
-
-cloud Cloud
-
+cloud Cloud {
+	node dbserver {
+		database "DB" {
+			[<u><font color=blue>App</font></u>] as APP
+		}
+	}
+}
 
 note left of Cloud
   This is a note
+  [[http://www.google.com]]
 end note
 
 

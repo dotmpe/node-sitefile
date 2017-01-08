@@ -66,6 +66,10 @@ Source viewer.
 
 # Graphviz
 
+TODO : move images to page:
+
+- [ Example ](./plantuml)
+
 From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 
 ![ Small dot graph ](./graphviz-small-graph.dot.png "Small diagram")
@@ -90,6 +94,10 @@ From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 
 ![ Graph with edges on clusters ](./graphviz-edge-cluster-graph.dot.png)
 
+
+# PlantUML
+
+- [ Example ](./plantuml)
 
 
 ***
