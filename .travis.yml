@@ -9,15 +9,18 @@ node_js:
   #- "5.11"
   - "6.0"
 
-before_install:
-  - npm install -g bower
-
 addons:
   apt:
     packages:
       - python-docutils
       - graphviz
   firefox: "45"
+
+before_install:
+  - npm install -g bower
+
+after_install:
+  - test "$TRAVIS_NODE_VERSION" != "0.12" || { npm uninstall selenium-webdriver; npm install selenium-webdriver@2.53.3; }
 
 before_script:
   - "export DISPLAY=:99.0"
