@@ -95,8 +95,10 @@ From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 
 # PlantUML
 
-![ Example ](./plantuml-1.png "PlantUML Example 1")
+![ Example in PNG ](./plantuml-1.png "PlantUML Example 1")
+![ Example in SVG ](./plantuml-1.svg "PlantUML Example 1")
 
+TODO: should find a workflow for the .cmapx HTML fragment files
 
 
 ***
