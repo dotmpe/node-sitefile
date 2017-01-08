@@ -67,7 +67,7 @@ get_local_sitefile = ( ctx={} ) ->
 
 load_sitefile = ( ctx ) ->
   ctx.sitefile = get_local_sitefile ctx
-  log "Loaded", path: path.relative ctx.cwd, ctx.lfn
+
 
   # translate JSON path refs in sitefile to use global sitefile context
   # ie. prefix path with 'sitefile/' so we can use context.resolve et al.
@@ -81,9 +81,8 @@ load_sitefile = ( ctx ) ->
       else
         for key, property of value
           xform value, property, key
-      result[ key ] = value
-
   _.transform ctx.sitefile, xform
+
 
   # Map some sitefile attributes to root
   if ctx.sitefile.host
@@ -102,6 +101,8 @@ load_sitefile = ( ctx ) ->
       else
         ctx.paths.routers = \
           ctx.paths.routers.concat ctx.sitefile.paths.routers
+
+  log "Loaded", path: path.relative ctx.cwd, ctx.lfn
 
 
 load_rc = ( ctx ) ->
@@ -129,7 +130,8 @@ load_config = ( ctx={} ) ->
     ctx.config_envs = require rc
     ctx.config = ctx.config_envs[ctx.envname]
     _.defaultsDeep ctx, ctx.config
-    console.log "Loaded user config for #{ctx.envname}"
+    if ctx.verbose
+      console.log "Loaded user config for #{ctx.envname}"
 
   ctx.config
 
@@ -148,6 +150,10 @@ prepare_context = ( ctx={} ) ->
       name: path.basename process.argv[1]
     envname: process.env.NODE_ENV ? 'development'
     log: log
+    verbose: false
+
+  ctx.verbose = ctx.envname is 'development'
+
   _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
   _.defaultsDeep ctx,
@@ -177,10 +183,69 @@ prepare_context = ( ctx={} ) ->
 
 
   # Load local sitefile (set ctx.sitefile)
-  if not ctx.sitefile?
+  unless ctx.sitefile?
     load_sitefile ctx
 
-  console.log "Creating new context for #{ctx.envname}"
+
+  Context::get_auto_export = ( router_name ) ->
+
+
+  # Use router setings to determine opts per request (ie. to override from
+  # query)
+  Context::req_opts = ( request ) ->
+
+    options = _.merge {}, @route.options
+
+
+    if 'import-query' of @route
+      mq = @route['merge-query']
+      if 'bool' is not typeof mq
+        q = _.omitBy request.query, ( v, k ) -> k in mq
+      else
+        # NOTE: Merge everything from query
+        q = request.query
+      q = expand_obj_paths q
+      _.defaultsDeep options, q
+
+
+    if @route['export-query-path']
+      key = @route['export-query-path']
+      if not options[key]
+        options[key] = @route.spec.substr 0, @route.spec.length-1 # XXX: hack hack
+      options[key] = @query_path_export key, request, options[key]
+
+    if @route['export-context']
+      key = @route['export-context']
+      _.defaultsDeep options, expand_obj_paths "#{key}": @
+
+    return options
+
+
+  # If query key given use as rctx.res.path
+  Context::query_path_export = ( key, req, defpath ) ->
+    # Assert rctx.res.path isset
+    if defpath
+      unless @res.path
+        @res.path = defpath
+
+    if not @res.path
+      throw new Error \
+        "A path is required either provided by query or option '#{key}'"
+
+    if req.query?[key]
+      @res.path = req.query[key]
+    else
+      req.query[key] = @res.path
+    if not @res.path
+      throw new Error \
+        "A path is required either provided by query or option '#{key}'"
+
+    # Resolve to existing path
+    return Router.expand_path @res.path, @
+
+
+  if ctx.verbose
+    console.log "Creating new context for #{ctx.envname}"
   new Context ctx
 
 
@@ -194,6 +259,21 @@ split_spec = ( strspec, ctx={} ) ->
   else
     router_name = handler_path
   [ router_name, handler_name, hspec ]
+
+
+expand_obj_paths = ( obj, toObj={} ) ->
+  curObj = toObj
+  for key of obj
+    k = key.split '.'
+    while k.length
+      e = k.shift()
+      if k.length
+        if e not of curObj
+          curObj[e] = {}
+        curObj = curObj[e]
+      else
+        curObj[e] = obj[key]
+  toObj
 
 
 class Routers
@@ -216,7 +296,7 @@ class Routers
       [ name, handler ] = name.split '.'
     else
       handler = 'default'
-   
+
     if name not of @data
       throw new Error "No router for #{name}"
     if not handler or \
@@ -249,7 +329,7 @@ class Routers
         split_spec strspec, @ctx for route, strspec of @ctx.sitefile.routes ) )
 
     log 'Required routers', name: @names.join ', '
-  
+
     # parse sitefile.routes, pass 1: load & init routers
     for name in @names
       if name of Router.builtin
@@ -264,11 +344,11 @@ class Routers
       if not router_obj
         warn "Failed to initialize #{name} router"
         continue
-  
+
       @data[name] =
         module: router_cb
         object: Router.define router_obj
-  
+
       log "Loaded router", name: name, c.sc, router_obj.label, path: router_path
 
 
@@ -337,24 +417,33 @@ class Sitefile
           warn "Missing router #{router_name}"
           continue
         router_type = @routers.get router_name
+
+      # Get generate handler name
+      if not handler_name
+        handler_name = if router_type.defaults?.handler? \
+          then router_type.defaults.handler else 'default'
+
+      # XXX: hooking Sitefile dirlist into ctx
       ctx.routes.directories = @dirs
 
-      if not handler_name and router_type.default_handler
-        handler_name = router_type.default_handler
-
-      # Resolve route spec to resource contexts, init and add Express handler
+      # Resolve route spec to resource contexts with sitefile settings
       for rctx in router_type.resolve route, router_name, \
           handler_name, handler_spec, ctx
 
-        # Load defaults from router_type
-        if 'defaults' of router_type
-          if handler_name
-            if handler_name of router_type.defaults
-              _.defaultsDeep rctx._data, router_type.defaults[ handler_name ]
-          else if 'default' of router_type.defaults
-            _.defaultsDeep rctx._data, router_type.defaults.default
-          else
-            ctx.log "Missing #{router_name} default handler defaults"
+        # Merge router local defaults onto global sitefile context.
+
+        # Then update rctx.route with local and global sitefile and router defaults.
+
+        if router_type.defaults?
+          # Add global and local router context defaults now.
+          if router_type.defaults.global?
+            if handler_name of router_type.defaults.global
+              _.defaultsDeep rctx.route, \
+                router_type.defaults.global[ handler_name ]
+          if router_type.defaults.local?
+            if route of router_type.defaults.local
+              _.defaultsDeep rctx.route, \
+                router_type.defaults.local[ handler_name ]
 
         # Detect routable extension
         rs = rctx.res
@@ -492,7 +581,7 @@ log_line = ( v, out=[] ) ->
         else
           out.push o
       else if o.res? or o.format? or o.path?
-        out.push chalk.green o.res
+        out.push chalk.green o.res or o.format or o.path
       else if o.url?
         out.push chalk.yellow o.url
       else if o.name?

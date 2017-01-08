@@ -19,13 +19,12 @@ define 'sf-v0/page', [
   #bootstrap_glyphicons = require('../../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf');
   # coffeelint: enable=max_line_length
 
-
   class SitefilePage extends DocumentPage
 
     constructor: ( @container=$('body'), @options = {} ) ->
       super @container, @options
 
-      $(@container, '.document').addClass 'container'
+      $('.document', @container).addClass 'container'
 
       # TODO: apply based on html meta-data profile
 
@@ -60,25 +59,30 @@ define 'sf-v0/page', [
       opts = cookies.get 'sf-v0', {}
       _.defaultsDeep @options, opts,
         search:
-          source: "/core/name/auto-complete"
+          source: "/Sitefile/core/auto"
         breadcrumb: true
         hnav: false
         margin: false
-      console.log @options
 
 
     # coffeelint: disable=max_line_length
 
     add_search: ->
       
+      if not $('.header hr').length
+        throw new Error("Search requires Page Header")
+      
       search_div = $ '<input id="search" class="form-control" placeholder="Search" style="width: 7em;padding-right: .5em; text-align: right"/>'
 
       $('.header hr').before search_div
 
+      self = @
       $( "#search" ).autocomplete
         source: @options.search.source
         select: ( evt, ui ) ->
-          window.location.href = ui.item.label
+          hasher.setHash ui.item.label.substr 1
+        close: ( evt, ui ) ->
+          this.value = ""
 
 
     add_margins: ->
@@ -120,32 +124,4 @@ define 'sf-v0/page', [
       history_fwd.insertBefore '.document'
 
     # coffeelint: enable=max_line_length
-
-
-    init_router: ->
-
-      # setup crossroads
-      #crossroads.addRoute 'foo'
-      #crossroads.addRoute 'lorem/ipsum'
-      #crossroads.routed.add(console.log, console) # log all routes
-
-      self = @
-      # setup hasher
-      parseHash = (newHash, oldHash) ->
-        self.route_page '/'+newHash
-        
-      hasher.initialized.add(parseHash) # parse initial hash
-      hasher.changed.add(parseHash) # parse hash changes
-      hasher.init() # start listening for history change
-
-      # update URL fragment generating new history record
-      #@hasher.setHash 'lorem/ipsum'
-
-    route_page: ( page ) ->
-      self = @
-      $('.placeholder').load page+' .document > *', null, ->
-        hasher.setHash page.substr 1
-        self.init_placeholder(self.route_page)
-      #crossroads.parse newHash
-
 
