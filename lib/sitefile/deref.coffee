@@ -31,9 +31,7 @@ promise_resource = ( deref_args ) ->
 
   opts = client_opts deref_args
 
-  rp(opts).then( $ ->
-  ).catch( err ->
-  )
+  rp(opts)
 
 
 promise_http_get = ( deref_args ) ->
@@ -41,12 +39,10 @@ promise_http_get = ( deref_args ) ->
   opts = client_opts deref_args
 
   new Promise (resolve, reject) ->
-    console.log 'promise_resource', opts
     try
       http
         .get opts, ( res ) ->
           statusCode = res.statusCode
-          console.log 'get', statusCode
           contentType = res.headers['content-type']
           error = null
           if statusCode != 200
@@ -93,6 +89,6 @@ module.exports =
   client_headers:
     accept_type: clientAcc
   promise:
-    http_resource: promise_http_get
+    http_get: promise_http_get
     resource: promise_resource
 

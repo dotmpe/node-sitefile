@@ -25,7 +25,7 @@ module.exports = ( ctx ) ->
           url: 'http://nodejs.org/dist/index.json'
 
   promise:
-    resource: deref.promise.http_resource
+    resource: deref.promise.http_get
 
   generate:
 
