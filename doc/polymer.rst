@@ -47,6 +47,51 @@ With Polymer, the 'vulcanized' file has all element imports merged somehow.
 A way to organize the element imports is put all the links in a separate file
 and import that. One step up from that is appearantly to 'vulcanize' them.
 
+
+----
+
+Maybe polymer can be got to work in sf-v0.
+But using HTML links. Not inline script?
+
+----
+
+Google Web Components
+
+::
+
+  bower install --save GoogleWebComponents/google-map
+
+See module names at https://github.com/GoogleWebComponents/google-web-components/blob/master/bower.json
+
+Sitefile.yml::
+
+  route:
+    _gwc: gwc:example/gwc-*.pug
+
+with::
+
+  options:
+    global:
+      gwc:
+        pug:
+          merge:
+            links:
+              - rel: import
+                href: /components/google-map/google-map.html
+
+or::
+
+  options:
+    local:
+      example/gwc-map-1:
+        pug:
+          merge:
+            links:
+              - rel: import
+                href: /components/google-map/google-map.html
+
+FIXME: but the latter does not work.
+
 ----
 
 .. raw:: markdown

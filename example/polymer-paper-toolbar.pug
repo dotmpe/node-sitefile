@@ -1,0 +1,52 @@
+doctype html
+
+html.example
+
+  head
+    link(rel="import", href="/components/iron-icons/iron-icons.html")
+    link(rel="import", href="/components/paper-icon-button/paper-icon-button.html")
+    link(rel="import", href="/components/paper-toolbar/paper-toolbar.html")
+
+    link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Roboto:900")
+    style
+      | body {
+      |   font-family: Roboto;
+      | }
+
+  body
+
+    .container.main
+
+      p With title:
+
+      .container
+        paper-toolbar
+          span.title Title
+
+      p With icons:
+
+      .container
+        paper-toolbar(class="medium-tall")
+          paper-icon-button(icon="menu")
+          span.title title
+          paper-icon-button(icon="refresh")
+          paper-icon-button(icon="add")
+
+      p Other options:
+      
+      .container
+        | <paper-toolbar class="tall">
+        |   <paper-icon-button icon="menu"></paper-icon-button>
+        |   <span class="title">Title</span>
+        |   <paper-icon-button icon="refresh"></paper-icon-button>
+        |   <paper-icon-button icon="add">+</paper-icon-button>
+        | 
+        |   <span class="middle title">Middle Title</span>
+        | 
+        |   <span class="bottom title">Bottom Title</span>
+        |   <paper-icon-button icon="content-cut" class="bottom"></paper-icon-button>
+        |   <paper-icon-button icon="content-copy" class="bottom"></paper-icon-button>
+        |   <paper-icon-button icon="content-paste" class="bottom"></paper-icon-button>
+        | </paper-toolbar>
+
+

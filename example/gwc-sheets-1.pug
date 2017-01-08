@@ -1,0 +1,23 @@
+
+.data-example
+  google-sheets(tab-id=gwc.sheets.tabId, style=gwc.sheets.style, client-id=gwc.clientId)
+
+  script
+    | var sheet = document.querySelector('google-sheets');
+    | sheet.addEventListener('google-sheet-data', function(e) {
+    |  // this.spreadsheets - list of the user's spreadsheets
+    |  // this.tab - information on the tab that was fetched
+    |  // this.rows - cell row information for the tab that was fetched
+    |  console.log('gwc sheets data', arguments);
+    | });
+    | sheet.addEventListener('error', function(e) {
+    |  // e.detail.response
+    |  console.log('gwc sheets error', arguments);
+    | });
+
+
+.published-example.main
+  google-sheets(key="0Anye-JMjUkZZdDBkMVluMEhZMmFGeHpYdDJJV1FBRWc",published)
+
+
+

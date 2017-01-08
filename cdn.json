@@ -42,7 +42,10 @@
         "coffee-script": "//rawgit.com/yyfearth/coffee-script/extras/extras/coffee-script",
         "cs": "//cdnjs.cloudflare.com/ajax/libs/require-cs/0.5.0/cs.min",
 
-        "source-map-support": "/npm/packages/source-map-support/browser-source-map-support"
+        "source-map-support": "/npm/packages/source-map-support/browser-source-map-support",
+
+        "element": "/local/requirejs/element",
+        "template": "/local/requirejs/template"
       }
     }
   },

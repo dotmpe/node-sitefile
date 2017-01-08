@@ -70,7 +70,7 @@ define 'sf-v0/mixin.hyper-nav', [
       if ref.substr(0,1) == '/'
         return ref
       if ref.substr(0,4) == 'http'
-        return '/ref/'+ref
+        return ref #'/ref/'+ref
       baseref = dirname(baseref)
       if baseref != '/'
         baseref = baseref+'/'

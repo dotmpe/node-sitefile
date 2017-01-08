@@ -139,5 +139,11 @@
     "text-table": "latest",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
+  },
+  "volo": {
+    "dependencies": {
+      "public/local/requirejs/element.js": "github:requirejs/element/0.0.1#element.js",
+      "public/local/requirejs/template.js": "github:requirejs/element/0.0.1#template.js"
+    }
   }
 }

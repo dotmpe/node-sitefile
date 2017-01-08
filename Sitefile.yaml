@@ -45,7 +45,10 @@ routes:
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
-  _plantuml: plantuml:example/*.plantuml
+  _pu: plantuml:example/*.plantuml
+  _pu_dev_doc: plantuml:doc/dev/*.plantuml
+
+
   _gherkin_example: gherkin:example/*.feature
   _gherkin_test: gherkin:test/features/*.feature
   
@@ -54,6 +57,9 @@ routes:
   # TOTEST: test each functions equiavalent _json: data.json:example/*.json
   example/data.json: data.json:example/data.json
   app/rjs-sf-v0.0.js: rjs.main:example/data.json
+
+
+  _json: data.json:example/*.json
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -130,11 +136,13 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
+
   _json-editor: json-editor:example/json-editor/schema/*.json
 
   jsonary: redir:example/jsonary
   jsonary_test: jsonary:test
   #jsonary: redir:components/jsonary/index.html
+
 
   src/prism/themes: static:public/components/prism/themes
   'src/*': prism:#
@@ -164,6 +172,8 @@ routes:
   tools: static:tools
 
 
+  _gwc: gwc:example/gwc-*.pug
+  _wc: gwc:example/*.wc.pug
   _pug_server: pug:example/server-*.pug
   _pug_prism: pug:example/prism*.pug
   _pug_polymer: pug:example/polymer*.pug
@@ -191,6 +201,16 @@ options:
     #      $ref: '#/defs/scripts/default'
     #    stylesheets:
     #      $ref: '#/defs/stylesheets/default'
+    gwc:
+      pug:
+        merge:
+          links:
+            - rel: import
+              href: /components/google-sheets/google-sheets.html
+            - rel: import
+              href: /components/google-map/google-map.html
+            - rel: import
+              href: /components/google-chart/google-chart.html
 
   local:
     npm/node-sitefile/latest.json:
@@ -228,6 +248,25 @@ options:
           - /vendor/jquery.js
         clients:
           $ref: '#/defs/app/v0/clients'
+        links:
+          - rel: import
+            href: /components/iron-icons/iron-icons.html
+          - rel: import
+            href: /components/paper-styles/color.html
+          - rel: import
+            href: /components/paper-icon-button/paper-icon-button.html
+          - rel: import
+            href: /components/paper-header-panel/paper-header-panel.html
+          - rel: import
+            href: /components/paper-toolbar/paper-toolbar.html
+          - rel: import
+            href: /components/paper-button/paper-button.html
+          - rel: import
+            href: /components/paper-input/paper-input.html
+          - rel: import
+            href: /components/paper-toast/paper-toast.html
+          - rel: import
+            href: /components/google-map/google-map.html
 
     example/server-generated-page:
       merge:

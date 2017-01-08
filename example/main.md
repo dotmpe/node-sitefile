@@ -42,11 +42,18 @@ default 'route.options'.
 # Polymer
 
 HTML5 polyfills etc. (custom elements, shadow DOM, client-side router)
+These may not work in the app-v0 client.
 
 - [ Polymer Example ](./polymer-example)
+- [ Polymer Paper Hello World Example ](./polymer-paper-hello-world#sf:xref:.main)
+- [ Prism Examples with Polymer Style Selector ](./prism)
 - [ Polymer Simple Custom Element Example ](./polymer-custom)
 - [ Polymer Page Swipe](./polymer-page-swipe)
 - [ Polymer App Router ](./polymer-app-router)
+- [ Google Maps ](./gwc-map-1#sf:xref:.main)
+- [ Google Sheets ](./gwc-sheets-1#sf:xref:.main)
+- [ Google Charts ](./gwc-charts-1#sf:xref:.main)
+- [ Polymer Paper Toolbars ](./polymer-paper-toolbar#sf:xref:.main)
 
 - [ Prism Examples with Polymer Style Selector ](./prism)
 
