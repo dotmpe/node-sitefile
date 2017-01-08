@@ -42,7 +42,8 @@ routes:
   _sh: sh:example/*.sh
   _gv: gv:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
-  _plantuml: plantuml:example/*.plantuml
+  _pu: plantuml:example/*.plantuml
+  _pu_dev_doc: plantuml:doc/dev/*.plantuml
   _json: data.json:example/*.json
 
   mocha/client/*: mocha.client:#

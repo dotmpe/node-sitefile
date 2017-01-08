@@ -31,9 +31,7 @@ promise_resource = ( deref_args ) ->
 
   opts = client_opts deref_args
 
-  rp(opts).then( $ ->
-  ).catch( err ->
-  )
+  rp(opts)
 
 
 promise_http_get = ( deref_args ) ->
@@ -91,6 +89,6 @@ module.exports =
   client_headers:
     accept_type: clientAcc
   promise:
-    http_resource: promise_http_get
+    http_get: promise_http_get
     resource: promise_resource
 
