@@ -15,7 +15,7 @@ cloud Cloud {
 
 note left of Cloud
   This is a note
-	[[http://www.google.com]]
+  [[http://www.google.com]]
 end note
 
 
