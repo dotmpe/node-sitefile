@@ -203,6 +203,8 @@ options:
           - rel: import
             href: /components/iron-icons/iron-icons.html
           - rel: import
+            href: /components/paper-styles/color.html
+          - rel: import
             href: /components/paper-icon-button/paper-icon-button.html
           - rel: import
             href: /components/paper-toolbar/paper-toolbar.html
