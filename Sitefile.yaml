@@ -112,6 +112,7 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
+
   src/prism/themes: static:public/components/prism/themes
   'src/*': prism:#
   'src.0/*': prism.view0:#
