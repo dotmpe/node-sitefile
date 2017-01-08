@@ -34,9 +34,6 @@ routes:
   # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
 
   _pug: pug:example/pug-*.pug
-  _pug_server: pug:example/server-*.pug
-  _pug_prism: pug:example/prism*.pug
-  _pug_polymer: pug:example/polymer*.pug
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
@@ -140,6 +137,10 @@ routes:
 
 
   _gwc: gwc:example/gwc-*.pug
+  _wc: gwc:example/*.wc.pug
+  _pug_server: pug:example/server-*.pug
+  _pug_prism: pug:example/prism*.pug
+  _pug_polymer: pug:example/polymer*.pug
 
 
 options:
