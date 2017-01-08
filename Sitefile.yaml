@@ -208,6 +208,8 @@ options:
           - rel: import
             href: /components/paper-icon-button/paper-icon-button.html
           - rel: import
+            href: /components/paper-header-panel/paper-header-panel.html
+          - rel: import
             href: /components/paper-toolbar/paper-toolbar.html
           - rel: import
             href: /components/paper-button/paper-button.html
