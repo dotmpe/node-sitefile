@@ -68,6 +68,10 @@ Source viewer.
 
 # Graphviz
 
+TODO : move images to page:
+
+- [ Example ](./plantuml)
+
 From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 
 ![ Small dot graph ](./graphviz-small-graph.dot.png "Small diagram")
@@ -95,10 +99,7 @@ From [ Graphviz dotguide ](http://www.graphviz.org/pdf/dotguide.pdf)
 
 # PlantUML
 
-![ Example in PNG ](./plantuml-1.png "PlantUML Example 1")
-![ Example in SVG ](./plantuml-1.svg "PlantUML Example 1")
-
-TODO: should find a workflow for the .cmapx HTML fragment files
+- [ Example ](./plantuml)
 
 
 ***
