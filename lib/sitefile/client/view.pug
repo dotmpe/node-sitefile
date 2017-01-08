@@ -6,22 +6,22 @@ block prologue
   // Base tpl usable as view with placeholders
   // for use with markdown router initially
 
-  .container.view-placeholder!= view.prologue
+  .prologue.view-placeholder!= html.prologue
 
 block header
-  .container.view-placeholder!= view.header
+  .container.view-placeholder!= html.header
   hr
 
 block main
-  .container.view-placeholder!= view.main
+  .container.main.view-placeholder!= html.main
 
 block document
-  .container.view-placeholder!= view.document
+  .container.view-placeholder!= html.document
 
 block footer
   hr
-  .container.view-placeholder!= view.footer
+  .container.view-placeholder!= html.footer
 
 block epilogue
-  .container.view-placeholder!= view.epilogue
+  .epilogue.view-placeholder!= html.epilogue
 

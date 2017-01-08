@@ -11,7 +11,7 @@
       cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
       behat: "./bin/behat:--tags:~@skip"
     init: "sh:./configure grunt:build-test"
-    test: "sh:./configure grunt:test"
+    test: "sh:./configure npm:run:test"
     check: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools htd:gitflow-check-doc :git:status grunt:check"
     cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
 

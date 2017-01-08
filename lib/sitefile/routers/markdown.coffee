@@ -53,11 +53,7 @@ module.exports = ( ctx={} ) ->
           tpl: './lib/sitefile/client/view.pug'
           merge:
             ref: rctx.res.ref
-            #route: rctx.route
-            #options: rctx.route.options
-            #context: rctx
-
-            view:
+            html:
               main: ''
               document: doc
               footer: ''
