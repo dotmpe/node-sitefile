@@ -124,9 +124,9 @@ load_config = ( ctx={} ) ->
     #if not _.isEmpty configs
     #  ctx.config_name = scriptconfig
 
-  rc = path.join '../..', ctx.config_name
-  if fs.existsSync require.resolve rc
-    ctx.config_envs = require rc
+  uc = path.join '../..', ctx.config_name
+  if fs.existsSync require.resolve uc
+    ctx.config_envs = require uc
     ctx.config = ctx.config_envs[ctx.envname]
     _.defaultsDeep ctx, ctx.config
     if ctx.verbose
@@ -138,8 +138,7 @@ load_config = ( ctx={} ) ->
 # Turn options dict into root context.
 prepare_context = ( ctx={} ) ->
 
-  # Apply all static properties (set ctx.static too)
-  _.merge ctx, load_rc ctx
+  # Initial context from env
 
   _.defaultsDeep ctx,
     noderoot: '../../'
@@ -147,20 +146,26 @@ prepare_context = ( ctx={} ) ->
     cwd: process.cwd()
     proc:
       name: path.basename process.argv[1]
-    envname: process.env.NODE_ENV ? 'development'
     log: log
-    verbose: false
-
-  ctx.verbose = ctx.envname is 'development'
 
   _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
+
   _.defaultsDeep ctx,
     pkg: require ctx.pkg_file
 
-  load_config ctx
+  # Load local run-config
+  _.merge ctx, load_rc ctx
 
   _.defaultsDeep ctx,
+    envname: process.env.NODE_ENV ? 'development'
+
+  # FIXME: load uer-config
+  load_config ctx
+
+  # Return wiht final defaults merged in
+  _.defaultsDeep ctx,
+    verbose: ctx.envname is 'development'
     site:
       host: ''
       port: 8081

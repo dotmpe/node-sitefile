@@ -55,6 +55,45 @@ But using HTML links. Not inline script?
 
 ----
 
+Google Web Components
+
+::
+
+  bower install --save GoogleWebComponents/google-map
+
+See module names at https://github.com/GoogleWebComponents/google-web-components/blob/master/bower.json
+
+Sitefile.yml::
+
+  route:
+    _gwc: gwc:example/gwc-*.pug
+
+with::
+
+  options:
+    global:
+      gwc:
+        pug:
+          merge:
+            links:
+              - rel: import
+                href: /components/google-map/google-map.html
+
+or::
+
+  options:
+    local:
+      example/gwc-map-1:
+        pug:
+          merge:
+            links:
+              - rel: import
+                href: /components/google-map/google-map.html
+
+FIXME: but the latter does not work.
+
+----
+
 .. raw:: markdown
 
   Polymer is based on a set of future technologies, including [Shadow

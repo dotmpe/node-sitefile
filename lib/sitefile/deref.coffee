@@ -41,12 +41,10 @@ promise_http_get = ( deref_args ) ->
   opts = client_opts deref_args
 
   new Promise (resolve, reject) ->
-    console.log 'promise_resource', opts
     try
       http
         .get opts, ( res ) ->
           statusCode = res.statusCode
-          console.log 'get', statusCode
           contentType = res.headers['content-type']
           error = null
           if statusCode != 200

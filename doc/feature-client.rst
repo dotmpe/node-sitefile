@@ -21,4 +21,5 @@ polymer and debugging.
 would like to start a sort of console.log with visual log polyfill
 for the user to monitor the app is working correctly
 
+Added Google Web Components router, intending to
 

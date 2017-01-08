@@ -33,7 +33,10 @@ routes:
   # Example, get data from another endpoint, the one above?
   # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
 
-  _pug: pug:example/**/*.pug
+  _pug: pug:example/pug-*.pug
+  _pug_server: pug:example/server-*.pug
+  _pug_prism: pug:example/prism*.pug
+  _pug_polymer: pug:example/polymer*.pug
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
@@ -136,6 +139,9 @@ routes:
   tools: static:tools
 
 
+  _gwc: gwc:example/gwc-*.pug
+
+
 options:
   global:
     du:
@@ -158,6 +164,16 @@ options:
     #      $ref: '#/defs/scripts/default'
     #    stylesheets:
     #      $ref: '#/defs/stylesheets/default'
+    gwc:
+      pug:
+        merge:
+          links:
+            - rel: import
+              href: /components/google-sheets/google-sheets.html
+            - rel: import
+              href: /components/google-map/google-map.html
+            - rel: import
+              href: /components/google-chart/google-chart.html
 
   local:
     npm/node-sitefile/latest.json:
