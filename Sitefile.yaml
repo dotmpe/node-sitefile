@@ -201,6 +201,12 @@ options:
           $ref: '#/defs/app/v0/clients'
         links:
           - rel: import
+            href: /components/iron-icons/iron-icons.html
+          - rel: import
+            href: /components/paper-icon-button/paper-icon-button.html
+          - rel: import
+            href: /components/paper-toolbar/paper-toolbar.html
+          - rel: import
             href: /components/paper-button/paper-button.html
           - rel: import
             href: /components/paper-input/paper-input.html

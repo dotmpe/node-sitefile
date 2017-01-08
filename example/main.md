@@ -53,6 +53,7 @@ These may not work in the app-v0 client.
 - [ Google Maps ](./gwc-map-1#sf:xref:.main)
 - [ Google Sheets ](./gwc-sheets-1#sf:xref:.main)
 - [ Google Charts ](./gwc-charts-1#sf:xref:.main)
+- [ Polymer Paper Toolbars ](./polymer-paper-toolbar#sf:xref:.main)
 
 
 # Prism
