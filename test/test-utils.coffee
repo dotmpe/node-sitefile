@@ -144,5 +144,6 @@ class SitefileTestUtils
 
 module.exports = {}
 
+module.exports.ajv = ajv
 module.exports.SitefileTestUtils = SitefileTestUtils
 

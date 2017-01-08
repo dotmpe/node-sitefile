@@ -56,7 +56,9 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             data = JSON.parse body
             expect(data).to.not.be.empty
 
-            expect(validate_pm2_json data).to.be.true
+            valid = validate_pm2_json data
+            if (!valid)
+              reject validate_pm2_json.errors
 
             resolve()
 

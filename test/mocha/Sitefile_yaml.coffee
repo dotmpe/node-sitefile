@@ -139,7 +139,8 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             expect(data).to.not.be.empty
 
             v = validate_ac_json data
-            expect(v).to.be.true
+            if not v
+              reject validate_ac_json.errors
 
             k = _.findKey( data, [ 'label', '/ReadMe' ] )
             expect( data[k] ).to.eql {
