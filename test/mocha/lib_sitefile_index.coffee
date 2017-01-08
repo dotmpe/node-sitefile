@@ -7,6 +7,10 @@ _ = require 'lodash'
 lib = require '../../lib/sitefile'
 pkg = require '../../package.json'
 
+Ajv = require 'ajv'
+
+tu = require '../test-utils'
+
 
 describe 'Module sitefile', ->
 
@@ -77,7 +81,7 @@ describe 'Module sitefile', ->
       lib.prepare_context ctx
       sfctx = ( "basename bundles config config_envs config_name cwd envname "+
         "ext exts fn lfn log noderoot paths pkg pkg_file proc routes "+
-        "site sitefile sitefilerc static version"
+        "site sitefile sitefilerc static verbose version"
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()
@@ -103,10 +107,98 @@ describe 'Module sitefile', ->
 
       ctx = lib.prepare_context()
       expect( ctx.get 'sitefile.options.global.rst2html.stylesheets' ).to.eql {
-        $ref: '#/sitefile/defs/stylesheets/default/urls'
+        $ref: '#/sitefile/defs/stylesheets/default'
       }
       obj = ctx.resolve 'sitefile.options.global.rst2html.stylesheets'
       expect( obj ).to.be.an.array
 
+
+  describe 'load sitefile', ->
+
+    sitefile = {
+      sitefile: '0.0.4'
+      routes:
+        _du: 'du:**/*.rst'
+        _gv: 'gv:**/*.gv'
+        '': 'redir:main'
+        'default.css': 'sass:default.sass'
+        'default.js': 'coffee:default.coffee'
+      path: "Sitefile.yml"
+    }
+
+    it 'has expected sitefile routes/options (site 2)', ->
+      stu = new tu.SitefileTestUtils 'example/site/2'
+      obj = stu.get_sitefile()
+      expect( obj ).to.eql sitefile
+
+
+    sitefile_2 = {
+      sitefile: '0.0.5-dev'
+      routes: {}
+      options:
+        global:
+          du:
+            link_stylesheets: true
+            scripts:
+              $ref: '#/sitefile/defs/scripts/default'
+      defs:
+        scripts:
+          default: [
+            '/vendor/jquery.js' ]
+      path: "Sitefile.yml"
+    }
+
+    it 'has expected sitefile routes/options (site 3, JSON)', ->
+      stu = new tu.SitefileTestUtils 'example/site/3'
+      obj = stu.get_sitefile()
+      sitefile_2.path = "Sitefile.json"
+      expect( obj ).to.eql sitefile_2
+
+    it 'has expected sitefile routes/options (site 4, YAML)', ->
+      stu = new tu.SitefileTestUtils 'example/site/4'
+      obj = stu.get_sitefile()
+      sitefile_2.path = "Sitefile.yml"
+      expect( obj ).to.eql sitefile_2
+
+
+  describe "uses JSON schema", ->
+
+    stu = new tu.SitefileTestUtils()
+    stu.load_schema 'ex1', 'example/json-schema.json'
+    stu.load_schema 'ac_full', 'var/autocomplete-schema.json'
+    stu.load_schema 'ac_simple', 'var/autocomplete-schema-1.json'
+
+    it "to validate and invalidate data", ->
+      ex1 = stu.schema.ex1
+      expect( ex1 1.5 ).to.equal true
+      expect( ex1 5 ).to.equal true
+      expect( ex1 4 ).to.equal true
+      expect( ex1 4.5 ).to.equal false
+      expect( ex1 2.5 ).to.equal true
+      expect( ex1 3.5 ).to.equal false
+
+      ac_simple = stu.schema.ac_simple
+      expect( ac_simple ["string"] ).to.equal true
+      expect( ac_simple [{"foo":"string"}] ).to.equal false
+      expect( ac_simple [{"label":"Foo"}] ).to.equal false
+
+      ac_full = stu.schema.ac_full
+      expect( ac_full ["string"] ).to.equal true
+      expect( ac_full [{"foo":"string"}] ).to.equal false
+      expect( ac_full [{"label":"Foo"}] ).to.equal true
+      expect( ac_full [{"category":"Foo"}] ).to.equal false
+      expect( ac_full [{"label":"Foo", "category":"Notes"}] ).to.equal true
+
+
+    it "to validate AC data (Simple)", -> stu.req_json_file_valid \
+      "../example/autocomplete-data-2.json", stu.schema.ac_simple
+
+    it "to (in)validate AC data (Full)", ->
+      v = stu.schema.ac_full
+      Promise.all [
+        stu.req_json_file_valid "../example/autocomplete-data.json", v
+        stu.req_json_file_valid "../example/data.json", v, false
+        stu.req_json_file_valid "../example/autocomplete-data-1.json", v, false
+      ]
 
 

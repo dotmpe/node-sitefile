@@ -1,45 +1,33 @@
-// Id: node-sitefile/0.0.5-dev example/server-generated-page.pug
+extends ../lib/sitefile/client/base
 
-doctype html
+block head
+  title Sitefile Pug example
+  +std-html-client "Sitefile Base Client - Home"
 
-mixin docinfo_field_tr(label, value)
-  tr.field
-    th.docinfo-name= label
-    td.field-body.app-name= value
+block document
+  h1 Example Pug template with Sitefile
 
-html.example
+  - global_context = context.context
 
-  head
-    title Sitefile Pug example
+  table.docinfo
+    colgroup
+      col.docinfo-names
+      col.docinfo-content
 
-    each href in options.stylesheets
-      link(rel="stylesheet", type="text/css", href= '/' + href)
+    tbody
+      +docinfo-field-tr('App', global_context.pkg.name)
+      +docinfo-field-tr('Description', global_context.pkg.description)
 
-    each src in options.scripts
-      script(type="text/javascript", src=src)
+      +docinfo-field-tr('Resource name', context.name)
+      +docinfo-field-tr('Resource router name', context.route.name )
+      +docinfo-field-tr('Resource route-handler name', context.route.handler )
+      +docinfo-field-tr('Resource route-handler spec', context.route.spec )
 
-    script(type='text/javascript', src="/components/jquery/dist/jquery.js")
-    script(type='text/javascript', src="/components/coffee-script/extras/coffee-script.js")
-    link(type='text/coffeescript', href="/example/script.coffee")
 
-    script(type='text/javascript', src="/example/server-generated-javascript")
-    link(rel="stylesheet", type='text/css', href="/example/server-generated-stylesheet")
+  p Also try another template at the same URL:
+    a(href="?tpl=example/server-generated-page-2.pug") Linky
 
-  body
-    #main Main content
 
-    - global_context = context.context
-
-    table.docinfo
-      colgroup
-        col.docinfo-names
-        col.docinfo-content
-
-      tbody
-        +docinfo_field_tr('App', global_context.pkg.name)
-        +docinfo_field_tr('Description', global_context.pkg.description)
-        +docinfo_field_tr('Resource name', context.name)
-        +docinfo_field_tr('Resource router name', context.route.name )
-        +docinfo_field_tr('Resource route-handler name', context.route.handler )
-        +docinfo_field_tr('Resource route-handler spec', context.route.spec )
+block epilogue
+  // Id: node-sitefile/0.0.5-dev example/server-generated-page.pug
 

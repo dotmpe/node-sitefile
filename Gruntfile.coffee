@@ -11,7 +11,7 @@ module.exports = ( grunt ) ->
   grunt.initConfig
 
     jshint:
-      package:
+      all:
         options:
           jshintrc: '.jshintrc'
         src: [
@@ -132,7 +132,8 @@ module.exports = ( grunt ) ->
   # Static analysis of source files
   grunt.registerTask 'lint', [
     'coffeelint'
-    'jshint'
+    'jshint:all'
+    'jshint:examples'
     'yamllint'
   ]
 

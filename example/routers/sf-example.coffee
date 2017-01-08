@@ -3,6 +3,11 @@
 module.exports = ( ctx ) ->
 
   name: 'sf-example'
+  label: 'Sitefile example router'
+
+  description: ""
+  usage: ""
+  defaults: {}
 
   generate:
     default: ( rctx ) ->

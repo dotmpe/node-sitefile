@@ -1,5 +1,7 @@
 
-.. upstream branches and their downstreams, some with lists of merge targets
+.. List root branches and downstream features etc. and some target branches/releases
+.. document in rSt sub-format
+
 
 master
   ..
@@ -49,14 +51,12 @@ dev
   features/outliner
     - dev
 
-..
-
-  f_ditaa
-  f_du
-  f_ph7
-  f_ph7_node
-  f_sh
-  f_sitebuild
+..  f_ditaa
+    f_du
+    f_ph7
+    f_ph7_node
+    f_sh
+    f_sitebuild
 
 
 .. other downstreams is the above tree in reverse
@@ -64,6 +64,7 @@ dev
 
 :downstream:
   demo
+    - dev
     - features/pm2
     - features/html5-client
   r0.0.4

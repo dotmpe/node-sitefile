@@ -18,7 +18,7 @@ module.exports = ( ctx ) ->
 
   name: "mocha"
   usage: """
-  """
+    """
 
   auto_export:
     route:
@@ -27,31 +27,38 @@ module.exports = ( ctx ) ->
       "vendor/chai.js": "static:node_modules/chai/chai.js"
       "vendor/sinon.js": "static:node_modules/sinon/pkg/sinon.js"
     
-  default_handler: 'auto'
-
   defaults:
-    test:
-      route:
+    default: 'auto'
+    global:
+      'test-all':
+        'import-query': true # combine all query params onto rctx.route.options
+        options:
+          dir: 'test/mocha'
+          reporter: 'json-stream'
+          extension: '.js'
+          suffix: '_test'
+      test:
         query:
           dir: 'test/mocha'
           reporter: 'json-stream'
           extension: '.js'
           suffix: '_test'
-    client:
-      route:
-        params: {}
-        query:
-          suffix: '_test'
-        options:
-          scripts: []
-          stylesheets: []
-          pug:
-            format: 'html'
-            compile:
-              pretty: false
-              debug: false
-              compileDebug: false
-              globals: []
+
+      client:
+        route:
+          params: {}
+          query:
+            suffix: '_test'
+          options:
+            scripts: []
+            stylesheets: []
+            pug:
+              format: 'html'
+              compile:
+                pretty: false
+                debug: false
+                compileDebug: false
+                globals: []
 
   generate:
     auto: ( rctx ) ->
@@ -62,15 +69,15 @@ module.exports = ( ctx ) ->
       See sitefile:doc/feature-testing
       """
       ( req, res ) ->
-        # Parameterization
-        query = _.defaultsDeep req.query, rctx.route.query
+        opts = rctx.req_opts rctx, req
+
         # Initialize
         mocha = new Mocha()
-        testcases = fs.readdirSync( query.dir ).filter ( file ) ->
-          return file.endswith query.extension
+        testcases = fs.readdirSync( opts.dir ).filter ( file ) ->
+          return file.endswith opts.extension
         for testcase in testcases
           testcasepath = path.join ctx.cwd, testcases
-          delete require.cache[testcasepath+req.query.extension]
+          delete require.cache[testcasepath+req.opts.extension]
           mocha.addFile testcasepath
 
 
@@ -121,6 +128,7 @@ module.exports = ( ctx ) ->
         params = _.defaultsDeep req.params, rctx.route.params
 
         pugOpts = _.defaultsDeep rctx.route.pug, {
+          tpl: './lib/sitefile/routers/mocha.pug'
           merge:
             ref: rctx.res.ref
             route: rctx.route
@@ -133,7 +141,7 @@ module.exports = ( ctx ) ->
             test_file: dud.replace('.js', req.query.suffix+'.js')
         }
 
-        res.write pug.compile './lib/sitefile/routers/mocha.pug', pugOpts
+        res.write pug.compile pugOpts
         res.end()
 
 

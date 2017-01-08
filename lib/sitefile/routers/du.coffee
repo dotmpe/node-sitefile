@@ -18,12 +18,14 @@ rst2html_flags = ( params ) ->
 
   flags = []
 
-  if params.link_stylesheets
-    flags.push '--link-stylesheet'
-
   if params.stylesheets? and !_.isEmpty params.stylesheets
-    sheets = _.values(params.stylesheets).join ','
-    flags.push "--stylesheet-path '#{sheets}'"
+    if params.link_stylesheets
+      flags.push '--link-stylesheet'
+      sheets = _.filter(_.map(params.stylesheets, 'url')).join ','
+      flags.push "--stylesheet '#{sheets}'"
+    else
+      sheets = _.filter(_.map(params.stylesheets, 'path')).join ','
+      flags.push "--stylesheet-path '#{sheets}'"
 
   if params.flags? and !_.isEmpty params.flags
     flags = flags.concat params.flags
@@ -127,7 +129,8 @@ module.exports = ( ctx ) ->
   tools:
     rst2html: rst2html
 
-  default_handler: 'rst2html'
+  defaults:
+    handler: 'rst2html'
 
   # Generators for Sitefile route handlers
   generate:

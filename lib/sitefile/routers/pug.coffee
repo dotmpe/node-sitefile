@@ -56,13 +56,14 @@ module.exports = ( ctx ) ->
 
   pug_ext pug
 
-  compilePug = ( path, options ) ->
+
+  compilePug = ( opts ) ->
 
     # Compile template from file
-    tpl = pug.compileFile path, options.compile
+    tpl = pug.compileFile opts.tpl, opts.compile
 
     # Merge with options and context
-    tpl options.merge
+    tpl opts.merge
 
 
   name: 'pug'
@@ -74,40 +75,35 @@ module.exports = ( ctx ) ->
   compile: compilePug
 
   defaults:
-    default:
-      route:
+    global:
+      default:
+        'export-query-path': 'tpl'
+        'export-context': 'merge.context'
+        'import-query': [ 'merge.format', 'merge.scripts', 'merge.stylesheets' ]
         options:
-          scripts: []
-          stylesheets: []
-          pug:
+          tpl: null
+          compile:
+            pretty: false
+            debug: false
+            compileDebug: false
+            globals: []
+            filters: {}
+          merge:
             format: 'html'
-            compile:
-              pretty: false
-              debug: false
-              compileDebug: false
-              globals: []
+            links: []
+            stylesheets: []
+            scripts: []
+            clients: []
 
   # generators for Sitefile route handlers
   generate:
     default: ( rctx ) ->
       ( req, res ) ->
-
-        #XXX:console.log 'Pug compile', path: rctx.res.path, \
-        #    "with", options: rctx.route.options
-
-        pugOpts = {
-          compile: rctx.route.options.pug.compile
-          merge:
-            options: rctx.route.options
-            query: req.query
-            context: rctx
-        }
-
-        if not pugOpts.compile.filters
-          pugOpts.compile.filters = {}
-
-        res.type rctx.route.options.pug.format
-        res.write compilePug rctx.res.path, pugOpts
+        opts = rctx.req_opts req
+        sitefile.log \
+          "Pug compile", path: opts.tpl, '(Spec', path: rctx.res.path, ')'
+        res.type opts.merge.format
+        res.write compilePug opts
         res.end()
 
 
