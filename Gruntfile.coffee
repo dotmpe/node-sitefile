@@ -134,7 +134,8 @@ module.exports = ( grunt ) ->
   # Static analysis of source files
   grunt.registerTask 'lint', [
     'coffeelint'
-    'jshint'
+    'jshint:all'
+    'jshint:examples'
     'yamllint'
   ]
 

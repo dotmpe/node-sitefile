@@ -4,25 +4,26 @@ include html
 
 html(profile="http://dotmpe.com/project/sitefile")
 
-  - var main = null // Main client
+  - var main = null // Main or primary client is the first one loaded
 
   head 
-
-    // XXX: +html-meta("sitefile.main", "base", "sitefile")
-    +std-html-head "Sitefile Base Client - Home"
-
     block head
-
+      // TODO: either title is template var with default fallback or client side // scr
+      +std-html-head "Sitefile Base Client"
+    block head-extra
   body
     block prologue
-    div.header
+    .header.container
       block header
         p Template header
-    div.document
+        hr
+    block main
+    .document.container
       block document
         p Template document
-    div.footer
+    .footer.container
       block footer
+        hr
         p Template footer
     block epilogue
 

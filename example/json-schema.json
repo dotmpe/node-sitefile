@@ -1,0 +1,6 @@
+{
+    "oneOf": [
+        { "maximum": 3 },
+        { "type": "integer" }
+    ]
+}
