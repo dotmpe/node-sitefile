@@ -28,15 +28,15 @@ routes:
   doc/literate: static:build/docs/docco/
   #doc/api: static:build/docs/jsdoc/
 
-  # FIXME: example/: redir:example/main
   example: static:example
+  # FIXME: example/: redir:example/main
 
   example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
   example/bookshelf/knex: knex:example/bookshelf/knex.json
   # Example, get data from another endpoint, the one above?
   # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
 
-  _pug: pug:example/**/*.pug
+  _pug: pug:example/pug-*.pug
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
@@ -47,6 +47,7 @@ routes:
   # FIXME: aliases _pu: pu:example/*.pu
   _pu: plantuml:example/*.plantuml
   _pu_dev_doc: plantuml:doc/dev/*.plantuml
+  _json: data.json:example/*.json
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -64,6 +65,7 @@ routes:
   # Dynamic rules using glob spec
   _du: du:**/*.rst
   #_rst2html: rst2html:**/*.rst
+  gitflow: du:.gitflow.rst
 
   Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
@@ -88,19 +90,19 @@ routes:
 
   # Some HTTP redirect handlers configured on JSON mappings
   vendor/:package.:format: http.vendor:cdn.json
-  ref/:ref: http.ref:#
-  res/:ref: http.res:#
+  r:ref/(.*): http.ref:#
+  r:res/(.*): http.res:#
   site/:site/:path: http.site:sites.json
 
   # Three seperate resources, layered for the RequireJS client.
   # The JSON is a path object extracted from cdn.json, and a shim and map and
   # other RequireJS option objects.
-  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;baseUrl=/app/lib;main=cs!sf-v0
+  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;baseUrl=/app;main=cs!sf-v0
   # The JSON is wrapped in a script to initialize RequireJS
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
   # Finally a specific router is wired to display a pug template with all of the
   # above.
-  app/v0: pug:sitefile-client:rjs.pug#
+  app/v0: pug:sitefile-client:sf-v0.pug#
   # Serve coffee script for RequireJS client
   app: static:lib/sitefile/client
 
@@ -112,10 +114,18 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
+  local: static:public/local
+
+
   # TODO: imagemacking processing?
   #/shadows/:path: convert.filter:**/*.png
 
   tools: static:tools
+
+
+  _pug_server: pug:example/server-*.pug
+  _pug_prism: pug:example/prism*.pug
+  _pug_polymer: pug:example/polymer*.pug
 
 
 options:
@@ -125,7 +135,7 @@ options:
       scripts:
         $ref: '#/defs/scripts/default'
       stylesheets:
-        $ref: '#/defs/stylesheets/default/urls'
+        $ref: '#/defs/stylesheets/default'
     rst2html:
       link_stylesheets: true
       flags:
@@ -133,13 +143,13 @@ options:
       scripts:
         $ref: '#/defs/scripts/default'
       stylesheets:
-        $ref: '#/defs/stylesheets/default/urls'
+        $ref: '#/defs/stylesheets/default'
     #pug:
     #  merge:
     #    scripts:
     #      $ref: '#/defs/scripts/default'
     #    stylesheets:
-    #      $ref: '#/defs/stylesheets/default/urls'
+    #      $ref: '#/defs/stylesheets/default'
 
   local:
     shadows/: {}
@@ -173,10 +183,11 @@ options:
       merge:
         stylesheets:
           - /vendor/bootstrap.css
+          - /vendor/jquery-ui.css
         scripts:
           - /vendor/jquery.js
         clients:
-          $ref: '#/defs/app/base/clients'
+          $ref: '#/defs/app/v0/clients'
 
     example/server-generated-page:
       merge:
@@ -198,7 +209,6 @@ options:
 defs:
   scripts:
     default:
-      - /vendor/require.js
       - /vendor/jquery.js
       #- /vendor/require.js
       #- /vendor/source-map-support.js
@@ -207,16 +217,14 @@ defs:
       #  path: build/client/default.js
   stylesheets:
     default:
-      urls:
-        - /vendor/bootstrap.css
-        - /vendor/bootstrap-theme.css
-        - /media/style/default.css
-      paths:
-        - build/style/default.css
+      - url: /vendor/bootstrap.css
+      - url: /vendor/bootstrap-theme.css
+      - url: /media/style/default.css
+        path: build/style/default.css
 
 
   app:
-    base:
+    v0:
       clients:
         - type: require-js
           id: require-js-sitefile-v0-app

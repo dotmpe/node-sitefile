@@ -9,8 +9,8 @@ Context = nodelib.Context
 
 
 
-expand_path = ( src, rctx ) ->
-  base = rctx.sfdir+'/'
+expand_path = ( src, ctx ) ->
+  base = ctx.sfdir+'/'
   if src.startsWith 'sitefile:'
     return src.replace 'sitefile:', base
   libdir = base+'lib/sitefile/'
@@ -75,13 +75,22 @@ builtin =
     if not url
       url = rctx.site.base + rctx.name
     p = rctx.site.base + rctx.route.spec
+
     # 301: Moved (Permanently)
     # 302: Found
     # 303: See Other
 
-    #rctx.context.redir status, url, p
-    rctx.context.app.all url, ( req, res ) ->
-      res.redirect p
+    rctx.context.log 'redir', url, p
+
+    if rctx.route.handler == 'temp'
+      rctx.context.redir 302, url, p
+    else if rctx.route.handler == 'perm'
+      rctx.context.redir 301, url, p
+    else
+      #rctx.context.redir status, url, p
+      rctx.context.app.all url, ( req, res ) ->
+        res.redirect p
+
     rctx.context.log '      ', url: url, '->', url: p
 
 
@@ -211,8 +220,18 @@ Base =
         handler: handler_name
         spec: handler_spec
 
+    # Route is RegEx
+    if route.startsWith 'r:'
+      init = res:
+        ref: ctx.site.base + route.substr 2
+        match: new RegExp route.substr 2
+      _.defaultsDeep init, rsctxinit
+      rctx = ctx.getSub init
+      Base.default_resource_options rctx, ctx
+      rs.push rctx
+
     # Use exact route as fs path
-    if fs.existsSync route
+    else if fs.existsSync route
       rctx = Base.file_res_ctx ctx, rsctxinit, route
       Base.default_resource_options rctx, ctx
       rs.push rctx
@@ -257,10 +276,12 @@ Base =
     # invoke routers selected generate function, expect a route handler object
     h = g rctx
 
+    ref = if rctx.res.match then rctx.res.match else rctx.res.ref
+
     if 'function' is typeof h
 
       # Add as regular Express route handler
-      rctx.context.app.all rctx.res.ref, ( req, res ) ->
+      rctx.context.app.all ref, ( req, res ) ->
         _.defaultsDeep rctx.route.options, req.query
         h req, res
 
@@ -276,7 +297,7 @@ Base =
       _.merge rctx._data, h
 
       if h.res and 'data' of h.res
-        rctx.context.app.all rctx.res.ref, builtin.data rctx
+        rctx.context.app.all ref, builtin.data rctx
 
       ctx.log "Extension at ", url: rctx.res.ref, \
           "from", ( name: rctx.route.name+'.'+rctx.route.handler ), \
@@ -318,6 +339,7 @@ module.exports =
     if '#' not in spec
       throw new Error spec
     [ jsonf, spec ] = spec.split '#'
+    jsonf = expand_path jsonf, ctx
     if not jsonf.startsWith path.sep
       jsonf = path.join ctx.cwd, jsonf
     p = spec.split '/'

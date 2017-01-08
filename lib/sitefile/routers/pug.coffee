@@ -56,6 +56,7 @@ module.exports = ( ctx ) ->
 
   pug_ext pug
 
+
   compilePug = ( opts ) ->
 
     # Compile template from file

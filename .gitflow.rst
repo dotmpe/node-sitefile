@@ -1,6 +1,6 @@
 
 .. List root branches and downstream features etc. and some target branches/releases
-.. document in rSt format
+.. document in rSt sub-format
 
 
 master
@@ -51,14 +51,12 @@ dev
   features/outliner
     - dev
 
-..
-
-  f_ditaa
-  f_du
-  f_ph7
-  f_ph7_node
-  f_sh
-  f_sitebuild
+..  f_ditaa
+    f_du
+    f_ph7
+    f_ph7_node
+    f_sh
+    f_sitebuild
 
 
 .. other downstreams is the above tree in reverse

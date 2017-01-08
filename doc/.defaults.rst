@@ -7,7 +7,7 @@
 
 .. Global
 .. _changelog: /Changelog.rst
-.. _examples: /example
+.. _examples: /example/main
 .. _ToDo: /TODO.md
 
 .. Local
