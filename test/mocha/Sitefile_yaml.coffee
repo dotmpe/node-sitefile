@@ -10,7 +10,6 @@ browser = require 'selenium-webdriver/testing'
 
 request = require 'request'
 Promise = require 'bluebird'
-Ajv = require 'ajv'
 
 
 lib = require '../../lib/sitefile'
@@ -92,15 +91,6 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
 
   ###
-  if stu.module_installed 'pm2'
-    it "should publish a PM2 client",
-      stu.test_url_type_ok "/proc/pm2.html", "text/html"
-    it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2/"
-    it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2"
-
-
-  ###
-  ###
   XXX: now using requirejs client
 
   it "should publish a client JS",
@@ -135,7 +125,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
     it "serves valid auto-complete JSON, non-empty, has Sitefile routes", ->
 
-      stu.load_schema 'ac_full', 'var/autocomplete-schema.json'
+      stu.load_ajv_schema 'ac_full', 'var/autocomplete-schema.json'
       validate_ac_json = stu.schema.ac_full
       url = stu.get_url()+"/Sitefile/core/auto"
 

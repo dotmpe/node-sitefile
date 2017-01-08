@@ -9,7 +9,6 @@ browser = require 'selenium-webdriver/testing'
 
 request = require 'request'
 Promise = require 'bluebird'
-Ajv = require 'ajv'
 
 
 lib = require '../../lib/sitefile'

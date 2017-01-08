@@ -133,7 +133,7 @@ class SitefileTestUtils
       catch err
         reject(new Error("Validator exception: #{err}"))
 
-  load_schema: ( name, filepath ) ->
+  load_ajv_schema: ( name, filepath ) ->
     @schemaSrc[name] = path.join process.cwd(), filepath
     @schemaSrcData[name] = require @schemaSrc[name]
     if _.isEmpty @schemaSrcData[name]

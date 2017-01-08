@@ -212,6 +212,17 @@ options:
             - rel: import
               href: /components/google-chart/google-chart.html
 
+    pm2:
+      pug:
+        merge:
+          stylesheets:
+            - /vendor/bootstrap.css
+            - /vendor/jquery-ui.css
+          scripts:
+            - /vendor/jquery.js
+          links: []
+          clients: []
+
   local:
     npm/node-sitefile/latest.json:
       spec:

@@ -7,8 +7,6 @@ _ = require 'lodash'
 lib = require '../../lib/sitefile'
 pkg = require '../../package.json'
 
-Ajv = require 'ajv'
-
 tu = require '../test-utils'
 
 
@@ -164,9 +162,9 @@ describe 'Module sitefile', ->
   describe "uses JSON schema", ->
 
     stu = new tu.SitefileTestUtils()
-    stu.load_schema 'ex1', 'example/json-schema.json'
-    stu.load_schema 'ac_full', 'var/autocomplete-schema.json'
-    stu.load_schema 'ac_simple', 'var/autocomplete-schema-1.json'
+    stu.load_ajv_schema 'ex1', 'example/json-schema.json'
+    stu.load_ajv_schema 'ac_full', 'var/autocomplete-schema.json'
+    stu.load_ajv_schema 'ac_simple', 'var/autocomplete-schema-1.json'
 
     it "to validate and invalidate data", ->
       ex1 = stu.schema.ex1
