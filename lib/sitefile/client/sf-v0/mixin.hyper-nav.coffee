@@ -21,6 +21,7 @@ define 'sf-v0/mixin.hyper-nav', [
     init_placeholder: ( homeref, self=@ ) ->
       @init_placeholder_a_href homeref, self
       @init_placeholder_img_src homeref, self
+      @init_placeholder_object_data homeref, self
       $('ol.breadcrumb').remove()
       @init_breadcrumb()
 
@@ -29,6 +30,11 @@ define 'sf-v0/mixin.hyper-nav', [
       $(".placeholder img").each ->
         ref = self.resolve_page $(this).attr("src"), homeref
         $(this).attr "src", ref
+
+    init_placeholder_object_data: ( homeref, self=@ ) ->
+      $(".placeholder object").each ->
+        ref = self.resolve_page $(this).attr("data"), homeref
+        $(this).attr "data", ref
 
     # Update a href onclick for embedded use
     init_placeholder_a_href: ( homeref, self=@ ) ->
