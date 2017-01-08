@@ -7,7 +7,7 @@ define 'sf-v0/mixin.breadcrumb', [
 
   DocumentBreadcrumb:
 
-    init_breadcrumb: ( path = window.location.href ) ->
+    init_breadcrumb: ( path = window.location.href, self=@ ) ->
 
       if not $('ol.breadcrumb').length
         paths = path.split /[#]/
@@ -51,6 +51,8 @@ define 'sf-v0/mixin.breadcrumb', [
       # coffeelint: enable=max_line_length
 
       $('ol.breadcrumb li').click ( evt ) ->
+
+        return # FIXME ol.breadcrumb li .click
         
         if $(evt.target).hasClass 'root'
           # TODO: move autocomplete here
@@ -67,7 +69,7 @@ define 'sf-v0/mixin.breadcrumb', [
             evt.target.innerText = location_input.val()
             evt.target.style.display = 'inline'
             location_edit.remove()
-            check_location()
+            self.check_location()
 
     check_location: ->
       path = @get_path()

@@ -90,14 +90,22 @@ define 'sf-v0/mixin.hyper-nav', [
         xref = ref.substr(0,x)+' '+decodeURI ref.substr x+9
       else
         xref = ref+' .document>*'
-      #console.log 'xref', x, xref
+      # Use jQuery.load to get at content at other resource
       $('.placeholder').load xref, ( rsTxt, txtStat, jqXhr ) ->
         if txtStat not in [ "success", "notmodified" ]
           console.log 'jQ.load fail, TODO', arguments
         else
           console.log "Loaded", ref
           self.init_placeholder ref
+          self.run_scripts rsTxt
 
       #crossroads.parse newHash
+
+
+    run_scripts: ( html ) ->
+      el = $.parseHTML html, true
+      $('script', el).each ->
+        $.globalEval @text || @textContent || @innerHtml || ''
+
 
 
