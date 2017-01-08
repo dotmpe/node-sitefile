@@ -62,7 +62,7 @@ module.exports = ( ctx={} ) ->
                 style: "height: 20em"
               map:
                 style: "height: 20em"
-                api_key: ctx.gwc.map_api_key
+                api_key: ctx.site.gwc_map_api_key
         }
 
         pugOpts.merge.html.main = pug.compile pugOpts

@@ -19,17 +19,17 @@ echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
 cat <<HEREDOC
 module.exports =
   development:
-    site: port: 7011
-    gwc:
-      map_api_key: "$GOOGLE_MAP_TOKEN"
+    site:
+      port: 7011
+      gwc_map_api_key: "$GOOGLE_MAP_TOKEN"
   testing:
-    site: port: 7012
-    gwc:
-      map_api_key: "$GOOGLE_MAP_TOKEN"
+    site:
+      port: 7012
+      gwc_map_api_key: "$GOOGLE_MAP_TOKEN"
   production:
-    site: port: 7013
-    gwc:
-      map_api_key: "$GOOGLE_MAP_TOKEN"
+    site:
+      port: 7013
+      gwc_map_api_key: "$GOOGLE_MAP_TOKEN"
 HEREDOC
 ) > config/config.coffee
 
