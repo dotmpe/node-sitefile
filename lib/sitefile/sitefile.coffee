@@ -182,8 +182,7 @@ prepare_context = ( ctx={} ) ->
 
 
   # Load local sitefile (set ctx.sitefile)
-  unless ctx.sitefile?
-    load_sitefile ctx
+  load_sitefile ctx
 
 
   Context::get_auto_export = ( router_name ) ->
