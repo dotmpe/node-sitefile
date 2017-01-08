@@ -135,7 +135,8 @@
   "volo": {
     "dependencies": {
       "element": "github:requirejs/element/0.0.1#element.js",
-      "public/element.js": "github:requirejs/element/0.0.1#element.js"
+      "public/element.js": "github:requirejs/element/0.0.1#element.js",
+      "template": "github:requirejs/element/0.0.1#template.js"
     }
   }
 }

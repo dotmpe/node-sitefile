@@ -2,14 +2,14 @@ define 'sf-v0', [
 
   'jquery',
   'cs!sitefile/page',
-  'cs!./console'
+  'cs!console',
 
+  # 'cs!webcomp'
 
 ], ( $, SitefilePage, csl ) ->
 
 
   console.debug 'sf-v0 rjs loading'
-
 
   $(document).ready ( $ ) ->
     console.debug "sitefile page loaded"

@@ -44,7 +44,8 @@
 
         "source-map-support": "/npm/packages/source-map-support/browser-source-map-support",
 
-        "element": "/local/requirejs/element"
+        "element": "/local/requirejs/element",
+        "template": "/local/requirejs/template"
       }
     }
   },

@@ -205,6 +205,8 @@ options:
             href: /components/paper-input/paper-input.html
           - rel: import
             href: /components/paper-toast/paper-toast.html
+          - rel: import
+            href: /components/google-map/google-map.html
 
     example/server-generated-page:
       merge:
