@@ -212,14 +212,15 @@ module.exports = ( ctx ) ->
       (req, res) ->
 
         httprouter.promise.resource(
-          hostname: 'localhost'
-          port: ctx.app.get('port')
-          path: ctx.site.base + rctx.name + '.json'
-        ).then ( apps ) ->
+          reqType: 'application/json'
+          opts:
+            hostname: 'localhost'
+            port: ctx.app.get('port')
+            path: ctx.site.base + rctx.name + '.json'
+        ).then ( data ) ->
 
-          res.type 'html'
-          res.write pugrouter.compile listPugFn, {
-            compile: rctx.route.options.compile
+          pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
+            tpl: listPugFn
             merge:
               pid: process.pid
               pm2_base: ctx.site.base+rctx.name
@@ -227,8 +228,10 @@ module.exports = ( ctx ) ->
               options: rctx.options
               query: req.query
               context: rctx
-              apps: apps
+              apps: data[0]
           }
+          res.type 'html'
+          res.write pugrouter.compile pugOpts
           res.end()
 
     # Serve PM2 proc HTML details
@@ -236,15 +239,16 @@ module.exports = ( ctx ) ->
       (req, res) ->
 
         console.log req.path.substring(0, req.path.length - 5) + '.json'
-        httprouter.promise.json(
-          hostname: 'localhost'
-          port: ctx.app.get('port')
-          path: req.path.substring(0, req.path.length - 5) + '.json'
-        ).then ( app ) ->
+        httprouter.promise.resource(
+          reqType: 'application/json'
+          opts:
+            host: 'localhost'
+            port: ctx.app.get('port')
+            path: req.path.substring(0, req.path.length - 5) + '.json'
+        ).then ( data ) ->
 
-          res.type 'html'
-          res.write pugrouter.compile detailPugFn, {
-            compile: rctx.route.options.compile
+          pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
+            tpl: detailPugFn
             merge:
               pid: process.pid
               pm2_base: ctx.site.base+rctx.name
@@ -252,8 +256,11 @@ module.exports = ( ctx ) ->
               options: rctx.route.options
               query: req.query
               context: rctx
-              app: app
+              app: data[0]
           }
+            
+          res.type 'html'
+          res.write pugrouter.compile pugOpts
           res.end()
 
 
@@ -273,6 +280,31 @@ module.exports = ( ctx ) ->
 
   ###
   name: 'pm2'
+
+  defaults:
+    global:
+      view:
+        options:
+          pug:
+            tpl: null
+            compile: {}
+            merge:
+              format: 'html'
+              links: []
+              scripts: []
+              stylesheets: []
+              clients: []
+      'view/app':
+        options:
+          pug:
+            tpl: null
+            compile: {}
+            merge:
+              format: 'html'
+              links: []
+              scripts: []
+              stylesheets: []
+              clients: []
 
   generate: generators
 

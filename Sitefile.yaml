@@ -148,6 +148,17 @@ options:
     #    stylesheets:
     #      $ref: '#/defs/stylesheets/default'
 
+    pm2:
+      pug:
+        merge:
+          stylesheets:
+            - /vendor/bootstrap.css
+            - /vendor/jquery-ui.css
+          scripts:
+            - /vendor/jquery.js
+          links: []
+          clients: []
+
   local:
     shadows/: {}
 
