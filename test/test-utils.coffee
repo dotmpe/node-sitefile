@@ -126,10 +126,10 @@ class SitefileTestUtils
       try
         if validator data
           if valid then resolve()
-          else reject(new Error("Validator should have passed"))
+          else reject(new Error("Validator should have passed: #{validator.errors}"))
         else
           if valid then reject(new Error("Validator should have failed"))
-          else resolve()
+          else resolve(validator.errors)
       catch err
         reject(new Error("Validator exception: #{err}"))
 
