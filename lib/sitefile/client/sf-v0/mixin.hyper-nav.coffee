@@ -82,13 +82,13 @@ define 'sf-v0/mixin.hyper-nav', [
       #console.log 'route_page B', @, ref, cref
       self = @
       # Clean listeners on element by dropping
-      #$('.placeholder').replaceWith('<div class="container placeholder"></div>')
       $('.placeholder').off 'click'
       # Load content
       x = ref.indexOf '#sf:xref:'
       if -1 < x
         xref = ref.substr(0,x)+' '+decodeURI ref.substr x+9
       else
+        # FIXME: xref = ref+' .main'
         xref = ref+' .document>*'
       # Use jQuery.load to get at content at other resource
       $('.placeholder').load xref, ( rsTxt, txtStat, jqXhr ) ->

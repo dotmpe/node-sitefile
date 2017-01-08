@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "PM2 app list schema",
+  "description": "",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "pm_id": {
+        "type": "number"
+      },
+      "pid": {
+        "type": "number"
+      },
+      "pm2_env": {
+        "type": "object",
+        "properties": {
+          "script": {
+            "type": "string"
+          },
+          "pm_id": {
+            "type": "number"
+          },
+          "exec_mode": {
+            "type": "string"
+          },
+          "exec_interpreter": {
+            "type": "string"
+          },
+          "watch": {
+            "type": "boolean"
+          },
+          "env": {
+            "type": "object"
+          },
+          "versioning": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      },
+      "monit": {
+        "type": "object"
+      }
+    },
+    "required": [ "name", "pm_id", "pid", "pm2_env" ],
+    "additionalProperties": false
+  }
+}
