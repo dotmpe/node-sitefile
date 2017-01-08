@@ -5,12 +5,10 @@ language: node_js
 node_js:
   # FIXME: strict with webdriver (Travis #510.1) 
   - "0.12"
-  - "4.4"
+  # Note: >=4 seems to be working like 6.0
+  #- "4.4"
   #- "5.11"
-  - "6.0"
-
-before_install:
-  - npm install -g bower
+  - "6.1"
 
 addons:
   apt:
@@ -19,10 +17,11 @@ addons:
       - graphviz
   firefox: "45"
 
-after_install:
-- npm install -g bower
+before_install:
+  - npm install -g bower
 
 before_script:
+  - test "$TRAVIS_NODE_VERSION" != "0.12" || { npm uninstall selenium-webdriver; npm install selenium-webdriver@2.53.3; }
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
