@@ -5,9 +5,10 @@ language: node_js
 node_js:
   # FIXME: strict with webdriver (Travis #510.1) 
   - "0.12"
-  - "4.4"
+  # Note: >=4 seems to be working like 6.0
+  #- "4.4"
   #- "5.11"
-  - "6.0"
+  - "6.1"
 
 addons:
   apt:
