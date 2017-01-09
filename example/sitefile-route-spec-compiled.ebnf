@@ -1,0 +1,14 @@
+
+
+RouteGrammar
+  ::=              
+routerId ( '.' routerHandlerId )?
+  
+':'
+
+  ( ( 
+  ( pathSpec ( ';' pathSpec )? )* ( ';' key '=' value )*
+  | '#' ) 
+  Char+
+  | '#' )
+

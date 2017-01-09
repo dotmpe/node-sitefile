@@ -1,0 +1,47 @@
+
+/**
+ *  Grammar
+ */
+
+Grammar
+  ::=              routeKey  ': '  routerGenerator ':' routerSpec
+
+
+/**
+ *  Complex groups
+ */
+
+routerGenerator
+  ::=              routerId ( '.' routerHandlerId )?
+
+generatorSpec
+  ::=              ( pathSpec ( ';' pathSpec )? )* ( ';' key '=' value )*
+
+routerSpec 
+  ::=              ( ( generatorSpec | '#' ) localSpec | '#' )
+
+
+/**
+ *  Simple groups
+ */
+
+globSpec
+  ::=              ( fChar* '*' fChar* )+
+
+localSpec
+  ::=              Char+
+  
+  
+
+// Glue syntax parts with character groups
+value              ::= fChar+
+key                ::= fChar+
+path               ::= fChar+
+routerId           ::= idChar
+routerHandlerId    ::= idChar
+
+// Character groups
+idChar             ::= [A-Za-z_-][A-Za-z0-9_-]*
+Char               ::= [^'' ]
+fChar              ::= [^ ;# ]
+
