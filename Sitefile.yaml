@@ -11,9 +11,8 @@ showStackError: true
 
 paths:
   routers_replace: false
-  routers: [
-    'sitefile:example/routers'
-  ]
+  routers:
+  - 'sitefile:example/routers'
 
 #autoExport:
 #  - rjs: /app/rjs
@@ -141,13 +140,6 @@ options:
         $ref: '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default'
-    #pug:
-    #  merge:
-    #    scripts:
-    #      $ref: '#/defs/scripts/default'
-    #    stylesheets:
-    #      $ref: '#/defs/stylesheets/default'
-
     pm2:
       pug:
         merge:
@@ -158,6 +150,13 @@ options:
             - /vendor/jquery.js
           links: []
           clients: []
+    #pug:
+    #  merge:
+    #    scripts:
+    #      $ref: '#/defs/scripts/default'
+    #    stylesheets:
+    #      $ref: '#/defs/stylesheets/default'
+
 
   local:
     shadows/: {}
