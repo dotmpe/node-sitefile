@@ -73,8 +73,8 @@ builtin =
   # TODO: extend redir spec for status code
   redir: ( rctx, url=null, status=302 ) ->
     if not url
-      url = rctx.site.base + rctx.name
-    p = rctx.site.base + rctx.route.spec
+      url = rctx.config.base + rctx.name
+    p = rctx.config.base + rctx.route.spec
 
     # 301: Moved (Permanently)
     # 302: Found
@@ -161,7 +161,7 @@ Base =
 
   # process parametrized rule
   #else if '$' in route
-  #  url = ctx.site.base + route.replace('$', ':')
+  #  url = ctx.config.base + route.replace('$', ':')
   #  log route, url: url
   #  app.all url, handler.generator '.'+url, ctx
 
@@ -173,7 +173,7 @@ Base =
   # Return resource sub-context for local file resource
   file_res_ctx: ( ctx, init, file_path ) ->
     init.res = {
-      ref: ctx.site.base + file_path
+      ref: ctx.config.base + file_path
       path: file_path
       extname: path.extname file_path
       dirname: path.dirname file_path
@@ -184,11 +184,11 @@ Base =
 
   prepare_dyn_path_res: ( rctx, ctx ) ->
     if rctx.res.dirname == '.'
-      rctx.res.ref = ctx.site.base + rctx.res.basename
+      rctx.res.ref = ctx.config.base + rctx.res.basename
     else
       rctx.res.ref = \
-        "#{ctx.site.base}#{rctx.res.dirname}/#{rctx.res.basename}"
-      dirurl = ctx.site.base + rctx.res.dirname
+        "#{ctx.config.base}#{rctx.res.dirname}/#{rctx.res.basename}"
+      dirurl = ctx.config.base + rctx.res.dirname
       # XXX: dir tracking 
       if not ctx.routes.directories.hasOwnProperty dirurl
         ctx.routes.directories[ dirurl ] = [ rctx.res.basename ]
@@ -204,7 +204,7 @@ Base =
       else
         Base.prepare_dyn_path_res rctx, ctx
     # Now parse dynamic path back from ref  and look for defaults
-    route = rctx.res.ref.substr ctx.site.base.length
+    route = rctx.res.ref.substr ctx.config.base.length
     rctx.route.options = resolve_route_options( ctx, route, router )
 
   # Return resource paths
@@ -223,7 +223,7 @@ Base =
     # Route is RegEx
     if route.startsWith 'r:'
       init = res:
-        ref: ctx.site.base + route.substr 2
+        ref: ctx.config.base + route.substr 2
         match: new RegExp route.substr 2
       _.defaultsDeep init, rsctxinit
       rctx = ctx.getSub init
@@ -246,12 +246,12 @@ Base =
 
     else if fs.existsSync handler_spec
       rctx = Base.file_res_ctx ctx, rsctxinit, handler_spec
-      Base.default_resource_options rctx, ctx, ctx.site.base + route
+      Base.default_resource_options rctx, ctx, ctx.config.base + route
       rs.push rctx
 
     # Use route as is
     else
-      init = res: ref: ctx.site.base + route
+      init = res: ref: ctx.config.base + route
       _.defaultsDeep init, rsctxinit
       rctx = ctx.getSub init
       Base.default_resource_options rctx, ctx

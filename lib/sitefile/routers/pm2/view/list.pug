@@ -53,12 +53,12 @@ block main
         tr(class= app.name+muted)
           th(class= localpid_row)
             if app.pid
-              a(href= context.site.base+context.name+"/"+app.pm_id+".json")= app.pm_id
+              a(href= context.config.base+context.name+"/"+app.pm_id+".json")= app.pm_id
             else
               span= app.pm_id
           th(class= localpid_row)
             if app.pid
-              a(href=context.site.base+context.name+"/"+app.pm_id+".html")= app.name
+              a(href=context.config.base+context.name+"/"+app.pm_id+".html")= app.name
             else
               span= app.name
           td(class= states[st])= app.pm2_env.status
