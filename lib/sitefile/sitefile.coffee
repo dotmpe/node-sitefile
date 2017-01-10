@@ -49,7 +49,10 @@ get_local_sitefile_path = ( ctx={} ) ->
 
 get_local_sitefile = ( ctx={} ) ->
   get_local_sitefile_path ctx
-  sitefile = libconf.load_file ctx.config.sitefile.path
+  try
+    sitefile = libconf.load_file ctx.config.sitefile.path
+  catch err
+    throw new Error "Failed loading #{ctx.config.sitefile.path}: #{err}"
 
   sf_version = sitefile.sitefile
   if not semver.valid sf_version
