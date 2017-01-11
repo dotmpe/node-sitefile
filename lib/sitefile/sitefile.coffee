@@ -110,7 +110,6 @@ load_env = ( ctx={} ) ->
 
   _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
-=======
     env:
       name: process.env.NODE_ENV ? 'development'
       SITEFILE_PORT: process.env.SITEFILE_PORT
