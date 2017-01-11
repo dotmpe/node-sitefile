@@ -38,7 +38,7 @@
   },
   "scripts": {
     "install": " ./configure && grunt build-test",
-    "test": "./configure && grunt test || cat Sitefile.yaml",
+    "test": "./configure && grunt test",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
     "strict": "nodemon bin/sitefile.coffee --use_strict -w Sitefile.yaml -w lib/ -w bin/",
