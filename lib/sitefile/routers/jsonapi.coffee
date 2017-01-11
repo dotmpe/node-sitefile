@@ -11,7 +11,7 @@ module.exports = ( ctx ) ->
   generate:
     prefix: ( rctx ) ->
       # TODO: response with API json for any known route
-      #ctx.app.get ctx.site.base+rctx.name+'.json', (req, res) ->
+      #ctx.app.get ctx.config.base+rctx.name+'.json', (req, res) ->
       ( req, res ) ->
         res.type 'application/vnd.api+json'
         res.end()

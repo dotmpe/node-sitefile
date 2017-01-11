@@ -12,8 +12,10 @@ These are features in development for the v0.1/v0.0.1 roadmap.
    2. Server side templates (pug)
    3. Scripts (js, coffee, requirejs)
    4. Stylesheets (sass, less, styl)
-   5. Diagrams (gv, plantuml)
-   6. Data (bookshelf-api, db-feature-docs__)
+   5. Diagrams: graphs (gv), application modelling (plantuml), syntax ("rail
+      road") (diagram-feature-docs__).
+   6. Data: JSON, YAML, SQL (knex/bookshelf-api, db-feature-docs__),
+      JSON schema (Ajv).
    7. Resources (http)
    8. Services (pm2)
 

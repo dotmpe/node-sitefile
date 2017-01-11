@@ -50,7 +50,6 @@ module.exports = ( ctx={} ) ->
           res.end()
 
 #  route:
-#    base: ctx.site.base
 #    rst2html:
 #      get: (req, res, next) ->
 #

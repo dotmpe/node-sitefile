@@ -11,9 +11,8 @@ showStackError: true
 
 paths:
   routers_replace: false
-  routers: [
-    'sitefile:example/routers'
-  ]
+  routers:
+  - 'sitefile:example/routers'
 
 #autoExport:
 #  - rjs: /app/rjs
@@ -111,7 +110,7 @@ routes:
   # Three seperate resources, layered for the RequireJS client.
   # The JSON is a path object extracted from cdn.json, and a shim and map and
   # other RequireJS option objects.
-  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;baseUrl=/app;main=cs!sf-v0
+  app/rjs-sf-v0.json: rjs.config:paths="$ref":cdn.json#/js/http/packages;baseUrl=/app;main=cs!sf-v0
   # The JSON is wrapped in a script to initialize RequireJS
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
   # Finally a specific router is wired to display a pug template with all of the
@@ -184,23 +183,16 @@ options:
     du:
       link_stylesheets: true
       scripts:
-        $ref: '#/defs/scripts/default'
+        "$ref": '#/defs/scripts/default'
       stylesheets:
-        $ref: '#/defs/stylesheets/default'
+        "$ref": '#/defs/stylesheets/default'
     rst2html:
       link_stylesheets: true
       flags:
       - "--no-toc-backlinks"
       scripts:
-        $ref: '#/defs/scripts/default'
+        "$ref": '#/defs/scripts/default'
       stylesheets:
-        $ref: '#/defs/stylesheets/default'
-    #pug:
-    #  merge:
-    #    scripts:
-    #      $ref: '#/defs/scripts/default'
-    #    stylesheets:
-    #      $ref: '#/defs/stylesheets/default'
     gwc:
       pug:
         merge:
@@ -212,6 +204,7 @@ options:
             - rel: import
               href: /components/google-chart/google-chart.html
 
+        $ref: '#/defs/stylesheets/default'
     pm2:
       pug:
         merge:
@@ -222,6 +215,13 @@ options:
             - /vendor/jquery.js
           links: []
           clients: []
+    #pug:
+    #  merge:
+    #    scripts:
+    #      "$ref": '#/defs/scripts/default'
+    #    stylesheets:
+    #      "$ref": '#/defs/stylesheets/default'
+
 
   local:
     npm/node-sitefile/latest.json:
