@@ -106,11 +106,6 @@ load_env = ( ctx={} ) ->
     cwd: process.cwd()
     proc:
       name: path.basename process.argv[1]
-    log: log
-
-  _.defaultsDeep ctx,
-    pkg_file: path.join ctx.noderoot, 'package.json'
-=======
     env:
       name: process.env.NODE_ENV ? 'development'
       SITEFILE_PORT: process.env.SITEFILE_PORT
