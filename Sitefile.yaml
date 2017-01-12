@@ -150,17 +150,8 @@ options:
             - /vendor/jquery.js
           links: []
           clients: []
-    #pug:
-    #  merge:
-    #    scripts:
-    #      "$ref": '#/defs/scripts/default'
-    #    stylesheets:
-    #      "$ref": '#/defs/stylesheets/default'
-
 
   local:
-    shadows/: {}
-
     npm/node-sitefile/latest.json:
       spec:
         hostname: 'registry.npmjs.org'

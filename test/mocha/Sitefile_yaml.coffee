@@ -1,19 +1,17 @@
 # Id: node-sitefile/0.0.5-dev test/mocha/Sitefile_yaml.coffee
 
 _ = require 'lodash'
+fs = require 'fs'
 chai = require 'chai'
 #chai.use require 'chai-as-promised'
 expect = chai.expect
-
+yaml = require 'js-yaml'
 sewd = require 'selenium-webdriver'
 browser = require 'selenium-webdriver/testing'
-
 request = require 'request'
 Promise = require 'bluebird'
 
-
 lib = require '../../lib/sitefile'
-
 tu = require './../test-utils'
 
 
@@ -29,11 +27,20 @@ describe "The local Sitefile.yaml serves the local documentation, and \
   after stu.after.bind stu
 
 
+  it "parses the Sitefile", ->
+   
+    fn = 'Sitefile.yaml'
+    fp = fs.readFileSync fn, 'utf8'
+    data = yaml.safeLoad fp
+    
+
   describe "serves its own ReadMe, ChangeLog", ->
 
     it "without problems", stu.test_url_ok "/ReadMe"
 
     it "redirect ReadMe.rst", stu.test_url_redirected "/ReadMe.rst"
+
+    it "redirect root", stu.test_url_redirected "/"
 
     it "serve the correct type", stu.test_url_type_ok "/ReadMe", "html"
 

@@ -50,7 +50,7 @@ get_local_sitefile_path = ( ctx={} ) ->
 get_local_sitefile = ( ctx={} ) ->
   get_local_sitefile_path ctx
   try
-    sitefile = libconf.load_file ctx.config.sitefile.path
+    sitefile = libconf.load_file ctx.config.sitefile.path, {}, ctx
   catch err
     throw new Error "Failed loading #{ctx.config.sitefile.path}: #{err}"
 
@@ -90,7 +90,10 @@ load_sitefile = ( ctx ) ->
 
 load_rc = ( ) ->
   try
-    ctx = config: static: sitefile: libconf.load 'sitefilerc', get: suffixes: [ '' ], all: true
+    ctx = config: static: sitefile: libconf.load 'sitefilerc', {
+      get: suffixes: [ '' ], all: true
+      paths: prefixes: {}
+    }
   catch error
     if error instanceof liberror.types.NoFilesException
       ctx = config: static: sitefile: null
@@ -118,12 +121,17 @@ load_env = ( ctx={} ) ->
       site: {}
     paths:
       routers: []
+      prefixes:
+        'sitefile': ctx.sfdir+'/'
+        'sitefile-lib': ctx.sfdir+'/lib/sitefile/'
+        'sitefile-client': ctx.sfdir+'/lib/sitefile/client/'
     sitefile: {}
     routes:
       resources: {}
       directories: []
   if ctx.verbose == null
     ctx.verbose = ctx.env.name is 'development'
+  ctx
 
 
 load_config = ( ctx={} ) ->
@@ -230,7 +238,7 @@ proto_context = ( ctx ) ->
         "A path is required either provided by query or option '#{key}'"
 
     # Resolve to existing path
-    return Router.expand_path @res.path, @
+    return libconf.expand_path @res.path, @
 
   ctx
 
@@ -590,6 +598,7 @@ module.exports =
     prepare_context: prepare_context
     new_context: new_context
     load_config: load_config
+    load_env: load_env
     load_rc: load_rc
     Router: Router,
     Sitefile: Sitefile

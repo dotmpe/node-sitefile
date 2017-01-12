@@ -14,8 +14,9 @@ These are features in development for the v0.1/v0.0.1 roadmap.
    4. Stylesheets (sass, less, styl)
    5. Diagrams: graphs (gv), application modelling (plantuml), syntax ("rail
       road") (diagram-feature-docs__).
-   6. Data: JSON, YAML, SQL (knex/bookshelf-api, db-feature-docs__),
-      JSON schema (Ajv).
+   6. Data: JSON, YAML, JSON schema (Ajv), JSON references and pointers
+      (metadata-feature-docs__),
+      SQL (knex/bookshelf-api, db-feature-docs__)
    7. Resources (http)
    8. Services (pm2)
 
@@ -41,8 +42,10 @@ These are features in development for the v0.1/v0.0.1 roadmap.
 
 
 .. __: `Text Markup Feature`_
-.. __: `Router Feature`_
+.. __: `Diagram Feature`_
+.. __: `Metadata Feature`_
 .. __: `DB Feature`_
+.. __: `Router Feature`_
 .. __: `RequireJS Feature`_
 .. __: `HTML5 Client Feature`_
 

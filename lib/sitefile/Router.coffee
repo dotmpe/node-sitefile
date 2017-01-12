@@ -4,21 +4,10 @@ minimatch = require 'minimatch'
 glob = require 'glob'
 _ = require 'lodash'
 
+libconf = require '../conf'
 nodelib = require 'nodelib'
 Context = nodelib.Context
 
-
-
-expand_path = ( src, ctx ) ->
-  base = ctx.sfdir+'/'
-  if src.startsWith 'sitefile:'
-    return src.replace 'sitefile:', base
-  libdir = base+'lib/sitefile/'
-  if src.startsWith 'sitefile-lib:'
-    return src.replace 'sitefile-lib:', libdir
-  if src.startsWith 'sitefile-client:'
-    return src.replace 'sitefile-client:', libdir+'client/'
-  src
 
 
 expand_paths_spec_to_route = ( rctx ) ->
@@ -30,7 +19,7 @@ expand_paths_spec_to_route = ( rctx ) ->
     # Or fall back to verbatim route name as path
     srcs = [ rctx.name ]
   for src, idx in srcs
-    srcs[idx] = expand_path src, rctx
+    srcs[idx] = libconf.expand_path src, rctx
   return srcs
 
 
@@ -322,7 +311,6 @@ module.exports =
 
   # XXX: spec parse helper
   expand_paths_spec_to_route: expand_paths_spec_to_route
-  expand_path: expand_path
 
   # XXX: spec parse helper
   parse_kw_spec: ( rctx ) ->
@@ -333,22 +321,4 @@ module.exports =
       k = spec.substr(0, x)
       kw[k] = spec.substr x+1
     kw
-
-  # XXX: Read JSON + jspath
-  read_xref: ( ctx, spec ) ->
-    if '#' not in spec
-      throw new Error spec
-    [ jsonf, spec ] = spec.split '#'
-    jsonf = expand_path jsonf, ctx
-    if not jsonf.startsWith path.sep
-      jsonf = path.join ctx.cwd, jsonf
-    p = spec.split '/'
-    if not p[0]
-      p.shift()
-    o = require jsonf
-    c = o
-    while p.length
-      e = p.shift()
-      c = c[e]
-    return c
 

@@ -2,9 +2,9 @@ chai = require 'chai'
 expect = chai.expect
 request = require 'request'
 Promise = require 'bluebird'
+yaml = require 'js-yaml'
 
 lib = require '../../lib/sitefile'
-
 tu = require '../test-utils'
 
 

@@ -24,7 +24,7 @@ class SitefileTestUtils
     process.env.NODE_ENV = 'testing'
     @cwd = process.cwd()
     @server = {}
-    @ctx = {}
+    @ctx = require('../lib/sitefile/sitefile').load_env {}
     # JSON schema
     @schema = {}
     @schemaSrc = {}
@@ -138,7 +138,7 @@ class SitefileTestUtils
 
   load_ajv_schema: ( name, filepath ) ->
     @schemaSrc[name] = path.join @cwd, filepath
-    @schemaSrcData[name] = libconf.load_file @schemaSrc[name]
+    @schemaSrcData[name] = libconf.load_file @schemaSrc[name], {}, @ctx
     if _.isEmpty @schemaSrcData[name]
       throw new Error "No data for #{name} (#{filepath})"
     @schema[name] = ajv.compile @schemaSrcData[name]

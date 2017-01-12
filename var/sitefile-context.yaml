@@ -61,6 +61,8 @@ properties:
         type: array
       bundles:
         type: array
+      prefixes:
+        type: object
     additionalProperties: false
   config:
     type: object
