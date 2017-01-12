@@ -6,6 +6,9 @@ expect = chai.expect
 request = require 'request'
 Promise = require 'bluebird'
 Ajv = require 'ajv'
+yaml = require 'js-yaml'
+
+libconf = require '../lib/conf'
 
 ajv = new Ajv()
 
@@ -134,15 +137,15 @@ class SitefileTestUtils
         reject(new Error("Validator exception: #{err}"))
 
   load_ajv_schema: ( name, filepath ) ->
-    @schemaSrc[name] = path.join process.cwd(), filepath
-    @schemaSrcData[name] = require @schemaSrc[name]
+    @schemaSrc[name] = path.join @cwd, filepath
+    @schemaSrcData[name] = libconf.load_file @schemaSrc[name]
     if _.isEmpty @schemaSrcData[name]
       throw new Error "No data for #{name} (#{filepath})"
     @schema[name] = ajv.compile @schemaSrcData[name]
 
 
 
-module.exports = {}
+module.exports = ajv: ajv
 
 module.exports.SitefileTestUtils = SitefileTestUtils
 

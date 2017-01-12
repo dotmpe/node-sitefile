@@ -93,7 +93,7 @@ routes:
   # Three seperate resources, layered for the RequireJS client.
   # The JSON is a path object extracted from cdn.json, and a shim and map and
   # other RequireJS option objects.
-  app/rjs-sf-v0.json: rjs.config:paths="$ref":cdn.json#/js/http/packages;baseUrl=/app;main=cs!sf-v0
+  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;baseUrl=/app;main=cs!sf-v0
   # The JSON is wrapped in a script to initialize RequireJS
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
   # Finally a specific router is wired to display a pug template with all of the
