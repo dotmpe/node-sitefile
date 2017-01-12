@@ -109,7 +109,7 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
           res.write "requirejs.config(#{data});"
           res.end()
 
-        url = ctx.config.base+rctx.route.spec
+        url = ctx.base()+rctx.route.spec
 
         if fs.existsSync rctx.route.spec
           p = path.join ctx.cwd, rctx.route.spec

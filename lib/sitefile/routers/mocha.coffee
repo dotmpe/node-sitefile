@@ -120,7 +120,7 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
 
         # Test file
-        dud = path.join ctx.config.base, req.params[0]
+        dud = path.join ctx.base(), req.params[0]
 
         # Suffix to test spec
         query = _.defaultsDeep req.query, rctx.route.query

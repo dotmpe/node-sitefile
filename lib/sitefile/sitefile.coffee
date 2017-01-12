@@ -49,7 +49,10 @@ get_local_sitefile_path = ( ctx={} ) ->
 
 get_local_sitefile = ( ctx={} ) ->
   get_local_sitefile_path ctx
-  sitefile = libconf.load_file ctx.config.sitefile.path
+  try
+    sitefile = libconf.load_file ctx.config.sitefile.path
+  catch err
+    throw new Error "Failed loading #{ctx.config.sitefile.path}: #{err}"
 
   sf_version = sitefile.sitefile
   if not semver.valid sf_version
@@ -85,15 +88,15 @@ load_sitefile = ( ctx ) ->
 
 
 
-load_rc = ( ctx ) ->
+load_rc = ( ) ->
   try
-    ctx.static = libconf.load 'sitefilerc', get: suffixes: [ '' ], all: true
+    ctx = config: static: sitefile: libconf.load 'sitefilerc', get: suffixes: [ '' ], all: true
   catch error
     if error instanceof liberror.types.NoFilesException
-      ctx.static = null
+      ctx = config: static: sitefile: null
     else
       throw error
-  ctx.static
+  ctx
 
 
 load_env = ( ctx={} ) ->
@@ -111,7 +114,8 @@ load_env = ( ctx={} ) ->
     config:
       static: {}
       sitefile: {}
-    settings: {}
+    settings:
+      site: {}
     paths:
       routers: []
     sitefile: {}
@@ -120,9 +124,6 @@ load_env = ( ctx={} ) ->
       directories: []
   if ctx.verbose == null
     ctx.verbose = ctx.env.name is 'development'
-  if ctx.env.SITEFILE_PORT
-    ctx.config.port = ctx.env.SITEFILE_PORT
-
 
 
 load_config = ( ctx={} ) ->
@@ -150,7 +151,8 @@ load_sitefile_ctx = ( ctx ) ->
   load_sitefile ctx
 
   # Map some sitefile attributes to root
-  ctx = _.defaultsDeep _.pick( ctx.sitefile, [ 'host', 'port', 'base' ] ), ctx
+  ctx.settings.site = _.defaultsDeep {},
+    _.pick( ctx.sitefile, [ 'host', 'port', 'base' ] ), ctx.settings.site
 
   if 'paths' of ctx.sitefile and ctx.sitefile.paths
     if 'routers' of ctx.sitefile.paths and ctx.sitefile.paths.routers
@@ -167,6 +169,15 @@ load_sitefile_ctx = ( ctx ) ->
 
 
 proto_context = ( ctx ) ->
+
+  Context::base = ( ) ->
+    return @settings.site.base
+  Context::host = ( ) ->
+    return @settings.site.host
+  Context::port = ( ) ->
+    return @settings.site.port
+  Context::netpath = ( ) ->
+    return @settings.site.netpath
 
   Context::get_auto_export = ( router_name ) ->
 
@@ -233,24 +244,29 @@ prepare_context = ( ctx={} ) ->
   _.defaultsDeep ctx, load_sitefile_ctx(ctx)
 
   _.defaultsDeep ctx,
-    config:
-      host: ''
-      port: 8081
-      base: '/'
-      netpath: null
-  ctx.config.netpath = "//"+ctx.config.host+':'+ctx.config.port+ctx.config.base
+    settings:
+      site:
+        host: ''
+        port: 8081
+        base: '/'
+        netpath: null
 
-  _.defaultsDeep ctx,
-    bundles: {}
-    paths: # TODO: configure lookup paths
-      routers: [
+  ctx.settings.site.netpath = "//"+ctx.settings.site.host+':'\
+                               +ctx.settings.site.port+ctx.settings.site.base
+
+  if ctx.env.SITEFILE_PORT
+    ctx.settings.site.port = ctx.env.SITEFILE_PORT
+
+  ctx.paths.routers = _.union ctx.paths.routers, [
         'sitefile:lib/sitefile/routers'
         'sitefile:var/sitefile/routers'
       ]
-      bundles: [
+  ctx.paths.bundles = _.union ctx.paths.bundles, [
         'sitefile:lib/sitefile/bundles'
         'sitefile:var/sitefile/bundles'
       ]
+
+  ctx
 
 new_context = ( ctx={} ) ->
 
@@ -417,7 +433,7 @@ class Sitefile
         warn "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
 
-      if route.startsWith '/' or route.startsWith ctx.config.base
+      if route.startsWith '/' or route.startsWith ctx.base()
         warn "Non-relative route", "Route path should not include root '/' or
           base prefix, are you sure #{route} is correct?"
 
@@ -459,8 +475,8 @@ class Sitefile
 
         # Detect routable extension
         rs = rctx.res
-        if rs.path and (ctx.config.base+rs.path).startsWith(rs.ref) and (
-          rs.ref+rs.extname is ctx.config.base+rs.path
+        if rs.path and (ctx.base()+rs.path).startsWith(rs.ref) and (
+          rs.ref+rs.extname is ctx.base()+rs.path
         )
           # FIXME: policy on extensions
           ctx.redir rs.ref+rs.extname, rs.ref
@@ -569,6 +585,7 @@ module.exports =
     version: version
     get_local_sitefile_path: get_local_sitefile_path
     get_local_sitefile: get_local_sitefile
+    load_sitefile_ctx: load_sitefile_ctx
     proto_context: proto_context
     prepare_context: prepare_context
     new_context: new_context

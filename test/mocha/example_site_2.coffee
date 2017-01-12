@@ -1,5 +1,3 @@
-
-
 chai = require 'chai'
 expect = chai.expect
 request = require 'request'
@@ -26,4 +24,18 @@ describe "Example site 2", ->
       expect( stu.ctx.sitefile ).to.not.have.ownProperty 'defaults'
       expect( stu.ctx.sitefile ).to.not.have.ownProperty 'defs'
     it "TOTEST: runs on 0.0.4?", ->
+
+
+  describe 'Root context', ->
+
+    stu.load_ajv_schema 'sfctx_v', 'var/sitefile-context.yaml'
+
+
+    it 'Should be valid (I)', ->
+
+      ctx_v = stu.schema.sfctx_v
+      ctx = lib.prepare_context()
+      if not ctx_v ctx
+        throw new Error '\n'+ yaml.dump ctx_v.errors
+
 

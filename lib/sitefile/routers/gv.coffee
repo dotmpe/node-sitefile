@@ -60,8 +60,12 @@ module.exports = ( ctx={} ) ->
   generate:
     default: ( rctx ) ->
 
+      # Default redirect to PNG
+      ctx.redir rctx.res.ref, rctx.res.ref+'.png'
+
       # PNG handler
-      ctx.app.get rctx.res.ref+'.png', ( req, res ) ->
+      #ctx.app.get rctx.res.ref+'.png', 
+      ( req, res ) ->
         ctx._routers.get('gv').promise.resource(
           src: rctx.res.path
           format: 'png'
@@ -77,8 +81,4 @@ module.exports = ( ctx={} ) ->
           res.write String(error)
           res.end()
 
-      # Default redirect to PNG
-      ctx.redir rctx.res.ref, rctx.res.ref+'.png'
-
-      null
       
