@@ -21,6 +21,7 @@
 .. _HTML5 Client Feature: feature-client.rst
 .. _Gherkin Feature: feature-gherkin.rst
 .. _Diagram Feature: feature-diagram.rst
+.. _Metadata Feature: feature-metadata.rst
 
 .. _dev: /doc/dev.rst
 

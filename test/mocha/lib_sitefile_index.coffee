@@ -8,6 +8,7 @@ lib = require '../../lib/sitefile'
 pkg = require '../../package.json'
 
 tu = require '../test-utils'
+yaml = require 'js-yaml'
 
 
 describe 'Module sitefile', ->
@@ -62,6 +63,35 @@ describe 'Module sitefile', ->
       # TODO: skip
 
 
+  describe 'Root context', ->
+
+    it 'Should be valid (site 0)', ->
+      stu = new tu.SitefileTestUtils 'example/site/0'
+      stu.load_ajv_schema 'sfctx_v', 'var/sitefile-context.yaml'
+
+      ctx_v = stu.schema.sfctx_v
+      ctx = lib.prepare_context()
+      if not ctx_v ctx
+        throw new Error '\n'+ yaml.dump ctx_v.errors
+
+
+    it 'Should be valid (site 1)', ->
+      stu = new tu.SitefileTestUtils 'example/site/1'
+      stu.load_ajv_schema 'sfctx_v', 'var/sitefile-context.yaml'
+
+      ctx_v = stu.schema.sfctx_v
+      ctx = lib.prepare_context()
+      if not ctx_v ctx
+        throw new Error '\n'+ yaml.dump ctx_v.errors
+
+    it 'Should load settings from the sitefile', ->
+      ctx = lib.prepare_context()
+      expect( ctx.settings.site.port ).to.eql 7012
+      lib.load_sitefile_ctx ctx
+      expect( ctx.sitefile.port ).to.be.undefined
+      expect( ctx.settings.site.port ).to.eql 7012
+
+
   describe '.new_context', ->
 
     it 'Should return an object', ->
@@ -78,9 +108,9 @@ describe 'Module sitefile', ->
     it 'Should export options', ->
       ctx = {}
       lib.new_context ctx
-      sfctx = ( "bundles config cwd env "+
+      sfctx = ( "config cwd env "+
         "log noderoot paths pkg proc routes settings "+
-        "sitefile sitefilerc static verbose version"
+        "sitefile verbose version"
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()
@@ -93,7 +123,7 @@ describe 'Module sitefile', ->
 
     it 'Should load rc ', ->
       ctx = lib.new_context()
-      expect( ctx.sitefilerc ).to.eql pkg.version
+      expect( ctx.config.static.sitefile.sitefilerc ).to.eql pkg.version
 
 
     it 'Should load the sitefile', ->

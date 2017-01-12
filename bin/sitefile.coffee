@@ -69,23 +69,23 @@ sitefile_cli = module.exports =
 
     # serve forever
     if ctx.verbose
-      console.log "Starting server at localhost:#{ctx.config.port}"
-    if ctx.config.host
-      proc = ctx.server.listen ctx.config.port, ctx.config.host, ->
+      console.log "Starting server at localhost:#{ctx.port()}"
+    if ctx.host()
+      proc = ctx.server.listen ctx.port(), ctx.host(), ->
         if ctx.verbose
-          lib.log "Listening", "Express server on port #{ctx.config.port}. "
+          lib.log "Listening", "Express server on port #{ctx.port()}. "
         !done || done()
     else
-      proc = ctx.server.listen ctx.config.port, ->
+      proc = ctx.server.listen ctx.port(), ->
         if ctx.verbose
-          lib.log "Listening", "Express server on port #{ctx.config.port}. "
+          lib.log "Listening", "Express server on port #{ctx.port()}. "
         !done || done()
 
     # "Export"
-    sitefile_cli.host = module.exports.host = ctx.config.host
-    sitefile_cli.port = module.exports.port = ctx.config.port
-    sitefile_cli.path = module.exports.path = ctx.config.base
-    sitefile_cli.netpath = module.exports.netpath = ctx.config.netpath
+    sitefile_cli.host = module.exports.host = ctx.host()
+    sitefile_cli.port = module.exports.port = ctx.port()
+    sitefile_cli.path = module.exports.path = ctx.base()
+    sitefile_cli.netpath = module.exports.netpath = ctx.settings.site.netpath
 
     sitefile_cli.root = module.exports.root = ctx
     sitefile_cli.proc = module.exports.proc = proc

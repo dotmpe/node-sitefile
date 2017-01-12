@@ -1,4 +1,5 @@
 # Id: node-sitefile/0.0.5-dev test/mocha/lib_dotmpe_conf.coffee
+path = require 'path'
 chai = require 'chai'
 expect = chai.expect
 
@@ -25,18 +26,26 @@ describe "Module conf", ->
       expect( rcs ).to.eql [ '.sitefilerc' ]
 
 
+  describe ".expand_path", ->
+
+    it "-", ->
+      expect( libconf.expand_path 'lib:foo' ).to.be.a.string
+      expected = path.join process.cwd(), 'lib', 'foo'
+      expect( libconf.expand_path 'lib:foo' ).to.be.eql expected
+
+
   describe ".load_file:", ->
 
     it "Should load the data of a sitefilerc", ->
       rc = libconf.get 'sitefilerc', suffixes: [ '' ]
-      data = libconf.load_file rc
+      data = libconf.load_file rc, {}, paths: data: {}
       expect( data ).to.eql sitefilerc: pkg.version
 
 
   describe ".load", ->
 
     it "Should load the data of the nearest sitefilerc", ->
-      data = libconf.load 'sitefilerc', get: suffixes: [ '' ]
+      data = libconf.load 'sitefilerc'
       expect( data ).to.eql sitefilerc: pkg.version
 
 

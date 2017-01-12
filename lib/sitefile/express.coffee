@@ -29,7 +29,7 @@ module.exports = (ctx={}) ->
 
   app.set 'env', ctx.env.name
 
-  app.set 'port', ctx.config.port
+  app.set 'port', ctx.port()
 
   ctx.server = require("http").createServer(app)
 

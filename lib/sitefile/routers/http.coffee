@@ -129,7 +129,7 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
         f = _.defaultsDeep {}, req.params
         if f.format not of cdn
-          err = "No format #{f.format}"
+          err = "No format '#{f.format}' (#{rctx.route.spec})"
           res.status 500
           res.write err
           res.end()

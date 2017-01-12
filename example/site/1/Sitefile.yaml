@@ -1,0 +1,8 @@
+sitefile: 0.0.4
+
+port: 7033
+
+routes: 
+  main: static:main.html
+  '': redir:main
+
