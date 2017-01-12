@@ -64,7 +64,6 @@ module.exports = ( ctx={} ) ->
       ctx.redir rctx.res.ref, rctx.res.ref+'.png'
 
       # PNG handler
-      #ctx.app.get rctx.res.ref+'.png', 
       ( req, res ) ->
         ctx._routers.get('gv').promise.resource(
           src: rctx.res.path
