@@ -4,9 +4,6 @@ chai = require 'chai'
 #chai.use require 'chai-as-promised'
 expect = chai.expect
 
-sewd = require 'selenium-webdriver'
-browser = require 'selenium-webdriver/testing'
-
 request = require 'request'
 Promise = require 'bluebird'
 
@@ -57,14 +54,21 @@ describe "The local Sitefile.yaml serves the local documentation, and \
   
       describe "that loads a page that", ->
 
+        sewd = require 'selenium-webdriver'
+        browser = require 'selenium-webdriver/testing'
+
         before ->
           if stu.ctx.verbose
             console.log 'requesting', stu.env_browser()
-          @driver = new sewd.Builder().
-            withCapabilities(
-              browserName: stu.env_browser()
-            ).
-            build()
+          try
+            @driver = new sewd.Builder().
+              withCapabilities(
+                browserName: stu.env_browser()
+              ).
+              build()
+          catch err
+            console.warn err
+            this.skip()
           chai.use require('chai-webdriver') @driver
 
         beforeEach ->

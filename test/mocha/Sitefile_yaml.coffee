@@ -6,8 +6,6 @@ chai = require 'chai'
 #chai.use require 'chai-as-promised'
 expect = chai.expect
 yaml = require 'js-yaml'
-sewd = require 'selenium-webdriver'
-browser = require 'selenium-webdriver/testing'
 request = require 'request'
 Promise = require 'bluebird'
 

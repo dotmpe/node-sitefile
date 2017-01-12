@@ -3,6 +3,7 @@
   "connection": {
     "filename": "./knex.sqlite"
   },
+  "useNullAsDefault": true,
   "migrations": {
     "directory": "./migrate",
     "tableName": "migrations"

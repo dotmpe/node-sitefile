@@ -66,8 +66,6 @@ module.exports = ( ctx ) ->
         api = load_or_get_api rctx
 
         sitefile.log 'Bookshelf API from', rctx.res.path
-        ctx.app.use ctx.base()+rctx.name, api
-
         ctx.app.get ctx.base()+rctx.name+'/debug', (req, res) ->
           d = {}
           _ctx = rctx
@@ -76,6 +74,9 @@ module.exports = ( ctx ) ->
             _ctx = _ctx.context
           res.write JSON.stringify d
           res.end()
+
+        # XXX: ctx.app.use ctx.base()+rctx.name, api
+        return api
 
       else if 'spec' of rctx.res
         api = get_api rctx
