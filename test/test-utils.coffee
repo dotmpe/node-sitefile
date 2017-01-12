@@ -138,7 +138,10 @@ class SitefileTestUtils
 
   load_ajv_schema: ( name, filepath ) ->
     @schemaSrc[name] = path.join @cwd, filepath
-    @schemaSrcData[name] = libconf.load_file @schemaSrc[name], {}, @ctx
+    if '#' in filepath
+      @schemaSrcData[name] = libconf.read_xref @ctx, @schemaSrc[name]
+    else
+      @schemaSrcData[name] = libconf.load_file @schemaSrc[name], {}, @ctx
     if _.isEmpty @schemaSrcData[name]
       throw new Error "No data for #{name} (#{filepath})"
     @schema[name] = ajv.compile @schemaSrcData[name]

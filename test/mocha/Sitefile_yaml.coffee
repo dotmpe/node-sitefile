@@ -27,11 +27,15 @@ describe "The local Sitefile.yaml serves the local documentation, and \
   after stu.after.bind stu
 
 
+  stu.load_ajv_schema 'sf', 'var/sitefile-context.yaml#/definitions/sitefile'
+
   it "parses the Sitefile", ->
    
     fn = 'Sitefile.yaml'
     fp = fs.readFileSync fn, 'utf8'
     data = yaml.safeLoad fp
+    if not stu.schema.sf data
+      throw new Error '\n'+ yaml.dump stu.schema.sf.errors
     
 
   describe "serves its own ReadMe, ChangeLog", ->

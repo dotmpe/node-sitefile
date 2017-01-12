@@ -28,6 +28,7 @@ defaults =
     ext: '.yml'
 
   expand_path:
+    cwd: process.cwd()
     paths:
       prefixes:
         lib: __dirname+'/'
@@ -94,7 +95,7 @@ read_xref = ( ctx, spec ) ->
     The spec can be a filename or local JSON reference with fragment pointer.
     See feature-metadata docs.
   ###
-  if '#' not in spec
+  if not spec or '#' not in spec
     throw new Error spec
   [ datafn, spec ] = spec.split '#'
   o = load_file datafn, ctx

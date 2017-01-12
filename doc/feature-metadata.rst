@@ -16,6 +16,21 @@ JSON Reference and Pointers
   - https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03
   - https://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-04
 
+  Pointer ABNF::
+
+		 json-pointer        = *( "/" reference-token )
+		 reference-token     = *( unescaped / escaped )
+		 unescaped           = %x00-2E / %x30-7D / %x7F-10FFFF
+		 escaped             = "~" ( "0" / "1" )
+
+  Pointer EBNF::
+
+		 json-pointer      ::= ( "/" reference-token )*
+		 reference-token   ::= ( unescaped / escaped )*
+		 unescaped         ::= [#x00-#x2E] | [#x30-#x7D] | [#x7F-#x10FFFF]
+		 escaped           ::= "~" ( "0" | "1" )
+
+
 JSON Path
   Alternatively, for more complex queries a port of XPath technology is
   available in NPM.
