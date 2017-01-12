@@ -15,7 +15,7 @@ tu = require './../test-utils'
 
 
 describe "The local Sitefile.yaml serves the local documentation, and \
- doubles as an example for all handlers. Starting a server instance", ->
+ doubles as an example for all handlers. The server ", ->
 
 
   stu = new tu.SitefileTestUtils()

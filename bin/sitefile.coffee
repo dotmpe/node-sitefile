@@ -110,10 +110,12 @@ else if process.argv[1].endsWith('sitefile') \
     
   sitefile_cli.run()
 
-# XXX:
-#else
-#  lib.warn "Invalid argument:", process.argv[2]
-#  process.exit(1)
+else if process.env.NODE_ENV == 'testing'
+  null
+
+else
+  lib.warn "Invalid argument:", process.argv[2]
+  process.exit(1)
 
 
 # Id: node-sitefile/0.0.5-dev bin/sitefile.coffee
