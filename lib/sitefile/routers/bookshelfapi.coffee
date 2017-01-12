@@ -66,9 +66,9 @@ module.exports = ( ctx ) ->
         api = load_or_get_api rctx
 
         sitefile.log 'Bookshelf API from', rctx.res.path
-        ctx.app.use ctx.site.base+rctx.name, api
+        ctx.app.use ctx.config.base+rctx.name, api
 
-        ctx.app.get ctx.site.base+rctx.name+'/debug', (req, res) ->
+        ctx.app.get ctx.config.base+rctx.name+'/debug', (req, res) ->
           d = {}
           _ctx = rctx
           while _ctx

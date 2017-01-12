@@ -55,7 +55,7 @@ sitefile_cli = module.exports =
     options.sfdir = path.dirname __dirname
 
     # prepare context and config data, loads sitefile
-    ctx = lib.prepare_context options
+    ctx = lib.new_context options
     if _.isEmpty ctx.sitefile.routes
       lib.warn 'No routes'
       process.exit()
@@ -67,27 +67,25 @@ sitefile_cli = module.exports =
     # further Express setup using sitefile
     sf = new lib.Sitefile ctx
 
-    ctx.site.netpath = "//"+ctx.site.host+':'+ctx.site.port+ctx.site.base
-
     # serve forever
     if ctx.verbose
-      console.log "Starting server at localhost:#{ctx.site.port}"
-    if ctx.site.host
-      proc = ctx.server.listen ctx.site.port, ctx.site.host, ->
+      console.log "Starting server at localhost:#{ctx.config.port}"
+    if ctx.config.host
+      proc = ctx.server.listen ctx.config.port, ctx.config.host, ->
         if ctx.verbose
-          lib.log "Listening", "Express server on port #{ctx.site.port}. "
+          lib.log "Listening", "Express server on port #{ctx.config.port}. "
         !done || done()
     else
-      proc = ctx.server.listen ctx.site.port, ->
+      proc = ctx.server.listen ctx.config.port, ->
         if ctx.verbose
-          lib.log "Listening", "Express server on port #{ctx.site.port}. "
+          lib.log "Listening", "Express server on port #{ctx.config.port}. "
         !done || done()
 
     # "Export"
-    sitefile_cli.host = module.exports.host = ctx.site.host
-    sitefile_cli.port = module.exports.port = ctx.site.port
-    sitefile_cli.path = module.exports.path = ctx.site.base
-    sitefile_cli.netpath = module.exports.netpath = ctx.site.netpath
+    sitefile_cli.host = module.exports.host = ctx.config.host
+    sitefile_cli.port = module.exports.port = ctx.config.port
+    sitefile_cli.path = module.exports.path = ctx.config.base
+    sitefile_cli.netpath = module.exports.netpath = ctx.config.netpath
 
     sitefile_cli.root = module.exports.root = ctx
     sitefile_cli.proc = module.exports.proc = proc

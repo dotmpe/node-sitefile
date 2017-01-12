@@ -90,14 +90,14 @@
     "stylus": "^0.54.5"
   },
   "devDependencies": {
-    "ajv": "^4.10.3",
+    "ajv": "^4.10.4",
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
     "chai-webdriver": "^1.2.0",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.12.2",
     "coffeelint": "^1.15.7",
-    "cucumber": "^2.0.0-rc.5",
+    "cucumber": "^2.0.0-rc.6",
     "gherkin": "^4.0.0",
     "grunt": "^0.4.5",
     "grunt-cli": "^1.2.0",
