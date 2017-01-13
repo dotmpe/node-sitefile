@@ -50,6 +50,14 @@ test_for_fe = ( name ) ->
     return
 
 
+add_base = ( rawhtml, base='/' ) ->
+  base_tag = '<base href="'+base+'" />'
+  rawhtml.replace '</head>', base_tag+' </head>'
+
+add_meta = ( rawhtml, name, value ) ->
+  meta_tag = '<meta name="'+name+'" content="'+value+'" />'
+  rawhtml.replace '</head>', meta_tag+' </head>'
+
 add_script = ( rawhtml, javascript_url, base='/' ) ->
   url = sitefile.expand_url javascript_url, base
   sitefile.log "du:rst2html:addscript", url
@@ -95,6 +103,10 @@ rst2html = ( out, params={} ) ->
 
       else if prm.format == 'html'
         out.type 'html'
+        # Add href base, and instruct dhtml.js to rewrite absolute refs too
+        stdout = add_base stdout, prm.base
+        stdout = add_meta stdout, 'sf:base:prefix', 'on'
+        # Insert scripts, CSS is already embedded/linked by Du
         if prm.scripts
           for script in prm.scripts
             if 'object' is typeof script

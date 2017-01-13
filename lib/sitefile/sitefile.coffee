@@ -185,13 +185,13 @@ expand_url = ( url, base='/' ) ->
 
 proto_context = ( ctx ) ->
 
-  Context::base = ( ) ->
+  Context::base = ->
     return @settings.site.base
-  Context::host = ( ) ->
+  Context::host = ->
     return @settings.site.host
-  Context::port = ( ) ->
+  Context::port = ->
     return @settings.site.port
-  Context::netpath = ( ) ->
+  Context::netpath = ->
     return @settings.site.netpath
 
   Context::expand_urls = ( p, k='url' ) ->

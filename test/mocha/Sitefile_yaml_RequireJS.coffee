@@ -37,18 +37,18 @@ describe "The local Sitefile.yaml serves the local documentation, and \
           expect(obj.merge.clients).to.eql [{
             type: 'require-js'
             id: 'require-js-sitefile-v0-app'
-            href: '/vendor/require.js'
-            main: '/app/rjs-sf-v0.js'
+            href: 'vendor/require.js'
+            main: 'app/rjs-sf-v0.js'
           }]
           expect(obj.merge.stylesheets).to.eql [
-            '/vendor/bootstrap.css'
-            '/vendor/jquery-ui.css'
+            'vendor/bootstrap.css'
+            'vendor/jquery-ui.css'
           ]
           clients = stu.ctx.resolve \
                     'sitefile.options.local.app/v0.merge.clients'
           expect(clients).to.be.a 'array'
           expect(clients[0].type).to.equal 'require-js'
-          expect(clients[0].href).to.equal '/vendor/require.js'
+          expect(clients[0].href).to.equal 'vendor/require.js'
           stu.test_url_type_ok(clients[0].main, "application/javascript")
 
   

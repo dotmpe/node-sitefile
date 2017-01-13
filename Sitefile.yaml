@@ -19,6 +19,7 @@ paths:
 
 routes:
 
+  media/script/dhtml.js: coffee:lib/sitefile/client/dhtml.coffee
   media/script/sitefile-client.js: static:build/client/sf-v0.js
   media/style: static:build/style
 
@@ -60,7 +61,6 @@ routes:
 
   # Dynamic rules using glob spec
   _du: du:**/*.rst
-  media/script/du.js: coffee:lib/sitefile/client/du.coffee
 
   #_rst2html: rst2html:**/*.rst
   gitflow: du:.gitflow.rst
@@ -142,6 +142,13 @@ options:
         "$ref": '#/defs/scripts/default'
       stylesheets:
         "$ref": '#/defs/stylesheets/default'
+    markdown:
+      pug:
+        merge:
+          scripts:
+            "$ref": '#/defs/scripts/default'
+          stylesheets:
+            "$ref": '#/defs/stylesheets/default'
     pm2:
       pug:
         merge:
@@ -204,13 +211,12 @@ defs:
       - vendor/coffee-script.js
       #- src: /media/script/sitefile-client.js
       #  path: build/client/default.js
-      - media/script/du.js
+      - media/script/dhtml.js
   stylesheets:
     default:
-      - url: vendor/bootstrap.css
-      - url: vendor/bootstrap-theme.css
-      - url: media/style/default.css
-        path: build/style/default.css
+      - href: vendor/bootstrap.css
+      - href: vendor/bootstrap-theme.css
+      - href: media/style/default.css
 
   app:
     v0:

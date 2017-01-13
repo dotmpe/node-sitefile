@@ -44,6 +44,10 @@ module.exports = ( ctx={} ) ->
 
     default: ( rctx ) ->
       pug = ctx._routers.get 'pug'
+      rctx.expand_urls 'route.options.pug.merge.stylesheets', 'href'
+      rctx.expand_urls 'route.options.pug.merge.scripts', 'src'
+      rctx.expand_urls 'route.options.pug.merge.clients', 'href'
+      rctx.expand_urls 'route.options.pug.merge.clients', 'main'
       ( req, res ) ->
         sitefile.log 'Markdown default html publish', rctx.res.path
         data = fs.readFileSync rctx.res.path
