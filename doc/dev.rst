@@ -26,6 +26,7 @@ These are features in development for the v0.1/v0.0.1 roadmap.
    2. Static resources
    3. Planned: variant resources
    4. Work in progress: proxy resources
+   5. work in progress, to test: can work at any (URL) path prefix
 
 3. work in progress: re-usable, and distributed packages of routes and
    resources.

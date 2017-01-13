@@ -73,7 +73,7 @@
     "lodash": "^4.16.1",
     "mime-types": "^2.1.13",
     "minimatch": "^3.0.3",
-    "nodelib": "https://github.com/dotmpe/nodelib.git",
+    "nodelib": "https://github.com/dotmpe/nodelib.git#dev",
     "qs": "6.3.0",
     "request-promise": "^4.1.1",
     "semver": "^5.3.0"
