@@ -1,0 +1,109 @@
+
+definitions:
+
+  sitefile: &sitefile
+    type: object
+    properties:
+      sitefile:
+        type: string
+      port:
+        type: number
+      showStackError:
+        type: boolean
+      paths:
+        type: object
+        properties:
+          routers_replace:
+            type: boolean
+          routers:
+            type: array
+        additionalProperties: false
+      routes:
+        type: object
+        additionalProperties: true
+      options:
+        type: object
+        properties:
+          local:
+            type: object
+          global:
+            type: object
+        additionalProperties: false
+    #additionalProperties: false
+    required:
+    - sitefile
+    - routes
+
+
+$schema: http://json-schema.org/draft-04/schema#
+title:  ""
+description: ""
+
+type: object
+properties:
+  version:
+    type: string
+  noderoot:
+    type: string
+  cwd:
+    type: string
+  proc:
+    type: object
+  log: {}
+  env:
+    type: object
+  verbose:
+    type: boolean
+  paths:
+    type: object
+    properties:
+      routers:
+        type: array
+      bundles:
+        type: array
+      prefixes:
+        type: object
+    additionalProperties: false
+  config:
+    type: object
+    properties:
+      name:
+        type: string
+      static:
+        type: object
+      sitefile:
+        type: object
+        #additionalProperties: false
+    additionalProperties: false
+  settings:
+    type: object
+    properties:
+      site:
+        type: object
+        properties:
+          host:
+            type: string
+          port:
+            type: number
+          base:
+            type: string
+          netpath:
+            type: string
+        additionalProperties: false
+    additionalProperties: false
+  sitefile:
+    <<: *sitefile
+  routes:
+    type: object
+  sitefilerc: {}
+  pkg:
+    type: object
+additionalProperties: false
+required:
+  - version
+  - noderoot
+  - cwd
+  - config
+  - settings
+  - sitefile
+

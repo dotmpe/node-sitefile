@@ -55,7 +55,7 @@ sitefile_cli = module.exports =
     options.sfdir = path.dirname __dirname
 
     # prepare context and config data, loads sitefile
-    ctx = lib.prepare_context options
+    ctx = lib.new_context options
     if _.isEmpty ctx.sitefile.routes
       lib.warn 'No routes'
       process.exit()
@@ -67,27 +67,25 @@ sitefile_cli = module.exports =
     # further Express setup using sitefile
     sf = new lib.Sitefile ctx
 
-    ctx.site.netpath = "//"+ctx.site.host+':'+ctx.site.port+ctx.site.base
-
     # serve forever
     if ctx.verbose
-      console.log "Starting server at localhost:#{ctx.site.port}"
-    if ctx.site.host
-      proc = ctx.server.listen ctx.site.port, ctx.site.host, ->
+      console.log "Starting server at localhost:#{ctx.port()}"
+    if ctx.host()
+      proc = ctx.server.listen ctx.port(), ctx.host(), ->
         if ctx.verbose
-          lib.log "Listening", "Express server on port #{ctx.site.port}. "
+          lib.log "Listening", "Express server on port #{ctx.port()}. "
         !done || done()
     else
-      proc = ctx.server.listen ctx.site.port, ->
+      proc = ctx.server.listen ctx.port(), ->
         if ctx.verbose
-          lib.log "Listening", "Express server on port #{ctx.site.port}. "
+          lib.log "Listening", "Express server on port #{ctx.port()}. "
         !done || done()
 
     # "Export"
-    sitefile_cli.host = module.exports.host = ctx.site.host
-    sitefile_cli.port = module.exports.port = ctx.site.port
-    sitefile_cli.path = module.exports.path = ctx.site.base
-    sitefile_cli.netpath = module.exports.netpath = ctx.site.netpath
+    sitefile_cli.host = module.exports.host = ctx.host()
+    sitefile_cli.port = module.exports.port = ctx.port()
+    sitefile_cli.path = module.exports.path = ctx.base()
+    sitefile_cli.netpath = module.exports.netpath = ctx.settings.site.netpath
 
     sitefile_cli.root = module.exports.root = ctx
     sitefile_cli.proc = module.exports.proc = proc
@@ -112,10 +110,12 @@ else if process.argv[1].endsWith('sitefile') \
     
   sitefile_cli.run()
 
-# XXX:
-#else
-#  lib.warn "Invalid argument:", process.argv[2]
-#  process.exit(1)
+else if process.env.NODE_ENV == 'testing'
+  null
+
+else
+  lib.warn "Invalid argument:", process.argv[2]
+  process.exit(1)
 
 
 # Id: node-sitefile/0.0.5-dev bin/sitefile.coffee

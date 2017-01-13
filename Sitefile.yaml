@@ -11,9 +11,8 @@ showStackError: true
 
 paths:
   routers_replace: false
-  routers: [
-    'sitefile:example/routers'
-  ]
+  routers:
+  - 'sitefile:example/routers'
 
 #autoExport:
 #  - rjs: /app/rjs
@@ -61,6 +60,8 @@ routes:
 
   # Dynamic rules using glob spec
   _du: du:**/*.rst
+  media/script/du.js: coffee:lib/sitefile/client/du.coffee
+
   #_rst2html: rst2html:**/*.rst
   gitflow: du:.gitflow.rst
 
@@ -150,23 +151,17 @@ options:
     du:
       link_stylesheets: true
       scripts:
-        $ref: '#/defs/scripts/default'
+        "$ref": '#/defs/scripts/default'
       stylesheets:
-        $ref: '#/defs/stylesheets/default'
+        "$ref": '#/defs/stylesheets/default'
     rst2html:
       link_stylesheets: true
       flags:
       - "--no-toc-backlinks"
       scripts:
-        $ref: '#/defs/scripts/default'
+        "$ref": '#/defs/scripts/default'
       stylesheets:
         $ref: '#/defs/stylesheets/default'
-    #pug:
-    #  merge:
-    #    scripts:
-    #      $ref: '#/defs/scripts/default'
-    #    stylesheets:
-    #      $ref: '#/defs/stylesheets/default'
     gwc:
       pug:
         merge:
@@ -185,6 +180,7 @@ options:
             - /vendor/bootstrap.css
             - /vendor/jquery-ui.css
           scripts:
+            - /vendor/jquery.js
             - /vendor/jquery.js
           links: []
           clients: []
@@ -206,63 +202,64 @@ options:
     app/v0:
       merge:
         stylesheets:
-          - /vendor/bootstrap.css
-          - /vendor/jquery-ui.css
+          - vendor/bootstrap.css
+          - vendor/jquery-ui.css
         scripts:
-          - /vendor/jquery.js
+          - vendor/jquery.js
         clients:
           $ref: '#/defs/app/v0/clients'
         links:
           - rel: import
-            href: /components/iron-icons/iron-icons.html
+            href: components/iron-icons/iron-icons.html
           - rel: import
-            href: /components/paper-styles/color.html
+            href: components/paper-styles/color.html
           - rel: import
-            href: /components/paper-icon-button/paper-icon-button.html
+            href: components/paper-icon-button/paper-icon-button.html
           - rel: import
-            href: /components/paper-header-panel/paper-header-panel.html
+            href: components/paper-header-panel/paper-header-panel.html
           - rel: import
-            href: /components/paper-toolbar/paper-toolbar.html
+            href: components/paper-toolbar/paper-toolbar.html
           - rel: import
-            href: /components/paper-button/paper-button.html
+            href: components/paper-button/paper-button.html
           - rel: import
-            href: /components/paper-input/paper-input.html
+            href: components/paper-input/paper-input.html
           - rel: import
-            href: /components/paper-toast/paper-toast.html
+            href: components/paper-toast/paper-toast.html
           - rel: import
-            href: /components/google-map/google-map.html
+            href: components/google-map/google-map.html
 
     example/server-generated-page:
       merge:
         stylesheets:
-          - /vendor/bootstrap.css
-          - /vendor/bootstrap-theme.css
-          - /media/style/default.css
-          - /example/server-generated-stylesheet
+          - vendor/bootstrap.css
+          - vendor/bootstrap-theme.css
+          - media/style/default.css
+          - example/server-generated-stylesheet
         scripts:
-          - /vendor/jquery.js
-          #- /vendor/require.js
-          #- /vendor/source-map-support.js
-          - /vendor/coffee-script.js
-          - /example/server-generated-javascript
+          - vendor/jquery.js
+          #- vendor/require.js
+          #- vendor/source-map-support.js
+          - vendor/coffee-script.js
+          - example/server-generated-javascript
         links:
           - type: text/coffescript
-            href: /example/script.coffee
+            href: example/script.coffee
 
 defs:
   scripts:
     default:
-      - /vendor/jquery.js
+      - vendor/jquery.js
       #- /vendor/require.js
       #- /vendor/source-map-support.js
-      - /vendor/coffee-script.js
+      - vendor/coffee-script.js
       #- src: /media/script/sitefile-client.js
       #  path: build/client/default.js
+      - media/script/du.js
   stylesheets:
     default:
-      - url: /vendor/bootstrap.css
-      - url: /vendor/bootstrap-theme.css
-      - url: /media/style/default.css
+      - url: vendor/bootstrap.css
+      - url: vendor/bootstrap-theme.css
+      - url: media/style/default.css
         path: build/style/default.css
 
   app:
@@ -270,7 +267,7 @@ defs:
       clients:
         - type: require-js
           id: require-js-sitefile-v0-app
-          href: /vendor/require.js
-          main: /app/rjs-sf-v0.js
+          href: vendor/require.js
+          main: app/rjs-sf-v0.js
 
 

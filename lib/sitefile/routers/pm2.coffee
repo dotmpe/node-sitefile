@@ -111,7 +111,7 @@ module.exports = ( ctx ) ->
     default: ( rctx ) ->
       # FIXME: allow string descriptions;
       # auto-export routes based on route.default mapping
-      # XXX: console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
+      # XXX: console.log 'PM2', ctx.base(), rctx.name, rctx.res, rctx.route
 
       route =
         '.json': get: generators.list
@@ -124,17 +124,19 @@ module.exports = ( ctx ) ->
         '/:pm_id/reload': post: generators.reload
         '/:pm_id/restart': post: generators.reload
         '/:pm_id/stop': post: generators.stop
+        ###
         '': get: (rctx) ->
           (req, res) ->
-            res.redirect ctx.site.base+rctx.name+'.html'
+            res.redirect ctx.base()+rctx.name+'.html'
+        ###
         '/': get: (rctx) ->
           (req, res) ->
-            res.redirect ctx.site.base+rctx.name+'.html'
+            res.redirect ctx.base()+rctx.name+'.html'
 
       # TODO: see r0.0.6 for module generate export scheme
       for name of route
         for method of route[name]
-          ref = ctx.site.base+rctx.name+name
+          ref = ctx.base()+rctx.name+name
           unless "function" is typeof route[name][method]
             throw Error \
               "Expected callback #{name}:#{method}:#{route[name][method]}"
@@ -143,7 +145,8 @@ module.exports = ( ctx ) ->
             throw Error "Expected callback #{name}:#{method}:#{r}"
           ctx.app[method] ref, r
 
-      null
+      (req, res) ->
+        res.redirect ctx.base()+rctx.name+'.html'
 
     # List all PM2 procs in JSON
     data: ( rctx ) ->
@@ -216,15 +219,15 @@ module.exports = ( ctx ) ->
           opts:
             hostname: 'localhost'
             port: ctx.app.get('port')
-            path: ctx.site.base + rctx.name + '.json'
+            path: ctx.base() + rctx.name + '.json'
         ).then ( data ) ->
 
           pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
             tpl: listPugFn
             merge:
               pid: process.pid
-              pm2_base: ctx.site.base+rctx.name
-              script: ctx.site.base+rctx.name+'.js'
+              pm2_base: ctx.base()+rctx.name
+              script: ctx.base()+rctx.name+'.js'
               options: rctx.options
               query: req.query
               context: rctx
@@ -251,8 +254,8 @@ module.exports = ( ctx ) ->
             tpl: detailPugFn
             merge:
               pid: process.pid
-              pm2_base: ctx.site.base+rctx.name
-              script: ctx.site.base+rctx.name+'.js'
+              pm2_base: ctx.base()+rctx.name
+              script: ctx.base()+rctx.name+'.js'
               options: rctx.route.options
               query: req.query
               context: rctx

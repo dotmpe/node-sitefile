@@ -6,6 +6,9 @@ expect = chai.expect
 request = require 'request'
 Promise = require 'bluebird'
 Ajv = require 'ajv'
+yaml = require 'js-yaml'
+
+libconf = require '../lib/conf'
 
 ajv = new Ajv()
 
@@ -21,7 +24,7 @@ class SitefileTestUtils
     process.env.NODE_ENV = 'testing'
     @cwd = process.cwd()
     @server = {}
-    @ctx = {}
+    @ctx = require('../lib/sitefile/sitefile').load_env {}
     # JSON schema
     @schema = {}
     @schemaSrc = {}
@@ -37,7 +40,7 @@ class SitefileTestUtils
     lib = require '../lib/sitefile'
     if @dir
       process.chdir @dir
-    sitefile = lib.prepare_context().sitefile
+    sitefile = lib.new_context().sitefile
     process.chdir @cwd
     sitefile
 
@@ -134,15 +137,18 @@ class SitefileTestUtils
         reject(new Error("Validator exception: #{err}"))
 
   load_ajv_schema: ( name, filepath ) ->
-    @schemaSrc[name] = path.join process.cwd(), filepath
-    @schemaSrcData[name] = require @schemaSrc[name]
+    @schemaSrc[name] = path.join @cwd, filepath
+    if '#' in filepath
+      @schemaSrcData[name] = libconf.read_xref @ctx, @schemaSrc[name]
+    else
+      @schemaSrcData[name] = libconf.load_file @schemaSrc[name], {}, @ctx
     if _.isEmpty @schemaSrcData[name]
       throw new Error "No data for #{name} (#{filepath})"
     @schema[name] = ajv.compile @schemaSrcData[name]
 
 
 
-module.exports = {}
+module.exports = ajv: ajv
 
 module.exports.SitefileTestUtils = SitefileTestUtils
 

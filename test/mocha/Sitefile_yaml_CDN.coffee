@@ -4,9 +4,6 @@ chai = require 'chai'
 #chai.use require 'chai-as-promised'
 expect = chai.expect
 
-sewd = require 'selenium-webdriver'
-browser = require 'selenium-webdriver/testing'
-
 request = require 'request'
 Promise = require 'bluebird'
 
@@ -18,7 +15,7 @@ tu = require './../test-utils'
 
 
 describe "The local Sitefile.yaml serves the local documentation, and \
- doubles as an example for all handlers. Starting a server instance", ->
+ doubles as an example for all handlers. The server ", ->
 
 
   stu = new tu.SitefileTestUtils()

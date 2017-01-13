@@ -27,12 +27,9 @@ module.exports = (ctx={}) ->
 
   app = express()
 
-  app.set 'env', ctx.envname
+  app.set 'env', ctx.env.name
 
-  if process.env.SITEFILE_PORT
-    ctx.site.port = process.env.SITEFILE_PORT
-
-  app.set 'port', ctx.site.port
+  app.set 'port', ctx.port()
 
   ctx.server = require("http").createServer(app)
 

@@ -5,12 +5,11 @@ yaml = require 'js-yaml'
 _ = require 'lodash'
 chalk = require 'chalk'
 semver = require 'semver'
+URL = require 'url'
 nodelib = require 'nodelib'
-
 Context = nodelib.Context
 
 Router = require './Router'
-
 liberror = require '../error'
 libconf = require '../conf'
 # register String:: exts
@@ -22,30 +21,37 @@ version = "0.0.5-dev" # node-sitefile
 
 
 
-get_local_sitefile_name = ( ctx={} ) ->
-  fn = null
-  ext = null
-  _.defaults ctx, basename: 'Sitefile', exts: [
-    '.json'
-    '.yml'
-    '.yaml'
-  ]
-  for ext in ctx.exts
-    fn = ctx.basename + ext
-    if fs.existsSync fn
-      ctx.fn = fn
-      ctx.ext = ext
-      break
+get_local_sitefile_path = ( ctx={} ) ->
+  if not ctx.config.sitefile.path
     fn = null
-  if not fn
-    throw new Error "No #{ctx.basename}"
-  ctx.lfn = path.join process.cwd(), fn
-  ctx.lfn
+    ext = null
+    _.defaults ctx.config.sitefile,
+      basename: 'Sitefile',
+      exts: [
+        '.json'
+        '.yml'
+        '.yaml'
+      ]
+    for ext in ctx.config.sitefile.exts
+      fn = ctx.config.sitefile.basename + ext
+      if fs.existsSync fn
+        break
+      fn = null
+    if not fn
+      throw new Error "No #{ctx.basename}"
+    _.defaults ctx.config.sitefile,
+      name: fn
+      ext: ext
+      path: path.join process.cwd(), fn
+  ctx.config.sitefile.path
 
 
 get_local_sitefile = ( ctx={} ) ->
-  lfn = get_local_sitefile_name ctx
-  sitefile = libconf.load_file lfn
+  get_local_sitefile_path ctx
+  try
+    sitefile = libconf.load_file ctx.config.sitefile.path, {}, ctx
+  catch err
+    throw new Error "Failed loading #{ctx.config.sitefile.path}: #{err}"
 
   sf_version = sitefile.sitefile
   if not semver.valid sf_version
@@ -56,8 +62,6 @@ get_local_sitefile = ( ctx={} ) ->
         "sitefile #{sf_version}"
   # TODO: validate Sitefile schema
 
-  sitefile.path = path.relative process.cwd(), lfn
-
   _.defaults sitefile,
     routes: {}
 
@@ -66,7 +70,6 @@ get_local_sitefile = ( ctx={} ) ->
 
 load_sitefile = ( ctx ) ->
   ctx.sitefile = get_local_sitefile ctx
-
 
   # translate JSON path refs in sitefile to use global sitefile context
   # ie. prefix path with 'sitefile/' so we can use context.resolve et al.
@@ -83,13 +86,81 @@ load_sitefile = ( ctx ) ->
   _.transform ctx.sitefile, xform
 
 
+
+load_rc = ( ) ->
+  try
+    ctx = config: static: sitefile: libconf.load 'sitefilerc', {
+      get: suffixes: [ '' ], all: true
+      paths: prefixes: {}
+    }
+  catch error
+    if error instanceof liberror.types.NoFilesException
+      ctx = config: static: sitefile: null
+    else
+      throw error
+
+
+
+
+load_env = ( ctx={} ) ->
+  ctx = _.defaultsDeep ctx,
+    noderoot: '../../'
+    version: version
+    cwd: process.cwd()
+    proc:
+      name: path.basename process.argv[1]
+    env:
+      name: process.env.NODE_ENV ? 'development'
+      SITEFILE_PORT: process.env.SITEFILE_PORT
+    log: log
+    verbose: null
+    config:
+      static: {}
+      sitefile: {}
+    settings:
+      site: {}
+    paths:
+      routers: []
+      prefixes:
+        'sitefile': ctx.sfdir+'/'
+        'sitefile-lib': ctx.sfdir+'/lib/sitefile/'
+        'sitefile-client': ctx.sfdir+'/lib/sitefile/client/'
+    sitefile: {}
+    routes:
+      resources: {}
+      directories: []
+  if ctx.verbose == null
+    ctx.verbose = ctx.env.name is 'development'
+  ctx
+
+
+load_config = ( ctx={} ) ->
+  unless ctx.env.name?
+    ctx.env.name = 'development'
+  unless ctx.config.name?
+    ctx.config.name = 'config/config.coffee'
+  uc = path.join '../..', ctx.config.name
+  if fs.existsSync require.resolve uc
+    ctx.config.static[uc] = require uc
+    _.defaultsDeep ctx.settings, ctx.config.static[uc][ctx.env.name]
+    if ctx.verbose
+      console.log "Loaded user config for #{ctx.env.name}"
+  ctx
+
+
+load_sitefile_ctx = ( ctx ) ->
+
+  _.defaultsDeep ctx,
+    env: pkg_file: path.join ctx.noderoot, 'package.json'
+
+  _.defaultsDeep ctx,
+    pkg: require ctx.env.pkg_file
+
+  load_sitefile ctx
+
   # Map some sitefile attributes to root
-  if ctx.sitefile.host
-    ctx.site.host = ctx.sitefile.host
-  if ctx.sitefile.port
-    ctx.site.port = ctx.sitefile.port
-  if ctx.sitefile.base
-    ctx.site.base = ctx.sitefile.base
+  ctx.settings.site = _.defaultsDeep {},
+    _.pick( ctx.sitefile, [ 'host', 'port', 'base' ] ), ctx.settings.site
 
   if 'paths' of ctx.sitefile and ctx.sitefile.paths
     if 'routers' of ctx.sitefile.paths and ctx.sitefile.paths.routers
@@ -101,105 +172,47 @@ load_sitefile = ( ctx ) ->
         ctx.paths.routers = \
           ctx.paths.routers.concat ctx.sitefile.paths.routers
 
-  log "Loaded", path: path.relative ctx.cwd, ctx.lfn
+  log "Loaded", path: path.relative ctx.cwd, ctx.config.sitefile.path
 
 
-load_rc = ( ctx ) ->
-  try
-    ctx.static = libconf.load 'sitefilerc', get: suffixes: [ '' ], all: true
-  catch error
-    if error instanceof liberror.types.NoFilesException
-      ctx.static = null
-    else
-      throw error
-  ctx.static
+
+expand_url = ( url, base='/' ) ->
+  u = URL.parse url
+  if not u.host and not u.pathname.startsWith '/'
+    url = base+url
+  url
 
 
-load_config = ( ctx={} ) ->
-  if not ctx.config_name?
-    ctx.config_name = 'config/config.coffee'
-    # XXX config per client
-    #scriptconfig = 'config/config-#{ctx.proc.name}'
-    #configs = glob.sync path.join ctx.noderoot, scriptconfig + '.*'
-    #if not _.isEmpty configs
-    #  ctx.config_name = scriptconfig
 
-  uc = path.join '../..', ctx.config_name
-  if fs.existsSync require.resolve uc
-    ctx.config_envs = require uc
-    ctx.config = ctx.config_envs[ctx.envname]
-    _.defaultsDeep ctx, ctx.config
-    if ctx.verbose
-      console.log "Loaded user config for #{ctx.envname}"
+proto_context = ( ctx ) ->
 
-  ctx.config
+  Context::base = ( ) ->
+    return @settings.site.base
+  Context::host = ( ) ->
+    return @settings.site.host
+  Context::port = ( ) ->
+    return @settings.site.port
+  Context::netpath = ( ) ->
+    return @settings.site.netpath
 
-
-# Turn options dict into root context.
-prepare_context = ( ctx={} ) ->
-
-  # Initial context from env
-
-  _.defaultsDeep ctx,
-    noderoot: '../../'
-    version: version
-    cwd: process.cwd()
-    proc:
-      name: path.basename process.argv[1]
-    log: log
-
-  _.defaultsDeep ctx,
-    pkg_file: path.join ctx.noderoot, 'package.json'
-
-  _.defaultsDeep ctx,
-    pkg: require ctx.pkg_file
-
-  # Load local run-config
-  _.merge ctx, load_rc ctx
-
-  _.defaultsDeep ctx,
-    envname: process.env.NODE_ENV ? 'development'
-
-  # FIXME: load uer-config
-  load_config ctx
-
-  # Return wiht final defaults merged in
-  _.defaultsDeep ctx,
-    verbose: ctx.envname is 'development'
-    site:
-      host: ''
-      port: 8081
-      base: '/'
-      netpath: null
-    routes:
-      resources: {}
-      directories: []
-    bundles: {}
-    paths: # TODO: configure lookup paths
-      routers: [
-        'sitefile:lib/sitefile/routers'
-        'sitefile:var/sitefile/routers'
-      ]
-      bundles: [
-        'sitefile:lib/sitefile/bundles'
-        'sitefile:var/sitefile/bundles'
-      ]
-
-
-  # Load local sitefile (set ctx.sitefile)
-  unless ctx.sitefile?
-    load_sitefile ctx
+  Context::expand_urls = ( p, k='url' ) ->
+    base = @base()
+    container = @get p
+    if 'object' is typeof container[0]
+      for v, i in container
+        container[i][k] = expand_url v[k], base
+    else if 'string' is typeof container[0]
+      urls = _.map(_.filter(container), ( u ) -> expand_url u, base )
+      @put p, urls
 
 
   Context::get_auto_export = ( router_name ) ->
-
 
   # Use router setings to determine opts per request (ie. to override from
   # query)
   Context::req_opts = ( request ) ->
 
     options = _.merge {}, @route.options
-
 
     if 'import-query' of @route
       mq = @route['merge-query']
@@ -210,7 +223,6 @@ prepare_context = ( ctx={} ) ->
         q = request.query
       q = expand_obj_paths q
       _.defaultsDeep options, q
-
 
     if @route['export-query-path']
       key = @route['export-query-path']
@@ -245,11 +257,51 @@ prepare_context = ( ctx={} ) ->
         "A path is required either provided by query or option '#{key}'"
 
     # Resolve to existing path
-    return Router.expand_path @res.path, @
+    return libconf.expand_path @res.path, @
+
+  ctx
 
 
+prepare_context = ( ctx={} ) ->
+  # Apply all static properties (set ctx.static too)
+  _.defaultsDeep ctx, load_rc(ctx), load_env(ctx)
+
+  ctx = load_config ctx
+  _.defaultsDeep ctx, load_sitefile_ctx(ctx)
+
+  _.defaultsDeep ctx,
+    settings:
+      site:
+        host: ''
+        port: 8081
+        base: '/'
+        netpath: null
+
+  ctx.settings.site.netpath = "//"+ctx.settings.site.host+':'\
+                               +ctx.settings.site.port+ctx.settings.site.base
+
+  if ctx.env.SITEFILE_PORT
+    ctx.settings.site.port = ctx.env.SITEFILE_PORT
+
+  ctx.paths.routers = _.union ctx.paths.routers, [
+        'sitefile:lib/sitefile/routers'
+        'sitefile:var/sitefile/routers'
+      ]
+  ctx.paths.bundles = _.union ctx.paths.bundles, [
+        'sitefile:lib/sitefile/bundles'
+        'sitefile:var/sitefile/bundles'
+      ]
+
+  ctx
+
+
+new_context = ( ctx={} ) ->
+
+  ctx = prepare_context ctx
   if ctx.verbose
-    console.log "Creating new context for #{ctx.envname}"
+    console.log "Creating new context for #{ctx.env.name}"
+
+  proto_context ctx
   new Context ctx
 
 
@@ -409,7 +461,7 @@ class Sitefile
         warn "Skipping route", name: router_name, c.sc, path: handler_spec
         continue
 
-      if route.startsWith '/' or route.startsWith ctx.site.base
+      if route.startsWith '/' or route.startsWith ctx.base()
         warn "Non-relative route", "Route path should not include root '/' or
           base prefix, are you sure #{route} is correct?"
 
@@ -451,8 +503,8 @@ class Sitefile
 
         # Detect routable extension
         rs = rctx.res
-        if rs.path and (ctx.site.base+rs.path).startsWith(rs.ref) and (
-          rs.ref+rs.extname is ctx.site.base+rs.path
+        if rs.path and (ctx.base()+rs.path).startsWith(rs.ref) and (
+          rs.ref+rs.extname is ctx.base()+rs.path
         )
           # FIXME: policy on extensions
           ctx.redir rs.ref+rs.extname, rs.ref
@@ -493,6 +545,7 @@ class Sitefile
 # XXX does not reload routes, code+config only
 # TODO should reload sitefilerc, should reset/apply routes
 reload_on_change = ( ctx ) ->
+  return # FIXME: reload_on_change
   config_watch = ctx.noderoot + '/config/**/*'
   paths = expand_globs [ config_watch ]
   log 'Watching configs', path: paths.join ', '
@@ -501,9 +554,9 @@ reload_on_change = ( ctx ) ->
       log "Reloading config", "because: #{fn} changed"
       load_config ctx
 
-  log 'Watching sitefile', path: ctx.lfn
-  fs.watchFile ctx.lfn, ( cur, prev ) ->
-    log "Reloading context", "because: #{ctx.lfn} changed"
+  log 'Watching sitefile', path: ctx.config.sitefile.name
+  fs.watchFile ctx.config.sitefile.name, ( cur, prev ) ->
+    log "Reloading context", "because: #{ctx.config.sitefile.name} changed"
     load_sitefile ctx
 
 
@@ -558,10 +611,14 @@ Router.warn = warn
 module.exports =
   {
     version: version
-    get_local_sitefile_name: get_local_sitefile_name
+    get_local_sitefile_path: get_local_sitefile_path
     get_local_sitefile: get_local_sitefile
+    load_sitefile_ctx: load_sitefile_ctx
+    proto_context: proto_context
     prepare_context: prepare_context
+    new_context: new_context
     load_config: load_config
+    load_env: load_env
     load_rc: load_rc
     Router: Router,
     Sitefile: Sitefile
@@ -569,6 +626,7 @@ module.exports =
     log_enabled: true
     log: log
     warn: warn
+    expand_url: expand_url
   }
 
 

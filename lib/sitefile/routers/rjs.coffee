@@ -4,6 +4,7 @@ fs = require 'fs'
 URL = require 'url'
 
 Router = require '../Router'
+libconf = require '../../conf'
 
 Promise = require 'bluebird'
 
@@ -77,7 +78,7 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
             Router.parse_kw_spec rctx
 
           if paths and paths.startsWith '$ref:'
-            paths = Router.read_xref ctx, paths.substr 5
+            paths = libconf.read_xref ctx, paths.substr 5
           else if 'string' is typeof paths
             paths = {}
 
@@ -110,7 +111,7 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
           res.write "requirejs.config(#{data});"
           res.end()
 
-        url = ctx.site.base+rctx.route.spec
+        url = ctx.base()+rctx.route.spec
 
         if fs.existsSync rctx.route.spec
           p = path.join ctx.cwd, rctx.route.spec

@@ -1,4 +1,9 @@
-class NoFilesException extends Error then constructor: -> super
+class NoFilesException extends Error
+  constructor: ( msg ) ->
+    super()
+    @message = msg
+  toString: ->
+    return @message
 
 module.exports =
   types:
