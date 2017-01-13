@@ -77,7 +77,7 @@
     "lodash": "^4.16.1",
     "mime-types": "^2.1.13",
     "minimatch": "^3.0.3",
-    "nodelib": "https://github.com/dotmpe/nodelib.git",
+    "nodelib": "https://github.com/dotmpe/nodelib.git#dev",
     "prism-themes": "^1.0.0",
     "qs": "6.3.0",
     "request-promise": "^4.1.1",
@@ -126,6 +126,7 @@
     "load-grunt-config": "latest",
     "load-grunt-tasks": "latest",
     "mocha": "^3.2.0",
+    "mocha-jenkins-reporter": "^0.3.5",
     "path": "latest",
     "pm2": "latest",
     "pmx": "^0.6.8",
@@ -138,7 +139,8 @@
     "snyk": "^1.20.0",
     "text-table": "latest",
     "webpack": "^1.13.3",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "xunit-file": "^1.0.0"
   },
   "volo": {
     "dependencies": {

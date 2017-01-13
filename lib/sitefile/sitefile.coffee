@@ -5,12 +5,11 @@ yaml = require 'js-yaml'
 _ = require 'lodash'
 chalk = require 'chalk'
 semver = require 'semver'
+URL = require 'url'
 nodelib = require 'nodelib'
-
 Context = nodelib.Context
 
 Router = require './Router'
-
 liberror = require '../error'
 libconf = require '../conf'
 # register String:: exts
@@ -176,6 +175,14 @@ load_sitefile_ctx = ( ctx ) ->
 
 
 
+expand_url = ( url, base='/' ) ->
+  u = URL.parse url
+  if not u.host and not u.pathname.startsWith '/'
+    url = base+url
+  url
+
+
+
 proto_context = ( ctx ) ->
 
   Context::base = ( ) ->
@@ -186,6 +193,17 @@ proto_context = ( ctx ) ->
     return @settings.site.port
   Context::netpath = ( ) ->
     return @settings.site.netpath
+
+  Context::expand_urls = ( p, k='url' ) ->
+    base = @base()
+    container = @get p
+    if 'object' is typeof container[0]
+      for v, i in container
+        container[i][k] = expand_url v[k], base
+    else if 'string' is typeof container[0]
+      urls = _.map(_.filter(container), ( u ) -> expand_url u, base )
+      @put p, urls
+
 
   Context::get_auto_export = ( router_name ) ->
 
@@ -247,7 +265,6 @@ prepare_context = ( ctx={} ) ->
   # Apply all static properties (set ctx.static too)
   _.defaultsDeep ctx, load_rc(ctx), load_env(ctx)
 
-  ctx = proto_context ctx
   ctx = load_config ctx
   _.defaultsDeep ctx, load_sitefile_ctx(ctx)
 
@@ -276,12 +293,14 @@ prepare_context = ( ctx={} ) ->
 
   ctx
 
+
 new_context = ( ctx={} ) ->
 
   ctx = prepare_context ctx
   if ctx.verbose
     console.log "Creating new context for #{ctx.env.name}"
 
+  proto_context ctx
   new Context ctx
 
 
@@ -606,6 +625,7 @@ module.exports =
     log_enabled: true
     log: log
     warn: warn
+    expand_url: expand_url
   }
 
 

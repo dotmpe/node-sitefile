@@ -62,16 +62,6 @@ module.exports = ( ctx ) ->
               res.end()
 
 
-      ctx.app.get rctx.res.ref, (req, res) ->
-        fs.readFile fname, (err, data) ->
-          res.type 'txt'
-          if err
-            res.status 500
-            res.write String(err)
-          else
-            res.write data
-          res.end()
-
       ctx.app.get rctx.res.ref+'.svg', (req, res) ->
         generate(fname, 'svg').then ( stdout, stderr ) ->
           #if stderr
@@ -92,6 +82,15 @@ module.exports = ( ctx ) ->
       for format in [ 'png', 'svg', 'html', 'txt', 'utxt', 'pdf' ]
         add_plantuml_convertor format
 
-      null
+      (req, res) ->
+        fs.readFile fname, (err, data) ->
+          res.type 'txt'
+          if err
+            res.status 500
+            res.write String(err)
+          else
+            res.write data
+          res.end()
+
 
 

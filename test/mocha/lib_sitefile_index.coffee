@@ -56,11 +56,6 @@ describe 'Module sitefile', ->
       lfn = path.join process.cwd(), 'Sitefile.yaml'
       expect( sitefile_path ).to.eql( lfn )
 
-    it 'should pick up Sitefiles for all extensions'
-      # TODO: skip
-
-    it 'should throw "No Sitefile"'
-      # TODO: skip
 
 
   describe 'Root context', ->

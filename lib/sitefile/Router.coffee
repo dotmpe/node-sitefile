@@ -295,8 +295,9 @@ Base =
           id: rctx.route.spec, "at", path: rctx.name
 
     else if not h
-      module.exports.warn "Router not recognized", "Router #{rctx.route.name}
-        returned nothing recognizable for #{rctx.name}, ignored"
+      module.exports.warn "Router not recognized", "Router
+        #{rctx.route.name}.#{rctx.route.handler}
+        returned nothing recognizable at #{rctx.name}, ignored"
     
 
 module.exports =

@@ -38,6 +38,7 @@ defaults.load =
   get: _.clone( defaults.get )
   load_file: _.clone( defaults.load_file )
 
+
 get = ( name, opts={} ) ->
 
   _.defaults opts, defaults.get
@@ -96,7 +97,7 @@ read_xref = ( ctx, spec ) ->
     See feature-metadata docs.
   ###
   if not spec or '#' not in spec
-    throw new Error spec
+    throw new Error "Empty or invalid spec found: '#{spec}'"
   [ datafn, spec ] = spec.split '#'
   o = load_file datafn, ctx
   # NOTE: very, very simple path-like attribute access
@@ -125,7 +126,7 @@ load = ( name, opts={} ) ->
   _.defaults opts, defaults.load
   paths = get name, opts.get
   if _.isEmpty paths
-    throw new liberror.types.NoFilesException "Nothing to load for #{name}"
+    throw new liberror.types.NoFilesException "No PATH for #{name}"
   if not _.isArray paths
     paths = [ paths ]
   data = {}

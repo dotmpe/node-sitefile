@@ -124,9 +124,11 @@ module.exports = ( ctx ) ->
         '/:pm_id/reload': post: generators.reload
         '/:pm_id/restart': post: generators.reload
         '/:pm_id/stop': post: generators.stop
+        ###
         '': get: (rctx) ->
           (req, res) ->
             res.redirect ctx.base()+rctx.name+'.html'
+        ###
         '/': get: (rctx) ->
           (req, res) ->
             res.redirect ctx.base()+rctx.name+'.html'
@@ -143,7 +145,8 @@ module.exports = ( ctx ) ->
             throw Error "Expected callback #{name}:#{method}:#{r}"
           ctx.app[method] ref, r
 
-      null
+      (req, res) ->
+        res.redirect ctx.base()+rctx.name+'.html'
 
     # List all PM2 procs in JSON
     data: ( rctx ) ->

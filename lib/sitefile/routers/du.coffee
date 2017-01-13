@@ -20,8 +20,10 @@ rst2html_flags = ( params ) ->
 
   if params.stylesheets? and !_.isEmpty params.stylesheets
     if params.link_stylesheets
+      expand_url_ = ( u ) -> sitefile.expand_url u, base=params.base
       flags.push '--link-stylesheet'
-      sheets = _.filter(_.map(params.stylesheets, 'url')).join ','
+      urls = _.filter(_.map(params.stylesheets, 'url'))
+      sheets = _.map(urls, expand_url_).join ','
       flags.push "--stylesheet '#{sheets}'"
     else
       sheets = _.filter(_.map(params.stylesheets, 'path')).join ','
@@ -48,11 +50,10 @@ test_for_fe = ( name ) ->
     return
 
 
-add_script = ( rawhtml, javascript_url ) ->
-
-  sitefile.log "rst2html:addscript", javascript_url
-  script_tag = '<script type="text/javascript" src="'+\
-      javascript_url+'" ></script>'
+add_script = ( rawhtml, javascript_url, base='/' ) ->
+  url = sitefile.expand_url javascript_url, base
+  sitefile.log "du:rst2html:addscript", url
+  script_tag = '<script type="text/javascript" src="'+url+'" ></script>'
   rawhtml.replace '</head>', script_tag+' </head>'
 
 
@@ -97,9 +98,9 @@ rst2html = ( out, params={} ) ->
         if prm.scripts
           for script in prm.scripts
             if 'object' is typeof script
-              stdout = add_script(stdout, script.url)
+              stdout = add_script stdout, script.url, prm.base
             else
-              stdout = add_script(stdout, script)
+              stdout = add_script stdout, script, prm.base
         out.write stdout
 
       else if prm.format == 'pseudoxml'
@@ -151,6 +152,7 @@ module.exports = ( ctx ) ->
         req.query = _.defaults req.query || {},
           format: rctx.dest.format,
           docpath: rctx.docpath
+          base: ctx.base()
 
         try
           rst2html res, _.merge {}, rctx.route.options, req.query
