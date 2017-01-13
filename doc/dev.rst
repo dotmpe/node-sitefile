@@ -22,11 +22,12 @@ These are features in development for the v0.1/v0.0.1 roadmap.
 
 2. work in progres: hypertext protocol support, abstract resources.
 
-   1. HTTP Redirect
-   2. Static resources
-   3. Planned: variant resources
-   4. Work in progress: proxy resources
-   5. work in progress, to test: can work at any (URL) path prefix
+   1. Static resources
+   2. HTTP Redirect
+   3. file extension mappings
+   4. Planned: variant resources (multiple extensions)
+   5. Work in progress: proxy resources
+   6. work in progress/to test: can work at any (URL) path prefix
 
 3. work in progress: re-usable, and distributed packages of routes and
    resources.
@@ -36,6 +37,7 @@ These are features in development for the v0.1/v0.0.1 roadmap.
    2. work-in-progress: user-defined extensions, extendable resources/routers
       (route-feature-docs__)
    3. packages (JS/CSS/media), cdn config? (require-js-feature-docs__)
+   4. sitefile includes, sub-sitefiles mounted at URL prefixes in parent
 
 4. work in progress: a default or 'base' client,
    with decent support for all routes (html5-client-feature-docs__)

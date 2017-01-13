@@ -98,8 +98,8 @@ module.exports = ( ctx ) ->
   # generators for Sitefile route handlers
   generate:
     default: ( rctx ) ->
-      rctx.expand_urls 'route.options.merge.stylesheets'
-      rctx.expand_urls 'route.options.merge.scripts'
+      rctx.expand_urls 'route.options.merge.stylesheets', 'href'
+      rctx.expand_urls 'route.options.merge.scripts', 'src'
       rctx.expand_urls 'route.options.merge.clients', 'href'
       rctx.expand_urls 'route.options.merge.clients', 'main'
       ( req, res ) ->
