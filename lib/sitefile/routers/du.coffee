@@ -87,8 +87,8 @@ rst2html = ( out, params={} ) ->
     out.end()
 
   else
-    cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}'"
-    sitefile.log "Du.rst2html", cmd
+    cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}'"
+    sitefile.log "Du.rst2#{prm.format}", cmd
 
     child_process.exec cmd, maxBuffer: 1024*1024, (error, stdout, stderr) ->
       if error
@@ -150,11 +150,16 @@ module.exports = ( ctx ) ->
   generate:
     rst2html: ( rctx ) ->
 
+      outfmt = path.extname(rctx.res.ref)?.substr(1) or 'html'
+      if outfmt not in [ 'xml', 'html', 'pseudoxml', 'source' ]
+        # FIXME: cannot use flags with outfmt = 'pseudoxml'
+        outfmt = 'html'
+
       # FIXME: improve Context API:
       extra = (
         docpath: path.join(  ctx.cwd, rctx.res.path ),
         src: format: rctx.res.extname.substr 1
-        dest: format: path.extname(rctx.res.ref)?.substr(1) or 'html'
+        dest: format: outfmt
       )
       rctx.prepare_from_obj extra
       rctx.seed extra

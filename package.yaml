@@ -9,6 +9,7 @@
   pd-meta:
     run:
       cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
+      tags-scm-sh: "g_f='XXX\\|FIXME\\|TODO';git ls-files|while read f;do grep -n $g_f $f|grep -v 'task.*ignore'|sed 's#^#'\"$f\"'#';done" # tasks:ignore
     init: "sh:./configure grunt:build-test"
     test: "sh:./configure npm:run:test"
     check: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools htd:gitflow-check-doc :git:status grunt:check"
