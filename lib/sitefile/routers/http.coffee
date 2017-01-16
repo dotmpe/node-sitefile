@@ -141,6 +141,9 @@ module.exports = ( ctx ) ->
           res.end()
           throw new Error err
         ext = cdn[f.format].http.ext
-        res.redirect cdn[f.format].http.packages[f.package]+ext
+        url = cdn[f.format].http.packages[f.package]+ext
+        if url.substr( 0, 1 ) is '/' and not ( url.substr( 0, 2 ) is '//' )
+          url = ctx.base()+url.substr 1
+        res.redirect url
 
 

@@ -46,7 +46,7 @@
         "type": "object"
       }
     },
-    "required": [ "name", "pm_id", "pid", "pm2_env" ],
+    "required": [ "name", "pm_id", "pm2_env" ],
     "additionalProperties": false
   }
 }

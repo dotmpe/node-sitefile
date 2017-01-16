@@ -89,7 +89,7 @@ properties:
             type: string
           netpath:
             type: string
-        additionalProperties: false
+        additionalProperties: true
     additionalProperties: false
   sitefile:
     <<: *sitefile
