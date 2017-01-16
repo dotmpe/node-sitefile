@@ -75,7 +75,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
           @driver.get "http://localhost:#{stu.server.port}/app/v0"
 
         after ->
-          @driver.quit()
+          @driver?.quit()
 
 
         browser.it "has docutils elements (document/header/footer)", ->
