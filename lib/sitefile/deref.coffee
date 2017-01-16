@@ -18,11 +18,12 @@ client_opts = ( { url, accType = null, reqType, opts = {} } ) ->
     }
   if url
     opts.url = url
-  if not opts.host
+  if not opts.host and not opts.hostname
     u = URL.parse opts.url
     opts.host = u.host
     opts.port = u.port
     opts.path = u.path+'?'+u.query
+  opts.reqType = reqType
   opts
 
 
@@ -48,9 +49,9 @@ promise_http_get = ( deref_args ) ->
           if statusCode != 200
             error = new Error("Request Failed.\n" +
                               "Status Code: #{statusCode}")
-          else if reqType and contentType != reqType
+          else if opts.reqType and contentType != opts.reqType
             error = new Error("Invalid content-type.\n" +
-                        "Expected #{reqType} but received #{contentType}")
+                        "Expected #{opts.reqType} but received #{contentType}")
           if error
             console.log error.message
             # consume response data to free up memory
@@ -61,7 +62,7 @@ promise_http_get = ( deref_args ) ->
           res.setEncoding('utf8')
           rawData = ''
           res.on 'data', (chunk) -> rawData += chunk
-          if reqType == 'application/json'
+          if opts.reqType == 'application/json'
             res
               .on 'end', ->
                 try

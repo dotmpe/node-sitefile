@@ -11,15 +11,15 @@ showStackError: true
 
 paths:
   routers_replace: false
-  routers: [
-    'sitefile:example/routers'
-  ]
+  routers:
+  - 'sitefile:example/routers'
 
 #autoExport:
 #  - rjs: /app/rjs
 
 routes:
 
+  media/script/dhtml.js: coffee:lib/sitefile/client/dhtml.coffee
   media/script/sitefile-client.js: static:build/client/sf-v0.js
   media/style: static:build/style
 
@@ -61,6 +61,7 @@ routes:
 
   # Dynamic rules using glob spec
   _du: du:**/*.rst
+
   #_rst2html: rst2html:**/*.rst
   gitflow: du:.gitflow.rst
 
@@ -149,8 +150,6 @@ options:
     #      $ref: '#/defs/stylesheets/default'
 
   local:
-    shadows/: {}
-
     npm/node-sitefile/latest.json:
       spec:
         hostname: 'registry.npmjs.org'
