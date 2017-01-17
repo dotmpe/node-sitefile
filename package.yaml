@@ -3,7 +3,7 @@
 - type: application/x-project-mpe
   main: node-sitefile
   name: node-sitefile
-  version: 0.0.5-dev # node-sitefile
+  version: 0.0.5 # node-sitefile
   environments: [ 'development' ]
 
   pd-meta:

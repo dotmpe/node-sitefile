@@ -2,7 +2,7 @@
 
 [ -n "$ENV" ] || ENV=development
 
-version=0.0.5-dev # node-sitefile
+version=0.0.5 # node-sitefile
 
 echo "Configuring project node-sitefile/$version" >&2
 echo "PWD (real): $(pwd) ($(pwd -P))" >&2
