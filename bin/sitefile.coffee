@@ -120,5 +120,5 @@ else
   process.exit(1)
 
 
-# Id: node-sitefile/0.0.5 bin/sitefile.coffee
+# Id: node-sitefile/0.0.6-dev bin/sitefile.coffee
 # vim:ft=coffee:
