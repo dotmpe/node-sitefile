@@ -18,7 +18,7 @@ strutil = require '../strutil'
 c = strutil.c
 
 
-version = "0.0.5-dev" # node-sitefile
+version = "0.0.6-dev" # node-sitefile
 
 
 
@@ -129,7 +129,8 @@ load_config = ( ctx={} ) ->
     ctx.config_envs = require rc
     ctx.config = ctx.config_envs[ctx.envname]
     _.defaultsDeep ctx, ctx.config
-    console.log "Loaded user config for #{ctx.envname}"
+    if ctx.verbose
+      console.log "Loaded user config for #{ctx.envname}"
 
   ctx.config
 
@@ -148,6 +149,10 @@ prepare_context = ( ctx={} ) ->
       name: path.basename process.argv[1]
     envname: process.env.NODE_ENV ? 'development'
     log: log
+    verbose: false
+
+  ctx.verbose = ctx.envname is 'development'
+
   _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
   _.defaultsDeep ctx,
@@ -239,7 +244,8 @@ prepare_context = ( ctx={} ) ->
     return Router.expand_path @res.path, @
 
 
-  console.log "Creating new context for #{ctx.envname}"
+  if ctx.verbose
+    console.log "Creating new context for #{ctx.envname}"
   new Context ctx
 
 
@@ -669,7 +675,7 @@ class Sitefile
         # Then update rctx.route with local and global sitefile and router defaults.
 
         if router_type.defaults?
-          # Add global and local router context defaults now. 
+          # Add global and local router context defaults now.
           if router_type.defaults.global?
             if handler_name of router_type.defaults.global
               _.defaultsDeep rctx.route, \

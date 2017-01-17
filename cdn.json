@@ -59,7 +59,8 @@
       "packages": {
         "mocha": "/npm/packages/mocha/mocha",
         "bootstrap": "/npm/packages/bootstrap/dist/css/bootstrap.min",
-        "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min"
+        "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min",
+        "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui"
       }
     }
   }

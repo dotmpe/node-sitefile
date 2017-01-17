@@ -50,6 +50,7 @@ module.exports = ( grunt ) ->
       test:
         options:
           reporter: 'spec'
+          colors: true
           require: 'coffee-script/register'
           captureFile: 'mocha.out'
           quiet: false
@@ -132,7 +133,8 @@ module.exports = ( grunt ) ->
   # Static analysis of source files
   grunt.registerTask 'lint', [
     'coffeelint'
-    'jshint'
+    'jshint:all'
+    'jshint:examples'
     'yamllint'
   ]
 

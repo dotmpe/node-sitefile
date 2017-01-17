@@ -3,38 +3,44 @@
 language: node_js
 
 node_js:
-  # FIXME: strict with webdriver (Travis #510.1) 
-  # - "0.12"
-  - "6.0"
+  # Note: selenium-webdriver does not support node <4. Would need to degrade tests.
+  #- "0.12"
+  # Note: >=4 seems to be working like 6.0
+  #- "4.4"
+  #- "5.11"
+  - "6.1"
 
 addons:
   apt:
     packages:
       - python-docutils
       - graphviz
-  firefox: "45"
+  firefox: '45'
+
+before_install:
+  - npm install -g bower
 
 before_script:
-- "export DISPLAY=:99.0"
-- "sh -e /etc/init.d/xvfb start"
-- sleep 3 # give xvfb some time to start
-- "wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
-- "java -jar selenium-server-standalone-2.53.0.jar > /dev/null &"
-- sleep 3
-- test -x "$(which rst2html)" || { mkdir ~/bin && cd ~/bin && ln -s $(which rst2html.py) rst2html; }
-- rst2html --version
+  # Note Se not working in mocha - test "$TRAVIS_NODE_VERSION" != "0.12" || { npm uninstall selenium-webdriver; npm install selenium-webdriver@2.53.3; }
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3
+  - wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
+  - java -jar selenium-server-standalone-2.53.0.jar > /dev/null &
+  - sleep 3
+  - test -x "$(which rst2html)" || { mkdir ~/bin && cd ~/bin && ln -s $(which rst2html.py) rst2html; }
+  - rst2html --version
 
 env:
   - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin:$PATH ENV=testing
-
-#branches:
-#  only:
-#   - master
-#   - /^test.*$/
-#   - /^feature.*$/
-#   - /^r[0-9].*$/
 
 notifications:
   email:
     on_success: never
 
+deploy:
+  - provider: npm
+    on:
+      tags: true
+    api_key:
+      secure: Tk2YrZF2+gq1BNO8KR61JW4E4T0U/7/hr5ME+XP8iIgW2IMrljgwLNRfH1tzh/9+7D2Tcybxs5QcJgPwP+aSxvS1GpEwCXPw02TB7xgAtrD7CXB05aBovQc4v4mT6f84rfB50w0LWhG9DuIVX8K7NbDYB0qRhAx90STegii8ols=
