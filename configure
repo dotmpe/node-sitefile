@@ -10,7 +10,7 @@ echo "Host (full): $(hostname) ($(hostname -f))" >&2
 echo "User (dir, HOME): $(whoami) ($(cd; pwd -P), $HOME)"
 echo "ENV: $ENV"
 
-branch=$(git rev-parse --abbrev-ref HEAD)
+branch=$(git rev-parse --abbrev-ref HEAD || git describe --always)
 echo "Branch: $branch"
 
 echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
