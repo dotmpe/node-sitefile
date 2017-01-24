@@ -4,7 +4,9 @@ MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 
 # Dev tooling
-RUN DEBIAN_FRONTEND=noninteractive RUNLEVEL=1 apt-get install -y -qq \
+# Core tools
+RUN apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive RUNLEVEL=1 apt-get install -y -qq \
   sudo man curl wget socat tmux tree ssh elinks \
   realpath \
   uuid-runtime \
