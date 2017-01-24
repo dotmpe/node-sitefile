@@ -1,5 +1,5 @@
 
-FROM ubuntu:14.04
+FROM ubuntu:12.04
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 
