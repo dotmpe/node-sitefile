@@ -10,7 +10,7 @@ RUN cd && \
 
 # Dev tooling
 RUN DEBIAN_FRONTEND=noninteractive RUNLEVEL=1 apt-get install -y -qq \
-  sudo man curl socat tmux tree ssh elinks \
+  sudo man curl wget socat tmux tree ssh elinks \
   realpath \
   uuid-runtime \
   vim python make git build-essential
