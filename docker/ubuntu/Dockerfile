@@ -33,7 +33,7 @@ RUN cd && \
 #  nvm install stable
 
 
-#RUN npm install npm -g
+RUN npm install npm -g
 
 ARG sf_checkout=r0.0.5
 
