@@ -15,9 +15,7 @@ RUN apt-get update -qq && \
   nodejs npm \
   rubygems \
   pandoc \
-  graphviz && \
-  \
-  ln -s /usr/bin/nodejs /usr/bin/node
+  graphviz
 
 
 # Install PIP
