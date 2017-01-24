@@ -3,11 +3,6 @@ FROM ubuntu:14.04
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 
-# Install PIP
-RUN cd && \
-  wget https://bootstrap.pypa.io/get-pip.py && \
-  python get-pip.py
-
 # Dev tooling
 RUN DEBIAN_FRONTEND=noninteractive RUNLEVEL=1 apt-get install -y -qq \
   sudo man curl wget socat tmux tree ssh elinks \
@@ -21,6 +16,12 @@ RUN DEBIAN_FRONTEND=noninteractive RUNLEVEL=1 apt-get install -y -qq \
   graphviz && \
   \
   ln -s /usr/bin/nodejs /usr/bin/node
+
+
+# Install PIP
+RUN cd && \
+  wget https://bootstrap.pypa.io/get-pip.py && \
+  python get-pip.py
 
 
 # Node version manager
