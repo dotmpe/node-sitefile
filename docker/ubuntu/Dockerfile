@@ -10,7 +10,7 @@ RUN apt-get update -qq && \
   sudo man curl wget socat tmux tree ssh elinks \
   realpath \
   uuid-runtime \
-  vim python make git build-essential
+  vim python make git build-essential \
   python-dev python-yaml \
   nodejs npm \
   rubygems \
