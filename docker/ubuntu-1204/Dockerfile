@@ -1,5 +1,5 @@
 
-FROM bvberkum/docker-treebox:ubuntu-trusty
+FROM bvberkum/docker-treebox:ubuntu-precise
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 
@@ -36,4 +36,5 @@ RUN \
 
 COPY ./entry.sh /usr/share/sitefile/entry.sh
 ENTRYPOINT /usr/share/sitefile/entry.sh $site $repo
+
 

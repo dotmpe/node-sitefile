@@ -1,5 +1,5 @@
 
-FROM bvberkum/docker-treebox:ubuntu-trusty
+FROM bvberkum/docker-treebox:debian-unstable
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 
