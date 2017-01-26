@@ -7,10 +7,10 @@ version=0.0.5-dev # node-sitefile
 echo "Configuring project node-sitefile/$version" >&2
 echo "PWD (real): $(pwd) ($(pwd -P))" >&2
 echo "Host (full): $(hostname) ($(hostname -f))" >&2
-echo "User (dir, HOME): $(whoami) ($(cd; pwd -P), $HOME)"
+echo "User (dir, HOME): $(whoami) ($(cd && { pwd -P; } || echo "?"), $HOME)"
 echo "ENV: $ENV"
 
-branch=$(git rev-parse --abbrev-ref HEAD)
+branch=$(git rev-parse --abbrev-ref HEAD || git describe --always)
 echo "Branch: $branch"
 
 echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
