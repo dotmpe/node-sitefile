@@ -1,27 +1,6 @@
 
-FROM ubuntu:12.04
+FROM bvberkum/docker-treebox:ubuntu-precise
 MAINTAINER B. van Berkum <dev@dotmpe.com>
-
-
-# Dev tooling
-# Core tools
-RUN apt-get update -qq && \
-    DEBIAN_FRONTEND=noninteractive RUNLEVEL=1 apt-get install -y -qq \
-  sudo man curl wget socat tmux tree ssh elinks \
-  realpath \
-  uuid-runtime \
-  vim python make git build-essential \
-  python-dev python-yaml \
-  nodejs npm \
-  rubygems \
-  pandoc \
-  graphviz
-
-
-# Install PIP
-RUN cd && \
-  wget https://bootstrap.pypa.io/get-pip.py && \
-  python get-pip.py
 
 
 # Node version manager
@@ -33,7 +12,8 @@ RUN cd && \
 #  nvm install stable
 
 
-RUN npm install npm -g
+#RUN npm install npm -g
+
 
 ARG sf_checkout=r0.0.5
 
