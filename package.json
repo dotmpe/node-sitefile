@@ -37,7 +37,8 @@
     "sitefile": "./bin/sitefile.coffee"
   },
   "scripts": {
-    "install": " ./configure && grunt build-test",
+    "install": " ./configure ",
+    "install-test": " ./configure && grunt build-test",
     "test": "./configure && grunt test",
     "start": "NODE_ENV=development coffee bin/sitefile.coffee",
     "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
