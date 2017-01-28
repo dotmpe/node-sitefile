@@ -6,7 +6,7 @@ _ = require 'lodash'
 chalk = require 'chalk'
 semver = require 'semver'
 URL = require 'url'
-nodelib = require 'nodelib'
+nodelib = require 'nodelib-mpe'
 Context = nodelib.Context
 
 Router = require './Router'

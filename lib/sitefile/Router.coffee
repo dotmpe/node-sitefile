@@ -5,7 +5,7 @@ glob = require 'glob'
 _ = require 'lodash'
 
 libconf = require '../conf'
-nodelib = require 'nodelib'
+nodelib = require 'nodelib-mpe'
 Context = nodelib.Context
 
 
