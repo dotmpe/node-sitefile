@@ -18,6 +18,7 @@ RUN npm install npm -g
 ARG sf_checkout=dev
 
 # Sitefile
+RUN npm uninstall -g coffee-script pm2 grunt grunt-cli webpack
 RUN npm install -g coffee-script pm2 grunt grunt-cli webpack
 RUN gem install sass
 RUN git clone \
