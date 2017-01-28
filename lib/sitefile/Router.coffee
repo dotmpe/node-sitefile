@@ -4,7 +4,7 @@ minimatch = require 'minimatch'
 glob = require 'glob'
 _ = require 'lodash'
 
-nodelib = require 'nodelib'
+nodelib = require 'nodelib-mpe'
 Context = nodelib.Context
 
 
