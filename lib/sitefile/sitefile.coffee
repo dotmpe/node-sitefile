@@ -18,7 +18,7 @@ strutil = require '../strutil'
 c = strutil.c
 
 
-version = "0.0.5-dev" # node-sitefile
+version = "0.0.7-dev" # node-sitefile
 
 
 

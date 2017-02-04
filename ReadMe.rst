@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.0.5-dev
+:Version: 0.0.7-dev
 :Status: Development
 :package: Changelog_
 
@@ -148,4 +148,4 @@ Further reading
 
 .. This is a reStructuredText document.
 
-.. Id: node-sitefile/0.0.5-dev ReadMe.rst
+.. Id: node-sitefile/0.0.7-dev ReadMe.rst
