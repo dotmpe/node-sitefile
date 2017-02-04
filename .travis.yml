@@ -4,9 +4,9 @@ language: node_js
 
 node_js:
   # Note: selenium-webdriver does not support node <4. Would need to degrade tests.
-  #- "0.12"
+  #- "0.12" # see #666.1 failed
   # Note: >=4 seems to be working like 6.0
-  #- "4.4"
+  - "4.4"
   #- "5.11"
   - "6.1"
 

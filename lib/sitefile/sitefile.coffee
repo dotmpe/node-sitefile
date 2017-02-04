@@ -5,7 +5,7 @@ yaml = require 'js-yaml'
 _ = require 'lodash'
 chalk = require 'chalk'
 semver = require 'semver'
-nodelib = require 'nodelib'
+nodelib = require 'nodelib-mpe'
 
 Context = nodelib.Context
 
