@@ -18,3 +18,5 @@ example/server-generated-page.pug
 example/server-generated-stylesheet.styl
 tools/merge-upstream.sh
 #.sitefilerc
+example/site/3/Sitefile.json
+example/site/4/Sitefile.yml

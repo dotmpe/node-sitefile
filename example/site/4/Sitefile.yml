@@ -1,5 +1,5 @@
 
-sitefile: 0.0.5-dev
+sitefile: 0.0.7-dev
 routes: {}
 
 options:
@@ -14,3 +14,4 @@ defs:
     default:
         - /vendor/jquery.js
 
+# Id: node-sitefile/0.0.7-dev example/site/4/Sitefile.yml
