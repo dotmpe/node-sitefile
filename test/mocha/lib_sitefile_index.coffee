@@ -116,7 +116,7 @@ describe 'Module sitefile', ->
   describe 'load sitefile', ->
 
     sitefile = {
-      sitefile: '0.0.4'
+      sitefile: '0.0.5'
       routes:
         _du: 'du:**/*.rst'
         _gv: 'gv:**/*.gv'
