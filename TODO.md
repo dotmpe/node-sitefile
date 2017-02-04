@@ -113,6 +113,11 @@ Want most features of 0.1.0 soonish.
 - TODO: map prefixes.
 - TODO: finalize 0.1.0 specifications and define BWC components/interfaces.
 - FIXME: rst2html router context is broken.
+- Once upon a time, may want node-sitefile to be more generic and robust.
+  First of all, grow to a more Express middleware compatible setup.
+  And may want to look at krakenjs.com here (also Express middleware) for
+  moving towards a more robust web-grade service.
+
 
 ### Documents
 - TODO: manage view: style and scripts. Automatic reload browser on change.
