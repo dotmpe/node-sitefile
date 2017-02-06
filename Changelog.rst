@@ -40,8 +40,8 @@
   Started a handler context rewrite.
 
 (0.0.7)
-  Bypassed r0.0.5 feature changes to get back a stable release.
-
+  - Bypassed r0.0.5 feature changes to get back at stable release.
+  - Forked off dev to ``features/baseref``.
 
 (0.1.0)
   ..
