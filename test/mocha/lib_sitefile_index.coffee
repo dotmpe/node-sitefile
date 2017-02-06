@@ -133,7 +133,7 @@ describe 'Module sitefile', ->
 
 
     sitefile_2 = {
-      sitefile: '0.0.5-dev'
+      sitefile: '0.0.6-dev'
       routes: {}
       options:
         global:

@@ -112,8 +112,8 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
-  _handle_my_file: handle:**/*.my.file
-  prefix/to/${ctx.res.path}: handle:**/*.my.file
+  #_handle_my_file: handle:**/*.my.file
+  #prefix/to/${ctx.res.path}: handle:**/*.my.file
 
   local: static:public/local
 

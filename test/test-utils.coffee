@@ -37,7 +37,11 @@ class SitefileTestUtils
     lib = require '../lib/sitefile'
     if @dir
       process.chdir @dir
-    sitefile = lib.prepare_context().sitefile
+    try
+      sitefile = lib.prepare_context().sitefile
+    catch e
+      process.chdir @cwd
+      throw e
     process.chdir @cwd
     sitefile
 

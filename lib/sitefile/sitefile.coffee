@@ -310,8 +310,10 @@ class Routers
   load: ->
 
     routers = @parse()
+    unless routers
+      throw new Error "Found no routers in Sitefile"
 
-    log 'Required routers', name: @names.join ', '
+    log 'Required routers', name: routers.join ', '
 
     # parse sitefile.routes, pass 1: load & init routers
     for name in routers
@@ -614,10 +616,7 @@ class Sitefile
     @ctx.prepare_from_obj options
     @ctx.seed options
 
-    for rsinit in @routers.prepare()
-      console.log rsinit
-
-    return # XXX
+    # XXX refactoring...
 
     # Parse Sitefile route mapping
     for rsinit_1 in @routers.parse()
