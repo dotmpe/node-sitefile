@@ -34,7 +34,7 @@ var_isset()
 
     bash )
         # Bash: https://www.cyberciti.biz/faq/linux-unix-howto-check-if-bash-variable-defined-not/
-        $scriptdir/tools/sh/var-isset.bash "$1" || return 1
+        $scriptdir/sh/var-isset.bash "$1" || return 1
       ;;
 
     * )
