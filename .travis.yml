@@ -21,15 +21,10 @@ before_install:
   - npm install -g bower
 
 before_script:
-  # Note Se not working in mocha - test "$TRAVIS_NODE_VERSION" != "0.12" || { npm uninstall selenium-webdriver; npm install selenium-webdriver@2.53.3; }
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
-  - wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
-  - java -jar selenium-server-standalone-2.53.0.jar > /dev/null &
-  - sleep 3
-  - test -x "$(which rst2html)" || { mkdir ~/bin && cd ~/bin && ln -s $(which rst2html.py) rst2html; }
-  - rst2html --version
+  - scriptname=travis:before-script
+  - . ./tools/sh/init.sh
+  - . ./tools/sh/env.sh
+  - . ./tools/ci/build.sh
 
 env:
   - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin:$PATH ENV=testing

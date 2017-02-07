@@ -44,4 +44,3 @@ rm *.bak
 #
 
 # Id: node-sitefile/0.0.6-dev tools/merge-upstream.sh
-
