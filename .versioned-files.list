@@ -4,7 +4,6 @@ bower.json
 Sitefile.yaml
 package.yaml
 lib/sitefile/sitefile.coffee
-Makefile
 configure
 test/mocha/lib_dotmpe_conf.coffee
 test/mocha/lib_sitefile_express.coffee
@@ -18,3 +17,11 @@ example/server-generated-page.pug
 example/server-generated-stylesheet.styl
 tools/merge-upstream.sh
 #.sitefilerc
+tools/ci/build.sh
+tools/sh/init.sh
+tools/sh/env.sh
+tools/os.lib.sh
+tools/std.lib.sh
+tools/str.lib.sh
+tools/sys.lib.sh
+tools/util.lib.sh
