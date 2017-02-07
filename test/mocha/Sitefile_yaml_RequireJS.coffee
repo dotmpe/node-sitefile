@@ -88,7 +88,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
           ]
 
 
-        browser.it "has one or more bootstrap container", ->
+        browser.it "has one or more bootstrap container(s)", ->
           driver = @driver
           new Promise ( resolve, reject ) ->
             driver.wait(
@@ -113,6 +113,10 @@ describe "The local Sitefile.yaml serves the local documentation, and \
                 expect('.breadcrumb > *').dom.to.have.count 5
               ]).catch( reject ).then resolve
 
+
+        browser.it "loads page with baserefs resolved", ->
+
+        browser.it "redirect a page request back to app/v0", ->
 
 
     describe "with config/init from", ->
