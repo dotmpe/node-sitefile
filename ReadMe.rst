@@ -12,6 +12,10 @@ Node Sitefile
     :target: https://gemnasium.com/dotmpe/node-sitefile
     :alt: Dependencies
 
+  .. image:: https://snyk.io/package/npm/name/badge.svg
+    :target: https://snyk.io/package/npm/name
+    :alt: Vulnerabilities
+
 :project:
 
   .. image:: https://coveralls.io/repos/dotmpe/node-sitefile/badge.png
