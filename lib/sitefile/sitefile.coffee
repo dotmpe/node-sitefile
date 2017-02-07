@@ -5,7 +5,7 @@ yaml = require 'js-yaml'
 _ = require 'lodash'
 chalk = require 'chalk'
 semver = require 'semver'
-nodelib = require 'nodelib'
+nodelib = require 'nodelib-mpe'
 
 Context = nodelib.Context
 
@@ -18,7 +18,7 @@ strutil = require '../strutil'
 c = strutil.c
 
 
-version = "0.0.5-dev" # node-sitefile
+version = "0.0.7-dev" # node-sitefile
 
 
 

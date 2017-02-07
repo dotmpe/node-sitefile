@@ -15,6 +15,9 @@ master [*]_
       Looking for database to HTTP endpoints, but also may want to support
       a backend in core. See `DB Feature`_ docs.
 
+      core-buitins
+        ..
+
       db-knex
         Bookshelf is an ORM using Knex. Look for an HTTP API.
 
@@ -115,7 +118,7 @@ master [*]_
         - The `Gherkin Feature`_ is for routing gherkin test specifications.
           Only generating JSON.
         - Added behat initially. But later found cucumber-js.
-	- Maybe combine JSON with Pug. 
+	      - Maybe combine JSON with Pug.
           For now installed grunt gherkin_report for HTML but its not pretty.
 
       selenium
@@ -124,6 +127,11 @@ master [*]_
 
       cdn
         - Initial cdn router. Later merged with http.
+
+      baseref
+        - Initial attempt to support baserefs, identifies a lot of places
+          of impaced. Forked from `dev` and force updated `dev` to continue on
+          ``r0.0.7`` branche.
 
   demo
     - Merging experimental features. Should keep master clean.

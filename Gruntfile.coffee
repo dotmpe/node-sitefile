@@ -50,6 +50,7 @@ module.exports = ( grunt ) ->
       test:
         options:
           reporter: 'spec'
+          colors: true
           require: 'coffee-script/register'
           captureFile: 'mocha.out'
           quiet: false

@@ -34,9 +34,14 @@
 (0.0.5)
   .. See doc/dev or HACKING.md for more on upcoming versions.
 
+  Includes router URL base feature that is not mature enough.
 
 (0.0.6)
-  ..
+  Started a handler context rewrite.
+
+(0.0.7)
+  - Bypassed r0.0.5 feature changes to get back at stable release.
+  - Forked off dev to ``features/baseref``.
 
 (0.1.0)
   ..

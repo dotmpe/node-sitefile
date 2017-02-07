@@ -15,7 +15,7 @@ addons:
     packages:
       - python-docutils
       - graphviz
-  firefox: "45"
+  firefox: "45.0"
 
 before_install:
   - npm install -g bower

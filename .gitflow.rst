@@ -74,6 +74,8 @@ dev
       ..
   r0.0.6
     ..
+  r0.0.7
+    ..
   staging_git_versioning
     ..
 

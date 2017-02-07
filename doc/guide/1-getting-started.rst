@@ -13,7 +13,7 @@ names. In any case a simple example Sitefile is generated to start with.
 
 Sitefile.yml::
 
-    sitefile: 0.0.5-dev
+    sitefile: 0.0.7-dev
     paths:
       routers: [
         'sitefile:example/routers'
