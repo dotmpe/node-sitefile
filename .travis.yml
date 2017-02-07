@@ -21,7 +21,7 @@ before_install:
   - npm install -g bower
 
 before_script:
-  - scriptname=travis:before-script
+  - export scriptname=travis:before-script
   - . ./tools/sh/init.sh
   - . ./tools/sh/env.sh
   - . ./tools/ci/build.sh
