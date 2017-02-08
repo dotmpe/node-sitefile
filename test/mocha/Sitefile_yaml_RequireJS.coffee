@@ -116,7 +116,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
         browser.it "loads page with baserefs resolved", ->
 
-        browser.it "redirect a page request back to app/v0", ->
+        browser.it "catch navigation clicks and direct through /app/v0# ", ->
 
 
     describe "with config/init from", ->

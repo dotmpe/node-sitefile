@@ -2,7 +2,7 @@
 .. include:: .defaults.rst
 
 Notes on the `route` attribute in extension modules. Probably consolidate with
-Sitefile 0.0.5 `route` scheme.
+Sitefile 0.0.5 `route` schema.
 
 
 Requirements:
@@ -12,8 +12,11 @@ Requirements:
 - standalone use: Sitefile route/... specs for components, JSON pointers [RFC6901]
 
 
+Status: all of this below is design phase, draft material. In the same general
+direction as dev, but not up to date. See test/mocha
+
 Use cases
----------
+------------------------------------------------------------------------------
 
 1. Static files
     TODO: test setup.
@@ -55,7 +58,7 @@ Use cases
 
 
 JSON API
---------
+------------------------------------------------------------------------------
 Peeking at the JSON API spec for attribute names. Now try to pin down where
 everything goes.
 
@@ -147,9 +150,12 @@ core/routes/api.json.yaml::
     rctx.site.base + rctx.res.name
 
 
+Implementations
+------------------------------------------------------------------------------
+Applies partially to r0.0.6, and partially to master/dev/r0.0.7 branch.
 
 Resolver
---------
+______________________________________________________________________________
 sitefile.Router.Base.resolve turns a parsed Sitefile route spec into a route
 context. This looks like::
 
@@ -177,7 +183,7 @@ specs. Not implemented, see Generator_ spec below.
 
 
 Generator
----------
+______________________________________________________________________________
 
 sitefile.Routers.generator currently implements resolving to an Express handler
 given a route context.
@@ -204,7 +210,7 @@ The data is an instance known at initialization time, or a callback accepting
 the resource context to return the instance data per route request.
 
 Resources
----------
+______________________________________________________________________________
 TODO: attribute resources, get back at simplicity of::
 
   /url/path: router:my/files/*.xxx
@@ -219,12 +225,6 @@ type metadata, or router can customize.
 And routers can re-use existing data endpoints.
 
 But need to encapsulate this in a terse syntax structure.
-
-This must work::
-
-  _id_1: du.html:**/*.md
-  _id_rst_custom_ext: du.html:**/*.rest
-  _id_rst_default: du.html:
 
 So iso.::
 
@@ -247,6 +247,13 @@ See `Base.resources`__ comment too.
 
 
 builtin.data
-------------
+______________________________________________________________________________
 Simply serve ``rctx.res.data`` using JSON.stringify.
+
+
+Related
+-------
+- `Text Markup Feature`_
+- `HTML5 Client Feature`_
+
 
