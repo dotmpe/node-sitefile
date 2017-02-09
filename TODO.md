@@ -113,6 +113,7 @@ Want most features of 0.1.0 soonish.
 - TODO: map prefixes.
 - TODO: finalize 0.1.0 specifications and define BWC components/interfaces.
 - FIXME: rst2html router context is broken.
+- FIXME: markdown requires Pug router to be loaded, iow. fails w/o pug routes.
 
 ### Documents
 - TODO: manage view: style and scripts. Automatic reload browser on change.

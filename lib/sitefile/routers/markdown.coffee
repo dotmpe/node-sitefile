@@ -2,6 +2,7 @@ _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
 sitefile = require '../sitefile'
+Router = require '../Router'
 
 
 # Given sitefile-context, export metadata for markdown: handler
@@ -50,7 +51,7 @@ module.exports = ( ctx={} ) ->
         doc = md.toHTML data.toString()
 
         pugOpts = _.defaultsDeep rctx.route.options.pug, {
-          tpl: './lib/sitefile/client/view.pug'
+          tpl: Router.expand_path 'sitefile-client:view.pug', ctx
           merge:
             ref: rctx.res.ref
             html:
