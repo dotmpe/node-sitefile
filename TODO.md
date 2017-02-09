@@ -114,6 +114,8 @@ Want most features of 0.1.0 soonish.
 - TODO: finalize 0.1.0 specifications and define BWC components/interfaces.
 - FIXME: rst2html router context is broken.
 - TODO: add something like a `text:` router to force play text display.
+- TODO: look at a more middleware compatible approach
+  http://developeriq.in/articles/2015/feb/09/node-expressjs-and-mongoose-part-ii/
 
 ### Documents
 - TODO: manage view: style and scripts. Automatic reload browser on change.
