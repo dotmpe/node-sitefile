@@ -92,14 +92,6 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
 
   ###
-  ###
-  XXX: now using requirejs client
-
-  it "should publish a client JS",
-    stu.test_url_type_ok \
-      "/media/script/sitefile-client.js", "application/javascript"
-
-  ###
 
 
   describe "has a Graphviz router for DOT diagram to PNG format", ->
