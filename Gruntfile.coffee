@@ -1,8 +1,5 @@
 
 
-webpack = require 'webpack'
-
-
 module.exports = ( grunt ) ->
 
   # auto load grunt contrib tasks from package.json
@@ -56,47 +53,6 @@ module.exports = ( grunt ) ->
           quiet: false
           clearRequireCache: false # do explicitly as needed
         src: ['test/mocha/*.coffee']
-
-    webpack:
-      client:
-        entry: './lib/sitefile/client/lib/sf-v0'
-        devtool: 'sourcemap'
-        output:
-          filename: 'build/client/sf-v0.js'
-          library: "sitefile_client"
-        module:
-          loaders: [
-            {
-              test: /\.js$/,
-              exclude: /node_modules/,
-              loaders: ['babel']
-            },
-            {
-              test: /\.coffee$/,
-              exclude: /node_modules/,
-              loader: "coffee"
-            },
-            {
-              test: /\.json$/,
-              loader: "json"
-            },
-            {
-              test: /\.pug$/,
-              exclude: /node_modules/,
-              loader: "pug"
-            },
-          ]
-        plugins: [
-          new webpack.IgnorePlugin(/^(markdown|pug|pug-runtime|stylus|pm2|pmx|knex)$/),
-          new webpack.IgnorePlugin(/\.(css|less)$/),
-          new webpack.BannerPlugin('require("source-map-support").install();',
-                                   { raw: true, entryOnly: false }),
-        ],
-        #externals: nodeModules,
-        resolve:
-          extensions: [
-            '', '.coffee', '.js', '.json', '.pug'
-          ]
 
     docco:
       debug:
@@ -166,7 +122,6 @@ module.exports = ( grunt ) ->
 
   grunt.registerTask 'client', [
     'sass:dist'
-    # XXX: using rjs cs client for now 'webpack:client'
   ]
 
   grunt.registerTask 'build-test', [

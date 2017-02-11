@@ -20,7 +20,6 @@ paths:
 routes:
 
   media/script/dhtml.js: coffee:lib/sitefile/client/dhtml.coffee
-  media/script/sitefile-client.js: static:build/client/sf-v0.js
   media/style: static:build/style
 
   doc/literate: static:build/docs/docco/
@@ -197,8 +196,7 @@ defs:
       #- /vendor/require.js
       #- /vendor/source-map-support.js
       - /vendor/coffee-script.js
-      #- src: /media/script/sitefile-client.js
-      #  path: build/client/default.js
+      - /media/script/dhtml.js
   stylesheets:
     default:
       - url: /vendor/bootstrap.css
