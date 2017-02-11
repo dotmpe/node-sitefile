@@ -26,3 +26,23 @@ module.exports = ( ctx={} ) ->
           res.write(stdout)
           res.end()
 
+    ls: ( rctx ) ->
+      ( req, res ) ->
+        sitefile.log "Sh ls", rctx.res.path
+        exec "ls -la #{rctx.res.path}", (error, stdout, stderr) ->
+          if error != null
+            res.status(500)
+          res.write(stdout)
+          res.end()
+
+    tree: ( rctx ) ->
+      ( req, res ) ->
+        sitefile.log "Sh tree", rctx.res.path
+        exec "tree -fgups #{rctx.res.path}", (error, stdout, stderr) ->
+          if error != null
+            res.status(500)
+          res.write(stdout)
+          res.end()
+
+
+

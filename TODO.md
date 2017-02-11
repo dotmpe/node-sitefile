@@ -118,6 +118,9 @@ Want most features of 0.1.0 soonish.
 - TODO: look at a more middleware compatible approach
   http://developeriq.in/articles/2015/feb/09/node-expressjs-and-mongoose-part-ii/
 - TODO: directory index/tree router
+- TODO: Want shadows for DOT diagrams too.
+  Probably router to run scripts around imagemagick, see router features.
+
 
 ### Documents
 - TODO: manage view: style and scripts. Automatic reload browser on change.

@@ -46,6 +46,9 @@ routes:
   _pu_dev_doc: plantuml:doc/dev/*.plantuml
   _json: data.json:example/*.json
 
+  foo.ls: sh.ls:example/
+  foo.tree: sh.tree:example/
+
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
 

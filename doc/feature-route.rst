@@ -15,10 +15,10 @@ Requirements:
 Use cases
 ---------
 
-1. Static files
-    TODO: test setup.
+1. Static files. Uses Express middleware.
 
-2. Third-party Content Delivery
+2. Third-party Content Delivery: redirect or proxy requests elsewhere.
+
       TODO: Using the ``cdn`` router, serve the first available resource
       (local, or global).
 
@@ -31,27 +31,93 @@ Use cases
 
    "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min"
 
-3. Maybe: provide a base dir prefix for "dynamic" files, ie. those generated
-   from other files.
 
-   But want to override back to normal, on maybe per-route basis?
-   Use case: some files are checked into SCM, or expected in the working tree.
+Design
+--------
 
-   But for most generated files, don't pollute?
+Middleware and mounting
+  ::
 
-   Maybe alternatively track and cleanup dynamic files on closedown or a special
-   command.
+    routes:
+      /html/%{res}: sfv0.html:?#
+      /txt/%{res}: sfv0.txt:?#
 
-4. TODO: Add shadows to DOT diagrams.
+  Maybe: a base prefix for "dynamic" files, generated from other files;
+  processed, compiled, minified, transformed, included, rendered, etc.
+  Its the opposite of changing the extension. But see notes on feature/baseref.
 
-   See http:/tools/diagram-shadows.sh
+  Both methods::
 
-   Requires two graphviz renders and an ImageMagick CLI recipe.
+    routes:
+      %.html: du.html:**/*.rst#
+      html/%: du.html:**/*.rst#
+      # Ideas:
+      # %.rst: static:**/*.rst
+      # txt/%.rst: du.txt:**/*.rst#
+      # %.rst: sfv0.src:**/*.rst
 
-   Going to have convert.filter router take local options for route.
-   Need to use path with params, see if glob still kicks in.
+  Above idea on basic, but flexible 0.1-ish syntax.
+  Currently each glob scan is individual. Something more intelligent maybe.
 
-   And have graphviz accept more params.
+  But no abstraction of resource type yet. Only the tree of sitefile contexts.
+  KISS. ``sfv0.*`` to do some specific things about routing for both
+  browser clients and more programmatic access... maybe.
+
+  Rather would abstract ideas presented in syntax a bit, extend existing ideas.
+  Before making Sf more complex in features by bringing in new ideas..
+
+  1. default routes, perhaps per profile too.. Something more fancy than
+     just `sitefile ./my/alt/Sitefile.yaml`?
+
+     Router, user config or local config (sitefile etc.) can provide.
+     ::
+
+        name: 'du'
+        label: 'Docutils Publisher'
+        usage: """
+        """
+        defaults:
+          handler: 'rst2html'
+          global:
+            rst2html: ...
+          routes:
+            du.rst2html:**/*.rst
+            du.rst2html:**/*.rst
+
+     E.g.::
+
+        sitefile [--default]
+                 [--default=<profile>]
+                 [--default-routes] [--routers=<router>...]
+
+     To pick up user's Sitefile or other file than default, or
+     use all routers with default routes iso. local Sitefile resp.
+
+  2. Modes of routes::
+
+        %.<pub-ext>: <glob>.<src-ext>
+        <pub-tree>/%: <glob>.<src-ext>
+
+     So what is 'default'? Or just call first form 'classic' and make second
+     default: ``sitefile --default-routes --routers=du --classic``.
+
+
+
+Baseref
+  Using changing basereferences can muck up hyperlinks, see feature/baseref.
+  If the entire 'site' is mirrored, things are more pleasant. Then inserted
+  bases like `html` and `txt` should just be parallel trees.
+
+
+Image compositing
+  Bitmap processing can be done with Imagemagick compositing. Like PlantUML
+  has built-in. See http:/tools/diagram-shadows.sh.
+
+  Use case: dot-diagram shadows
+    Background: Requires two graphviz renders and an ImageMagick CLI recipe.
+    Going to have convert.filter router take local options for route.
+    Need to use path with params, see if glob still kicks in.
+
 
 
 JSON API
