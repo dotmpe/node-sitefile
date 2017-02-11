@@ -140,7 +140,8 @@ module.exports = ( ctx ) ->
       extra = (
         docpath: path.join(  ctx.cwd, rctx.res.path ),
         src: format: rctx.res.extname.substr 1
-        dest: format: path.extname(rctx.res.ref)?.substr(1) or 'html'
+        dest: format: 'html' 
+        # FIXME path.extname(rctx.res.ref)?.substr(1) or 'html'
       )
       rctx.prepare_from_obj extra
       rctx.seed extra
