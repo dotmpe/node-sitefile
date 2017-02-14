@@ -49,7 +49,6 @@ module.exports = ( ctx={} ) ->
         sitefile.log 'Markdown default html publish', rctx.res.path
         data = fs.readFileSync rctx.res.path
         doc = md.toHTML data.toString()
-
         pugOpts = _.defaultsDeep rctx.route.options.pug, {
           tpl: Router.expand_path 'sitefile-client:view.pug', ctx
           merge:

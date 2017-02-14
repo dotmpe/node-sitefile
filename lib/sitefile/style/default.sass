@@ -3,6 +3,45 @@
 @import "../../../node_modules/bootstrap/dist/css/bootstrap-theme"
 
 
+body
+  // clearance for navbar-fixed-top
+  padding-top: 70px
+
+  // Dropdown menu: navbar-right with multi-level pull-left
+
+  .dropdown-submenu
+    position: relative
+    float: right
+    min-width: 100%
+
+  .dropdown-submenu:hover > .dropdown-menu 
+    display: block
+
+  .dropdown-submenu > a:after 
+    display: block
+    content: " "
+    float: right
+    width: 0
+    height: 0
+    border-color: transparent
+    border-style: solid
+    border-width: 5px 0 5px 5px
+    border-left-color: #ccc
+    margin-top: 5px
+    margin-right: -10px
+
+  .dropdown-submenu:hover > a:after 
+    border-left-color: #fff
+
+  .dropdown-submenu.pull-left > .dropdown-menu 
+    float: left
+    left: -100%
+    top: -.5em
+    margin-right: 100%
+
+
+
+
 .sf-pm2
   .code.versioning-value,
   .code.env-value
@@ -15,7 +54,92 @@
   .code.env-value
 
 
-.document > *:hover
-  border: 1px solid grey
+//.page-anchor
+
+p:hover:after
+  content: '¶'
+  width: 0
+  float: left
+  position: relative
+  right: 1em
+  color: silver
+
+h1:hover:after,
+h2:hover:after,
+h3:hover:after,
+h4:hover:after,
+h5:hover:after,
+h6:hover:after,
+.id:hover:after
+  content: ' # '
+  font-size: .5em
+  width: 0
+  float: left
+  position: relative
+  right: 1.5em
+  color: silver
+
+  // chain-link icon bootstrap: glyphicon glyphicon-link
+
+.document > .section:hover:before
+  content: '§'
+  font-size: 1.1em
+  bottom: .1em
+  width: 0
+  float: left
+  position: relative
+  right: 2.5em
+  color: silver
+  
+
+.selectable .ui-selected
+  background: #F39814
+  color: white
+
+
+
+/* The console container element */
+#console 
+	position: absolute
+	width: 400px
+	height: 500px
+	background-color:black
+
+/* The inner console element. */
+.jqconsole 
+	padding: 10px
+
+/* The cursor. */
+.jqconsole-cursor 
+	background-color: gray
+
+/* The cursor color when the console looses focus. */
+.jqconsole-blurred .jqconsole-cursor 
+	background-color: #666
+
+/* The current prompt text color */
+.jqconsole-prompt 
+	color: #0d0
+
+/* The command history */
+.jqconsole-old-prompt 
+	color: #0b0
+	font-weight: normal
+
+/* The text color when in input mode. */
+.jqconsole-input 
+	color: #dd0
+
+/* Previously entered input. */
+.jqconsole-old-input 
+	color: #bb0
+	font-weight: normal
+
+/* The text color of the output. */
+.jqconsole-output 
+	color: white
+
+#tilda
+  z-index: 2000
 
 

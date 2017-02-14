@@ -94,11 +94,11 @@ rst2html = ( out, params={} ) ->
 
       else if prm.format == 'html'
         out.type 'html'
-        if 'urls' of prm.scripts and prm.scripts.urls
-          scripts = prm.scripts.urls
-          # coffeelint: disable=ensure_comprehensions,max_line_length
-          stdout = add_script(stdout, script) for script in scripts # coffeelint: ignore:line
-          # coffeelint: enable=ensure_comprehensions,max_line_length
+        scripts = if 'urls' of prm.scripts and prm.scripts.urls then \
+          prm.scripts.urls else prm.scripts
+        # coffeelint: disable=ensure_comprehensions,max_line_length
+        stdout = add_script(stdout, script) for script in scripts # coffeelint: ignore:line
+        # coffeelint: enable=ensure_comprehensions,max_line_length
         out.write stdout
 
       else if prm.format == 'pseudoxml'
@@ -145,7 +145,6 @@ module.exports = ( ctx ) ->
       )
       rctx.prepare_from_obj extra
       rctx.seed extra
-
 
       ( req, res, next ) ->
         req.query = _.defaults req.query || {},

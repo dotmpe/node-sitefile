@@ -10,6 +10,9 @@ clientAcc = \
   'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
 
 client_opts = ( { url, accType = null, reqType, opts = {} } ) ->
+  console.log url, accType, reqType, opts
+  if not url and not opts.path
+    throw new Error "URL or path required"
   if not accType and not reqType
     reqType = 'application/json'
   if not opts.headers
@@ -19,10 +22,14 @@ client_opts = ( { url, accType = null, reqType, opts = {} } ) ->
   if url
     opts.url = url
   if not opts.host and not opts.hostname
-    u = URL.parse opts.url
-    opts.host = u.host
-    opts.port = u.port
-    opts.path = u.path+'?'+u.query
+    if not opts.url
+      opts.host = 'localhost'
+    else
+      u = URL.parse opts.url
+      if u.host then opts.host = u.host
+      if u.port then opts.port = u.port
+      if u.path then opts.path = u.path
+      if u.query then opts.path = opts.path+'?'+u.query
   opts.reqType = reqType
   opts
 
@@ -86,10 +93,25 @@ promise_http_get = ( deref_args ) ->
       reject err
 
 
+local_or_remote = ( rctx ) ->
+  if not rctx.res.src.host or (
+    rctx.res.src.host == rctx.site.host and
+    rctx.res.src.host == rctx.site.host
+  )
+    # TODO lookup router or call handler somewhere
+    #rctx._routers.get('')
+  else
+    promise_resource {
+      url: rctx.res.src.toString()
+      accType: 'application/json'
+    }
+    
+
 module.exports =
   client_headers:
     accept_type: clientAcc
   promise:
     http_get: promise_http_get
     resource: promise_resource
+  local_or_remote: local_or_remote
 

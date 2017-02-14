@@ -29,10 +29,11 @@ module.exports = ( ctx ) ->
 
   generate:
 
+    # Fetch remote JSON
     default: ( rctx ) ->
 
       ( req, res ) ->
-        url = rctx.route.options.spec + req.params.ref
+        url = rctx.route.spec + req.params.ref
         ctx._routers.get('http').promise.resource(
           url: url
           accType: 'application/json'
@@ -41,6 +42,7 @@ module.exports = ( ctx ) ->
           res.write JSON.stringify data
           res.end()
 
+    # Do a HTTP HEAD request
     ref: ( rctx ) ->
       ( req, res ) ->
         if not req.params or req.params.length > 1
@@ -63,6 +65,7 @@ module.exports = ( ctx ) ->
           res.write err
           res.end()
 
+    # 'Proxy' a remote resource
     res: ( rctx ) ->
       ( req, res ) ->
         if not req.params or req.params.length > 1
@@ -71,32 +74,6 @@ module.exports = ( ctx ) ->
         u = URL.parse url
         port = parseInt(u.port)
         sitefile.log "http.res", url
-        ctx._routers.get('http').promise.resource(
-          opts: {
-            host: u.hostname
-            port: port or 80
-            path: u.path
-          }
-          accType: clientAcc
-        ).then( ( [ data, contentType ] ) ->
-          res.type contentType
-          res.write data
-          res.end()
-        ).catch ( err ) ->
-          res.status 500
-          res.type 'txt'
-          res.write err
-          res.end()
-
-    # Redirect/proxy named domains/netpaths?
-    site: ( rctx ) ->
-      # TODO: look along path using sitefile function
-      nso = require path.join ctx.cwd, rctx.route.spec
-      ( req, res ) ->
-        base = nso.names[  req.params.site ]
-        url = base.base+'/'+req.params.path
-        u = URL.parse req.protocol+':'+url
-        port = parseInt(u.port)
         ctx._routers.get('http').promise.resource(
           opts: {
             host: u.hostname

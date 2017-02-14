@@ -41,7 +41,17 @@
 
 (0.0.7)
   - Bypassed r0.0.5 feature changes to get back at stable release.
-  - Forked off dev to ``features/baseref``.
+    (Forked off dev to ``features/baseref`` and reset dev to r0.0.7)
+  - New routers:
+
+    - ``sh.ls`` and ``sh.tree``
+    - ``res.load-file`` (renamed ``data`` to ``res`` since there is alreay
+      a builtin ``data``)
+
+    Removed routers:
+
+    - ``http.site``
+
 
 (0.1.0)
   ..

@@ -1,0 +1,24 @@
+
+id: navbar-main
+items:
+- icon: menu-hamburger
+  items:
+  - label: Tools
+    id: tools-menu
+    items:
+    - label: "Internet"
+      items:
+      - label: "Status"
+        items:
+        - label: "Level3"
+          href: "http://downdetector.com/status/level3/map/"
+        - label: "InternetPulse"
+          href: "http://internetpulse.keynote.com/"
+        - label: "Internet Traffic Report"
+          href: "http://www.internettrafficreport.com/"
+        - label: "CloudFlare"
+          href: "https://www.cloudflarestatus.com/"
+        - label: "AMS-IX"
+          href: "https://ams-ix.net/technical/statistics"
+        - href: "http://www.outageanalyzer.com/"
+

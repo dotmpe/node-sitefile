@@ -102,6 +102,7 @@ Middleware and mounting
      default: ``sitefile --default-routes --routers=du --classic``.
 
 
+  https://stephensugden.com/middleware_guide/
 
 Baseref
   Using changing basereferences can muck up hyperlinks, see feature/baseref.

@@ -2,6 +2,7 @@ fs = require 'fs'
 path = require 'path'
 sitefile = require '../sitefile'
 _ = require 'lodash'
+Router = require '../Router'
 
 
 # Given sitefile-context, export metadata for sass: handlers
@@ -23,9 +24,10 @@ module.exports = ( ctx ) ->
     default: ( rctx ) ->
       ( req, res ) ->
         sasspath = if rctx.res.path then rctx.res.path else rctx.route.spec
+        sasspath = Router.expand_path sasspath, ctx
         sitefile.log "SASS compile", sasspath
         sass.render {
-          file: path.join ctx.cwd, sasspath
+          file: sasspath
         }, ( err, rs ) ->
           if not _.isEmpty err
             res.type 'txt'

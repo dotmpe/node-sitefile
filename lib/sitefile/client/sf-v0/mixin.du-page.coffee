@@ -1,6 +1,7 @@
 define 'sf-v0/mixin.du-page', [
 
   'jquery'
+  'cs!./../dhtml'
 
 ], ( $ ) ->
 
@@ -8,6 +9,9 @@ define 'sf-v0/mixin.du-page', [
   DocutilsPage:
 
     init_document: ->
+      $('.document').duPage()
+      return # TODO: test and clean up
+      
       @document = @container.children '.document'
       if not @document.length
         @document = $ '<div class="document"><hr/></div>'

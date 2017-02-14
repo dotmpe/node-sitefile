@@ -170,6 +170,10 @@ prepare_context = ( ctx={} ) ->
       resources: {}
       directories: []
     bundles: {}
+    config:
+      backtraces: true
+      'data-resolve-limit': 5 # number of recursions allowd in sitefile.Router.resolve_resource_data
+
     paths: # TODO: configure lookup paths
       routers: [
         'sitefile:lib/sitefile/routers'

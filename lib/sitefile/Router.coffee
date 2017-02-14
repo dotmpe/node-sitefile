@@ -6,7 +6,8 @@ _ = require 'lodash'
 
 nodelib = require 'nodelib-mpe'
 Context = nodelib.Context
-
+yaml = require 'js-yaml'
+Promise = require 'bluebird'
 
 
 expand_path = ( src, ctx ) ->
@@ -67,6 +68,22 @@ resolve_route_options = ( ctx, route, router_name ) ->
   opts
 
 
+# Wrap resource context data in prommise
+promise_resource_data = ( rctx ) ->
+  if "function" is typeof rctx.res.data.then
+    rctx.res.data
+  else
+    new Promise ( resolve, reject ) ->
+      data = rctx.res.data
+      r = 0
+      while "function" is typeof data
+        if r == rctx.config['data-resolve-limit']
+          throw new Error "data-resolve-limit #{r}"
+        data = data()
+        r += 1
+      resolve data
+
+
 builtin =
 
 
@@ -111,12 +128,19 @@ builtin =
   # not care too itself since it is a very common task.
   data: ( rctx ) ->
     ( req, res ) ->
-      res.type 'json'
-      res.write JSON.stringify \
-        if "function" is typeof rctx.res.data
-        then rctx.res.data()
-        else rctx.res.data
-      res.end()
+      writer = if rctx.res.fmt? then rctx.res.fmt else 'json'
+      deferred = promise_resource_data rctx
+      deferred.then ( data ) ->
+        console.log 'write', writer, rctx.res
+        if writer == 'json'
+          output = JSON.stringify data
+        else if writer in ['yaml', 'yml']
+          output = yaml.safeDump data
+        else
+          throw new Error "No writer #{writer}"
+        res.type writer
+        res.write output
+        res.end()
 
 Base =
   name: 'Express'
