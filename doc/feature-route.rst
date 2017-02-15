@@ -128,9 +128,9 @@ Packaging
 
   But see other places that concern packing:
 
-  - features/dhtml Addons
-  - features/documentation
-  - features/rjs
+  - `features/dhtml`_ Addons
+  - `features/documentation`_
+  - `features/rjs`_
 
 
 

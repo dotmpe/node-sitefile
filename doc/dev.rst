@@ -49,6 +49,7 @@ These are features in development for the v0.1/v0.0.1 roadmap.
 - `Router Feature`_
 - `HTML5 Client Feature`_
 - `DB Feature`_
+- `DHTML Client Feature`_
 
 Other development features:
 

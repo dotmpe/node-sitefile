@@ -12,6 +12,8 @@
 
 .. Local
 .. _manual: manual.rst
+
+.. Branches
 .. _Router Feature: feature-route.rst
 .. _DB Feature: feature-db.rst
 .. _RequireJS Feature: feature-rjs.rst
@@ -20,6 +22,17 @@
 .. _Documentation Feature: feature-documentation.rst
 .. _HTML5 Client Feature: feature-client.rst
 .. _Gherkin Feature: feature-gherkin.rst
+.. _DHTML Client  Feature: feature-dhtml.rst
+
+.. _features/route: feature-route.rst
+.. _features/db: feature-db.rst
+.. _features/rjs: feature-rjs.rst
+.. _features/text: feature-text.rst
+.. _features/testing: feature-testing.rst
+.. _features/documentation: feature-documentation.rst
+.. _features/client: feature-client.rst
+.. _features/gherkin: feature-gherkin.rst
+.. _features/dhtml: feature-dhtml.rst
 
 .. _dev: /doc/dev.rst
 

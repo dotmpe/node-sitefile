@@ -1,3 +1,4 @@
+.. include:: .defaults.rst
 
 [2017-02-15]
 
@@ -43,7 +44,7 @@ Addons
   and not always easily tamed. But the goal is the same: resolve dependencies,
   and can we please handle js/css/fonts/... UI-parts transparently.
 
-  app/v0 (features/rjs) does at least part of the require-js fest.
+  app/v0 (`features/rjs`_) does at least part of the require-js fest.
   But no fonts, css.
 
 
