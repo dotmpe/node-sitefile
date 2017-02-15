@@ -1,6 +1,7 @@
 
-@import "../../../node_modules/bootstrap/dist/css/bootstrap"
-@import "../../../node_modules/bootstrap/dist/css/bootstrap-theme"
+// FIXME: compile all CSS
+//@import "../../../node_modules/bootstrap/dist/css/bootstrap"
+//@import "../../../node_modules/bootstrap/dist/css/bootstrap-theme"
 
 
 body
@@ -8,7 +9,6 @@ body
   padding-top: 70px
 
   // Dropdown menu: navbar-right with multi-level pull-left
-
   .dropdown-submenu
     position: relative
     float: right
@@ -39,7 +39,11 @@ body
     top: -.5em
     margin-right: 100%
 
-
+  .dropdown-submenu.pull-right > .dropdown-menu 
+    float: right
+    right: -100%
+    top: -.5em
+    margin-left: 100%
 
 
 .sf-pm2
@@ -98,6 +102,9 @@ h6:hover:after,
 
 
 
+
+/* jQuery Console (jq-console)
+
 /* The console container element */
 #console 
 	position: absolute
@@ -139,7 +146,8 @@ h6:hover:after,
 .jqconsole-output 
 	color: white
 
+
+/* jQuery Terminal (jcubic.pl)
 #tilda
   z-index: 2000
-
 

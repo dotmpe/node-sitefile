@@ -1,6 +1,6 @@
 
 
-$.widget 'custom.duPage',
+$.widget 'dotmpe.duPage',
   _create: ->
     unless this.element.hasClass 'document'
       this.element.addClass 'document'
@@ -22,163 +22,110 @@ $.widget 'custom.duPage',
       footer.insertAfter this.element.parent().children '.document'
 
 
-$.widget 'custom.rightNavMenu',
-  _create: ->
-    navId = this.options.data.id
-    nav = $ 'nav#'+navId
-    unless nav.length
-      nav = $ """
-        <nav class="navbar navbar-default navbar-fixed-top" id="#{navId}">
-          <div class="container-fluid">
+$.fn.navMenu = ( ev, options ) ->
+  settings = $.extend {
+    align: 'left'
+    data: {}
+  }, options
+  navId = settings.data.id
+  nav = $ 'nav#'+navId
+  unless nav.length
+    nav = $ """
+      <nav class="navbar navbar-default navbar-fixed-top" id="#{navId}">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse">
           </div>
-        </nav>"""
-      this.element.prepend nav
-      for item in this.options.data.items
-        this._addNavItem nav.find('.container-fluid'), item
-
-  _addNavItem: ( dom, item ) ->
-    menu = $ """
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-          </ul>
         </div>
-      """
-    sub = menu.find 'ul.nav'
-    this._addNavMenuItem sub, item
-    dom.append menu
+      </nav>"""
+    this.prepend nav
+  if settings.data.items
+    for item in settings.data.items
+      nav.navMenuDropdown
+        align: settings.align
+        data: item
+  return nav.find '.collapse'
 
-  _addNavMenuItem: ( dom, item ) ->
-    icon = if item.icon? then item.icon else 'asterisk'
-    label = if item.label? then item.label else ''
-    li = $ """
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-              role="button" aria-haspopup="true" aria-expanded="false">
-            #{label} <span class="glyphicon glyphicon-#{icon}"
-                aria-hidden="true"></span>
-          </a>
-        </li>
-      """
-    if item.items?
-      ul = this._addMenu li, item
-      ul.addClass 'multi-level'
-    dom.append li
-
-  _addMenu: ( dom, item ) ->
-    dropdown = $ """<ul></ul>"""
-    dropdown.addClass 'dropdown-menu'
-    this._addMenuItems dropdown, item.items
-    dom.append dropdown
-    dropdown
-
-  _addMenuItems: ( dom, items ) ->
-    for item in items
-      iType = if item.type? then item.type \
-        else if item.href? then 'link' \
-        else if item.label? then 'leaf' \
-        else 'separator'
-      href = if item.href? then item.href else '#'
-      if iType == 'separator'
-        li = $ '<li role="separator" class="divider"></li>'
-      else if iType == 'header'
-        li = $ """<li class="dropdown-header">#{item.label}</li>"""
-      else
-        if item.items?
-          li = $ """<li class="item-#{iType} dropdown-submenu pull-left">
-                        <a class="dropdown-toggle" data-toggle="dropdown"
-                                    href="#{href}">#{item.label}</a></li>"""
-          this._addMenu li, item
-        else
-          li = $ """<li class="item-#{iType}">
-                        <a href="#{href}">#{item.label}</a></li>"""
-      if item.click?
-        li.find('a').click item.click
-      dom.append li
-
-
-$.widget 'custom.leftNavMenu',
-  _create: ->
-    navId = this.options.data.id
-    nav = $ 'nav#'+navId
-    unless nav.length
-      nav = $ """
-        <nav class="navbar navbar-default navbar-fixed-top" id="#{navId}">
-          <div class="container-fluid">
-          </div>
-        </nav>"""
-      this.element.prepend nav
-      for item in this.options.data.items
-        this._addNavItem nav.find('.container-fluid'), item
-
-  _addNavItem: ( dom, item ) ->
-    menu = $ """
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
+$.fn.navMenuDropdown = ( options ) ->
+  settings = $.extend {
+    align: 'left'
+    data: {}
+  }, options
+  navMenuDropdown =
+    _addNavItem: ( dom, item ) ->
+      menu = $ """
+          <ul class="nav navbar-nav navbar-#{settings.align}">
           </ul>
-        </div>
-      """
-    sub = menu.find 'ul.nav'
-    this._addNavMenuItem sub, item
-    dom.append menu
-
-  _addNavMenuItem: ( dom, item ) ->
-    icon = if item.icon? then item.icon else 'asterisk'
-    label = if item.label? then item.label else ''
-    li = $ """
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-              role="button" aria-haspopup="true" aria-expanded="false">
-            #{label} <span class="glyphicon glyphicon-#{icon}"
-                aria-hidden="true"></span>
-          </a>
-        </li>
-      """
-    if item.items?.length
-      ul = this._addMenu li, item
-      ul.addClass 'multi-level'
-    dom.append li
-
-  _addMenu: ( dom, item ) ->
-    dropdown = $ """<ul></ul>"""
-    dropdown.addClass 'dropdown-menu'
-    this._addMenuItems dropdown, item.items
-    dom.append dropdown
-    dropdown
-
-  _addMenuItems: ( dom, items ) ->
-    for item in items
-      iType = if item.type? then item.type \
-        else if item.href? then 'link' \
-        else if item.label? then 'leaf' \
-        else 'separator'
-      href = if item.href? then item.href else '#'
-      if iType == 'separator'
-        li = $ '<li role="separator" class="divider"></li>'
-      else if iType == 'header'
-        li = $ """<li class="dropdown-header">#{item.label}</li>"""
-      else
-        if item.items?.length
-          li = $ """<li class="item-#{iType} dropdown-submenu pull-right">
-                        <a class="dropdown-toggle" data-toggle="dropdown"
-                                    href="#{href}">#{item.label}</a></li>"""
-          this._addMenu li, item
-        else
-          li = $ """<li class="item-#{iType}">
-                        <a href="#{href}">#{item.label}</a></li>"""
-      if item.click?
-        li.find('a').click item.click
+        """
+      navMenuDropdown._addNavMenuItem menu, item
+      dom.append menu
+    _addNavMenuItem: ( dom, item ) ->
+      icon = if item.icon? then item.icon else 'asterisk'
+      label = if item.label? then item.label else ''
+      li = $ """
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                role="button" aria-haspopup="true" aria-expanded="false">
+              #{label} <span class="glyphicon glyphicon-#{icon}"
+                  aria-hidden="true"></span>
+            </a>
+          </li>
+        """
+      if item.items?
+        ul = navMenuDropdown._addMenu li, item
+        ul.addClass 'multi-level'
       dom.append li
+    _addMenu: ( dom, item ) ->
+      dropdown = $ """<ul></ul>"""
+      dropdown.addClass 'dropdown-menu'
+      navMenuDropdown._addMenuItems dropdown, item.items
+      dom.append dropdown
+      dropdown
+    _addMenuItems: ( dom, items ) ->
+      for item in items
+        iType = if item.type? then item.type \
+          else if item.href? then 'link' \
+          else if item.label? then 'leaf' \
+          else 'separator'
+        href = if item.href? then item.href else '#'
+        if iType == 'separator'
+          li = $ '<li role="separator" class="divider"></li>'
+        else if iType == 'header'
+          li = $ """<li class="dropdown-header">#{item.label}</li>"""
+        else
+          if item.items?
+            pull = if settings.align == 'left' then 'right' else 'left'
+            li = $ """<li class="item-#{iType} dropdown-submenu pull-#{pull}">
+                          <a class="dropdown-toggle" data-toggle="dropdown"
+                                      href="#{href}">#{item.label}</a></li>"""
+            navMenuDropdown._addMenu li, item
+          else
+            li = $ """<li class="item-#{iType}">
+                          <a href="#{href}">#{item.label}</a></li>"""
+        if item.click?
+          li.find('a').click item.click
+        dom.append li
+
+  navMenuDropdown._addNavItem this, settings.data
+
+  null
 
 
-
-$.widget 'custom.anchorsPage',
+$.widget 'dotmpe.anchorsPage',
   _create: ->
     unless this.element.hasClass 'container'
       this.element.addClass 'container'
+    # TODO: clickable, linked anchors, ID's
 
 
-$.widget 'custom.styleSelector',
+$.widget 'dotmpe.styleSelector',
+  options:
+    create: 'append'
   _create: ->
+    if @options.create
+      @_createHTML
+      el = $(div).find('.panel-body')
+    else
+      el = this.element
     this.numid = 0
     unless this.element.hasClass 'styleSelector'
       this.element.addClass 'styleSelector'
@@ -213,40 +160,115 @@ $.widget 'custom.styleSelector',
     this.numid += 1
     "_auto#{this.numid}"
 
+  _createHTML: ->
+    unless $('#style-selector').length
+      div = $ '<div class="container" id="style-selector">
+          <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+              <h3 class="panel-title pull-left">Style selector</h3>
+              <button type="button" class="pull-right close"
+                  data-target="#style-selector"
+                  data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+            </div>
+            <div class="panel-body">
+            </div>
+            <div class="panel-footer">
+            </div>
+          </div>
+        </div>'
+      if @options.create == 'append'
+        @element.append div
+      else if @options.create == 'prepend'
+        @element.prepend div
+      else if @options.create == 'before'
+        @element.before div
+      else
+        throw new Error \
+          "Invalid spec for styleSelector option 'create': '#{@options.create}'"
 
-$.fn.tilda = ( ev, options) ->
-  if ($('body').data('tilda'))
-    return $('body').data('tilda').terminal
-  this.addClass('tilda')
-  options = options || {}
-  ev = ev || (command, term) ->
-    term.echo("you don't set eval for tilda")
-  settings =
+
+# TODO: fix deployment for interpreter
+terminalInterpreter = (command, term) ->
+  cmd = $.terminal.parse_command command
+  if command.match /![*$]|\s*!!(:p)?\s*$|\s*!(.*)/
+    new_command
+    history = term.history()
+    last = $.terminal.parse_command history.last()
+    match = command.match /\s*!(?![!$*])(.*)/
+    if match
+      re = new RegExp $.terminal.escape_regex match[1]
+      history_data = history.data()
+      for v in history_data
+        if re.test v
+          new_command = v
+          break
+      if (!new_command)
+        msg = $.terminal.defaults.strings.commandNotFound
+        term.error(sprintf(msg, $.terminal.escape_brackets(match[1])))
+    else if command.match /![*$]/
+      if (last.args.length)
+        last_arg = last.args[last.args.length-1]
+        new_command = command.replace(/!\$/g, last_arg)
+      new_command = new_command.replace(/!\*/g, last.rest)
+    else if (command.match(/\s*!!(:p)?/))
+      new_command = last.command
+    if (new_command)
+      term.echo(new_command)
+    if !command.match /![*$!]:p/
+      if new_command
+        term.exec new_command, true
+  else if cmd.name in "ls dir less more cat parseurl url man".split ' '
+    term.error "Sorry, not yet!"
+  else if cmd.name == 'help'
+    term.echo "built-in commands: echo help"
+    term.echo "other queries are evaluated as javascript"
+  else if cmd.name == 'echo'
+    term.echo cmd.rest
+  else
+    if 'js' == command.substr 0, 2
+      command = command.substr 3
+    cmdr = eval command
+    if typeof cmdr == 'string'
+      term.echo cmdr
+    else if typeof cmdr == 'object'
+      term.echo JSON.stringify cmdr
+    else
+      term.echo typeof cmdr
+
+
+$.widget 'jquery-terminal.tilda',
+  options:
+    align: 'left'
+    data: {}
+    eval: terminalInterpreter
     prompt: 'sf> ',
-    name: 'tilda',
+    name: 'sf-tilda',
     enabled: false,
     height: 400
-    greetings: 'Sitefile',
+    greetings: 'Sitefile Client',
     keypress: (e) ->
       if (e.which == 96)
         return false
-  if (options)
-    $.extend settings, options
-  td = '<div class="td"></div>'
-  this.append td
-  term = $(this).terminal ev, settings
-  self = this
-  focus = false
-  $(document.documentElement).keypress (e) ->
-    if (e.charCode == 96)
-      self.slideToggle 'fast'
-      # XXX: term.command_line.set ''
-      term.focus focus = !focus
-  $('body').data 'tilda', this
-  this.hide()
-  self
+    # we need to disable history for bash history commands
+    historyFilter: (command) ->
+      !command.match /![*$]|\s*!!(:p)?\s*$|\s*!(.*)/
+  _create: ->
+    @element.addClass('tilda')
+    td = '<div class="td"></div>'
+    @element.append td
+    term = @element.terminal @options.eval, @options
+    focus = false
+    $(document.documentElement).keypress (e) ->
+      if (e.charCode == 96)
+        term.slideToggle 'fast'
+        # XXX: term.command_line.set ''
+        term.focus focus = !focus
+    term.hide()
+    term
 
 
 #module.export = {}
-
 

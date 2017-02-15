@@ -10,33 +10,7 @@ names:
 
   script-mpe:
     base: '//localhost:4500'
-
-  htdocs:
-    base: '//localhost:2000'
-
-  work:
-    names:
-      brix:
-        base: '//localhost:2001'
-        names:
-          MtcDev:
-            base: '//localhost:4546'
-          Htd:
-            base: '//localhost:4322'
-          devdoc:
-            base: '//localhost:7044'
-          4323:
-            base: '//localhost:4323'
-          BrxCldJnk:
-            base: '//localhost:4545'
-
   bookmarklets:
-    base: '//localhost:'
-  sheet:
-    base: '//localhost:2002'
-  cllct:
-    base: '//localhost:'
-  gate:
     base: '//localhost:'
   git-versioning:
     base: '//localhost:2005'

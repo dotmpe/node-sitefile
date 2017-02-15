@@ -19,10 +19,11 @@ paths:
 
 routes:
 
-  media/style/default.css: sass:sitefile-lib:style/default.sass
   media/script/client-dhtml.js: coffee:sitefile-client:dhtml.coffee
   media/script/client-main.js: coffee:sitefile-client:main.coffee
-  media/style: static:build/style
+  #media/style: static:build/style
+  media/style/default.css: sass:sitefile-lib:style/default.sass
+  media/style/jquery-terminal-animated-cursor.css: static:lib/sitefile/style/jquery-terminal-animated-cursor.css
 
   doc/literate: static:build/docs/docco/
 
@@ -186,9 +187,13 @@ options:
           - /vendor/bootstrap.css
           - /vendor/bootstrap-theme.css
           - /vendor/jquery-ui.css
+          - /vendor/jquery-terminal.css
+          - /media/style/jquery-terminal-animated-cursor.css
         scripts:
           - /vendor/bootstrap.js
           - /vendor/jquery.js
+          - /vendor/jquery-ui.js
+          - /vendor/jquery-terminal.js
         clients:
           $ref: '#/defs/app/v0/clients'
 
@@ -214,6 +219,8 @@ defs:
   scripts:
     default:
       - /vendor/jquery.js
+      - /vendor/jquery-ui.js
+      - /vendor/jquery-terminal.js
       - /vendor/jq-console.js
       #- /vendor/require.js
       #- /vendor/source-map-support.js
@@ -223,10 +230,12 @@ defs:
   stylesheets:
     default:
       - url: /vendor/jquery-ui.css
-      - url: /vendor/bootstrap.css
       - url: /vendor/jquery-terminal.css
+      - url: /media/style/jquery-terminal-animated-cursor.css
+      - url: /vendor/bootstrap.css
+      - url: /vendor/bootstrap-theme.css
       - url: /media/style/default.css
-        path: build/style/default.css
+        #path: build/style/default.css
 
   app:
     v0:
