@@ -9,6 +9,7 @@ libconf = require '../../conf'
 
 nested_dicts_to_menu_outline = ( data, map, name='' ) ->
   label: name
+  icon: if data.icon then data.icon else 'star-empty'
   href: data.base
   items: (
     nested_dicts_to_menu_outline sub, map, name for name, sub of data.names
