@@ -104,6 +104,7 @@ Middleware and mounting
 
   https://stephensugden.com/middleware_guide/
 
+
 Baseref
   Using changing basereferences can muck up hyperlinks, see feature/baseref.
   If the entire 'site' is mirrored, things are more pleasant. Then inserted
@@ -118,6 +119,18 @@ Image compositing
     Background: Requires two graphviz renders and an ImageMagick CLI recipe.
     Going to have convert.filter router take local options for route.
     Need to use path with params, see if glob still kicks in.
+
+
+Packaging
+  Not sure yet about the Sitefile dev setup even, but may integrate part of it
+  with core Sitefile. Its about prototyping the very thing it is written in
+  after all.
+
+  But see other places that concern packing:
+
+  - features/dhtml Addons
+  - features/documentation
+  - features/rjs
 
 
 
