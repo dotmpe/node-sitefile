@@ -19,8 +19,14 @@ Wishlist
   - Socket.IO based in-browser (jQuery) terminal
     https://github.com/avalanche123/node-console
 
-    If that does not work well maybe
-    https://www.npmjs.com/package/node-web-repl
+    - If that does not work well maybe
+      https://www.npmjs.com/package/node-web-repl
+
+    - Has a bunch of the shell commands
+      https://agnostic.housegordon.org/
+    - some cool tools https://warlab.info/
+    - user-friendly CLI tools even
+      http://www.datacentred.co.uk/blog/introducing-openstack-browser-terminal/
 
 
 Design
