@@ -30,6 +30,7 @@ expand_paths_spec_to_route = ( rctx ) ->
   else
     # Or fall back to verbatim route name as path
     srcs = [ rctx.name ]
+  # Now expand prefixes
   for src, idx in srcs
     srcs[idx] = expand_path src, rctx
   return srcs
@@ -68,7 +69,7 @@ resolve_route_options = ( ctx, route, router_name ) ->
   opts
 
 
-# Wrap resource context data in prommise
+# Wrap rctx with data resource in promise
 promise_resource_data = ( rctx ) ->
   if "function" is typeof rctx.res.data.then
     rctx.res.data
@@ -88,33 +89,33 @@ builtin =
 
 
   # TODO: extend redir spec for status code
-  redir: ( rctx, url=null, status=302 ) ->
+  redir: ( rctx, url=null, status=302, tourl=null ) ->
     if not url
       url = rctx.site.base + rctx.name
-    p = rctx.site.base + rctx.route.spec
+    if not tourl
+      tourl = rctx.site.base + rctx.route.spec
 
     # 301: Moved (Permanently)
     # 302: Found
     # 303: See Other
 
-    rctx.context.log 'redir', url, p
+    rctx.context.log 'redir', url, tourl
 
     if rctx.route.handler == 'temp'
-      rctx.context.redir 302, url, p
+      rctx.context.redir 302, url, tourl
     else if rctx.route.handler == 'perm'
-      rctx.context.redir 301, url, p
+      rctx.context.redir 301, url, tourl
     else
-      #rctx.context.redir status, url, p
+      #rctx.context.redir status, url, tourl
       rctx.context.app.all url, ( req, res ) ->
-        res.redirect p
+        res.redirect tourl
 
-    rctx.context.log '      ', url: url, '->', url: p
+    rctx.context.log '      ', url: url, '->', url: tourl
 
 
   static: ( rctx ) ->
 
     url = rctx.res.ref
-
     srcs = expand_paths_spec_to_route rctx
 
     rctx.context.app.use url, [
@@ -130,8 +131,12 @@ builtin =
     ( req, res ) ->
       writer = if rctx.res.fmt? then rctx.res.fmt else 'json'
       deferred = promise_resource_data rctx
-      deferred.then ( data ) ->
-        console.log 'write', writer, rctx.res
+      deferred
+      .catch ( err ) ->
+        res.status 500
+        res.write err
+        res.end
+      .then ( data ) ->
         if writer == 'json'
           output = JSON.stringify data
         else if writer in ['yaml', 'yml']
@@ -141,6 +146,7 @@ builtin =
         res.type writer
         res.write output
         res.end()
+
 
 Base =
   name: 'Express'
