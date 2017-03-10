@@ -22,8 +22,8 @@
 .. _Documentation Feature: feature-documentation.rst
 .. _HTML5 Client Feature: feature-client.rst
 .. _Gherkin Feature: feature-gherkin.rst
-.. _DHTML Client  Feature: feature-dhtml.rst
-
+.. _DHTML Client Feature: feature-dhtml.rst
+.. _Process Manager Feature: feature-pm2.rst
 .. _features/route: feature-route.rst
 .. _features/db: feature-db.rst
 .. _features/rjs: feature-rjs.rst
@@ -58,5 +58,6 @@
 .. _JSON API: http://jsonapi.org/format/
 .. _json-editor: https://github.com/jdorn/json-editor
 .. _List of Mocha reporters: https://github.com/mochajs/mocha/tree/master/lib/reporters
+
 
 
