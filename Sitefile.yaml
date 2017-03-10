@@ -7,6 +7,8 @@
 # Id: node-sitefile/0.0.7-dev
 sitefile: 0.0.7-dev
 
+title: Sitefile
+
 showStackError: true
 
 paths:
@@ -70,10 +72,9 @@ routes:
   #_rst2html: rst2html:**/*.rst
   gitflow: du:.gitflow.rst
 
-  Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
   Sitefile.json: sitefile:?resolve=sitefile
-  Sitefile/debug: sitefile:#
+  Sitefile/debug: redir:Sitefile/resource
   Sitefile/resource: sitefile.resource:#
   Sitefile/handler: sitefile.handler:#
   Sitefile/global: sitefile.global:#
@@ -190,10 +191,10 @@ options:
           - /vendor/jquery-terminal.css
           - /media/style/jquery-terminal-animated-cursor.css
         scripts:
-          - /vendor/bootstrap.js
           - /vendor/jquery.js
           - /vendor/jquery-ui.js
           - /vendor/jquery-terminal.js
+          - /vendor/bootstrap.js
         clients:
           $ref: '#/defs/app/v0/clients'
 

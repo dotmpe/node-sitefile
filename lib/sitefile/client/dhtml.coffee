@@ -29,35 +29,55 @@ $.fn.navMenu = ( ev, options ) ->
   }, options
   navId = settings.data.id
   nav = $ 'nav#'+navId
-  unless nav.length
-    nav = $ """
-      <nav class="navbar navbar-default navbar-fixed-top" id="#{navId}">
-        <div class="container-fluid">
-          <div class="collapse navbar-collapse">
-          </div>
-        </div>
-      </nav>"""
-    this.prepend nav
+  el = this
+  navMenu =
+    _initNavMenu: ->
+      unless nav.length
+        nav = $ """
+          <nav class="navbar navbar-default navbar-fixed-top" id="#{navId}">
+            <div class="container-fluid">
+              <div class="collapse navbar-collapse">
+              </div>
+            </div>
+          </nav>"""
+        el.prepend nav
+    container: ->
+      return nav.find '.collapse'
+    addMenuDropdown: ( items ) ->
+      for item in items
+        navMenu.navMenuDropdown
+          align: settings.align
+          data: item
+    addTitle: ( str ) ->
+      title = $ """
+          <a href="#" class="navbar-brand">#{str}</a>
+        """
+      navMenu.container().append title
+
+  navMenu._initNavMenu()
   if settings.data.items
-    for item in settings.data.items
-      nav.navMenuDropdown
-        align: settings.align
-        data: item
-  return nav.find '.collapse'
+    navMenu.addMenuDropdown settings.data.items
+  return navMenu
+
 
 $.fn.navMenuDropdown = ( options ) ->
   settings = $.extend {
+    prepend: false
     align: 'left'
+    class: 'sf-nb-dd-menu'
     data: {}
   }, options
   navMenuDropdown =
     _addNavItem: ( dom, item ) ->
       menu = $ """
-          <ul class="nav navbar-nav navbar-#{settings.align}">
+          <ul class="nav navbar-nav navbar-#{settings.align} #{settings.class}">
           </ul>
         """
       navMenuDropdown._addNavMenuItem menu, item
-      dom.append menu
+      if settings.prepend
+        dom.prepend menu
+      else
+        dom.append menu
     _addNavMenuItem: ( dom, item ) ->
       icon = if item.icon? then item.icon else 'asterisk'
       label = if item.label? then item.label else ''
@@ -107,7 +127,8 @@ $.fn.navMenuDropdown = ( options ) ->
 
   navMenuDropdown._addNavItem this, settings.data
 
-  null
+  navMenuDropdown
+
 
 
 $.widget 'dotmpe.anchorsPage',
