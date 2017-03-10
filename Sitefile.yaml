@@ -70,10 +70,9 @@ routes:
   #_rst2html: rst2html:**/*.rst
   gitflow: du:.gitflow.rst
 
-  Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
   Sitefile.json: sitefile:?resolve=sitefile
-  Sitefile/debug: sitefile:#
+  Sitefile/debug: redir:Sitefile/resource
   Sitefile/resource: sitefile.resource:#
   Sitefile/handler: sitefile.handler:#
   Sitefile/global: sitefile.global:#

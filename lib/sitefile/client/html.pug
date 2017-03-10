@@ -12,22 +12,21 @@ mixin std-html-stylesheets()
     - if ('string' == typeof(href))
         link(rel="stylesheet", type="text/css", href=href)
     - else if ('object' == typeof(href))
-        link(rel="stylesheet", type="text/css")&attributes(href)
-
+        link(rel="stylesheet", type="text/css" href=href.url)&attributes(href)
 
 mixin std-html-scripts()
   each scr in scripts
     - if ('string' == typeof(scr))
         script(type="text/javascript", src=scr)
     - else if ('object' == typeof(scr))
-        script&attributes(scr)
+        script(src=scr.url)&attributes(scr)
 
 mixin std-html-links()
   each link in links
     - if ('string' == typeof(link))
         link(href=link)
     - else if ('object' == typeof(link))
-        link&attributes(link)
+        link(href=link.url)&attributes(link)
 
 mixin requirejs_main(client)
   script(id=client.id, data-main=client.main, src=client.href)

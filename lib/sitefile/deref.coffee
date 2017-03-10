@@ -1,3 +1,4 @@
+fs = require 'fs'
 http = require 'http'
 URL = require 'url'
 # TODO see if this improves things request = require 'request'
@@ -34,11 +35,11 @@ client_opts = ( { url, accType = null, reqType, opts = {} } ) ->
   opts
 
 
-# TODO: follow redirects
 promise_resource = ( deref_args ) ->
 
   opts = client_opts deref_args
 
+  # TODO: follow redirects
   rp(opts)
 
 
@@ -93,6 +94,20 @@ promise_http_get = ( deref_args ) ->
       reject err
 
 
+promise_file = ( rctx ) ->
+  if not rctx.sfdir or not rctx.route.spec
+    throw new Error "deref.promise.file: Base and spec required"
+  fn = rctx.sfdir+ '/'+ rctx.route.spec
+  new Promise ( resolve, reject ) ->
+    fs.readFile fn, ( err, data ) ->
+      if err
+        reject err
+      else
+        data = String(data)
+        resolve JSON.parse data
+    
+
+
 local_or_remote = ( rctx ) ->
   if not rctx.res.src.host or (
     rctx.res.src.host == rctx.site.host and
@@ -100,6 +115,7 @@ local_or_remote = ( rctx ) ->
   )
     # TODO lookup router or call handler somewhere
     #rctx._routers.get('')
+    #promise_file
   else
     promise_resource {
       url: rctx.res.src.toString()
@@ -113,5 +129,6 @@ module.exports =
   promise:
     http_get: promise_http_get
     resource: promise_resource
-  local_or_remote: local_or_remote
+    file: promise_file
+    local_or_remote: local_or_remote
 

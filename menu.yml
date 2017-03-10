@@ -1,7 +1,9 @@
 
 id: navbar-main
 items:
+
 - icon: menu-hamburger
+  label: Global Menu
   items:
   - label: Tools
     id: tools-menu
@@ -21,4 +23,8 @@ items:
         - label: "AMS-IX"
           href: "https://ams-ix.net/technical/statistics"
         - href: "http://www.outageanalyzer.com/"
+
+- icon: option-horizontal
+- icon: option-vertical
+
 

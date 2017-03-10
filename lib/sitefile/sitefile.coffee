@@ -454,11 +454,17 @@ class Sitefile
           rs.ref+rs.extname is ctx.site.base+rs.path
         )
           # FIXME: policy on extensions
-          ctx.redir rs.ref+rs.extname, rs.ref
-          #ctx.log 'redir', rs.ref+rs.extname, rs.ref
+          #if router_name == 'static'
+          #  Router.builtin.redir rctx, rs.ref, null, rs.ref+rs.extname
+          #  ctx.log 'redir', rs.ref, rs.ref+rs.extname
+          #else
+          if rs.ref+rs.extname != rs.ref
+            Router.builtin.redir rctx, rs.ref+rs.extname, null, rs.ref
+            ctx.log 'redir', rs.ref+rs.extname, rs.ref
 
         # Finally let routers generate or add routes to ctx.app Express instance
         if router_name of Router.builtin
+          # FIXME: should also expand globs for builtin routers
           Router.builtin[router_name] rctx
 
         else
