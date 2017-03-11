@@ -283,6 +283,7 @@ TODO: If a type is given (set to `rctx.res.meta.type` ) load/look at ...?
 The data is an instance known at initialization time, or a callback accepting
 the resource context to return the instance data per route request.
 
+
 Resources
 ---------
 TODO: attribute resources, get back at simplicity of::

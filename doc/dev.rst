@@ -36,6 +36,10 @@ These are features in development for the v0.1/v0.0.1 roadmap.
 4. work in progress: a default or 'base' client,
    with decent support for all routes (html5-client-feature-docs__)
 
+5. integrations: communicatie with other services
+
+   1. PM2 module to run other node, or sitefile instances (pm2-feature-docs__)
+
 
 
 .. __: `Text Markup Feature`_
@@ -43,6 +47,7 @@ These are features in development for the v0.1/v0.0.1 roadmap.
 .. __: `DB Feature`_
 .. __: `RequireJS Feature`_
 .. __: `HTML5 Client Feature`_
+.. __: `Process Manager Feature`_
 
 
 - `Text Markup Feature`_

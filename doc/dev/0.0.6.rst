@@ -1,0 +1,7 @@
+0.0.6
+=====
+
+- Trying to support variable ``ctx.base``.
+- Also started a handler context rewrite, but has gotten unstable
+  and may be beyond mending.
+
