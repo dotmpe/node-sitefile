@@ -82,9 +82,8 @@ describe "The local Sitefile.yaml serves the local documentation, and \
     it "should publish literate doc",
       stu.test_url_type_ok "/doc/literate/", "html"
 
-
-
-  if stu.module_installed 'pm2'
+    
+  if process.env.USER != 'travis' && stu.module_installed 'pm2'
     it "should publish a PM2 client",
       stu.test_url_type_ok "/proc/pm2.html", "text/html"
     it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2/"
