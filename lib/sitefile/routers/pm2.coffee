@@ -114,7 +114,6 @@ module.exports = ( ctx ) ->
     default: ( rctx ) ->
       # FIXME: allow string descriptions;
       # auto-export routes based on route.default mapping
-      # XXX: console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
 
       route =
         '.json': get: generators.list
@@ -220,7 +219,7 @@ module.exports = ( ctx ) ->
       (req, res) ->
         #deferred = deref.promise.file rctx
         #deferred.then ( apps ) ->
-        #  console.log 'apps', apps, listPugFn
+        ctx.log 'PM2 View', path: ctx.site.base+ rctx.name + '.json'
         httprouter.promise.resource(
           opts:
             hostname: 'localhost'
@@ -249,7 +248,7 @@ module.exports = ( ctx ) ->
     # Serve PM2 proc HTML details
     'view/app': ( rctx ) ->
       (req, res) ->
-        console.log req.path.substring(0, req.path.length - 5) + '.json'
+        ctx.log 'PM2 View app', path: req.path.substring(0, req.path.length - 5) + '.json'
         httprouter.promise.resource(
           opts:
             hostname: 'localhost'

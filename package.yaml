@@ -19,5 +19,6 @@
     install:
       - npm run install
     test:
-      - npm run test
-
+      - NODE_ENV=development npm run test
+    mocha-test:
+      - NODE_ENV=development npm run mocha-test "$@"

@@ -11,7 +11,6 @@ clientAcc = \
   'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
 
 client_opts = ( { url, accType = null, reqType, opts = {} } ) ->
-  console.log url, accType, reqType, opts
   if not url and not opts.path
     throw new Error "URL or path required"
   if not accType and not reqType
@@ -61,7 +60,7 @@ promise_http_get = ( deref_args ) ->
             error = new Error("Invalid content-type.\n" +
                         "Expected #{opts.reqType} but received #{contentType}")
           if error
-            console.log error.message
+            console.warn error.message
             # consume response data to free up memory
             res.resume()
             reject error.message
@@ -77,10 +76,10 @@ promise_http_get = ( deref_args ) ->
                   parsedData = JSON.parse rawData
                   resolve [ parsedData, contentType ]
                 catch e
-                  console.log e.message
+                  console.warn e.message
                   reject e.message
               .on 'error', (e) ->
-                console.log("Got error: #{e.message}")
+                console.warn("Got error: #{e.message}")
                 reject e
 
           else
@@ -88,7 +87,7 @@ promise_http_get = ( deref_args ) ->
               .on 'end', ->
                 resolve [ rawData, contentType ]
               .on 'error', (e) ->
-                console.log("Got error: #{e.message}")
+                console.warn("Got error: #{e.message}")
                 reject e
     catch err
       reject err

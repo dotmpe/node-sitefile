@@ -136,6 +136,7 @@ if process.argv[1].endsWith('sitefile') \
     --monitor <pmx-on>       Enable PM2 monitor extension, this initalizes 
                              a probe with internal metrics of the sitefile
                              process. [env: SITEFILE_PM2_MON]
+    --quiet                  Be quiet.
 
   """, { optionsFirst: false, laxPlacement: true, smartOptions: true }
   if opts['--monitor']
@@ -145,11 +146,19 @@ if process.argv[1].endsWith('sitefile') \
     catch error
       if error.code != 'MODULE_NOT_FOUND'
         process.exit 1
+  if opts['--quiet']
+    lib.log_enabled = false
   sitefile_cli.run_main null, opts, sfdir: path.dirname __dirname
 
 
 else if process.env.NODE_ENV == 'testing'
-  null
+  lib.log_error_enabled = false
+  lib.log_enabled = false
+
+
+else if process.env.NODE_ENV == 'development'
+  lib.log_error_enabled = true 
+  lib.log_enabled = false
 
 
 else

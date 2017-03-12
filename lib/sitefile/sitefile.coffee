@@ -126,7 +126,7 @@ load_config = ( ctx={} ) ->
     ctx.config = ctx.config_envs[ctx.envname]
     _.defaultsDeep ctx, ctx.config
     if ctx.verbose
-      console.log "Loaded user config for #{ctx.envname}"
+      ctx.log "Loaded user config for #{ctx.envname}"
 
   ctx.config
 
@@ -145,6 +145,7 @@ prepare_context = ( ctx={} ) ->
       name: path.basename process.argv[1]
     envname: process.env.NODE_ENV ? 'development'
     log: log
+    warn: warn
     verbose: false
 
   ctx.verbose = ctx.envname is 'development'
@@ -243,7 +244,7 @@ prepare_context = ( ctx={} ) ->
 
 
   if ctx.verbose
-    console.log "Creating new context for #{ctx.envname}"
+    ctx.log "Creating new context for #{ctx.envname}"
   new Context ctx
 
 
@@ -513,9 +514,10 @@ expand_globs = ( patterns ) ->
 
 
 warn = ->
-  v = Array.prototype.slice.call( arguments )
-  out = [ chalk.red(v.shift()) + c.sc ]
-  console.warn.apply null, log_line( v, out )
+  if module.exports.log_err_enabled
+    v = Array.prototype.slice.call( arguments )
+    out = [ chalk.red(v.shift()) + c.sc ]
+    console.warn.apply null, log_line( v, out )
 
 log = ->
   if module.exports.log_enabled
@@ -566,8 +568,10 @@ module.exports =
     Router: Router,
     Sitefile: Sitefile
     reload_on_change: reload_on_change
+
     log_enabled: true
     log: log
+    log_error_enabled: true
     warn: warn
   }
 
