@@ -39,9 +39,9 @@
   "scripts": {
     "install": " ./configure && grunt build-test",
     "test": "./configure && grunt test",
-    "start": "NODE_ENV=development coffee bin/sitefile.coffee",
-    "dev": "nodemon bin/sitefile.coffee  -w Sitefile.yaml -w lib/ -w bin/",
-    "strict": "nodemon bin/sitefile.coffee --use_strict -w Sitefile.yaml -w lib/ -w bin/",
+    "start": "NODE_ENV=acc coffee bin/sitefile.coffee",
+    "dev": "nodemon -w Sitefile.yaml -w lib/ -w bin/ -- bin/sitefile.coffee",
+    "strict": "NODE_ENV=acc nodemon --use_strict -w Sitefile.yaml -w lib/ -w bin/ -- bin/sitefile.coffee --verbose",
     "check": "grunt check",
     "build": "grunt build",
     "vulnerabilities": "snyk test",

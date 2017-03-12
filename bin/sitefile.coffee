@@ -47,6 +47,8 @@ sitefile_cli = module.exports =
       when vOpt.startsWith '0.0'
         # prepare context and config data, loads sitefile
         ctx = lib.prepare_context ctx
+        if opts['--verbose']
+          ctx.verbose = true
         if _.isEmpty ctx.sitefile.routes
           lib.warn 'No routes'
           process.exit()
@@ -137,6 +139,7 @@ if process.argv[1].endsWith('sitefile') \
                              a probe with internal metrics of the sitefile
                              process. [env: SITEFILE_PM2_MON]
     --quiet                  Be quiet.
+    --verbose                .
 
   """, { optionsFirst: false, laxPlacement: true, smartOptions: true }
   if opts['--monitor']
