@@ -40,9 +40,7 @@
   Started a handler context rewrite.
 
 (0.0.7)
-
-  See doc/dev/.
-
+  - Bypassed r0.0.5 feature changes to get back at stable release.
   - New routers:
 
     - ``sh.ls`` and ``sh.tree``
@@ -50,6 +48,11 @@
       a builtin ``data``)
 
   - Removed ``http.site`` router.
+  - Started ``0.1`` version prefix to experiment with component versioning.
+  - Using `neodoc`_ for argument parser now.
+
+
+.. See doc/dev/.
 
 (0.1.0)
   ..

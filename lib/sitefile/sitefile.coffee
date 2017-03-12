@@ -67,7 +67,6 @@ get_local_sitefile = ( ctx={} ) ->
 load_sitefile = ( ctx ) ->
   ctx.sitefile = get_local_sitefile ctx
 
-
   # translate JSON path refs in sitefile to use global sitefile context
   # ie. prefix path with 'sitefile/' so we can use context.resolve et al.
   xform = (result, value, key) ->
@@ -82,15 +81,12 @@ load_sitefile = ( ctx ) ->
           xform value, property, key
   _.transform ctx.sitefile, xform
 
-
   # Map some sitefile attributes to root
-  if ctx.sitefile.host
-    ctx.site.host = ctx.sitefile.host
-  if ctx.sitefile.port
-    ctx.site.port = ctx.sitefile.port
-  if ctx.sitefile.base
-    ctx.site.base = ctx.sitefile.base
+  for attr in [ "host", "port", "base" ]
+    if ctx.sitefile[attr]
+      ctx.site[attr] = ctx.sitefile[attr]
 
+  # Replace or extend component lookup path
   if 'paths' of ctx.sitefile and ctx.sitefile.paths
     if 'routers' of ctx.sitefile.paths and ctx.sitefile.paths.routers
 
@@ -209,7 +205,6 @@ prepare_context = ( ctx={} ) ->
         q = request.query
       q = expand_obj_paths q
       _.defaultsDeep options, q
-
 
     if @route['export-query-path']
       key = @route['export-query-path']

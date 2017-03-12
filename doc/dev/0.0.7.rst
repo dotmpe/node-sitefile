@@ -1,8 +1,14 @@
+.. include:: ../.defaults.rst
+
 0.0.7
 =====
 
 - Bypassed r0.0.5 feature changes to get back at stable release.
   (Forked off dev to ``features/baseref`` and reset dev to r0.0.7)
+- Started ``0.1`` version prefix to experiment with component versioning.
+  Initially targetted to keep support for ``routes`` schema stable, see
+  `features/route`_ on `Versioning`, `BWC-mode`.
+- Using `neodoc`_ for argument parser now.
 
 
 Wanted
@@ -18,4 +24,5 @@ Wanted
     - https://www.graphdracula.net/
   Sunburst?
     - http://philogb.github.io/blog/2009/10/05/sunburst-visualization/
+
 

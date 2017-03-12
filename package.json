@@ -118,6 +118,7 @@
     "load-grunt-config": "latest",
     "load-grunt-tasks": "latest",
     "mocha": "^3.2.0",
+    "neodoc": "^1.4.0",
     "path": "latest",
     "pm2": "^2.3.0",
     "pmx": "^0.6.8",

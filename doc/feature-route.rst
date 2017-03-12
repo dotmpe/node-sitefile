@@ -259,6 +259,10 @@ Adding the ``bwc`` attribute::
     routes:
       ...
 
+The ``bwc`` is not supported yet (0.0.7-dev).
+Looking at versioning the interface, important is the stability of the dev
+versions. Added ``0.1`` prefix to experiment with a more modular interface.
+
 
 JSON API
 ~~~~~~~~
