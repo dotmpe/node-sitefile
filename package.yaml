@@ -15,3 +15,9 @@
     check: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools htd:gitflow-check-doc :git:status grunt:check"
     cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
 
+  scripts:
+    install:
+      - npm run install
+    test:
+      - npm run test
+
