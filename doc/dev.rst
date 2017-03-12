@@ -29,8 +29,8 @@ These are features in development for the v0.1/v0.0.1 roadmap.
 
    1. YAML and JSON based setup.
       Look at alternatively to operate from argv/env iso. local Sitefile
-   2. work-in-progress: user-defined extensions, extendable resources/routers
-      (route-feature-docs__)
+   2. work-in-progress: user-defined addons, extendable resources/routers,
+      customizations (route-feature-docs__)
    3. packages (JS/CSS/media), cdn config? (require-js-feature-docs__)
 
 4. work in progress: a default or 'base' client,
@@ -67,6 +67,25 @@ Other development features:
 
 Documentation
 -------------
+Includes:
+
+- introductory material, for new users, or developers (ReadMe, doc/guide, and
+  this file; doc/dev)
+
+- exploratory material (doc/sitefile-planet)
+
+- notes on current development, ideas on features or details on current
+  implementation (doc/feature-\*)
+
+- draft specification (specs)
+
+- draft test-case
+
+- draft manual (doc/manual, doc/guide)
+
+
+Format
+~~~~~~
 The Main documents are and will be reStructuredText. But for more flexibility
 the administration of several other documents is for now at once done in the
 TODO_ document. Some integrate them here later. First, more use-cases

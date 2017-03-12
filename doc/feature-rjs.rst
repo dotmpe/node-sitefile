@@ -3,7 +3,7 @@ Currently
 
 - Webpack, gulp used to package commonjs2 modules (module.export)
   [features/webpack]
-- Looking at creating a bundle extension type [features/bundles]
+- Looking at creating a bundle addon type [features/bundles]
 - Know-how to setup require.js tag with main and "boot" page from there,
   need a way to package rjs config (or particulary the module mapping parts).
 

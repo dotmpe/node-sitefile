@@ -244,8 +244,8 @@ For details writing your own router see Routers_.
 
 
 
-Extensions
------------
+Customizations
+---------------
 
 
 Routers

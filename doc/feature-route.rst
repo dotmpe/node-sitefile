@@ -1,52 +1,182 @@
 
 .. include:: .defaults.rst
 
-Notes on the `route` attribute in extension modules. Probably consolidate with
-Sitefile 0.0.5 `route` scheme.
+
+Notes on the `route` attribute, and on the routing concepts of sitefile.
+
+.. TODO: Probably consolidate with Sitefile 0.0.5 `route` scheme.
 
 
 Requirements:
 
-- reuse handlers
+- reuse handlers, or something of the endpoints, somehow.. data, metadata, with
+  or without envelope (HTTP, HTML, ..)
+
 - possibly specify type of content, and at which endpoints
 - standalone use: Sitefile route/... specs for components, JSON pointers [RFC6901]
 
 
-Use cases
----------
-
-1. Static files. Uses Express middleware.
-
-2. Third-party Content Delivery: redirect or proxy requests elsewhere.
-
-      TODO: Using the ``cdn`` router, serve the first available resource
-      (local, or global).
-
-   Want some CDN-like router.
-   Provide a list at try each before serving as resource, redirect?
-
-   TODO: provide lists of alternative URLs
-   TODO: optionally have path attribute for routers that like both URL and local
-   path.
-
-   "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min"
-
-
 Design
 --------
+The ``route`` attribute is an essential part of Sitefile.
 
-Middleware and mounting
-  ::
+To do it justice requires to touch on pre-established technologies: file
+storage, and HTTP addressing.
+
+That should then result in a section on the class or classes or routing that
+sitefile supports.
+
+TODO: Notes on the implementation, verbose listings etc. below should move to
+inline code docs I guess, or specs/features. Version dev notes. Elsewhere.
+
+
+Prior Art
+~~~~~~~~~
+Routers or Middleware
+  To Connect [#]_ (and Express), we deal with request resolving and at the basic
+  level with middelwares through which the request is run::
+
+    app.use ( req, res, next ) -> ... # generic middleware
+    app.use 'ref', ( req, res, next ) -> ... # mounted middleware
+
+  The key to a middleware is that it must hand of the request to the `next`
+  middleware (handling of the request and response is possible but optional).
+  Whereas routers are characterized by the requirement that they have to finish
+  some kind of response (or the app hangs).
+
+  To the framework there is no difference between the two (XXX: or is there,
+  what does it do with return values?) the only difference is that a middleware
+  chooses the utilize the third argument. See also [#]_ and [#]_.
+
+
+Mount
+  Connect introduces the concept of mounts for handlers (middlewares or routes).
+  To Connect, mounted handlers are those that resolve prefixes. Any address
+  request starting with, or just consisting of the literal string is passed to
+  the handler instance.
+
+  Express also does patterns and regular expressions, to match additional
+  sets of addresses to single handler instances. And with parameters derived
+  from the address.
+
+
+Filesystem
+  Sitefile site-structured is tightly coupled to the filesystem. So some aspects
+  of it need ot be addressed.
+
+  First of all, this coupling is not a requirement. It should be a convenience,
+  and with flexibility to overrule, customize.
+  E.g. provides a most direct way to work with references in documents.
+
+  But contrary to filesystems, with Express or Connect things like this are
+  possible::
+
+    app.use "path/", <some-resource>
+    app.use "path", <some-other-resource>
+
+  Another convenience, and not a requirement, is using filename extensions.
+  A concept almost as old command-line shells, and with as many problems.
+  It is not mentioned (much or formally I think) in the HTTP or URL specs.
+  But a key point to sitefile, and it gets even fuzzier considering the
+  implications of the base-ref.
+
+  TODO: ref or discussion on mapping of ext here
+
+
+URL (uniform addressing)
+  Baseref
+    Using variable bases for references mucks up hyperlinks.
+    See feature/baseref branch.
+
+    If the entire 'site' is mirrored, things are more pleasant. Then inserted
+    bases like `html` and `txt` should just be parallel trees.
+    This requires the concept of 'entire site', and di
+
+  URL-path structure
+    Neither HTTP nor URL specs place restrictions on the path, expect for:
+
+    - '?' starts the query part, and '#' the fragment
+    - '/' separates path elements, and also functions as root element
+    - ';' separates arguments or parameters that each element of the path can have
+
+    Based on this, a hierarchy can be established.
+
+    For security purposes the concept of neighbouring and nested resources
+    can be exploited to restrict access from one path-prefix to another.
+
+    But that is as far as the interpretation of the URL elements can go.
+
+  URL-path parameters
+    Path parameters are rarely seen in the wild, and this obscurity may come
+    with its downsides. But consider the following::
+
+      /user;id=1/document;id=2
+
+    Iso. for example::
+
+      /user/document?uid=1&id=2
+
+    Or even the 'SEO friendly'::
+
+      /user/1/document/2
+
+    The readability of the latter seems great, and it looks clean. But as an
+    expression of hierarchy it is hopeless. This is inherent of HTTP
+    addressing.
+
+
+Addressing
+~~~~~~~~~~
+Onto addressing in Sitefile.
+
+The pre-0.1 schema for ``route``, and its relation to concepts in sitefile has
+gotten convoluted. And requires revision. Here is the established syntax::
+
+    routes:
+      _id: router.id/to/handler:route-spec#...
+      /path: "
+
+Which ofcourse is sugar for and partly reminiscent of the Express statements
+in `Routers, Middleware`. On this, a proper layering is needed of:
+
+- the dynamic, patterned address sets derived from glob specs, and the like
+- types of resources and degrees of handling them
+
+Some endpoints are data, e.g. generic map/list structures from a YAML or JSON
+context, or some other service. Handing them to the client in a generic way
+will suffice, and enable lighter routers. (Relieve of all the different
+methods except when required for the same).
+
+On the other hand, the identity (and/or/vs. address) needs further
+consideration.
+
+A first class type to express a patterned set like a local
+filesystem glob spec..
+
+But also classes of resources.
+
+And flipping the syntax around::
+
+    routes:
+      path/%.rst: sfv0.html:?#
+      my/file.txt: sfv0.txt:?#
+
+The router arguments are entirely free, can still follow some structure.
+But the keys are now different types of resource sets by themselves, regardless
+of the router. Also router arguments can refer to routes by the exact key,
+plainly and nicely.
+
+Next some implied types are needed. Optionally the standard behaviour above
+needs to be customized.
+
+
+Using mount to differentiate format::
 
     routes:
       /html/%{res}: sfv0.html:?#
       /txt/%{res}: sfv0.txt:?#
 
-  Maybe: a base prefix for "dynamic" files, generated from other files;
-  processed, compiled, minified, transformed, included, rendered, etc.
-  Its the opposite of changing the extension. But see notes on feature/baseref.
-
-  Both methods::
+Both methods::
 
     routes:
       %.html: du.html:**/*.rst#
@@ -56,15 +186,12 @@ Middleware and mounting
       # txt/%.rst: du.txt:**/*.rst#
       # %.rst: sfv0.src:**/*.rst
 
-  Above idea on basic, but flexible 0.1-ish syntax.
-  Currently each glob scan is individual. Something more intelligent maybe.
+Currently each glob scan is individual.
 
-  But no abstraction of resource type yet. Only the tree of sitefile contexts.
-  KISS. ``sfv0.*`` to do some specific things about routing for both
-  browser clients and more programmatic access... maybe.
+Rather would abstract ideas presented in syntax a bit, extend existing ideas.
+Before making Sf more complex in features by bringing in new ideas..
 
-  Rather would abstract ideas presented in syntax a bit, extend existing ideas.
-  Before making Sf more complex in features by bringing in new ideas..
+
 
   1. default routes, perhaps per profile too.. Something more fancy than
      just `sitefile ./my/alt/Sitefile.yaml`?
@@ -102,23 +229,6 @@ Middleware and mounting
      default: ``sitefile --default-routes --routers=du --classic``.
 
 
-  https://stephensugden.com/middleware_guide/
-
-
-Baseref
-  Using changing basereferences can muck up hyperlinks, see feature/baseref.
-  If the entire 'site' is mirrored, things are more pleasant. Then inserted
-  bases like `html` and `txt` should just be parallel trees.
-
-
-Image compositing
-  Bitmap processing can be done with Imagemagick compositing. Like PlantUML
-  has built-in. See http:/tools/diagram-shadows.sh.
-
-  Use case: dot-diagram shadows
-    Background: Requires two graphviz renders and an ImageMagick CLI recipe.
-    Going to have convert.filter router take local options for route.
-    Need to use path with params, see if glob still kicks in.
 
 
 Packaging
@@ -133,11 +243,26 @@ Packaging
   - `features/rjs`_
 
 
+Versioning
+~~~~~~~~~~
+While introducing new behaviour, the old should be deprecated with
+consideration.
+
+The version value is already there.
+Adding the ``bwc`` attribute::
+
+  sitefile: 0.1
+  routes:
+    ...
+  bwc:
+    sitefile: 0.0.10
+    routes:
+      ...
+
 
 JSON API
---------
-Peeking at the JSON API spec for attribute names. Now try to pin down where
-everything goes.
+~~~~~~~~
+Peeking at the JSON API spec for attribute names.
 
 ::
 
@@ -191,8 +316,7 @@ everything goes.
         The ~ generator can create a new require.js main file from examples, or
         restore one.
 
-
-Recap in accordance with JSON API:
+Recap:
 
 - make routes that provide the actual resource have a data attribute.
   make other routes relate .
@@ -229,7 +353,7 @@ core/routes/api.json.yaml::
 
 
 Resolver
---------
+~~~~~~~~
 sitefile.Router.Base.resolve turns a parsed Sitefile route spec into a route
 context. This looks like::
 
@@ -257,7 +381,7 @@ specs. Not implemented, see Generator_ spec below.
 
 
 Generator
----------
+~~~~~~~~~
 
 sitefile.Routers.generator currently implements resolving to an Express handler
 given a route context.
@@ -285,7 +409,7 @@ the resource context to return the instance data per route request.
 
 
 Resources
----------
+~~~~~~~~~
 TODO: attribute resources, get back at simplicity of::
 
   /url/path: router:my/files/*.xxx
@@ -328,6 +452,43 @@ See `Base.resources`__ comment too.
 
 
 builtin.data
-------------
+~~~~~~~~~~~~
 Simply serve ``rctx.res.data`` using JSON.stringify.
+
+
+
+----
+
+.. [#] https://github.com/senchalabs/connect#readme
+.. [#] https://stephensugden.com/middleware_guide/
+.. [#] https://expressjs.com/en/guide/using-middleware.html
+
+
+
+Use cases
+---------
+
+1. Static files. (Uses Express middleware.)
+
+   TODO: support/test:
+
+     <dynamic-part>: static:<fnmatch>
+
+
+2. Third-party Content Delivery: redirect or proxy requests elsewhere.
+
+      TODO: Using the ``cdn`` router, serve the first available resource
+      (local, or global).
+
+   Want some CDN-like router.
+   Provide a list at try each before serving as resource, redirect?
+
+   TODO: provide lists of alternative URLs
+   TODO: optionally have path attribute for routers that like both URL and local
+   path.
+
+   "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min"
+
+
+
 

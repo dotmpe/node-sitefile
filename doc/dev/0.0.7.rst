@@ -4,3 +4,18 @@
 - Bypassed r0.0.5 feature changes to get back at stable release.
   (Forked off dev to ``features/baseref`` and reset dev to r0.0.7)
 
+
+Wanted
+  Timeline
+    - https://developers.google.com/chart/interactive/docs/gallery/timeline
+  Treemap
+    - http://js-treemap.sourceforge.net/
+    - https://philogb.github.io/jit/static/v20/Docs/files/Visualizations/Treemap-js.html
+    - https://github.com/philogb/dom-treemap#readme
+  (Network) Graphs
+    - http://js.cytoscape.org/
+    - https://www.opengraphiti.com/
+    - https://www.graphdracula.net/
+  Sunburst?
+    - http://philogb.github.io/blog/2009/10/05/sunburst-visualization/
+
