@@ -4,12 +4,11 @@ _ = require 'lodash'
 chai = require 'chai'
 #chai.use require 'chai-as-promised'
 expect = chai.expect
-
 sewd = require 'selenium-webdriver'
 browser = require 'selenium-webdriver/testing'
-
 request = require 'request'
 Promise = require 'bluebird'
+yaml = require 'js-yaml'
 
 
 lib = require '../../lib/sitefile'
@@ -44,7 +43,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
     it "serves valid JSON", ->
 
-      validate_pm2_json = stu.schema.pm2
+      pm2_json_v = stu.schema.pm2
       url = stu.get_url()+"/proc/pm2.json"
 
       new Promise ( resolve, reject ) ->
@@ -56,7 +55,8 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             data = JSON.parse body
             expect(data).to.not.be.empty
 
-            expect(validate_pm2_json data).to.be.true
+            if not pm2_json_v data
+              throw new Error '\n'+ yaml.dump pm2_json_v.errors
 
             resolve()
 

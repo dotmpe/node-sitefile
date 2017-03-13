@@ -1,18 +1,25 @@
+
 extends ../../../client/base
 
 
 block head
-  +std-html-client "PM2 process list"
+  +html-meta("sitefile.main", "base", "sitefile")
+  +std-html-client("Sf - PM")
 
   script(type="text/javascript", src= script)
 
 
+block prologue
+
+  
 block header
+  hr
+
 
 block main
   .container.main.pm2-list(data-urlbase=pm2_base)
 
-    h3 List of PM2 processes
+    h3 PM2 process List
 
     - states = {stopped: '', errored: 'danger', online: 'success'}
 
@@ -83,7 +90,14 @@ block main
                 span.glyphicon.glyphicon-stop(aria-hidden="true")
 
 
+
 block document
 
+
 block footer
+  hr
+
+
+block epilogue
+
 

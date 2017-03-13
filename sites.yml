@@ -1,0 +1,40 @@
+icon: 'star'
+names:
+
+  sitefile:
+    id: sf-sf
+    base: //localhost:2006
+    names:
+      dev:
+        id: sf-sf-dev
+        base: //localhost:7011
+      test:
+        id: sf-sf-test
+        base: //localhost:7012
+
+  script-mpe:
+    id: id-scr
+    base: //localhost:4500
+
+  dev:
+    names:
+      bookmarklets:
+        id: sf-bm
+        base: //localhost:2007
+      sheet:
+        id: sf-sheet
+        base: //localhost:2002
+      cllct:
+        base: //localhost:2009
+      gate:
+        base: //localhost:2010
+      git-versioning:
+        base: //localhost:2005
+      scrow:
+        #base: //localhost:2003
+        names:
+          dev:
+            base: //localhost:8067
+          #test:
+          #  base: //localhost:4501
+

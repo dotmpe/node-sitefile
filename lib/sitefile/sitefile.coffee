@@ -63,6 +63,9 @@ get_local_sitefile = ( ctx={} ) ->
         "sitefile #{sf_version}"
   # TODO: validate Sitefile schema
 
+  if sitefile.path
+    throw new Error sitefile.path
+  sitefile.path = path.relative process.cwd(), ctx.config.sitefile.path
   _.defaults sitefile,
     routes: {}
 
@@ -86,9 +89,22 @@ load_sitefile = ( ctx ) ->
           xform value, property, key
   _.transform ctx.sitefile, xform
 
+  # Replace or extend component lookup path
+  if 'paths' of ctx.sitefile and ctx.sitefile.paths
+    if 'routers' of ctx.sitefile.paths and ctx.sitefile.paths.routers
+
+      if 'routers_replace' of ctx.sitefile.paths \
+          and ctx.sitefile.paths.routers_replace
+        ctx.paths.routers = ctx.sitefile.paths.routers
+      else
+        ctx.paths.routers = \
+          ctx.paths.routers.concat ctx.sitefile.paths.routers
+
+  log "Loaded", path: path.relative ctx.cwd, ctx.config.sitefile.path
 
 
-load_rc = ( ) ->
+
+load_rc = ->
   try
     ctx = config: static: sitefile: libconf.load 'sitefilerc', get: suffixes: [ '' ], all: true
   catch error
@@ -97,6 +113,27 @@ load_rc = ( ) ->
     else
       throw error
   ctx
+
+
+load_config = ( ctx={} ) ->
+  if not ctx.config_name?
+    ctx.config_name = 'config/config.coffee'
+    # XXX config per client
+    #scriptconfig = 'config/config-#{ctx.proc.name}'
+    #configs = glob.sync path.join ctx.noderoot, scriptconfig + '.*'
+    #if not _.isEmpty configs
+    #  ctx.config_name = scriptconfig
+
+  rc = path.join '../..', ctx.config_name
+  if fs.existsSync require.resolve rc
+    ctx.config_envs = require rc
+    ctx.config = ctx.config_envs[ctx.envname]
+    _.defaultsDeep ctx, ctx.config
+    if ctx.verbose
+      ctx.log "Loaded user config for #{ctx.envname}"
+
+  ctx.config
+
 
 
 load_env = ( ctx={} ) ->
@@ -110,10 +147,13 @@ load_env = ( ctx={} ) ->
       name: process.env.NODE_ENV ? 'development'
       SITEFILE_PORT: process.env.SITEFILE_PORT
     log: log
+    warn: warn
     verbose: null
     config:
       static: {}
       sitefile: {}
+      backtraces: true
+      'data-resolve-limit': 5 # number of recursions allowd in sitefile.Router.resolve_resource_data
     settings:
       site: {}
     paths:
@@ -124,7 +164,7 @@ load_env = ( ctx={} ) ->
       directories: []
   if ctx.verbose == null
     ctx.verbose = ctx.env.name is 'development'
-
+  ctx
 
 load_config = ( ctx={} ) ->
   unless ctx.env.name?
@@ -237,9 +277,8 @@ proto_context = ( ctx ) ->
 
 prepare_context = ( ctx={} ) ->
   # Apply all static properties (set ctx.static too)
-  _.defaultsDeep ctx, load_rc(ctx), load_env(ctx)
+  _.defaultsDeep ctx, load_rc(), load_env(ctx)
 
-  ctx = proto_context ctx
   ctx = load_config ctx
   _.defaultsDeep ctx, load_sitefile_ctx(ctx)
 
@@ -272,8 +311,8 @@ new_context = ( ctx={} ) ->
 
   ctx = prepare_context ctx
   if ctx.verbose
-    console.log "Creating new context for #{ctx.env.name}"
-
+    ctx.log "Creating new context for #{ctx.env.name}"
+  proto_context ctx
   new Context ctx
 
 
@@ -479,11 +518,17 @@ class Sitefile
           rs.ref+rs.extname is ctx.base()+rs.path
         )
           # FIXME: policy on extensions
-          ctx.redir rs.ref+rs.extname, rs.ref
-          #ctx.log 'redir', rs.ref+rs.extname, rs.ref
+          #if router_name == 'static'
+          #  Router.builtin.redir rctx, rs.ref, null, rs.ref+rs.extname
+          #  ctx.log 'redir', rs.ref, rs.ref+rs.extname
+          #else
+          if rs.ref+rs.extname != rs.ref
+            Router.builtin.redir rctx, rs.ref+rs.extname, null, rs.ref
+            ctx.log 'redir', rs.ref+rs.extname, rs.ref
 
         # Finally let routers generate or add routes to ctx.app Express instance
         if router_name of Router.builtin
+          # FIXME: should also expand globs for builtin routers
           Router.builtin[router_name] rctx
 
         else
@@ -538,9 +583,10 @@ expand_globs = ( patterns ) ->
 
 
 warn = ->
-  v = Array.prototype.slice.call( arguments )
-  out = [ chalk.red(v.shift()) + c.sc ]
-  console.warn.apply null, log_line( v, out )
+  if module.exports.log_error_enabled
+    v = Array.prototype.slice.call( arguments )
+    out = [ chalk.red(v.shift()) + c.sc ]
+    console.warn.apply null, log_line( v, out )
 
 log = ->
   if module.exports.log_enabled
@@ -594,8 +640,10 @@ module.exports =
     Router: Router,
     Sitefile: Sitefile
     reload_on_change: reload_on_change
+
     log_enabled: true
     log: log
+    log_error_enabled: true
     warn: warn
   }
 

@@ -3,6 +3,9 @@ path = require 'path'
 cc = require 'coffee-script'
 _ = require 'lodash'
 
+deref = require '../deref'
+Router = require '../Router'
+
 
 pm2_app_defaults = ( obj ) ->
   _.defaultsDeep obj, {
@@ -80,10 +83,15 @@ class PM2Manager
 module.exports = ( ctx ) ->
 
   try
-    pug = require 'pug'
     pm2 = require 'pm2'
-  catch
-    return
+  catch error
+    if error.code != 'MODULE_NOT_FOUND'
+      return
+    else
+      throw error
+
+  pug = require 'pug'
+
 
   httprouter = require('./http') ctx
   pugrouter = require('./pug') ctx
@@ -111,7 +119,6 @@ module.exports = ( ctx ) ->
     default: ( rctx ) ->
       # FIXME: allow string descriptions;
       # auto-export routes based on route.default mapping
-      # XXX: console.log 'PM2', ctx.base(), rctx.name, rctx.res, rctx.route
 
       route =
         '.json': get: generators.list
@@ -135,6 +142,10 @@ module.exports = ( ctx ) ->
       for name of route
         for method of route[name]
           ref = ctx.base()+rctx.name+name
+          if "object" is typeof route[name][method]
+            rctx.res.data = route[name][method].res.data
+            ctx.app[method] ref, Router.builtin.data ( rctx )
+            continue
           unless "function" is typeof route[name][method]
             throw Error \
               "Expected callback #{name}:#{method}:#{route[name][method]}"
@@ -152,14 +163,15 @@ module.exports = ( ctx ) ->
         res.write JSON.stringify m.procs
         res.end()
 
-    list: ( rctx ) ->
-      (req, res) ->
-        pm2.list (err, ps_list) ->
-          res.type 'json'
-          if err
-            res.status 500
-          res.write JSON.stringify ps_list
-          res.end()
+    list:
+      res:
+        data: ( rctx ) ->
+          new Promise ( resolve, reject ) ->
+            pm2.list ( err, ps_list ) ->
+              if err
+                reject err
+              else
+                resolve ps_list
 
     # Describe single PM2 proc in JSON
     'data/app': ( rctx ) ->
@@ -210,17 +222,21 @@ module.exports = ( ctx ) ->
     # Serve HTML list view
     view: ( rctx ) ->
       (req, res) ->
-
+        ctx.log 'PM2 View', path: ctx.base()+ rctx.name + '.json'
         httprouter.promise.resource(
           reqType: 'application/json'
           opts:
             hostname: 'localhost'
             port: ctx.app.get('port')
-            path: ctx.base() + rctx.name + '.json'
+            path: ctx.base()+ rctx.name + '.json'
         ).then ( data ) ->
-
-          pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
+          res.type 'html'
+          # XXX: cleanup
+          #pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
+          #res.write pugrouter.compile pugOpts
+          res.write pugrouter.compile {
             tpl: listPugFn
+            compile: rctx.route.options.compile
             merge:
               pid: process.pid
               pm2_base: ctx.base()+rctx.name
@@ -229,26 +245,31 @@ module.exports = ( ctx ) ->
               query: req.query
               context: rctx
               apps: data[0]
+              links: []
+              stylesheets: rctx.sitefile.defs.stylesheets.default
+              scripts: rctx.sitefile.defs.scripts.default
+              clients: []
           }
-          res.type 'html'
-          res.write pugrouter.compile pugOpts
           res.end()
 
     # Serve PM2 proc HTML details
     'view/app': ( rctx ) ->
       (req, res) ->
-
-        console.log req.path.substring(0, req.path.length - 5) + '.json'
+        fn = req.path.substring(0, req.path.length - 5) + '.json'
+        ctx.log 'PM2 View app', path: fn
         httprouter.promise.resource(
-          reqType: 'application/json'
           opts:
-            host: 'localhost'
+            hostname: 'localhost'
             port: ctx.app.get('port')
-            path: req.path.substring(0, req.path.length - 5) + '.json'
+            path: fn
         ).then ( data ) ->
-
-          pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
+          res.type 'html'
+          # XXX: cleanup
+          #pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
+          #res.write pugrouter.compile pugOpts
+          res.write pugrouter.compile {
             tpl: detailPugFn
+            compile: rctx.route.options.compile
             merge:
               pid: process.pid
               pm2_base: ctx.base()+rctx.name
@@ -257,10 +278,11 @@ module.exports = ( ctx ) ->
               query: req.query
               context: rctx
               app: data[0]
+              links: []
+              stylesheets: rctx.sitefile.defs.stylesheets.default
+              scripts: rctx.sitefile.defs.scripts.default
+              clients: []
           }
-            
-          res.type 'html'
-          res.write pugrouter.compile pugOpts
           res.end()
 
 

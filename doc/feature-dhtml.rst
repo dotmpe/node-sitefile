@@ -1,0 +1,52 @@
+.. include:: .defaults.rst
+
+[2017-02-15]
+
+- jQuery Terminal is back. Needs some way to be usefull.
+
+- Bootstrap (dropdown navbar) menu is initialized from JSON(s).
+  Okay for links, but want something nicer for addon functionality.
+
+- jQuery plugins, and jQuery UI Widgets for other UI components.
+
+
+Wishlist
+  Stuff. Take the term 'site' very liberal.
+  Maybe interact with the shell on the host.
+  Certainly see about someway to easily configure addons.
+
+  - ECMAchine (LISP jQuery terminal)
+    https://github.com/AlexNisnevich/ECMAchine
+  - Socket.IO based in-browser (jQuery) terminal
+    https://github.com/avalanche123/node-console
+
+    If that does not work well maybe
+    https://www.npmjs.com/package/node-web-repl
+
+
+Design
+-------
+
+Addons
+  Something better to add client style/script than Sitefile option lists.
+  A dev setup could build its assets, but other setups need dists.
+
+  Cant really decide on a builder. Which may be part of considerations.
+  Webpack, coffee-script, Babel etc.
+
+  During development, serving resources directly is most convenient.
+  But building involves resolving dependencies, packaging, new files, cached
+  files.
+
+  Packaging would improve testability, add isolation.
+
+  Invariably the packagers (webpack, require.js) tend to be a bit smartypants
+  and not always easily tamed. But the goal is the same: resolve dependencies,
+  and can we please handle js/css/fonts/... UI-parts transparently.
+
+  app/v0 (`features/rjs`_) does at least part of the require-js fest.
+  But no fonts, css.
+
+
+
+

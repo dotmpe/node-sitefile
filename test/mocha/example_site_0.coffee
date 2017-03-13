@@ -2,6 +2,7 @@ chai = require 'chai'
 expect = chai.expect
 request = require 'request'
 Promise = require 'bluebird'
+yaml = require 'js-yaml'
 
 lib = require '../../lib/sitefile'
 
@@ -23,6 +24,7 @@ describe "Example site 0", ->
     it 'Should have valid root context', ->
 
       ctx_v = stu.schema.sfctx_v
+
       ctx = lib.prepare_context()
       if not ctx_v ctx
         throw new Error '\n'+ yaml.dump ctx_v.errors

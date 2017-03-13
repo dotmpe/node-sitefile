@@ -37,7 +37,7 @@
             "type": "object"
           },
           "versioning": {
-            "type": "object"
+            "type": ["object","null"]
           }
         },
         "additionalProperties": true

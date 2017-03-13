@@ -23,7 +23,7 @@ options:
       flags:
         - "--no-toc-backlinks"
       stylesheets:
-        $ref: '#/defs/stylesheets/default/urls'
+        $ref: '#/defs/stylesheets/default'
       scripts:
         $ref: '#/defs/scripts/default/urls'
 
@@ -32,26 +32,22 @@ options:
 defs:
   scripts:
     default:
-      urls:
-        - "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"
-        - "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"
-        - "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore.js"
-        - "//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min.js"
-        - "//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.2/crossroads.min.js"
-        - "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.11.1/coffee-script.min.js"
-        - "//cdnjs.cloudflare.com/ajax/libs/require-cs/0.5.0/cs.min.js"
-        #- /build/script/htdocs-third-party.js
-        - /default.js
-      paths:
-        - default.js
+      - url: "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"
+      - url: "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"
+      - url: "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore.js"
+      - url: "//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min.js"
+      - url: "//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.2/crossroads.min.js"
+      - url: "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.11.1/coffee-script.min.js"
+      - url: "//cdnjs.cloudflare.com/ajax/libs/require-cs/0.5.0/cs.min.js"
+      #- /build/script/htdocs-third-party.js
+      - url: /default.js
+        path: default.js
   stylesheets:
     default:
-      urls:
-        - /default.css
-        - "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
-        - "//cdnjs.cloudflare.com/ajax/libs/jquery-ui-bootstrap/0.5pre/assets/css/bootstrap.min.css"
-        #- 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.3/themes/base/jquery-ui.css'
-        #- 'http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css'
-
+      - url: /default.css
+      - url: "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+      - url: "//cdnjs.cloudflare.com/ajax/libs/jquery-ui-bootstrap/0.5pre/assets/css/bootstrap.min.css"
+      #- 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.3/themes/base/jquery-ui.css'
+      #- 'http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css'
 
 

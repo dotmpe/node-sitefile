@@ -1,9 +1,15 @@
 path = require 'path'
-express = require 'express'
 qs = require 'qs'
 
 
 init_express = ( app, ctx={} ) ->
+
+  app.set 'env', ctx.envname
+
+  if process.env.SITEFILE_PORT
+    ctx.settings.site.port = process.env.SITEFILE_PORT
+
+  app.set 'port', ctx.settings.site.port
 
   if not ctx.showStackError?
     ctx.showStackError = true
@@ -23,30 +29,10 @@ parse_simple_types = ( query ) ->
       parse_simple_types query[key]
         
 
-module.exports = (ctx={}) ->
-
-  app = express()
-
-  app.set 'env', ctx.env.name
-
-  app.set 'port', ctx.port()
-
-  ctx.server = require("http").createServer(app)
-
-  init_express( app, ctx )
-
-  ctx.static_proto = express.static
-
-  ctx.redir = ( ref, p ) ->
-    # Express redir handler
-    ctx.app.all ref, (req, res) ->
-      res.redirect p
-
-  app.set 'query parser', ( query_str ) ->
+module.exports =
+  init: init_express
+  query_parser: ( query_str ) ->
     query = qs.parse query_str
     parse_simple_types query
     query
-
-  app
-
 

@@ -1,13 +1,20 @@
+
 extends ../../../client/base
 
 
 block head
-  +std-html-client "PM2 process details"
+  +html-meta("sitefile.main", "base", "sitefile")
+  +std-html-client "PM2 process detail"
 
   script(type="text/javascript", src= script)
 
 
+block prologue
+
+  
 block header
+  hr
+
 
 block main
   .container.main.sf-pm2 
@@ -85,6 +92,13 @@ block main
 
 
 block document
+  
 
 block footer
+  hr
+
+
+block epilogue
+
+
 

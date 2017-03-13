@@ -25,6 +25,11 @@
         "lodash": "//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min",
         "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery",
         "jqueryui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui",
+        "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui",
+        "jquery-terminal": "//rawgit.com/jcubic/jquery.terminal/master/js/jquery.terminal",
+        "jquery-terminal-": "//rawgit.com/jcubic/jquery.terminal/master/js/jquery.terminal-1.0.6",
+        "jquery-terminal--": "//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.0.6/js/jquery.terminal.min",
+        "jq-console": "//cdnjs.cloudflare.com/ajax/libs/jq-console/2.7.7/jqconsole.min",
         "underscore": "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore",
         "underscore.string": "//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min",
         "bootstrap": "/npm/packages/bootstrap/dist/js/bootstrap.min",
@@ -58,8 +63,10 @@
       "ext": ".css",
       "packages": {
         "mocha": "/npm/packages/mocha/mocha",
-        "bootstrap": "/npm/packages/bootstrap/dist/css/bootstrap.min",
+        "bootstrap-3.3.7": "/npm/packages/bootstrap/dist/css/bootstrap.min",
+        "bootstrap": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min",
         "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min",
+        "jquery-terminal": "//rawgit.com/jcubic/jquery.terminal/master/css/jquery.terminal.min",
         "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui"
       }
     }

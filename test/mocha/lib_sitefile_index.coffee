@@ -110,7 +110,7 @@ describe 'Module sitefile', ->
       lib.new_context ctx
       sfctx = ( "config cwd env "+
         "log noderoot paths pkg proc routes settings "+
-        "sitefile verbose version"
+        "sitefile verbose version warn"
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()
@@ -171,6 +171,7 @@ describe 'Module sitefile', ->
     it 'has expected sitefile routes/options (site 2)', ->
       stu = new tu.SitefileTestUtils 'example/site/2'
       obj = stu.get_sitefile()
+      sitefile.path = "Sitefile.yml"
       expect( obj ).to.eql sitefile
 
 
@@ -193,13 +194,13 @@ describe 'Module sitefile', ->
     it 'has expected sitefile routes/options (site 3, JSON)', ->
       stu = new tu.SitefileTestUtils 'example/site/3'
       obj = stu.get_sitefile()
-      #sitefile_2.path = "Sitefile.json"
+      sitefile_2.path = "Sitefile.json"
       expect( obj ).to.eql sitefile_2
 
     it 'has expected sitefile routes/options (site 4, YAML)', ->
       stu = new tu.SitefileTestUtils 'example/site/4'
       obj = stu.get_sitefile()
-      #sitefile_2.path = "Sitefile.yml"
+      sitefile_2.path = "Sitefile.yml"
       expect( obj ).to.eql sitefile_2
 
 

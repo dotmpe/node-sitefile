@@ -90,6 +90,13 @@ describe "The local Sitefile.yaml serves the local documentation, and \
       "/media/script/sitefile-client.js", "application/javascript"
 
   ###
+    
+  if process.env.USER != 'travis' && stu.module_installed 'pm2'
+    it "should publish a PM2 client",
+      stu.test_url_type_ok "/proc/pm2.html", "text/html"
+    it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2/"
+    it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2"
+
 
 
   describe "has a Graphviz router for DOT diagram to PNG format", ->
@@ -99,6 +106,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
     it "should redirect", stu.test_url_redirected \
         "/example/graphviz-binary-search-tree-graph.dot"
+
 
 
   describe "has an auto complete API", ->

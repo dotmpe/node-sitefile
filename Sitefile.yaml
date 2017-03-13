@@ -7,6 +7,8 @@
 # Id: node-sitefile/0.0.7-dev
 sitefile: 0.0.7-dev
 
+title: Sitefile
+
 showStackError: true
 
 paths:
@@ -19,9 +21,11 @@ paths:
 
 routes:
 
-  media/script/dhtml.js: coffee:lib/sitefile/client/dhtml.coffee
-  media/script/sitefile-client.js: static:build/client/sf-v0.js
-  media/style: static:build/style
+  media/script/client-dhtml.js: coffee:sitefile-client:dhtml.coffee
+  media/script/client-main.js: coffee:sitefile-client:main.coffee
+  #media/style: static:build/style
+  media/style/default.css: sass:sitefile-lib:style/default.sass
+  media/style/jquery-terminal-animated-cursor.css: static:lib/sitefile/style/jquery-terminal-animated-cursor.css
 
   doc/literate: static:build/docs/docco/
 
@@ -46,6 +50,9 @@ routes:
   _pu_dev_doc: plantuml:doc/dev/*.plantuml
   _json: data.json:example/*.json
 
+  foo.ls: sh.ls:example/
+  foo.tree: sh.tree:example/
+
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
 
@@ -65,16 +72,22 @@ routes:
   #_rst2html: rst2html:**/*.rst
   gitflow: du:.gitflow.rst
 
-  Sitefile: redir:Sitefile.yaml
   Sitefile.yaml: static:Sitefile.yaml
   Sitefile.json: sitefile:?resolve=sitefile
-  Sitefile/debug: sitefile:#
+  Sitefile/debug: redir:Sitefile/resource
   Sitefile/resource: sitefile.resource:#
   Sitefile/handler: sitefile.handler:#
   Sitefile/global: sitefile.global:#
 
   Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: core:#
+
+  menu.json: res.load-file:sitefile:menu.yml
+  sites.yml: sitefile.sites:sites.yml
+  sites.json: sitefile.sites:sites.yml
+  #menu-sites.json: res.xform:sites.json;var/sites-to-menu.xjson;#
+  #menu-sites.json: sitefile.sites-to-menu:sites.json
+  menu-sites.json: sitefile.sites-to-menu:sites.yml
 
   # Proxy JSON metadata, settings in options.local.npm/...
   npm/npm/latest.json: http:#
@@ -90,7 +103,6 @@ routes:
   vendor/:package.:format: http.vendor:cdn.json
   r:ref/(.*): http.ref:#
   r:res/(.*): http.res:#
-  site/:site/:path: http.site:sites.json
 
   # Three seperate resources, layered for the RequireJS client.
   # The JSON is a path object extracted from cdn.json, and a shim and map and
@@ -120,7 +132,6 @@ routes:
 
   tools: static:tools
 
-
   _pug_server: pug:example/server-*.pug
   _pug_prism: pug:example/prism*.pug
   _pug_polymer: pug:example/polymer*.pug
@@ -131,7 +142,15 @@ options:
     du:
       link_stylesheets: true
       scripts:
-        "$ref": '#/defs/scripts/default'
+        - /vendor/jquery.js
+        - /vendor/jquery-ui.js
+        #- /vendor/jq-console.js
+        - /vendor/jquery-terminal.js
+        - /vendor/bootstrap.js
+        - /vendor/coffee-script.js
+        - /media/script/client-dhtml.js
+        - /media/script/client-main.js
+      #$ref: '#/defs/scripts/default'
       stylesheets:
         "$ref": '#/defs/stylesheets/default'
     rst2html:
@@ -178,9 +197,15 @@ options:
       merge:
         stylesheets:
           - /vendor/bootstrap.css
+          - /vendor/bootstrap-theme.css
           - /vendor/jquery-ui.css
+          - /vendor/jquery-terminal.css
+          - /media/style/jquery-terminal-animated-cursor.css
         scripts:
           - /vendor/jquery.js
+          - /vendor/jquery-ui.js
+          - /vendor/jquery-terminal.js
+          - /vendor/bootstrap.js
         clients:
           "$ref": '#/defs/app/v0/clients'
 
@@ -192,6 +217,7 @@ options:
           - /media/style/default.css
           - /example/server-generated-stylesheet
         scripts:
+          - /vendor/bootstrap.js
           - /vendor/jquery.js
           #- /vendor/require.js
           #- /vendor/source-map-support.js
@@ -205,17 +231,23 @@ defs:
   scripts:
     default:
       - /vendor/jquery.js
+      - /vendor/jquery-ui.js
+      - /vendor/jquery-terminal.js
+      - /vendor/jq-console.js
       #- /vendor/require.js
       #- /vendor/source-map-support.js
       - /vendor/coffee-script.js
-      #- src: /media/script/sitefile-client.js
-      #  path: build/client/default.js
+      - /media/script/client-dhtml.js
+      - /media/script/client-main.js
   stylesheets:
     default:
+      - url: /vendor/jquery-ui.css
+      - url: /vendor/jquery-terminal.css
+      - url: /media/style/jquery-terminal-animated-cursor.css
       - url: /vendor/bootstrap.css
       - url: /vendor/bootstrap-theme.css
       - url: /media/style/default.css
-        path: build/style/default.css
+        #path: build/style/default.css
 
   app:
     v0:

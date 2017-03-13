@@ -6,7 +6,8 @@ _ = require 'lodash'
 
 nodelib = require 'nodelib-mpe'
 Context = nodelib.Context
-
+yaml = require 'js-yaml'
+Promise = require 'bluebird'
 
 
 expand_path = ( src, ctx ) ->
@@ -29,6 +30,7 @@ expand_paths_spec_to_route = ( rctx ) ->
   else
     # Or fall back to verbatim route name as path
     srcs = [ rctx.name ]
+  # Now expand prefixes
   for src, idx in srcs
     srcs[idx] = expand_path src, rctx
   return srcs
@@ -67,37 +69,55 @@ resolve_route_options = ( ctx, route, router_name ) ->
   opts
 
 
+# Wrap rctx with data resource in promise
+promise_resource_data = ( rctx ) ->
+  if "function" is typeof rctx.res.data.then
+    rctx.res.data
+  else
+    new Promise ( resolve, reject ) ->
+      data = rctx.res.data
+      r = 0
+      while "function" is typeof data
+        if r == rctx.config['data-resolve-limit']
+          throw new Error "data-resolve-limit #{r}"
+        data = data()
+        r += 1
+      resolve data
+
+
 builtin =
 
 
   # TODO: extend redir spec for status code
-  redir: ( rctx, url=null, status=302 ) ->
+  redir: ( rctx, url=null, status=302, tourl=null ) ->
     if not url
       url = rctx.base() + rctx.name
-    p = rctx.base() + rctx.route.spec
+      #url = rctx.site.base + rctx.name
+    if not tourl
+      tourl = rctx.base() + rctx.route.spec
+      #tourl = rctx.site.base + rctx.route.spec
 
     # 301: Moved (Permanently)
     # 302: Found
     # 303: See Other
 
-    rctx.context.log 'redir', url, p
+    rctx.context.log 'redir', url, tourl
 
     if rctx.route.handler == 'temp'
-      rctx.context.redir 302, url, p
+      rctx.context.redir 302, url, tourl
     else if rctx.route.handler == 'perm'
-      rctx.context.redir 301, url, p
+      rctx.context.redir 301, url, tourl
     else
-      #rctx.context.redir status, url, p
+      #rctx.context.redir status, url, tourl
       rctx.context.app.all url, ( req, res ) ->
-        res.redirect p
+        res.redirect tourl
 
-    rctx.context.log '      ', url: url, '->', url: p
+    rctx.context.log '      ', url: url, '->', url: tourl
 
 
   static: ( rctx ) ->
 
     url = rctx.res.ref
-
     srcs = expand_paths_spec_to_route rctx
 
     rctx.context.app.use url, [
@@ -111,12 +131,24 @@ builtin =
   # not care too itself since it is a very common task.
   data: ( rctx ) ->
     ( req, res ) ->
-      res.type 'json'
-      res.write JSON.stringify \
-        if "function" is typeof rctx.res.data
-        then rctx.res.data()
-        else rctx.res.data
-      res.end()
+      writer = if rctx.res.fmt? then rctx.res.fmt else 'json'
+      deferred = promise_resource_data rctx
+      deferred
+      .catch ( err ) ->
+        res.status 500
+        res.write err
+        res.end
+      .then ( data ) ->
+        if writer == 'json'
+          output = JSON.stringify data
+        else if writer in ['yaml', 'yml']
+          output = yaml.safeDump data
+        else
+          throw new Error "No writer #{writer}"
+        res.type writer
+        res.write output
+        res.end()
+
 
 Base =
   name: 'Express'

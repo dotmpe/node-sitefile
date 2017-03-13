@@ -97,6 +97,7 @@ define 'sf-v0/mixin.hyper-nav', [
         # FIXME: xref = ref+' .main'
         xref = ref+' .document>*'
       # Use jQuery.load to get at content at other resource
+      console.log "Loading xref #{xref}"
       $('.placeholder').load xref, ( rsTxt, txtStat, jqXhr ) ->
         if txtStat not in [ "success", "notmodified" ]
           console.log 'jQ.load fail, TODO', arguments

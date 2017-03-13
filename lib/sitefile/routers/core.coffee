@@ -16,7 +16,7 @@ jQuery_autocomplete_api = ( req, rctx ) ->
   term = req.query.term
 
   if ( term or prefix ) and rctx.verbose
-    console.log "looking for paths with #{term} and/or in #{prefix}"
+    rctx.log "looking for paths with #{term} and/or in #{prefix}"
 
   retdata = []
   matches = []

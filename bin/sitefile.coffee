@@ -1,12 +1,18 @@
 #!/usr/bin/env coffee
 
 path = require 'path'
-lib = require '../lib/sitefile'
+
 _ = require 'lodash'
+neodoc = require 'neodoc'
+express = require 'express'
+pmx = null
+
+lib = require '../lib/sitefile'
+sf_express = require '../lib/sitefile/express'
+strutil = require '../lib/strutil'
 
 
 
-# export server-start callback
 sitefile_cli = module.exports =
 
   # read-only public vars
@@ -17,8 +23,75 @@ sitefile_cli = module.exports =
   root: null
   proc: null
 
-  monitor: ->
+  startExpress: ( ctx ) ->
 
+    app = express()
+    ctx.server = require("http").createServer(app)
+
+    sf_express.init( app, ctx )
+
+    app.set 'query parser', sf_express.query_parser
+
+    ctx.static_proto = express.static
+    ctx.redir = ( ref, p ) ->
+      # Express redir handler
+      ctx.app.all ref, (req, res) ->
+        res.redirect p
+
+    app
+
+  run_main: ( done, options={}, ctx={} ) ->
+    vOpt = String(options['--bwc'])
+    switch
+
+      when vOpt.startsWith '0.0'
+        # prepare context and config data, loads sitefile
+        ctx = lib.new_context ctx
+        if options['--verbose']
+          ctx.verbose = true
+        if _.isEmpty ctx.sitefile.routes
+          lib.warn 'No routes'
+          process.exit()
+        # add the app where our routes go
+        ctx.app = sitefile_cli.startExpress ctx
+        # bootstrap app setup using sitefile
+        sf = new lib.Sitefile ctx
+        # set full path for export
+        ctx.settings.site.netpath = "//"+ctx.settings.site.host+':'+ctx.settings.site.port+ctx.settings.site.base
+
+      when vOpt.startsWith '0.1' then null
+
+    # serve forever
+    proc = sitefile_cli.serve done, ctx
+    # export main components to module
+    sitefile_cli.export ctx,
+      root: ctx
+      proc: proc
+     # TODO: return instance, sf
+    ctx #
+    [ sf, ctx, proc ]
+
+  serve: ( done, ctx ) ->
+    if ctx.verbose
+      console.log "Starting server at localhost:#{ctx.settings.site.port}"
+    return if ctx.settings.site.host
+        ctx.server.listen ctx.settings.site.port, ctx.settings.site.host, ->
+          if ctx.verbose
+            lib.log "Listening", "Express server on port #{ctx.settings.site.port}. "
+          !done || done()
+      else
+        ctx.server.listen ctx.settings.site.port, ->
+          if ctx.verbose
+            lib.log "Listening", "Express server on port #{ctx.settings.site.port}. "
+          !done || done()
+
+  export: ( ctx, map ) ->
+    for attr in [ "host", "port", "path", "netpath" ]
+      sitefile_cli[attr] = module.exports[attr] = ctx.settings.site[attr]
+    for atr, o of map
+      sitefile_cli[atr] = module.exports[atr] = o
+
+  monitor: ->
     probe = pmx.probe()
     metrics = {
       hostname: probe.metric
@@ -50,73 +123,52 @@ sitefile_cli = module.exports =
             Object.keys(sitefile_cli.root.routes.directories).length
     }
 
-  run: ( done, options={} ) ->
-
-    options.sfdir = path.dirname __dirname
-
-    # prepare context and config data, loads sitefile
-    ctx = lib.new_context options
-    if _.isEmpty ctx.sitefile.routes
-      lib.warn 'No routes'
-      process.exit()
-
-    # initialize Express
-    express_handler = require '../lib/sitefile/express'
-    ctx.app = express_handler ctx
-  
-    # further Express setup using sitefile
-    sf = new lib.Sitefile ctx
-
-    # serve forever
-    if ctx.verbose
-      console.log "Starting server at localhost:#{ctx.port()}"
-    if ctx.host()
-      proc = ctx.server.listen ctx.port(), ctx.host(), ->
-        if ctx.verbose
-          lib.log "Listening", "Express server on port #{ctx.port()}. "
-        !done || done()
-    else
-      proc = ctx.server.listen ctx.port(), ->
-        if ctx.verbose
-          lib.log "Listening", "Express server on port #{ctx.port()}. "
-        !done || done()
-
-    # "Export"
-    sitefile_cli.host = module.exports.host = ctx.host()
-    sitefile_cli.port = module.exports.port = ctx.port()
-    sitefile_cli.path = module.exports.path = ctx.base()
-    sitefile_cli.netpath = module.exports.netpath = ctx.settings.site.netpath
-
-    sitefile_cli.root = module.exports.root = ctx
-    sitefile_cli.proc = module.exports.proc = proc
-    
-    [ sf, ctx, proc ]
 
 
-if process.argv[2] in [ '--version', '--help' ]
- 
-  console.log "sitefile/"+lib.version
-
-else if process.argv[1].endsWith('sitefile') \
+if process.argv[1].endsWith('sitefile') \
     or process.argv[1].endsWith 'sitefile.coffee'
+  opts = neodoc.run """
 
-  if process.env.SITEFILE_PM2_MON
+  Usage: sitefile [--version] [--help] [options]
+
+  options:
+    --bwc <bwc-version>      Run at backward-compatible version, iso. version
+                             in Sitefile [env: SITEFILE_VERSION]
+                             [default: '#{lib.version}']
+    --monitor <pmx-on>       Enable PM2 monitor extension, this initalizes 
+                             a probe with internal metrics of the sitefile
+                             process. [env: SITEFILE_PM2_MON]
+    --quiet                  Be quiet.
+    --verbose                .
+
+  """, { optionsFirst: false, laxPlacement: true, smartOptions: true }
+  if opts['--monitor']
     try
       pmx = require 'pmx'
       sitefile_cli.monitor()
     catch error
       if error.code != 'MODULE_NOT_FOUND'
         process.exit 1
-    
-  sitefile_cli.run()
+  if opts['--quiet']
+    lib.log_enabled = false
+  sitefile_cli.run_main null, opts, sfdir: path.dirname __dirname
+
 
 else if process.env.NODE_ENV == 'testing'
-  null
+  lib.log_error_enabled = false
+  lib.log_enabled = false
+
+
+else if process.env.NODE_ENV == 'development'
+  lib.log_error_enabled = true 
+  lib.log_enabled = false
+
 
 else
   lib.warn "Invalid argument:", process.argv[2]
   process.exit(1)
 
 
-# Id: node-sitefile/0.0.7-dev bin/sitefile.coffee
+
 # vim:ft=coffee:
+# Id: node-sitefile/0.0.7-dev bin/sitefile.coffee

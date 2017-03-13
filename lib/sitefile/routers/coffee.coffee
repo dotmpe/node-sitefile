@@ -4,6 +4,7 @@ _ = require 'lodash'
 fs = require 'fs'
 path = require 'path'
 sitefile = require '../sitefile'
+Router = require '../Router'
 
 cc = require 'coffee-script'
 
@@ -22,10 +23,11 @@ module.exports = ( ctx={} ) ->
     default: ( rctx ) ->
 
       ( req, res ) ->
-        sitefile.log 'Coffe-Script compile', rctx.res.path
+        cpath = if rctx.res.path then rctx.res.path else rctx.route.spec
+        cpath = Router.expand_path cpath, ctx
+        sitefile.log 'Coffe-Script compile', cpath
         res.type 'js'
-        res.write cc._compileFile rctx.res.path
+        res.write cc._compileFile cpath
         res.end()
-
 
 

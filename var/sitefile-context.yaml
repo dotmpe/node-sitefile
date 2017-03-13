@@ -49,6 +49,7 @@ properties:
     type: string
   proc:
     type: object
+  warn: {}
   log: {}
   env:
     type: object
@@ -67,6 +68,10 @@ properties:
     properties:
       name:
         type: string
+      backtraces:
+        type: boolean
+      'data-resolve-limit':
+        type: number
       static:
         type: object
       sitefile:
