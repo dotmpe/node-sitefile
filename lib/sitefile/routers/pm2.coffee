@@ -217,10 +217,9 @@ module.exports = ( ctx ) ->
     # Serve HTML list view
     view: ( rctx ) ->
       (req, res) ->
-        #deferred = deref.promise.file rctx
-        #deferred.then ( apps ) ->
         ctx.log 'PM2 View', path: ctx.site.base+ rctx.name + '.json'
         httprouter.promise.resource(
+          reqType: 'application/json'
           opts:
             hostname: 'localhost'
             port: ctx.app.get('port')
@@ -248,12 +247,13 @@ module.exports = ( ctx ) ->
     # Serve PM2 proc HTML details
     'view/app': ( rctx ) ->
       (req, res) ->
-        ctx.log 'PM2 View app', path: req.path.substring(0, req.path.length - 5) + '.json'
+        fn = req.path.substring(0, req.path.length - 5) + '.json'
+        ctx.log 'PM2 View app', path: fn
         httprouter.promise.resource(
           opts:
             hostname: 'localhost'
             port: ctx.app.get('port')
-            path: req.path.substring(0, req.path.length - 5) + '.json'
+            path: fn
         ).then ( data ) ->
           res.type 'html'
           res.write pugrouter.compile {

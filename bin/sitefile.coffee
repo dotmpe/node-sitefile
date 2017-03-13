@@ -47,7 +47,7 @@ sitefile_cli = module.exports =
       when vOpt.startsWith '0.0'
         # prepare context and config data, loads sitefile
         ctx = lib.prepare_context ctx
-        if opts['--verbose']
+        if options['--verbose']
           ctx.verbose = true
         if _.isEmpty ctx.sitefile.routes
           lib.warn 'No routes'

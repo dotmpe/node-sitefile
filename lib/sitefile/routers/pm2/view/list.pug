@@ -9,8 +9,15 @@ block head
   script(type="text/javascript", src= script)
 
 
+block prologue
+
+  
+block header
+  hr
+
+
 block main
-  .container.pm2-list(data-urlbase=pm2_base)
+  .container.main.pm2-list(data-urlbase=pm2_base)
 
     h3 PM2 process List
 
@@ -83,17 +90,13 @@ block main
                 span.glyphicon.glyphicon-stop(aria-hidden="true")
 
 
-block prologue
-
-  
-block header
-  hr
 
 block document
 
 
 block footer
   hr
+
 
 block epilogue
 

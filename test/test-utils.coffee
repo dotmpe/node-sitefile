@@ -16,7 +16,7 @@ ajv = new Ajv()
 #    throw new Error "Property #{prop} must be object, not #{desc}"
 #  Object.defineProperty @prototype, prop, desc
 
-version = '0.0.7-dev' # node-sitefile
+version = "0.0.7-dev" # node-sitefile
 
 
 class SitefileTestUtils
@@ -55,10 +55,10 @@ class SitefileTestUtils
     if @dir
       process.chdir @dir
     [ @sf, @ctx, @proc ] = @server.run_main done, {
-        '--bwc': version
-      }, {
-        sfdir: process.cwd()
-      }
+      '--bwc': version, '--verbose': false
+    }, {
+      sfdir: process.cwd()
+    }
       
 
   after: ( done ) ->
@@ -143,7 +143,7 @@ class SitefileTestUtils
         reject(new Error("Validator exception: #{err}"))
 
   load_schema: ( name, filepath ) ->
-    @schemaSrc[name] = path.join process.cwd(), filepath
+    @schemaSrc[name] = path.join @cwd, filepath
     @schemaSrcData[name] = require @schemaSrc[name]
     if _.isEmpty @schemaSrcData[name]
       throw new Error "No data for #{name} (#{filepath})"
