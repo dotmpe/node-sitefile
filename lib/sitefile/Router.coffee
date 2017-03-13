@@ -97,7 +97,6 @@ builtin =
   static: ( rctx ) ->
 
     url = rctx.res.ref
-
     srcs = expand_paths_spec_to_route rctx
 
     rctx.context.app.use url, [

@@ -12,9 +12,9 @@ Node Sitefile
     :target: https://gemnasium.com/dotmpe/node-sitefile
     :alt: Dependencies
 
-  .. image:: https://david-dm.org/dotmpe/node-sitefile.svg?style=flat-square
-    :target: https://david-dm.org/dotmpe/node-sitefile
-    :alt: Dependencies
+  .. image:: https://snyk.io/package/npm/name/badge.svg
+    :target: https://snyk.io/package/npm/name
+    :alt: Vulnerabilities
 
 :project:
 
