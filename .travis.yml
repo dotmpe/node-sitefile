@@ -27,7 +27,7 @@ before_script:
   - . ./tools/ci/build.sh
 
 env:
-  - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin:$PATH ENV=testing
+  - NODE_ENV=testing PATH=/usr/local/bin:$HOME/bin:$PATH ENV=testing BUILD_STEPS="dev test "
 
 notifications:
   email:
