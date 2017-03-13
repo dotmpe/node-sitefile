@@ -1,0 +1,31 @@
+#master dev false
+#dev demo false
+dev test false
+  
+#master r0.0.4 false
+#master r0.0.5 false
+master r0.0.6 false
+master r0.0.6-ctx false
+master r0.0.7 false
+master test false
+
+#master features/api-docs
+#master features/baseref
+#master features/bootstrap
+#master features/bundles
+#master features/cdn
+#master features/core-builtins
+#master features/db-knex
+#master features/diagrams-ditaa
+#master features/gherkin
+#master features/graphviz
+#master features/html5-client
+#master features/json-editor
+#master features/jsonary
+#master features/outliner
+#master features/pm2
+r0.0.7 features/railroad-diagrams
+#master features/selenium
+#master features/sitebuild
+#master features/webpack
+
