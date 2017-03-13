@@ -1,6 +1,6 @@
 Node Sitefile
 =============
-:Version: 0.0.5
+:Version: 0.0.6-dev
 :Status: Development
 :package: Changelog_
 
@@ -12,9 +12,9 @@ Node Sitefile
     :target: https://gemnasium.com/dotmpe/node-sitefile
     :alt: Dependencies
 
-  .. image:: https://david-dm.org/dotmpe/node-sitefile.svg?style=flat-square
-    :target: https://david-dm.org/dotmpe/node-sitefile
-    :alt: Dependencies
+  .. image:: https://snyk.io/package/npm/name/badge.svg
+    :target: https://snyk.io/package/npm/name
+    :alt: Vulnerabilities
 
 :project:
 
@@ -148,4 +148,4 @@ Further reading
 
 .. This is a reStructuredText document.
 
-.. Id: node-sitefile/0.0.5 ReadMe.rst
+.. Id: node-sitefile/0.0.6-dev ReadMe.rst

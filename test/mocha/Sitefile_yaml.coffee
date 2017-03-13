@@ -1,4 +1,4 @@
-# Id: node-sitefile/0.0.5 test/mocha/Sitefile_yaml.coffee
+# Id: node-sitefile/0.0.6-dev test/mocha/Sitefile_yaml.coffee
 
 _ = require 'lodash'
 chai = require 'chai'

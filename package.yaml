@@ -3,7 +3,7 @@
 - type: application/x-project-mpe
   main: node-sitefile
   name: node-sitefile
-  version: 0.0.5 # node-sitefile
+  version: 0.0.6-dev # node-sitefile
   environments: [ 'development' ]
 
   pd-meta:
@@ -15,3 +15,10 @@
     check: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools htd:gitflow-check-doc :git:status grunt:check"
     cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
 
+  scripts:
+    install:
+      - npm run install
+    test:
+      - NODE_ENV=development npm run test
+    mocha-test:
+      - NODE_ENV=development npm run mocha-test "$@"

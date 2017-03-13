@@ -4,8 +4,8 @@
 # A note of caution: this example config does shameless things like executing any shell
 # script if you want to, like call http://localhost/clean.sh. Ymmv.
 #
-# Id: node-sitefile/0.0.5-dev+20161010
-sitefile: 0.0.5
+# Id: node-sitefile/0.0.6-dev+20161010
+sitefile: 0.0.6-dev
 
 showStackError: true
 
