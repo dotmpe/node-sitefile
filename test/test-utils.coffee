@@ -19,7 +19,7 @@ ajv = new Ajv()
 #    throw new Error "Property #{prop} must be object, not #{desc}"
 #  Object.defineProperty @prototype, prop, desc
 
-version = '0.0.7-dev' # node-sitefile
+version = "0.0.7-dev" # node-sitefile
 
 
 class SitefileTestUtils
@@ -58,10 +58,10 @@ class SitefileTestUtils
     if @dir
       process.chdir @dir
     [ @sf, @ctx, @proc ] = @server.run_main done, {
-        '--bwc': version, '--verbose': false
-      }, {
-        sfdir: process.cwd()
-      }
+      '--bwc': version, '--verbose': false
+    }, {
+      sfdir: process.cwd()
+    }
       
 
   after: ( done ) ->
