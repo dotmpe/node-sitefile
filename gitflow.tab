@@ -1,4 +1,4 @@
-#master r0.0.6 false
+
 #dev demo false
 dev test false
   
@@ -6,11 +6,20 @@ dev test false
 #master r0.0.5 false
 #master r0.0.6 false
 #master r0.0.6-ctx false
-master r0.0.5 false
-test r0.0.5 false
-r0.0.5 r0.0.6 false
-#dev r0.0.6-ctx false
-dev r0.0.7 false
+
+master   r0.0.5
+r0.0.5   r0.0.6
+
+dev      r0.0.7
+r0.0.7   features/railroad-diagrams
+
+test r0.0.5
+test r0.0.6
+test r0.0.7
+
+master origin/dev
+master origin/dev
+dev origin/dev
 
 #master features/api-docs
 #master features/baseref
@@ -27,7 +36,6 @@ dev r0.0.7 false
 #master features/jsonary
 #master features/outliner
 #master features/pm2
-r0.0.7 features/railroad-diagrams
 #master features/selenium
 #master features/sitebuild
 #master features/webpack
