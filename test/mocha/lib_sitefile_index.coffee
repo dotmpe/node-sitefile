@@ -79,9 +79,10 @@ describe 'Module sitefile', ->
     it 'Should export options', ->
       ctx = {}
       lib.prepare_context ctx
-      sfctx = ( "basename bundles config config_envs config_name cwd envname "+
+      sfctx = ( "backtraces basename bundles config config_envs config_name "+
+        "cwd data-resolve-limit envname "+
         "ext exts fn lfn log noderoot paths pkg pkg_file proc routes "+
-        "site sitefile sitefilerc static verbose version"
+        "site sitefile sitefilerc static verbose version warn"
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()

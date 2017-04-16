@@ -9,6 +9,7 @@ libconf = require '../../conf'
 
 nested_dicts_to_menu_outline = ( data, map, name='' ) ->
   label: name
+  icon: if data.icon then data.icon else 'star-empty'
   href: data.base
   items: (
     nested_dicts_to_menu_outline sub, map, name for name, sub of data.names
@@ -30,13 +31,24 @@ module.exports = ( ctx ) ->
           sitefile_default_route_option_example_key: 1
 
   generate:
+    default: ( rctx ) ->
+      ( req, res ) ->
+        # FIXME: want to query for mount point of handler(s), redirect there
+        ctx.redir 'Sitefile/resource'
+      
     # TODO:
     resource: ( rctx ) ->
-      data: {}
+      res:
+        data: ->
+          rctx.res
     handler: ( rctx ) ->
-      data: {}
+      res:
+        data: ->
+          rctx.route
     global: ( rctx ) ->
-      data: {}
+      res:
+        data: ->
+          rctx._data
 
     # TODO: generate menu from multiple sources. 
     menu: ( rctx ) ->
@@ -67,15 +79,5 @@ module.exports = ( ctx ) ->
               rctx.site.base+rctx.route.spec.trim '#'
           deref.promise.local_or_remote rctx
           ###
-
-    default: ( rctx ) ->
-      ( req, res ) ->
-        res.type 'json'
-        switch rctx.route.handler
-          when "resolver" then res.write JSON.stringify rctx._data
-          when "global" then res.write JSON.stringify ctx._data
-          else res.write JSON.stringify _.defaults {}, rctx._data, ctx._data
-
-        res.end()
 
 

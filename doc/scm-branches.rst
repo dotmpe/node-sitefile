@@ -82,7 +82,7 @@ master [*]_
           fetch the OPTIONS, html/head/title, etc.
 
           Ability to interact with PM2 from HTTP would be useful. Ie. in the
-          `google-chrome-htdocs` extension.
+          `google-chrome-htdocs` addon.
 
         - Can simply use JSON for ``pm2 start``, can it use this same structure
           with ``pm2.start`` API?
@@ -93,7 +93,7 @@ master [*]_
         - Looking for a resource bundle model.
 
       webpack
-        - Want to bundle content; package router or resource extensions to
+        - Want to bundle content; package router or resource customizations to
           sitefile.
 
           Finished writing a simple gulp to compile all to a single module.

@@ -41,17 +41,18 @@
 
 (0.0.7)
   - Bypassed r0.0.5 feature changes to get back at stable release.
-    (Forked off dev to ``features/baseref`` and reset dev to r0.0.7)
   - New routers:
 
     - ``sh.ls`` and ``sh.tree``
     - ``res.load-file`` (renamed ``data`` to ``res`` since there is alreay
       a builtin ``data``)
 
-    Removed routers:
+  - Removed ``http.site`` router.
+  - Started ``0.1`` version prefix to experiment with component versioning.
+  - Using `neodoc`_ for argument parser now.
 
-    - ``http.site``
 
+.. See doc/dev/.
 
 (0.1.0)
   ..

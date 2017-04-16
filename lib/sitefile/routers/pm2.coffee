@@ -3,6 +3,9 @@ path = require 'path'
 cc = require 'coffee-script'
 _ = require 'lodash'
 
+deref = require '../deref'
+Router = require '../Router'
+
 
 pm2_app_defaults = ( obj ) ->
   _.defaultsDeep obj, {
@@ -111,7 +114,6 @@ module.exports = ( ctx ) ->
     default: ( rctx ) ->
       # FIXME: allow string descriptions;
       # auto-export routes based on route.default mapping
-      # XXX: console.log 'PM2', ctx.site.base, rctx.name, rctx.res, rctx.route
 
       route =
         '.json': get: generators.list
@@ -135,6 +137,10 @@ module.exports = ( ctx ) ->
       for name of route
         for method of route[name]
           ref = ctx.site.base+rctx.name+name
+          if "object" is typeof route[name][method]
+            rctx.res.data = route[name][method].res.data
+            ctx.app[method] ref, Router.builtin.data ( rctx )
+            continue
           unless "function" is typeof route[name][method]
             throw Error \
               "Expected callback #{name}:#{method}:#{route[name][method]}"
@@ -152,14 +158,15 @@ module.exports = ( ctx ) ->
         res.write JSON.stringify m.procs
         res.end()
 
-    list: ( rctx ) ->
-      (req, res) ->
-        pm2.list (err, ps_list) ->
-          res.type 'json'
-          if err
-            res.status 500
-          res.write JSON.stringify ps_list
-          res.end()
+    list:
+      res:
+        data: ( rctx ) ->
+          new Promise ( resolve, reject ) ->
+            pm2.list ( err, ps_list ) ->
+              if err
+                reject err
+              else
+                resolve ps_list
 
     # Describe single PM2 proc in JSON
     'data/app': ( rctx ) ->
@@ -210,15 +217,17 @@ module.exports = ( ctx ) ->
     # Serve HTML list view
     view: ( rctx ) ->
       (req, res) ->
-
+        ctx.log 'PM2 View', path: ctx.site.base+ rctx.name + '.json'
         httprouter.promise.resource(
-          hostname: 'localhost'
-          port: ctx.app.get('port')
-          path: ctx.site.base + rctx.name + '.json'
-        ).then ( apps ) ->
-
+          reqType: 'application/json'
+          opts:
+            hostname: 'localhost'
+            port: ctx.app.get('port')
+            path: ctx.site.base+ rctx.name + '.json'
+        ).then ( data ) ->
           res.type 'html'
-          res.write pugrouter.compile listPugFn, {
+          res.write pugrouter.compile {
+            tpl: listPugFn
             compile: rctx.route.options.compile
             merge:
               pid: process.pid
@@ -227,23 +236,28 @@ module.exports = ( ctx ) ->
               options: rctx.options
               query: req.query
               context: rctx
-              apps: apps
+              apps: data[0]
+              links: []
+              stylesheets: rctx.sitefile.defs.stylesheets.default
+              scripts: rctx.sitefile.defs.scripts.default
+              clients: []
           }
           res.end()
 
     # Serve PM2 proc HTML details
     'view/app': ( rctx ) ->
       (req, res) ->
-
-        console.log req.path.substring(0, req.path.length - 5) + '.json'
-        httprouter.promise.json(
-          hostname: 'localhost'
-          port: ctx.app.get('port')
-          path: req.path.substring(0, req.path.length - 5) + '.json'
-        ).then ( app ) ->
-
+        fn = req.path.substring(0, req.path.length - 5) + '.json'
+        ctx.log 'PM2 View app', path: fn
+        httprouter.promise.resource(
+          opts:
+            hostname: 'localhost'
+            port: ctx.app.get('port')
+            path: fn
+        ).then ( data ) ->
           res.type 'html'
-          res.write pugrouter.compile detailPugFn, {
+          res.write pugrouter.compile {
+            tpl: detailPugFn
             compile: rctx.route.options.compile
             merge:
               pid: process.pid
@@ -252,7 +266,11 @@ module.exports = ( ctx ) ->
               options: rctx.route.options
               query: req.query
               context: rctx
-              app: app
+              app: data[0]
+              links: []
+              stylesheets: rctx.sitefile.defs.stylesheets.default
+              scripts: rctx.sitefile.defs.scripts.default
+              clients: []
           }
           res.end()
 

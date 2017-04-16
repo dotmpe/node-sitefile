@@ -154,7 +154,7 @@ module.exports = ( ctx ) ->
         try
           rst2html res, _.merge {}, rctx.route.options, req.query
         catch error
-          console.log error
+          ctx.warn error
           res.type('text/plain')
           res.status(500)
           res.write("exec error: "+error)

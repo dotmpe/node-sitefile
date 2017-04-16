@@ -41,8 +41,11 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             main: '/app/rjs-sf-v0.js'
           }]
           expect(obj.merge.stylesheets).to.eql [
-            '/vendor/bootstrap.css'
-            '/vendor/jquery-ui.css'
+            "/vendor/bootstrap.css"
+            "/vendor/bootstrap-theme.css"
+            "/vendor/jquery-ui.css"
+            "/vendor/jquery-terminal.css"
+            "/media/style/jquery-terminal-animated-cursor.css"
           ]
           clients = stu.ctx.resolve \
                     'sitefile.options.local.app/v0.merge.clients'
@@ -83,8 +86,8 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             expect('.document').dom.to.have.count 1
             #expect('.document').dom.to.have.attribute 'sf-page'
             expect('.header').dom.to.have.count 1
-            expect('h3.subtitle').dom.to.contain.text \
-              "Sitefile v0 - RequireJS Client"
+            #expect('h3.subtitle').dom.to.contain.text \
+            #  "Sitefile v0 - RequireJS Client"
           ]
 
 
@@ -115,6 +118,59 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
 
 
+    describe "at ReadMe", ->
+
+      describe "that loads a page that", ->
+
+        sewd = require 'selenium-webdriver'
+        browser = require 'selenium-webdriver/testing'
+
+        before ->
+          if stu.ctx.verbose
+            console.log 'requesting', stu.env_browser()
+          try
+            @driver = new sewd.Builder().
+              withCapabilities(
+                browserName: stu.env_browser()
+              ).
+              build()
+          catch err
+            console.warn err
+            this.skip()
+          chai.use require('chai-webdriver') @driver
+
+        beforeEach ->
+          @driver.get "http://localhost:#{stu.server.port}/ReadMe"
+
+        after ->
+          @driver?.quit()
+
+
+        browser.it "has a global menu", ->
+          driver = @driver
+          new Promise ( resolve, reject ) ->
+            driver.wait(
+              sewd.until.elementLocated sewd.By.className 'menu-global'
+            ).catch( reject ).then ->
+              driver.getWindowHandle()
+              Promise.all([
+                expect('ul.nav.menu-global').dom.to.have.count 3
+              ]).catch( reject ).then resolve
+
+        browser.it "has site menu", ->
+          driver = @driver
+          new Promise ( resolve, reject ) ->
+            driver.wait(
+              sewd.until.elementLocated sewd.By.className 'menu-sites'
+            ).catch( reject ).then ->
+              driver.getWindowHandle()
+              Promise.all([
+                expect('ul.nav.menu-sites').dom.to.have.count 1
+              ]).catch( reject ).then resolve
+
+
+
+
     describe "with config/init from", ->
 
       it "rjs-sf-v0.json", stu.test_url_type_ok \
@@ -122,7 +178,6 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
       it "rjs-sf-v0.js", stu.test_url_type_ok \
           "/app/rjs-sf-v0.js", "application/javascript"
-
 
 
 

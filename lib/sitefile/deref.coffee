@@ -1,3 +1,4 @@
+fs = require 'fs'
 http = require 'http'
 URL = require 'url'
 # TODO see if this improves things request = require 'request'
@@ -10,7 +11,6 @@ clientAcc = \
   'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
 
 client_opts = ( { url, accType = null, reqType, opts = {} } ) ->
-  console.log url, accType, reqType, opts
   if not url and not opts.path
     throw new Error "URL or path required"
   if not accType and not reqType
@@ -34,11 +34,11 @@ client_opts = ( { url, accType = null, reqType, opts = {} } ) ->
   opts
 
 
-# TODO: follow redirects
 promise_resource = ( deref_args ) ->
 
   opts = client_opts deref_args
 
+  # TODO: follow redirects
   rp(opts)
 
 
@@ -60,7 +60,7 @@ promise_http_get = ( deref_args ) ->
             error = new Error("Invalid content-type.\n" +
                         "Expected #{opts.reqType} but received #{contentType}")
           if error
-            console.log error.message
+            console.warn error.message
             # consume response data to free up memory
             res.resume()
             reject error.message
@@ -76,10 +76,10 @@ promise_http_get = ( deref_args ) ->
                   parsedData = JSON.parse rawData
                   resolve [ parsedData, contentType ]
                 catch e
-                  console.log e.message
+                  console.warn e.message
                   reject e.message
               .on 'error', (e) ->
-                console.log("Got error: #{e.message}")
+                console.warn("Got error: #{e.message}")
                 reject e
 
           else
@@ -87,10 +87,24 @@ promise_http_get = ( deref_args ) ->
               .on 'end', ->
                 resolve [ rawData, contentType ]
               .on 'error', (e) ->
-                console.log("Got error: #{e.message}")
+                console.warn("Got error: #{e.message}")
                 reject e
     catch err
       reject err
+
+
+promise_file = ( rctx ) ->
+  if not rctx.sfdir or not rctx.route.spec
+    throw new Error "deref.promise.file: Base and spec required"
+  fn = rctx.sfdir+ '/'+ rctx.route.spec
+  new Promise ( resolve, reject ) ->
+    fs.readFile fn, ( err, data ) ->
+      if err
+        reject err
+      else
+        data = String(data)
+        resolve JSON.parse data
+    
 
 
 local_or_remote = ( rctx ) ->
@@ -100,6 +114,7 @@ local_or_remote = ( rctx ) ->
   )
     # TODO lookup router or call handler somewhere
     #rctx._routers.get('')
+    #promise_file
   else
     promise_resource {
       url: rctx.res.src.toString()
@@ -113,5 +128,6 @@ module.exports =
   promise:
     http_get: promise_http_get
     resource: promise_resource
-  local_or_remote: local_or_remote
+    file: promise_file
+    local_or_remote: local_or_remote
 

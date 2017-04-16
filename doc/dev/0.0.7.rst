@@ -1,0 +1,28 @@
+.. include:: ../.defaults.rst
+
+0.0.7
+=====
+
+- Bypassed r0.0.5 feature changes to get back at stable release.
+  (Forked off dev to ``features/baseref`` and reset dev to r0.0.7)
+- Started ``0.1`` version prefix to experiment with component versioning.
+  Initially targetted to keep support for ``routes`` schema stable, see
+  `features/route`_ on `Versioning`, `BWC-mode`.
+- Using `neodoc`_ for argument parser now.
+
+
+Wanted
+  Timeline
+    - https://developers.google.com/chart/interactive/docs/gallery/timeline
+  Treemap
+    - http://js-treemap.sourceforge.net/
+    - https://philogb.github.io/jit/static/v20/Docs/files/Visualizations/Treemap-js.html
+    - https://github.com/philogb/dom-treemap#readme
+  (Network) Graphs
+    - http://js.cytoscape.org/
+    - https://www.opengraphiti.com/
+    - https://www.graphdracula.net/
+  Sunburst?
+    - http://philogb.github.io/blog/2009/10/05/sunburst-visualization/
+
+

@@ -7,6 +7,7 @@ request = require 'request'
 Promise = require 'bluebird'
 Ajv = require 'ajv'
 
+
 ajv = new Ajv()
 
 # FIXME failures on features/pm2 with Context...
@@ -15,10 +16,13 @@ ajv = new Ajv()
 #    throw new Error "Property #{prop} must be object, not #{desc}"
 #  Object.defineProperty @prototype, prop, desc
 
+version = "0.0.7-dev" # node-sitefile
+
 
 class SitefileTestUtils
   constructor: ( @dir ) ->
-    process.env.NODE_ENV = 'testing'
+    if not process.env.NODE_ENV
+      throw new Error "NODE_ENV required for testing"
     @cwd = process.cwd()
     @server = {}
     @ctx = {}
@@ -50,7 +54,12 @@ class SitefileTestUtils
     @server = require '../bin/sitefile'
     if @dir
       process.chdir @dir
-    [ @sf, @ctx, @proc ] = @server.run done
+    [ @sf, @ctx, @proc ] = @server.run_main done, {
+      '--bwc': version, '--verbose': false
+    }, {
+      sfdir: process.cwd()
+    }
+      
 
   after: ( done ) ->
     @server.proc.close()
@@ -134,7 +143,7 @@ class SitefileTestUtils
         reject(new Error("Validator exception: #{err}"))
 
   load_schema: ( name, filepath ) ->
-    @schemaSrc[name] = path.join process.cwd(), filepath
+    @schemaSrc[name] = path.join @cwd, filepath
     @schemaSrcData[name] = require @schemaSrc[name]
     if _.isEmpty @schemaSrcData[name]
       throw new Error "No data for #{name} (#{filepath})"

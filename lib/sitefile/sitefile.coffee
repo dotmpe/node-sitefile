@@ -67,7 +67,6 @@ get_local_sitefile = ( ctx={} ) ->
 load_sitefile = ( ctx ) ->
   ctx.sitefile = get_local_sitefile ctx
 
-
   # translate JSON path refs in sitefile to use global sitefile context
   # ie. prefix path with 'sitefile/' so we can use context.resolve et al.
   xform = (result, value, key) ->
@@ -82,15 +81,12 @@ load_sitefile = ( ctx ) ->
           xform value, property, key
   _.transform ctx.sitefile, xform
 
-
   # Map some sitefile attributes to root
-  if ctx.sitefile.host
-    ctx.site.host = ctx.sitefile.host
-  if ctx.sitefile.port
-    ctx.site.port = ctx.sitefile.port
-  if ctx.sitefile.base
-    ctx.site.base = ctx.sitefile.base
+  for attr in [ "host", "port", "base" ]
+    if ctx.sitefile[attr]
+      ctx.site[attr] = ctx.sitefile[attr]
 
+  # Replace or extend component lookup path
   if 'paths' of ctx.sitefile and ctx.sitefile.paths
     if 'routers' of ctx.sitefile.paths and ctx.sitefile.paths.routers
 
@@ -130,7 +126,7 @@ load_config = ( ctx={} ) ->
     ctx.config = ctx.config_envs[ctx.envname]
     _.defaultsDeep ctx, ctx.config
     if ctx.verbose
-      console.log "Loaded user config for #{ctx.envname}"
+      ctx.log "Loaded user config for #{ctx.envname}"
 
   ctx.config
 
@@ -149,6 +145,7 @@ prepare_context = ( ctx={} ) ->
       name: path.basename process.argv[1]
     envname: process.env.NODE_ENV ? 'development'
     log: log
+    warn: warn
     verbose: false
 
   ctx.verbose = ctx.envname is 'development'
@@ -210,7 +207,6 @@ prepare_context = ( ctx={} ) ->
       q = expand_obj_paths q
       _.defaultsDeep options, q
 
-
     if @route['export-query-path']
       key = @route['export-query-path']
       if not options[key]
@@ -248,7 +244,7 @@ prepare_context = ( ctx={} ) ->
 
 
   if ctx.verbose
-    console.log "Creating new context for #{ctx.envname}"
+    ctx.log "Creating new context for #{ctx.envname}"
   new Context ctx
 
 
@@ -454,11 +450,17 @@ class Sitefile
           rs.ref+rs.extname is ctx.site.base+rs.path
         )
           # FIXME: policy on extensions
-          ctx.redir rs.ref+rs.extname, rs.ref
-          #ctx.log 'redir', rs.ref+rs.extname, rs.ref
+          #if router_name == 'static'
+          #  Router.builtin.redir rctx, rs.ref, null, rs.ref+rs.extname
+          #  ctx.log 'redir', rs.ref, rs.ref+rs.extname
+          #else
+          if rs.ref+rs.extname != rs.ref
+            Router.builtin.redir rctx, rs.ref+rs.extname, null, rs.ref
+            ctx.log 'redir', rs.ref+rs.extname, rs.ref
 
         # Finally let routers generate or add routes to ctx.app Express instance
         if router_name of Router.builtin
+          # FIXME: should also expand globs for builtin routers
           Router.builtin[router_name] rctx
 
         else
@@ -512,9 +514,10 @@ expand_globs = ( patterns ) ->
 
 
 warn = ->
-  v = Array.prototype.slice.call( arguments )
-  out = [ chalk.red(v.shift()) + c.sc ]
-  console.warn.apply null, log_line( v, out )
+  if module.exports.log_err_enabled
+    v = Array.prototype.slice.call( arguments )
+    out = [ chalk.red(v.shift()) + c.sc ]
+    console.warn.apply null, log_line( v, out )
 
 log = ->
   if module.exports.log_enabled
@@ -565,8 +568,10 @@ module.exports =
     Router: Router,
     Sitefile: Sitefile
     reload_on_change: reload_on_change
+
     log_enabled: true
     log: log
+    log_error_enabled: true
     warn: warn
   }
 
