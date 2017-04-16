@@ -156,6 +156,7 @@ Want most features of 0.1.0 soonish.
 - FIXME: Consolidate reader.rst into package/stack.
 - XXX: maybe implement simple TODO app as a feature branch somday
 - TODO: site builds, packaging
+- tmux integration might me nice, blockedBy:HTD-1 @tmux
 
 ## Configuration
 - NOTE: in yaml, `_1` or `__1` will not work, YAML strips `_` so it turns into a std. route.
@@ -184,6 +185,7 @@ Want most features of 0.1.0 soonish.
 
 ## Client
 - TODO: look at KnockoutJS for databinding in client.
+- menu, sites handling is a bit minimalistic;
 
 ## Misc
 - ReadMe.rst:XXX specs contain as little embedded metadata as possible, focus is on
