@@ -6,7 +6,7 @@ MAINTAINER B. van Berkum <dev@dotmpe.com>
 # Node version manager
 #ENV NVM_DIR=/usr/local/nvm
 #RUN curl -o- \
-#  https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | \
+#  https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | \
 #  bash && \
 #  . $NVM_DIR/nvm.sh && \
 #  nvm install stable
