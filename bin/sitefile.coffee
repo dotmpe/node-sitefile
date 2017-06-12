@@ -45,7 +45,7 @@ sitefile_cli = module.exports =
     switch
 
       when vOpt.startsWith '0.0'
-        # prepare context and config data, loads sitefile
+        # prepare context and config data, loads sitefile and packages
         ctx = lib.prepare_context ctx
         if options['--verbose']
           ctx.verbose = true

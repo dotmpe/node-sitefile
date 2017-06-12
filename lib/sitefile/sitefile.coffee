@@ -1,7 +1,6 @@
 fs = require 'fs'
 path = require 'path'
 glob = require 'glob'
-yaml = require 'js-yaml'
 _ = require 'lodash'
 chalk = require 'chalk'
 semver = require 'semver'
@@ -88,14 +87,25 @@ load_sitefile = ( ctx ) ->
 
   # Replace or extend component lookup path
   if 'paths' of ctx.sitefile and ctx.sitefile.paths
-    if 'routers' of ctx.sitefile.paths and ctx.sitefile.paths.routers
+    for group in [ 'routers', 'packages', 'bundles' ]
+      if group of ctx.sitefile.paths and ctx.sitefile.paths[group]
+        if group+'_replace' of ctx.sitefile.paths \
+            and ctx.sitefile.paths[group+'_replace']
+          ctx.paths[group] = ctx.sitefile.paths[group]
+        else
+          ctx.paths[group] = _.union ctx.paths[group], ctx.sitefile.paths[group]
 
-      if 'routers_replace' of ctx.sitefile.paths \
-          and ctx.sitefile.paths.routers_replace
-        ctx.paths.routers = ctx.sitefile.paths.routers
-      else
-        ctx.paths.routers = \
-          ctx.paths.routers.concat ctx.sitefile.paths.routers
+    #if 'routers' of ctx.sitefile.paths and ctx.sitefile.paths.routers
+
+    #  if 'routers_replace' of ctx.sitefile.paths \
+    #      and ctx.sitefile.paths.routers_replace
+    #    ctx.paths.routers = ctx.sitefile.paths.routers
+    #  else
+    #    ctx.paths.routers = \
+    #      ctx.paths.routers.concat ctx.sitefile.paths.routers
+
+  if 'packages' of ctx.sitefile and ctx.sitefile.packages
+    ctx.packages = _.union ctx.packages, ctx.sitefile.packages
 
   log "Loaded", path: path.relative ctx.cwd, ctx.lfn
 
@@ -131,7 +141,42 @@ load_config = ( ctx={} ) ->
   ctx.config
 
 
-# Turn options dict into root context.
+load_package = ( ctx, name ) ->
+  for pack_dir in ctx.paths.packages
+    package_mod = Router.expand_path path.join( pack_dir, name ), ctx
+    if fs.existsSync package_mod
+      mod = require package_mod
+      ctx.log "Found", name, "at", package_mod
+      return mod
+
+
+load_packages = ( ctx ) ->
+  ctx.packages ?= []
+  ctx.packages = _.extend ctx.packages, ctx.sitefile.packages
+
+  ctx.modules ?= []
+  ctx.middleware ?= []
+  for sf_package_name in ctx.packages
+    sf_package = load_package ctx, sf_package_name
+    if sf_package
+      sf_mod = sf_package(ctx)
+      if not sf_mod
+        throw new Error("Package init returned null for #{sf_package_name}")
+      ctx.modules[sf_package_name] = sf_mod
+    if not sf_mod
+      continue
+    if sf_mod.type == 'pre-context-init'
+      sf_mod
+    if sf_mod.type == 'context-prototype'
+      console.log "Extending context prototype"
+      _.extend(Context::, sf_mod.prototype)
+    if sf_mod.type == 'middleware'
+      if not _.isFunction sf_mod.passthrough
+        throw new Error("Not a function for middleware "+sf_package.name)
+      ctx.middleware.push sf_mod
+
+
+# Turn options dict into root context instance, a rather long process
 prepare_context = ( ctx={} ) ->
 
   # Apply all static properties (set ctx.static too)
@@ -180,68 +225,22 @@ prepare_context = ( ctx={} ) ->
         'sitefile:lib/sitefile/bundles'
         'sitefile:var/sitefile/bundles'
       ]
+      packages: [
+        'sitefile:lib/sitefile/middleware'
+        'sitefile:lib'
+      ]
+
+    packages: [ "sitefile/context.coffee", "context.coffee" ]
+    modules: []
+    middleware: []
 
 
   # Load local sitefile (set ctx.sitefile)
   unless ctx.sitefile?
     load_sitefile ctx
 
-
-  Context::get_auto_export = ( router_name ) ->
-
-
-  # Use router setings to determine opts per request (ie. to override from
-  # query)
-  Context::req_opts = ( request ) ->
-
-    options = _.merge {}, @route.options
-
-
-    if 'import-query' of @route
-      mq = @route['merge-query']
-      if 'bool' is not typeof mq
-        q = _.omitBy request.query, ( v, k ) -> k in mq
-      else
-        # NOTE: Merge everything from query
-        q = request.query
-      q = expand_obj_paths q
-      _.defaultsDeep options, q
-
-    if @route['export-query-path']
-      key = @route['export-query-path']
-      if not options[key]
-        options[key] = @route.spec.substr 0, @route.spec.length-1 # XXX: hack hack
-      options[key] = @query_path_export key, request, options[key]
-
-    if @route['export-context']
-      key = @route['export-context']
-      _.defaultsDeep options, expand_obj_paths "#{key}": @
-
-    return options
-
-
-  # If query key given use as rctx.res.path
-  Context::query_path_export = ( key, req, defpath ) ->
-    # Assert rctx.res.path isset
-    if defpath
-      unless @res.path
-        @res.path = defpath
-
-    if not @res.path
-      throw new Error \
-        "A path is required either provided by query or option '#{key}'"
-
-    if req.query?[key]
-      @res.path = req.query[key]
-    else
-      req.query[key] = @res.path
-    if not @res.path
-      throw new Error \
-        "A path is required either provided by query or option '#{key}'"
-
-    # Resolve to existing path
-    return Router.expand_path @res.path, @
-
+  # Load packages: initialize from sitefile.packages (set ctx.packages)
+  load_packages ctx
 
   if ctx.verbose
     ctx.log "Creating new context for #{ctx.envname}"
@@ -568,6 +567,8 @@ module.exports =
     Router: Router,
     Sitefile: Sitefile
     reload_on_change: reload_on_change
+
+    expand_obj_paths: expand_obj_paths,
 
     log_enabled: true
     log: log

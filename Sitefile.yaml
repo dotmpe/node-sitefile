@@ -15,9 +15,30 @@ paths:
   routers_replace: false
   routers:
   - 'sitefile:example/routers'
+  packages:
+  - 'sitefile:lib/sitefile/middleware'
+  - 'sitefile:lib'
 
 #autoExport:
 #  - rjs: /app/rjs
+
+# Here or there (package.yml) it may be nice to register the used extensions
+# properly, or reflect at least their current usage. Some sketchy ideas:
+packages: 
+  - 'sitefile/context.coffee'
+  - 'metadata.coffee'
+  #- name: context
+  #  label: router functions to decorate context instances with
+  #  type: context-prototype
+  #  module: sitefile/context.coffee
+
+  #- name: metadata.coffee
+  #  label: route metadata middleware
+  #  type: middleware
+  #
+  #- name: PM2
+  #  type: service-container
+    #proc/pm2: pm2:pm2-apps.json
 
 routes:
 

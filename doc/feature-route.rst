@@ -4,6 +4,34 @@
 
 Notes on the `route` attribute, and on the routing concepts of sitefile.
 
+[2017-06-11] Lots is sayed below an all kinds
+of related or unrelated aspects, of dense concept of routes, and packing.
+
+Meanwhile 1. routes implementation still needs revision, 2. are not adequate to
+represent groups of resources and thus ie. pm2-apps.json and other subformats
+emerge with dedicated routers, which may or may not expose their sub
+routes in a common structural fashion suited for inspection and re-use.
+
+Yet it appears that a Sitefile based, locally extended container for DHTML may
+be a preferable way to leverage first serving reports, and later more deeper
+structural and dynamic data for projects and service container volumes.
+
+But for reusable, packaged routes and configs, Sitefile may want to step in with
+a more generic YAML/JSON format to define resource groups in metadata.
+This also reflects on the need to have a metadata annotation outline for
+prototypical data, ie. files like ReadMe or other local asis data.
+This is where Htd stepped in with package.yml.
+
+So both Sitefile, and package are candidates for package metadata, and may in
+turn have entries that reference other metadir or metadata file schemes.
+
+For sitefile though, the intention is to move more towards a middleware oriented
+view with composite sessions and resources iso. keeping within the discrete
+parallel route-router-file chain setup in the end.
+
+----
+
+
 .. TODO: Probably consolidate with Sitefile 0.0.5 `route` scheme.
 
 

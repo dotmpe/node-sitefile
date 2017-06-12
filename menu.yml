@@ -8,6 +8,11 @@ items:
   - label: Tools
     id: tools-menu
     items:
+    - label: Bookmarklets
+      #id: bm-tools-menu
+      items:
+      - label: "Test BM"
+        href: "javascript:alert('foo');"
     - label: "Internet"
       items:
       - label: "Status"

@@ -17,6 +17,10 @@ init_express = ( app, ctx={} ) ->
 
   #app.use express.static path.join ctx.noderoot, 'public'
 
+  # Use middleware, configuring modules from Sitefile
+  for mw in ctx.middleware
+    app.use mw.passthrough
+
 
 parse_simple_types = ( query ) ->
 

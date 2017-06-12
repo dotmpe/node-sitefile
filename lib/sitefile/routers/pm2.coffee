@@ -92,7 +92,6 @@ module.exports = ( ctx ) ->
   pugrouter = require('./pug') ctx
   
   detailPugFn = path.join( __dirname, 'pm2/view/detail.pug' )
-
   listPugFn = path.join( __dirname, 'pm2/view/list.pug' )
   listCoffeeFn = path.join( __dirname, 'pm2/view/list.coffee' )
 
@@ -148,7 +147,6 @@ module.exports = ( ctx ) ->
           if "object" is typeof r
             throw Error "Expected callback #{name}:#{method}:#{r}"
           ctx.app[method] ref, r
-
       null
 
     # List all PM2 procs in JSON
@@ -275,7 +273,6 @@ module.exports = ( ctx ) ->
           res.end()
 
 
-
   ### # TODO: see r0.0.6
   route:
     default:
@@ -291,6 +288,7 @@ module.exports = ( ctx ) ->
 
   ###
   name: 'pm2'
+  type: 'router'
 
   generate: generators
 
