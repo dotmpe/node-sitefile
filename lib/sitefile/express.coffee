@@ -17,6 +17,10 @@ init_express = ( app, ctx={} ) ->
 
   #app.use express.static path.join ctx.noderoot, 'public'
 
+  engines = require 'consolidate'
+  app.engine 'pug', engines.pug
+  #app.engine 'handlebars', engines.handlebars
+
   # Use middleware, configuring modules from Sitefile
   for mw in ctx.middleware
     app.use mw.passthrough
