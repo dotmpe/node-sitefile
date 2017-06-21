@@ -52,11 +52,16 @@ sitefile_cli = module.exports =
         if _.isEmpty ctx.sitefile.routes
           lib.warn 'No routes'
           process.exit()
+        if options['--host']
+          ctx.site.host = options['--host']
+        if options['--port']
+          ctx.site.port = options['--port']
         # add the app where our routes go
         ctx.app = sitefile_cli.startExpress ctx
         # bootstrap app setup using sitefile
         sf = new lib.Sitefile ctx
         # set full path for export
+        ctx.site.host ?= 'localhost'
         ctx.site.netpath = "//"+ctx.site.host+':'+ctx.site.port+ctx.site.base
 
       when vOpt.startsWith '0.1' then null
@@ -140,6 +145,8 @@ if process.argv[1].endsWith('sitefile') \
                              process. [env: SITEFILE_PM2_MON]
     --quiet                  Be quiet.
     --verbose                .
+    --host NAME              .
+    --port NUM               .
 
   """, { optionsFirst: false, laxPlacement: true, smartOptions: true }
   if opts['--monitor']
