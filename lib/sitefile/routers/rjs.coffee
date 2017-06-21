@@ -73,32 +73,23 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
     config: ( rctx ) ->
       res:
         data: ( dctx ) ->
-          { baseUrl, paths, map, shims, main, deps } = \
-            Router.parse_kw_spec rctx
+          rjs_config = Router.parse_kw_spec rctx
 
-          if paths and paths.startsWith '$ref:'
-            paths = Router.read_xref ctx, paths.substr 5
-          else if 'string' is typeof paths
-            paths = {}
+          for k, v of rjs_config
+            if 'string' is typeof(v) and v.trim()
+              if v.startsWith '$ref:'
+                v = Router.read_xref ctx, v.substr 5
+              else if v.substring(0, 1) in [ '[', '{' ]
+                v = JSON.parse(v)
+            else
+              v = {}
+            rjs_config[k] = v
 
-          if 'object' is typeof map or not map
-            map = {}
-    
-          map["*"] = {
-            "sitefile": "sf-v0"
-          }
+          { baseUrl, paths, map, shims, main, deps } = rjs_config
 
-          if 'string' is typeof shims
-            shims = {}
-
-          if not shims
-            shims = {}
-
-          baseUrl: baseUrl or rctx.res.ref
-          paths: paths
-          map: map
-          shims: shims
-          deps: [ main ]
+          rjs_config.baseUrl = baseUrl or rctx.res.ref
+          rjs_config.deps = [ main ]
+          rjs_config
 
     main: ( rctx ) ->
       ( req, res ) ->
