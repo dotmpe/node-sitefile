@@ -25,7 +25,7 @@ module.exports = ( ctx={} ) ->
       ( req, res ) ->
         cpath = if rctx.res.path then rctx.res.path else rctx.route.spec
         cpath = Router.expand_path cpath, ctx
-        sitefile.log 'Coffe-Script compile', cpath
+        sitefile.log 'Coffee-Script compile', cpath
         res.type 'js'
         res.write cc._compileFile cpath
         res.end()

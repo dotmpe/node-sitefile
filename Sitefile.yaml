@@ -99,6 +99,7 @@ routes:
   Sitefile/resource: sitefile.resource:#
   Sitefile/handler: sitefile.handler:#
   Sitefile/global: sitefile.global:#
+  Sitefile/info: sitefile.info:#
 
   Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: core:#

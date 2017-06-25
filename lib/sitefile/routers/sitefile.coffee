@@ -35,6 +35,22 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
         # FIXME: want to query for mount point of handler(s), redirect there
         ctx.redir 'Sitefile/resource'
+
+    info: ( rctx ) ->
+      ( req, res ) ->
+        d = _.defaults {}, rctx.site,
+          execArgv: process.execArgv
+          cwd: process.cwd()
+          pid: process.pid
+          platform: process.platform
+          release: process.release
+        if req.query.key
+          res.type 'text/plain'
+          res.write "#{d[req.query.key]}"
+        else
+          res.type 'json'
+          res.write JSON.stringify d
+        res.end()
       
     # TODO:
     resource: ( rctx ) ->
