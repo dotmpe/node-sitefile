@@ -357,7 +357,7 @@ module.exports =
   # XXX: spec parse helper
   parse_kw_spec: ( rctx ) ->
     kw = {}
-    specs = rctx.route.spec.split ';'
+    specs = rctx.route.spec.trim('#').split ';'
     for spec in specs
       x = spec.indexOf '='
       k = spec.substr(0, x)

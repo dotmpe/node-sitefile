@@ -236,8 +236,8 @@ module.exports = ( ctx ) ->
               context: rctx
               apps: data[0]
               links: []
-              stylesheets: rctx.sitefile.defs.stylesheets.default
-              scripts: rctx.sitefile.defs.scripts.default
+              stylesheets: rctx.resolve('sitefile.defs.stylesheets.default') ? []
+              scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
               clients: []
           }
           res.end()
@@ -266,8 +266,8 @@ module.exports = ( ctx ) ->
               context: rctx
               app: data[0]
               links: []
-              stylesheets: rctx.sitefile.defs.stylesheets.default
-              scripts: rctx.sitefile.defs.scripts.default
+              stylesheets: rctx.resolve('sitefile.defs.stylesheets.default') ? []
+              scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
               clients: []
           }
           res.end()

@@ -8,6 +8,10 @@ block head
 
   script(type="text/javascript", src= script)
 
+  style
+    | .env-value {
+    |   word-break: break-all;
+    | }
 
 block prologue
 
@@ -47,7 +51,7 @@ block main
         td= app.pm2_env.ENV
       tr
         th PID
-        td= app.pid
+        td(data-proc-id=app.pid).proc.pid= app.pid
       tr
         th Uptime (sec)
         td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 1000).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
@@ -68,10 +72,10 @@ block main
             tr
               th Branch
               td= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
-            tr
-              th (raw)
-              td
-                code.code.versioning-value= JSON.stringify(app.pm2_env.versioning)
+            // tr
+            //   th (raw)
+            //   td
+            //     code.code.versioning-value= JSON.stringify(app.pm2_env.versioning)
 
       tr
         th Env
@@ -83,11 +87,11 @@ block main
                 td
                   code.code.env-value= value
 
-      tr
-        th (raw)
-        td
-      
-          code.code.env-value= JSON.stringify(app.pm2_env)
+      // tr
+      //   th (raw)
+      //   td
+      // 
+      //     code.code.env-value= JSON.stringify(app.pm2_env)
 
 
 

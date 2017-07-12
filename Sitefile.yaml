@@ -26,6 +26,7 @@ paths:
 # properly, or reflect at least their current usage. Some sketchy ideas:
 packages: 
   - 'sitefile/context.coffee'
+  - 'cors.coffee'
   - 'metadata.coffee'
   #- name: context
   #  label: router functions to decorate context instances with

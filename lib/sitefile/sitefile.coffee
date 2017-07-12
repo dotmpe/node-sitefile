@@ -81,7 +81,7 @@ load_sitefile = ( ctx ) ->
   _.transform ctx.sitefile, xform
 
   # Map some sitefile attributes to root
-  for attr in [ "host", "port", "base" ]
+  for attr in [ "host", "port", "base", "upstream" ]
     if ctx.sitefile[attr]
       ctx.site[attr] = ctx.sitefile[attr]
 
@@ -208,6 +208,7 @@ prepare_context = ( ctx={} ) ->
       port: 8081
       base: '/'
       netpath: null
+      upstream: []
     routes:
       resources: {}
       directories: []

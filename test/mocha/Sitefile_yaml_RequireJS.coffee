@@ -70,7 +70,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
               ).
               build()
           catch err
-            console.warn err
+            console.warn "Skipped SeWD test: #{err}"
             this.skip()
           chai.use require('chai-webdriver') @driver
 

@@ -1,21 +1,13 @@
 
 extends ../../../client/base
 
-
 block head
   +html-meta("sitefile.main", "base", "sitefile")
   +std-html-client("Sf - PM")
-
   script(type="text/javascript", src= script)
 
-
 block prologue
-
-  
 block header
-  hr
-
-
 block main
   .container.main.pm2-list(data-urlbase=pm2_base)
 
@@ -69,11 +61,11 @@ block main
             else
               span= app.name
           td(class= states[st])= app.pm2_env.status
-          td= app.pid
-          td= app.pm2_env.cwd
-          td= app.pm2_env.pm_exec_path
+          td(data-proc-id=app.pid).proc.pid= app.pid
+          td.proc.cwd= app.pm2_env.cwd
+          td.proc.cmd= app.pm2_env.pm_exec_path
           td= app.pm2_env.ENV
-          td= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
+          td.git.branch= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
           td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 1000).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
           td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 60 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
           td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 3600 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
@@ -89,15 +81,6 @@ block main
               button(type="button",data-appid=app.pm_id, disabled=!app.pid).stop.btn.btn-default.btn-sm
                 span.glyphicon.glyphicon-stop(aria-hidden="true")
 
-
-
 block document
-
-
 block footer
-  hr
-
-
 block epilogue
-
-

@@ -29,7 +29,13 @@ load_profiles = ( profiles_ ) ->
     for [ at, uri ] in profiles_
       load_profile at, uri
 
+
 $(document).ready ->
+
+  $(".proc.pid").each ( idx, el ) ->
+    procid = $(el).data('proc-id')
+    $(el).empty().append $("<a>#{procid}</a>").attr href: '/proc/'+procid
+
   window.sf = sf =
     page: profiles: [
         [ $('html'), 'http://schema.wtwta.org/_/htd-microformats#sfv0' ],

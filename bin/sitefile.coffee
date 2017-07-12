@@ -61,7 +61,7 @@ sitefile_cli = module.exports =
         # bootstrap app setup using sitefile
         sf = new lib.Sitefile ctx
         # set full path for export
-        ctx.site.host ?= 'localhost'
+        ctx.site.host = ctx.app.get 'host'
         ctx.site.netpath = "//"+ctx.site.host+':'+ctx.site.port+ctx.site.base
 
       when vOpt.startsWith '0.1' then null
