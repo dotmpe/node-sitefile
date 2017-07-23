@@ -1,0 +1,18 @@
+extends ../lib/sitefile/client/base
+
+//- block html-prologue
+//-   - profile="http://wtwta.org/project/sitefile#base:v0"
+
+block head
+  //- No client, just HTML title
+  +std-html-head("HTML5 profile Example") 
+  //- Meta config settings for profile(s)
+  +html-meta("sitefile.main", "base", "sitefile")
+block header
+block main
+  .container.placeholder
+block document
+  h3.subtitle Use HTML5 profiles to bootstrap widgets or apps.
+block footer
+block epilogue
+

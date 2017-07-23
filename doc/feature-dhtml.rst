@@ -1,5 +1,15 @@
 .. include:: .defaults.rst
 
+[2017-07-15]
+
+- HTML4 profiles where initially intended for describing data schema for
+  document metadata. With HTML5 their scope is extended to individual elements.
+
+  TODO use ``sf-v0`` (listing it in wtwta.org htd-microfomats)
+  same ID as current rjs app at
+  ``/app/v0``, aliases: ``/_/``, ``/-/``,
+
+
 [2017-02-15]
 
 - jQuery Terminal is back. Needs some way to be usefull.

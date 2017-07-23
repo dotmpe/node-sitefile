@@ -1,8 +1,10 @@
 doctype html
 include html
 
+if !profile
+- profile = context.config.default_profile
 
-html(profile="http://dotmpe.com/project/sitefile")
+html(profile=profile)
 
   - var main = null // Main or primary client is the first one loaded
 

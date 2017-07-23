@@ -55,6 +55,15 @@ add_script = ( rawhtml, javascript_url ) ->
       javascript_url+'" ></script>'
   rawhtml.replace '</head>', script_tag+' </head>'
 
+add_client = ( rawhtml, client ) ->
+
+  sitefile.log "rst2html:addclient", client.main
+  script_tag = '<script type="text/javascript"
+      id="'+client.id+'" 
+      data-main="'+client.main+'" 
+      src="'+client.href+'" ></script>'
+  rawhtml.replace '</head>', script_tag+' </head>'
+
 
 ###
 Take parameters
@@ -98,6 +107,9 @@ rst2html = ( out, params={} ) ->
           prm.scripts.urls else prm.scripts
         # coffeelint: disable=ensure_comprehensions,max_line_length
         stdout = add_script(stdout, script) for script in scripts # coffeelint: ignore:line
+        # coffeelint: disable=ensure_comprehensions,max_line_length
+        if prm.clients
+          stdout = add_client(stdout, client) for client in prm.clients # coffeelint: ignore:line
         # coffeelint: enable=ensure_comprehensions,max_line_length
         out.write stdout
 

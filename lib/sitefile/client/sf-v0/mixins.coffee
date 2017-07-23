@@ -1,9 +1,9 @@
 define 'sf-v0/mixins', [
 
-  'cs!sf-v0/mixin.breadcrumb',
-  'cs!sf-v0/mixin.du-page',
-  'cs!sf-v0/mixin.last-modified',
-  'cs!sf-v0/mixin.hyper-nav'
+  'cs!./mixin.breadcrumb',
+  'cs!./mixin.du-page',
+  'cs!./mixin.last-modified',
+  'cs!./mixin.hyper-nav'
 
 ], (
   { DocumentBreadcrumb },
@@ -12,8 +12,9 @@ define 'sf-v0/mixins', [
   { HNavDocument }
 ) ->
 
-  DocutilsPage: DocutilsPage
-  DocumentLastModified: DocumentLastModified
-  DocumentBreadcrumb: DocumentBreadcrumb
-  HNavDocument: HNavDocument
+  mixin: ( klass ) ->
+    klass.include DocutilsPage
+    klass.include DocumentLastModified
+    klass.include DocumentBreadcrumb
+    klass.include HNavDocument
 

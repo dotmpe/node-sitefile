@@ -107,6 +107,9 @@ load_sitefile = ( ctx ) ->
   if 'packages' of ctx.sitefile and ctx.sitefile.packages
     ctx.packages = _.union ctx.packages, ctx.sitefile.packages
 
+  if ctx.sitefile.config?
+    _.merge ctx.config, ctx.sitefile.config
+
   log "Loaded", path: path.relative ctx.cwd, ctx.lfn
 
 
@@ -204,6 +207,7 @@ prepare_context = ( ctx={} ) ->
 
   _.defaultsDeep ctx,
     site:
+      title: 'Sitefile'
       host: ''
       port: 8081
       base: '/'
@@ -214,6 +218,11 @@ prepare_context = ( ctx={} ) ->
       directories: []
     bundles: {}
     config:
+      default_profile: "http://wtwta.org/project/sitefile#base:v0"
+      title: 'title+" - Sitefile "+context.version'
+      'show-stack-trace': false
+      'use-sf-title': true
+      'include-sf-title': true
       backtraces: true
       'data-resolve-limit': 5 # number of recursions allowd in sitefile.Router.resolve_resource_data
 

@@ -2,14 +2,12 @@ _ = require 'lodash'
 path = require 'path'
 fs = require 'fs'
 URL = require 'url'
+Promise = require 'bluebird'
 
 Router = require '../Router'
 
-Promise = require 'bluebird'
-
 
 version = '0.0.1'
-
 
 module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
 
@@ -50,8 +48,8 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
   defaults: _.defaultsDeep autoExport, \
     handler: 'main'
     routes: """
-      #{mount}/main.js: rjs.main:#
-      #{mount}/json: rjs.data:paths=;map=;main=;baseUrl=
+      #{mount}/main.js: rjs.main:#{mount}/json
+      #{mount}/json: rjs.config:paths=;map=;main=;baseUrl=
       #{mount}: pug:tpl=sitefile-client:rjs.pug
     """
     global: {}
@@ -85,10 +83,8 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
               v = {}
             rjs_config[k] = v
 
-          { baseUrl, paths, map, shims, main, deps } = rjs_config
-
-          rjs_config.baseUrl = baseUrl or rctx.res.ref
-          rjs_config.deps = [ main ]
+          { baseUrl, paths, map, shims, deps } = rjs_config
+          rjs_config.baseUrl ?= rctx.res.ref
           rjs_config
 
     main: ( rctx ) ->

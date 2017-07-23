@@ -49,8 +49,8 @@ describe "The local Sitefile.yaml serves the local documentation, and \
     it "should serve jquery.js", stu.test_url_type_ok \
         "/vendor/jquery.js", "application/javascript"
 
-    it "should serve jqueryui.js", stu.test_url_type_ok \
-        "/vendor/jqueryui.js", "application/javascript"
+    it "should serve jquery-ui.js", stu.test_url_type_ok \
+        "/vendor/jquery-ui.js", "application/javascript"
 
     it "should serve lodash.js", stu.test_url_type_ok \
         "/vendor/lodash.js", "application/javascript"

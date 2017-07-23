@@ -6,8 +6,13 @@ define 'sf-v0/mixin.breadcrumb', [
 
 
   DocumentBreadcrumb:
+    includes:
+      ready: [
+        'init_breadcrumb'
+      ]
 
     init_breadcrumb: ( path = window.location.href, self=@ ) ->
+      console.log 'DocumentBreadcrumb.init_breadcrumb'
 
       if not $('ol.breadcrumb').length
         paths = path.split /[#]/

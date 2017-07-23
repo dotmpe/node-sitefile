@@ -5,15 +5,11 @@ qs = require 'qs'
 init_express = ( app, ctx={} ) ->
 
   app.set 'env', ctx.envname
-
   if process.env.SITEFILE_PORT
     ctx.site.port = process.env.SITEFILE_PORT
 
   app.set 'port', ctx.site.port
-
-  if not ctx.showStackError?
-    ctx.showStackError = true
-  app.set 'showStackError', ctx.showStackError
+  app.set 'showStackError', ctx.config['show-stack-trace']
 
   #app.use express.static path.join ctx.noderoot, 'public'
 

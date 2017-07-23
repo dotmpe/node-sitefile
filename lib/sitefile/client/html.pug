@@ -1,6 +1,8 @@
 
 
 mixin html-meta(key, value, scheme)
+  //- Scheme is deprecated in HTML5. There does not seem to be any predescribed
+  //- way to use/interpret meta[name,content] in any particular profile context.
   if scheme
     meta(name=key, content=value, scheme=scheme)
   else
@@ -34,7 +36,12 @@ mixin requirejs_main(client)
 
 mixin std-html-head(title)
 
-  title= title
+  if context.config['use-sf-title']
+    - title_ = eval(context.config.title)
+    title= title_
+  else
+    title= title
+
   if context
     +html-meta("sitefile", context.version)
 

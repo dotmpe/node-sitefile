@@ -1,15 +1,15 @@
 define 'sf-v0/mixin.last-modified', [
 
-  'jquery',
-  'underscore',
+  'jquery'
 
-], ( $, _ ) ->
+], ( $ ) ->
 
 
   DocumentLastModified:
+    includes:
+      ready: [ 'add_dates' ]
 
     add_dates: ( path = window.location.href ) ->
-
       $.ajax(
         type: 'POST'
         url: path
@@ -29,6 +29,5 @@ define 'sf-v0/mixin.last-modified', [
         error: (request, textStatus, errorThrown) ->
           console.warn errorThrown
       )
-
 
 

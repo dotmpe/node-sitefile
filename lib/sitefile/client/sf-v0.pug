@@ -1,29 +1,20 @@
 
 extends base
 
-
 block head
-  +html-meta("sitefile.main", "base", "sitefile")
-  +std-html-client "Sitefile RJS Client"
-
+  +std-html-client("Sitefile RJS Client")
+  +html-meta("application-name", "Sitefile/"+context.version)
+  +html-meta("sitefile-client-modules", "page,profiles,tilda,menu")
 
 block prologue
-
-  
+  .prologue
 block header
-  hr
-
+  input.form-control#search(placeholder="Search").placeholder
 block main
   .container.placeholder.main.docutils-document-contents
-  hr
-
 block document
-  //h3.subtitle Sitefile v0 - RequireJS Client w. Polyfill
-
 block footer
-  hr
-
 block epilogue
-
-
+  .epilogue
+    div#tilda
 

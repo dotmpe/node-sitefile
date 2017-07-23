@@ -7,7 +7,7 @@
         "lodash": "node_modules/lodash/lodash.min",
         "jquery": "node_modules/jquery/dist/jquery.min",
         "bootstrap": "node_modules/bootstrap/dist/js/bootstrap",
-        "cs": "/component/require-cs/cs",
+        "require-cs": "/component/require-cs/cs",
         "crossroads": "/npm/packages/crossroads/dist/crossroads",
         "signals": "node_modules/crossroads/node_modules/signals/dist/signals",
         "hasher": "node_modules/hasher/dist/js/hasher",
@@ -23,10 +23,11 @@
 
         "require": "//cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min",
         "require-text": "//cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text.min",
+        "require-css": "//cdnjs.cloudflare.com/ajax/libs/require-css/0.1.10/css.min",
+        "require-cs": "//cdnjs.cloudflare.com/ajax/libs/require-cs/0.5.0/cs.min",
 
         "lodash": "//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min",
         "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery",
-        "jqueryui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui",
         "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui",
         "jquery-terminal": "//rawgit.com/jcubic/jquery.terminal/master/js/jquery.terminal",
         "jquery-terminal-": "//rawgit.com/jcubic/jquery.terminal/master/js/jquery.terminal-1.0.6",
@@ -52,7 +53,6 @@
 
         "1-coffees-cript": "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.12.1/coffee-script.min",
         "coffee-script": "//rawgit.com/yyfearth/coffee-script/extras/extras/coffee-script",
-        "cs": "//cdnjs.cloudflare.com/ajax/libs/require-cs/0.5.0/cs.min",
 
         "bootstrap": "/npm/packages/bootstrap/dist/js/bootstrap.min",
         "bootstrap-table": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min",

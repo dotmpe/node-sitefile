@@ -1,24 +1,17 @@
 define 'sf-v0/document', [
 
-  'cs!sf-v0/module',
-  'cs!sf-v0/component',
-  'cs!sf-v0/mixins'
+  'cs!./component'
+  'cs!./mixins'
 
-], ( Module, Component, mixins ) ->
+], ( Component, mixins ) ->
 
 
-  class DocumentPage extends Module
+  class DocumentPage extends Component
 
     constructor: ( @container, @options ) ->
       super()
-      @init_header()
-      @init_footer()
 
-    #@addMixins mixins
+  mixins.mixin DocumentPage
 
-    @include mixins.DocutilsPage
-    @include mixins.DocumentLastModified
-    @include mixins.DocumentBreadcrumb
-    @include mixins.HNavDocument
-
+  DocumentPage
 

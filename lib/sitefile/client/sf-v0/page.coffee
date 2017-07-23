@@ -1,18 +1,18 @@
-define 'sf-v0/page', [
+define 'sf-v0/page', [ 'lodash',
 
-  'lodash',
-  #'underscore',
+  # Document is a composite that includes the page's features as mixins to the
+  # DocumentPage export
   'cs!sf-v0/document',
+
+  # XXX: another unused Sf module
   'cs!sf-v0/togglescript',
 
-  'crossroads',
-  'hasher',
-  'jqueryui',
-  'cookies-js'
-
+  'crossroads', # Unused dependency for client-side routing
+  'hasher', # access to hash-location navigation triggers/events
+  'jquery-ui', # unused jQuery widgets dep
+  'cookies-js' # initial try at persisting data per client
 
 ], ( _, DocumentPage, ToggleScript, crossroads, hasher, jqui, cookies ) ->
-
 
   # coffeelint: disable=max_line_length
   #bootstrap_glyphicons = require('../../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff');
@@ -23,16 +23,17 @@ define 'sf-v0/page', [
 
     constructor: ( @container=$('body'), @options = {} ) ->
       super @container, @options
+      self = @
+      $(document).ready ->
+        self.init_sfpage_html()
 
+    init_sfpage_html: ->
       $('.document', @container).addClass 'container'
-
-      # TODO: apply based on html meta-data profile
-
+      # TODO: apply based on html meta-data profile, see also dhtml.coffee
       profileUrl = $('html').attr('profile')
-
       if profileUrl == "http://dotmpe.com/project/sitefile"
         $('meta[name="sitefile.main"]').attr('content')
-
+      # sanity check
       doc = @container.children '.document'
       if not doc.length
         throw new Error "Not a document page"
@@ -40,11 +41,12 @@ define 'sf-v0/page', [
       #@du = new DocumentPage @container, @options
       @init_options()
 
+      console.log $( '.header' )
+      console.log $( '#search.placeholder' ).lengthk
       if @options.search
-        @add_search()
-
-      if @options.breadcrumb
-        @init_breadcrumb()
+        unless $( '#search.placeholder' ).length
+          @add_search '.header'
+        @init_search()
 
       if @options.hnav
         # FIXME @add_dates()
@@ -64,18 +66,17 @@ define 'sf-v0/page', [
         hnav: false
         margin: false
 
-
     # coffeelint: disable=max_line_length
+    add_search: ( c ) ->
+      x='<input class="form-control placeholder" id="search" placeholder="Search"/>'
+      $(c).append $ x
 
-    add_search: ->
-      
-      if not $('.header hr').length
-        throw new Error("Search requires Page Header")
-      
-      search_div = $ '<input id="search" class="form-control" placeholder="Search" style="width: 7em;padding-right: .5em; text-align: right"/>'
-
-      $('.header hr').before search_div
-
+    init_search: ->
+      placeholder = $ '#search.placeholder'
+      if not placeholder.length
+        console.warn "Search requires placeholder"
+        return
+        
       self = @
       $( "#search" ).autocomplete
         source: @options.search.source
@@ -83,7 +84,6 @@ define 'sf-v0/page', [
           hasher.setHash ui.item.label.substr 1
         close: ( evt, ui ) ->
           this.value = ""
-
 
     add_margins: ->
 

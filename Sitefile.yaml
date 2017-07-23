@@ -6,10 +6,13 @@
 #
 # Id: node-sitefile/0.0.7-dev
 sitefile: 0.0.7-dev
-
-title: Sitefile
-
-showStackError: true
+config:
+  'show-stack-trace': true
+upstream:
+- 'http://localhost'
+- 'http://localhost:2000'
+- 'http://localhost:2001'
+- 'http://localhost:2006'
 
 paths:
   routers_replace: false
@@ -43,8 +46,14 @@ packages:
 
 routes:
 
-  media/script/client-dhtml.js: coffee:sitefile-client:dhtml.coffee
-  media/script/client-main.js: coffee:sitefile-client:main.coffee
+  # Some defaults for root
+  '': redir:ReadMe
+  index: redir:ReadMe
+
+  # TODO: /_/.* -> /app/v0/#/... for HTML5 or JS clients
+  '_': redir:app/v0
+  '-/': redir:app/v0
+
   #media/style: static:build/style
   media/style/default.css: sass:sitefile-lib:style/default.sass
   media/style/jquery-terminal-animated-cursor.css: static:lib/sitefile/style/jquery-terminal-animated-cursor.css
@@ -72,15 +81,12 @@ routes:
   _pu_dev_doc: plantuml:doc/dev/*.plantuml
   _json: data.json:example/*.json
 
+  # XXX: direct command-line execution
   foo.ls: sh.ls:example/
   foo.tree: sh.tree:example/
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
-
-  # Some defaults for root
-  '': redir:ReadMe
-  index: redir:ReadMe
 
   # Example routes for ReadMe
   #ReadMe: du:ReadMe.rst # Du defaults to HTML
@@ -130,13 +136,14 @@ routes:
   # Three seperate resources, layered for the RequireJS client.
   # The JSON is a path object extracted from cdn.json, and a shim and map and
   # other RequireJS option objects.
-  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;baseUrl=/app;main=cs!sf-v0
+  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;shim={"bootstrap":["jquery"],"jquery-ui":["jquery"]};deps=["require-css","cs!sf-v0"];baseUrl=/app;map={"*":{"sitefile":"sf-v0","css":"require-css","cs":"require-cs","text":"require-text"}}
   # The JSON is wrapped in a script to initialize RequireJS
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
   # Finally a specific router is wired to display a pug template with all of the
   # above.
-  app/v0: pug:sitefile-client:sf-v0.pug#
+  app/v0: pug:sitefile-client:sf-v0.pug
   # Serve coffee script for RequireJS client
+  app/: redir:app/v0
   app: static:lib/sitefile/client
 
   # FIXME: fonts? want to build CSS+font loading into RequireJS client
@@ -158,40 +165,33 @@ routes:
   _pug_server: pug:example/server-*.pug
   _pug_prism: pug:example/prism*.pug
   _pug_polymer: pug:example/polymer*.pug
+  _pug_clients: pug:example/*-client*.pug
 
 
 options:
   global:
     du:
-      link_stylesheets: true
-      scripts:
-        - /vendor/jquery.js
-        - /vendor/jquery-ui.js
-        #- /vendor/jq-console.js
-        - /vendor/jquery-terminal.js
-        - /vendor/bootstrap.js
-        - /vendor/coffee-script.js
-        - /media/script/client-dhtml.js
-        - /media/script/client-main.js
-      #$ref: '#/defs/scripts/default'
-      stylesheets:
-        $ref: '#/defs/stylesheets/default'
+      $ref: '#/options/global/rst2html'
     rst2html:
       link_stylesheets: true
       flags:
       - "--no-toc-backlinks"
-      scripts:
-        $ref: '#/defs/scripts/default'
-      stylesheets:
-        $ref: '#/defs/stylesheets/default'
-    #pug:
-    #  merge:
-    #    scripts:
-    #      $ref: '#/defs/scripts/default'
-    #    stylesheets:
-    #      $ref: '#/defs/stylesheets/default'
+      $ref: '#/options/global/pug/merge'
+    pug:
+      merge:
+        scripts: [] # $ref: '#/defs/scripts/default'
+        stylesheets: [] # $ref: '#/defs/stylesheets/default'
+        clients:
+          $ref: '#/defs/app/v0/clients'
 
   local:
+    app/v0:
+      merge:
+        stylesheets: []
+        scripts: []
+        clients:
+          $ref: '#/defs/app/v0/clients'
+
     npm/node-sitefile/latest.json:
       spec:
         hostname: 'registry.npmjs.org'
@@ -205,22 +205,6 @@ options:
     Sitefile/debug:
       local_var: 'fooooo'
 
-    app/v0:
-      merge:
-        stylesheets:
-          - /vendor/bootstrap.css
-          - /vendor/bootstrap-theme.css
-          - /vendor/jquery-ui.css
-          - /vendor/jquery-terminal.css
-          - /media/style/jquery-terminal-animated-cursor.css
-        scripts:
-          - /vendor/jquery.js
-          - /vendor/jquery-ui.js
-          - /vendor/jquery-terminal.js
-          - /vendor/bootstrap.js
-        clients:
-          $ref: '#/defs/app/v0/clients'
-
     example/server-generated-page:
       merge:
         stylesheets:
@@ -229,8 +213,8 @@ options:
           - /media/style/default.css
           - /example/server-generated-stylesheet
         scripts:
-          - /vendor/bootstrap.js
           - /vendor/jquery.js
+          - /vendor/bootstrap.js
           #- /vendor/require.js
           #- /vendor/source-map-support.js
           - /vendor/coffee-script.js
@@ -238,6 +222,16 @@ options:
         links:
           - type: text/coffescript
             href: /example/script.coffee
+
+    example/main-client-profiles:
+      merge:
+        scripts:
+          $ref: '#/defs/scripts/default'
+        stylesheets:
+          $ref: '#/defs/stylesheets/default'
+        clients:
+          $ref: '#/defs/app/v0/clients'
+
 
 defs:
   scripts:
@@ -248,9 +242,9 @@ defs:
       - /vendor/jq-console.js
       #- /vendor/require.js
       #- /vendor/source-map-support.js
+      - /vendor/bootstrap.js
+      - /vendor/bootstrap-table.js
       - /vendor/coffee-script.js
-      - /media/script/client-dhtml.js
-      - /media/script/client-main.js
   stylesheets:
     default:
       - url: /vendor/jquery-ui.css
@@ -258,6 +252,7 @@ defs:
       - url: /media/style/jquery-terminal-animated-cursor.css
       - url: /vendor/bootstrap.css
       - url: /vendor/bootstrap-theme.css
+      - url: /vendor/bootstrap-table.css
       - url: /media/style/default.css
         #path: build/style/default.css
 
@@ -268,5 +263,4 @@ defs:
           id: require-js-sitefile-v0-app
           href: /vendor/require.js
           main: /app/rjs-sf-v0.js
-
 
