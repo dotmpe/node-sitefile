@@ -141,6 +141,8 @@ routes:
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
   # Finally a specific router is wired to display a pug template with all of the
   # above.
+  app/v0/base: res.load-file:sitefile-client:sf-v0.yaml
+
   app/v0: pug:sitefile-client:sf-v0.pug
   # Serve coffee script for RequireJS client
   app/: redir:app/v0

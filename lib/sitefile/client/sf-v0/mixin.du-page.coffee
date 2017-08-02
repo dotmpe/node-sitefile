@@ -15,10 +15,9 @@ define 'sf-v0/mixin.du-page', [
       ]
 
     init_document: ->
-      console.log 'DocutilsPage.init_document'
 
       @document = @container.children '.document'
-      if not @document.length
+      unless @document.length
         @document = $ '<div class="document"><hr/></div>'
         @container.append @document
 

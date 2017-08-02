@@ -55,6 +55,7 @@
         "coffee-script": "//rawgit.com/yyfearth/coffee-script/extras/extras/coffee-script",
 
         "bootstrap": "/npm/packages/bootstrap/dist/js/bootstrap.min",
+        "bootstrap-": "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min",
         "bootstrap-table": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min",
 
         "source-map-support": "/npm/packages/source-map-support/browser-source-map-support"
@@ -74,6 +75,7 @@
       "packages": {
         "mocha": "/npm/packages/mocha/mocha",
         "bootstrap-3.3.7": "/npm/packages/bootstrap/dist/css/bootstrap.min",
+        "bootstrap-": "//getbootstrap.com/dist/css/bootstrap.min",
         "bootstrap": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min",
         "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min",
         "bootstrap-table": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min",

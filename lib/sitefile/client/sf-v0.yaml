@@ -1,0 +1,11 @@
+base:
+  layout:
+    base:
+      components:
+        - view: base
+  view:
+    base:
+      - field: base
+  field:
+    base: {}
+

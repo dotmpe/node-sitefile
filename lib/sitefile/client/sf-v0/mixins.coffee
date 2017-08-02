@@ -12,7 +12,7 @@ define 'sf-v0/mixins', [
   { HNavDocument }
 ) ->
 
-  mixin: ( klass ) ->
+  all: ( klass ) ->
     klass.include DocutilsPage
     klass.include DocumentLastModified
     klass.include DocumentBreadcrumb

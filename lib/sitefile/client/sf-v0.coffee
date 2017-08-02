@@ -6,6 +6,7 @@ Used on pages where sf-v0 is defined as rjs main app.
 define 'sf-v0', [
 
   'jquery'
+  #'cs!sf-v0/testmod'
   'cs!sf-v0/page'
 
   'bootstrap'
@@ -23,17 +24,26 @@ define 'sf-v0', [
   init_mod = ( mod_name, mod ) ->
     i = new mod()
     if mod_name
-      console.log 'Loaded client module', mod_name
       sf.page_data[mod_name] = i
       console.log 'Initialized client module', mod_name
                 
   $(document).ready ( $ ) ->
+    ###
+    Simply bootstrap using module names from page head meta, or 'page'.
+    Add another meta property to experiment with a more integrated metadata
+    approach using a linked JSON.
+    ###
     meta = $('meta[name=sitefile-client-modules]')
-    if meta.length
-      client_modules = meta.attr('content').split ','
-    else
-      client_modules = [ 'page' ]
+    client_modules = if meta.length then meta.attr('content').split( ',' ) \
+      else [ 'page' ]
 
+    # XXX: Value is an URL or DOM path ref, see PageComponent
+    #meta = $('meta[name=sitefile-client-meta]')
+
+    ###
+    Load modules in two stages, first initialize those already loaded and
+    note those not loaded yet. Then asynchronously load and initialize the rest.
+    ###
     mod_names = []
     for mod_name in client_modules
       console.log 'Loading client module', mod_name
@@ -41,8 +51,6 @@ define 'sf-v0', [
       try
         mod = require 'cs!./sf-v0/'+mod_name
       catch e
-        #console.warn "Client module '#{mod_name}' is not available", e,
-        #  e.requireType, e.requireModules
         if e.requireType is 'notloaded'
           mod_names.push 'cs!./sf-v0/'+mod_name
       if mod
@@ -53,7 +61,7 @@ define 'sf-v0', [
           if mod
             init_mod '', mod
 
-    console.log "Sitefile page initialized"
+    console.log "Sitefile sf-v0 rjs app initialized"
 
   null
 

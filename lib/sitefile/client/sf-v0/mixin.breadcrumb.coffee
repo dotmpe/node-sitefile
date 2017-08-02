@@ -12,9 +12,7 @@ define 'sf-v0/mixin.breadcrumb', [
       ]
 
     init_breadcrumb: ( path = window.location.href, self=@ ) ->
-      console.log 'DocumentBreadcrumb.init_breadcrumb'
-
-      if not $('ol.breadcrumb').length
+      unless $('ol.breadcrumb').length
         paths = path.split /[#]/
         aspects = paths.length
         while paths.length
@@ -86,7 +84,5 @@ define 'sf-v0/mixin.breadcrumb', [
       for el in $('ol.breadcrumb > li').get()
         path.push el.innerText
       path.join "/"
-
-
 
 

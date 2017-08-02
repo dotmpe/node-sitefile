@@ -12,6 +12,8 @@ define 'sf-v0/page', [ 'lodash',
   'jquery-ui', # unused jQuery widgets dep
   'cookies-js' # initial try at persisting data per client
 
+  'cs!./component/page'
+
 ], ( _, DocumentPage, ToggleScript, crossroads, hasher, jqui, cookies ) ->
 
   # coffeelint: disable=max_line_length
@@ -41,8 +43,6 @@ define 'sf-v0/page', [ 'lodash',
       #@du = new DocumentPage @container, @options
       @init_options()
 
-      console.log $( '.header' )
-      console.log $( '#search.placeholder' ).lengthk
       if @options.search
         unless $( '#search.placeholder' ).length
           @add_search '.header'
