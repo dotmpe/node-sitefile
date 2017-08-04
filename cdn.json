@@ -42,13 +42,25 @@
         "mocha": "//cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.min",
         "chai": "//cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.min",
         "sinon": "//rawgit.com/sinonjs/sinon/master/lib/sinon",
-
+        "moment": "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min",
         "backbone": "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min",
         "backboneLocalstorage": "//cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min",
-
+        "backbone-http": "//rawgit.com/vidigami/backbone-http/master/backbone-http.min",
+        "backbone-orm": "//rawgit.com/vidigami/backbone-orm/master/backbone-orm.min",
+        "backgrid": "//cdnjs.cloudflare.com/ajax/libs/backgrid.js/0.3.8/backgrid.min",
+        "backbone.paginator": "//cdnjs.cloudflare.com/ajax/libs/backbone.paginator/2.0.5/backbone.paginator.min",
+        "backgrid-filter": "//rawgit.com/cloudflare/backgrid-filter/master/backgrid-filter.min",
+        "backgrid-paginator": "//rawgit.com/cloudflare/backgrid-paginator/master/backgrid-paginator.min",
+        "backgrid-sizeable-columns": "//rawgit.com/FortesSolutions/backgrid-sizeable-columns/master/backgrid-sizeable-columns",
+        "backgrid-grouped-columns": "//rawgit.com/FortesSolutions/backgrid-grouped-columns/master/backgrid-grouped-columns",
+        "backgrid-orderable-columns": "//rawgit.com/FortesSolutions/backgrid-orderable-columns/master/backgrid-orderable-columns",
+        "backgrid-text-cell": "//rawgit.com/cloudflare/backgrid-text-cell/master/backgrid-text-cell.min",
+        "backgrid-moment-cell": "//rawgit.com/cloudflare/backgrid-moment-cell/master/backgrid-moment-cell.min",
+        "backgrid-object-cell": "//rawgit.com/AmiliaApp/backgrid-object-cell/master/backgrid-object-cell",
+        "backgrid-select2-cell": "//rawgit.com/cloudflare/backgrid-select2-cell/master/backgrid-select2-cell.min",
+        "backgrid-select-all": "//rawgit.com/cloudflare/backgrid-select-all/master/backgrid-select-all.min",
         "Handlebars": "//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min",
         "hbars": "//cdnjs.cloudflare.com/ajax/libs/requirejs-handlebars/0.0.2/hbars.min",
-
         "cookies-js": "//cdnjs.cloudflare.com/ajax/libs/Cookies.js/1.2.1/cookies.min",
 
         "1-coffees-cript": "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.12.1/coffee-script.min",
@@ -80,7 +92,17 @@
         "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min",
         "bootstrap-table": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min",
         "jquery-terminal": "//rawgit.com/jcubic/jquery.terminal/master/css/jquery.terminal.min",
-        "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui"
+        "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui",
+        "backgrid": "//rawgit.com/cloudflare/backgrid/master/src/backgrid",
+        "backgrid-filter": "//rawgit.com/cloudflare/backgrid-filter/master/backgrid-filter.min",
+        "backgrid-paginator": "//rawgit.com/cloudflare/backgrid-paginator/master/backgrid-paginator.min",
+        "backgrid-sizeable-columns": "//rawgit.com/FortesSolutions/backgrid-sizeable-columns/master/backgrid-sizeable-columns",
+        "backgrid-grouped-columns": "//rawgit.com/FortesSolutions/backgrid-grouped-columns/master/backgrid-grouped-columns",
+        "backgrid-orderable-columns": "//rawgit.com/FortesSolutions/backgrid-orderable-columns/master/backgrid-orderable-columns",
+        "backgrid-text-cell": "//rawgit.com/cloudflare/backgrid-text-cell/master/backgrid-text-cell.min",
+        "backgrid-moment-cell": "//rawgit.com/cloudflare/backgrid-moment-cell/master/backgrid-moment-cell.min",
+        "backgrid-select2-cell": "//rawgit.com/cloudflare/backgrid-select2-cell/master/backgrid-select2-cell.min",
+        "backgrid-select-all": "//rawgit.com/cloudflare/backgrid-select-all/master/backgrid-select-all.min"
       }
     }
   }

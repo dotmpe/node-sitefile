@@ -99,7 +99,7 @@ builtin =
     # 302: Found
     # 303: See Other
 
-    rctx.context.log 'redir', url, tourl
+    # DEBUG: rctx.context.log 'redir', url, tourl
 
     if rctx.route.handler == 'temp'
       rctx.context.redir 302, url, tourl
@@ -110,7 +110,7 @@ builtin =
       rctx.context.app.all url, ( req, res ) ->
         res.redirect tourl
 
-    rctx.context.log '      ', url: url, '->', url: tourl
+    # DEBUG: rctx.context.log '      ', url: url, '->', url: tourl
 
 
   static: ( rctx ) ->
@@ -122,6 +122,7 @@ builtin =
       rctx.context.static_proto src for src in srcs
     ]
 
+    # DEBUG:
     rctx.context.log 'Static', url: url, '=', path: rctx.route.spec
 
 
@@ -268,7 +269,7 @@ Base =
 
     # Use route as ID for glob spec (a set of existing fs paths)
     else if route.startsWith '_'
-      ctx.log 'Dynamic', url: route, '', path: handler_spec
+      # DEBUG: ctx.log 'Dynamic', url: route, '', path: handler_spec
       for name in glob.sync handler_spec
         rctx = Base.file_res_ctx ctx, rsctxinit, name
         Base.default_resource_options rctx, ctx, true
@@ -315,9 +316,10 @@ Base =
         _.defaultsDeep rctx.route.options, req.query
         h req, res
 
-      ctx.log rctx.name, url: rctx.res.ref, '=', ( if 'path' of rctx.res \
-        then path: rctx.res.path \
-        else res: rctx.route.name ), id: rctx.route.spec
+      # DEBUG:
+      #ctx.log rctx.name, url: rctx.res.ref, '=', ( if 'path' of rctx.res \
+      #  then path: rctx.res.path \
+      #  else res: rctx.route.name ), id: rctx.route.spec
 
     else if h and 'object' is typeof h
   

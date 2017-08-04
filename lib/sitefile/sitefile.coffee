@@ -167,6 +167,7 @@ load_packages = ( ctx ) ->
         throw new Error("Package init returned null for #{sf_package_name}")
       ctx.modules[sf_package_name] = sf_mod
     if not sf_mod
+      log "Ingored empty module #{sf_package_name}"
       continue
     if sf_mod.type == 'pre-context-init'
       sf_mod
@@ -326,7 +327,11 @@ class Routers
         router_cb = require path.join p, name
         break
       catch err
-        continue
+        if (err instanceof Error && err.code == "MODULE_NOT_FOUND")
+          continue
+        warn "Loading #{name}: #{err}"
+        break
+
     [ router_cb, rip ]
 
   # Pre-load routers
@@ -465,7 +470,7 @@ class Sitefile
           #else
           if rs.ref+rs.extname != rs.ref
             Router.builtin.redir rctx, rs.ref+rs.extname, null, rs.ref
-            ctx.log 'redir', rs.ref+rs.extname, rs.ref
+            # DEBUG: ctx.log 'redir', rs.ref+rs.extname, rs.ref
 
         # Finally let routers generate or add routes to ctx.app Express instance
         if router_name of Router.builtin
@@ -495,7 +500,7 @@ class Sitefile
           warn "Cannot choose default dir index for #{url}"
           continue
         ctx.redir url, url+'/'+defleaf
-        log "Dir", url: "#{url}/{->#{defleaf}}"
+        # DEBUG: log "Dir", url: "#{url}/{->#{defleaf}}"
 
 
 
@@ -523,7 +528,7 @@ expand_globs = ( patterns ) ->
 
 
 warn = ->
-  if module.exports.log_err_enabled
+  if module.exports.log_error_enabled
     v = Array.prototype.slice.call( arguments )
     out = [ chalk.red(v.shift()) + c.sc ]
     console.warn.apply null, log_line( v, out )
@@ -581,8 +586,8 @@ module.exports =
     expand_obj_paths: expand_obj_paths,
 
     log_enabled: true
-    log: log
     log_error_enabled: true
+    log: log
     warn: warn
   }
 
