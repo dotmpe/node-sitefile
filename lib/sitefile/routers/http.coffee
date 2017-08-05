@@ -45,9 +45,12 @@ module.exports = ( ctx ) ->
     # Do a HTTP HEAD request
     ref: ( rctx ) ->
       ( req, res ) ->
-        if not req.params or req.params.length > 1
-          throw new Error "http.ref requires 1 parameter"
-        url = req.params[0]
+        unless req.query.url
+          if not req.params or req.params.length > 1
+            throw new Error "http.ref requires 1 parameter"
+          url = req.params[0]
+        else
+          url = req.query.url
         sitefile.log "http.ref", url
         ctx._routers.get('http').promise.resource(
           opts: {
@@ -68,9 +71,12 @@ module.exports = ( ctx ) ->
     # 'Proxy' a remote resource
     res: ( rctx ) ->
       ( req, res ) ->
-        if not req.params or req.params.length > 1
-          throw new Error "http.res requires 1 parameter"
-        url = req.params[0]
+        unless req.query.url
+          if not req.params or req.params.length > 1
+            throw new Error "http.ref requires 1 parameter"
+          url = req.params[0]
+        else
+          url = req.query.url
         u = URL.parse url
         port = parseInt(u.port)
         sitefile.log "http.res", url
