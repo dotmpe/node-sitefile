@@ -52,19 +52,16 @@ module.exports = ( ctx ) ->
           res.write JSON.stringify d
         res.end()
       
-    # TODO:
-    resource: ( rctx ) ->
+    rctx: ( rctx ) ->
       res:
-        data: ->
-          rctx.res
-    handler: ( rctx ) ->
+        data: rctx._data
+
+    ctx: ( rctx ) ->
+      throw Error("FIXME rctx.route.resource to JSON, see core.routes")
       res:
-        data: ->
-          rctx.route
-    global: ( rctx ) ->
-      res:
-        data: ->
-          rctx._data
+        # FIXME: this used to be possible, back when rctx.route.resource did not
+        # have all SubContext instances
+        data: rctx.context._data
 
     # TODO: generate menu from multiple sources. 
     menu: ( rctx ) ->

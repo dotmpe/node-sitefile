@@ -1,7 +1,14 @@
+###
+Initial incarnation of core util, merged directly into context prototype.
+
+of sf-context-proto:
+sitefile/context.coffee. 
+###
+
 _ = require 'lodash'
 
-libsf = require './sitefile'
-Router = require './Router'
+libsf = require '../sitefile'
+Router = require '../Router'
 
 
 # Extension prototypes for sitefile's Context
@@ -12,6 +19,11 @@ module.exports = ( ctx ) ->
 
   prototype:
 
+    debug: ->
+      if @config.verbose
+        @log.apply null, arguments
+
+    # TODO: auto-export
     get_auto_export: ( router_name ) ->
 
     # Use router setings to determine opts per request (ie. to override from
@@ -75,5 +87,6 @@ module.exports = ( ctx ) ->
 
       # Resolve to existing path
       return Router.expand_path @res.path, @
+
 
 

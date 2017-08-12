@@ -35,7 +35,7 @@ define 'sf-v0/mixin.hyper-nav', [
       $(".placeholder").on "click", "a", (evt) ->
         evt.preventDefault()
         ref = self.resolve_page $(this).attr("href"), homeref
-        #console.log 'ref', $(this).attr("href"), ref, homeref
+        console.log 'href onclick', $(this).attr("href"), ref, homeref
         if '/' == ref.substr 0, 1
           hasher.setHash ref.substr 1
         else
@@ -51,10 +51,13 @@ define 'sf-v0/mixin.hyper-nav', [
       # setup hasher
       parseHash = ( newHash, oldHash) ->
         if '/' != newHash.substr 0, 1
-          newHash = '/'+newHash
+          unless newHash.substr(0,4) == 'http'
+            newHash = '/'+newHash
         if oldHash and '/' != oldHash.substr 0, 1
-          oldHash = '/'+oldHash
-        #console.log 'parseHash', newHash, oldHash
+          # FIXME: catch all URL types
+          unless oldHash.substr(0,4) == 'http'
+            oldHash = '/'+oldHash
+        console.log 'parseHash', newHash, oldHash
         self.route_page newHash, oldHash
         
       hasher.initialized.add(parseHash) # parse initial hash
@@ -69,8 +72,9 @@ define 'sf-v0/mixin.hyper-nav', [
         return baseref+ref
       if ref.substr(0,1) == '/'
         return ref
+      # FIXME: catch all URL types
       if ref.substr(0,4) == 'http'
-        return ref #'/ref/'+ref
+        return ref
       baseref = dirname(baseref)
       if baseref != '/'
         baseref = baseref+'/'
@@ -79,19 +83,22 @@ define 'sf-v0/mixin.hyper-nav', [
     route_page: ( ref, cref ) ->
       #console.log 'route_page A', @, ref, cref
       ref = @resolve_page ref, cref
-      #console.log 'route_page B', @, ref, cref
-      self = @
+      console.log 'resolved', ref
       # Clean listeners on element by dropping
       #$('.placeholder').replaceWith('<div class="container placeholder"></div>')
       $('.placeholder').off 'click'
       # Load content
+      # FIXME: catch all URL types
       x = ref.indexOf '#sf:xref:'
-      if -1 < x
+      if ref.substr(0,4) == 'http'
+        xref = '/res/http?url='+ref+' body'
+      else if x > -1
         xref = ref.substr(0,x)+' '+decodeURI ref.substr x+9
       else
         xref = ref+' .document>*'
       # Use jQuery.load to get at content at other resource
       console.log "Loading xref #{xref}"
+      self = @
       $('.placeholder').load xref, ( rsTxt, txtStat, jqXhr ) ->
         if txtStat not in [ "success", "notmodified" ]
           console.log 'jQ.load fail, TODO', arguments

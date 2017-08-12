@@ -71,10 +71,15 @@ resolve_route_options = ( ctx, route, router_name ) ->
 
 # Wrap rctx with data resource in promise
 promise_resource_data = ( rctx ) ->
+  ctx = rctx.context
+  name = "generator '#{rctx.route.name}.#{rctx.route.handler}'"
   if "function" is typeof rctx.res.data.then
+    ctx.debug "Router #{name} returned data-promise for '#{rctx.res.ref}'"
     rctx.res.data
   else
+    ctx.debug "Constructing #{name} data-promise handler for '#{rctx.res.ref}'"
     new Promise ( resolve, reject ) ->
+      ctx.debug "Running #{name} data-promise handler for '#{rctx.res.ref}'"
       data = rctx.res.data
       r = 0
       while "function" is typeof data
@@ -99,7 +104,7 @@ builtin =
     # 302: Found
     # 303: See Other
 
-    # DEBUG: rctx.context.log 'redir', url, tourl
+    #rctx.context.debug 'redir', url, tourl
 
     if rctx.route.handler == 'temp'
       rctx.context.redir 302, url, tourl
@@ -110,7 +115,7 @@ builtin =
       rctx.context.app.all url, ( req, res ) ->
         res.redirect tourl
 
-    # DEBUG: rctx.context.log '      ', url: url, '->', url: tourl
+    #rctx.context.debug '      ', url: url, '->', url: tourl
 
 
   static: ( rctx ) ->
@@ -122,14 +127,18 @@ builtin =
       rctx.context.static_proto src for src in srcs
     ]
 
-    # DEBUG:
-    rctx.context.log 'Static', url: url, '=', path: rctx.route.spec
+    rctx.context.debug 'Static', url: url, '=', path: rctx.route.spec
 
 
   # Take care of rendering from a rctx with data, for a (data) handler that does
   # not care too itself since it is a very common task.
   data: ( rctx ) ->
+    name = "generator '#{rctx.route.name}.#{rctx.route.handler}'"
+    rctx.context.debug \
+    "Primed built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
     ( req, res ) ->
+      rctx.context.debug \
+      "Running built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
       writer = if rctx.res.fmt? then rctx.res.fmt else 'json'
       deferred = promise_resource_data rctx
       deferred
@@ -139,8 +148,10 @@ builtin =
         res.end
       .then ( data ) ->
         if writer == 'json'
+          rctx.context.debug 'dumping json'
           output = JSON.stringify data
         else if writer in ['yaml', 'yml']
+          rctx.context.debug 'dumping yaml'
           output = yaml.safeDump data
         else
           throw new Error "No writer #{writer}"

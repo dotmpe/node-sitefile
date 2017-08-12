@@ -1,3 +1,4 @@
+path = require 'path'
 
 module.exports = ( ctx ) ->
 
@@ -9,7 +10,21 @@ module.exports = ( ctx ) ->
   usage: "Add path to this module to Sitefile paths.packages, and configure package"
 
   passthrough: ( req, res, next ) ->
-    #console.log "Metadata middleware here for", req.path
+
+    ctx = req.app.get 'context'
+    ref = req.originalUrl
+
+    (->
+
+      if ref of @routes.resources
+        rctx = @routes.resources[ref]
+
+    ).bind(ctx)()
+
+    #m = req.app.get 'metadata'
+    #if m
+    #  console.log 'TODO: fetch metadata for', path.join m, req.originalUrl
+
     next()
 
 

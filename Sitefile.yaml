@@ -8,29 +8,30 @@
 sitefile: 0.0.7-dev
 config:
   'show-stack-trace': true
-upstream:
+  metadata: '/data/meta'
+  debug: false
+upstream: # Grant CORS (for async data requests) to these hosts
 - 'http://localhost'
 - 'http://localhost:2000'
 - 'http://localhost:2001'
 - 'http://localhost:2006'
-
-paths:
+paths: # Additional routers to test local router include path extension
   routers_replace: false
   routers:
   - 'sitefile:example/routers'
-  packages:
-  - 'sitefile:lib/sitefile/middleware'
-  - 'sitefile:lib'
-
-#autoExport:
-#  - rjs: /app/rjs
+# Repeated here from sitefile/sitefile.coffee to illustrate default setting:
+#  packages:
+#  - 'sitefile:lib/sitefile/middleware'
+#  - 'sitefile:lib'
+#packages: 
+#  - 'sitefile/context/core.coffee'
+#  - 'sitefile/context/couchdb.coffee'
+#  - 'cors.coffee'
+#  - 'metadata.coffee'
 
 # Here or there (package.yml) it may be nice to register the used extensions
-# properly, or reflect at least their current usage. Some sketchy ideas:
-packages: 
-  - 'sitefile/context.coffee'
-  - 'cors.coffee'
-  - 'metadata.coffee'
+# properly, or reflect at least their current usage, dependencies.
+# Some sketchy ideas:
   #- name: context
   #  label: router functions to decorate context instances with
   #  type: context-prototype
@@ -43,6 +44,9 @@ packages:
   #- name: PM2
   #  type: service-container
     #proc/pm2: pm2:pm2-apps.json
+
+#autoExport:
+#  - rjs: /app/rjs
 
 routes:
 
@@ -102,10 +106,10 @@ routes:
 
   Sitefile.yaml: static:Sitefile.yaml
   Sitefile.json: sitefile:?resolve=sitefile
-  Sitefile/debug: redir:Sitefile/resource
-  Sitefile/resource: sitefile.resource:#
-  Sitefile/handler: sitefile.handler:#
-  Sitefile/global: sitefile.global:#
+  Sitefile/json: redir:Sitefile.json
+  Sitefile/debug: redir:Sitefile/debug/resource
+  Sitefile/debug/resource: sitefile.rctx:#
+  Sitefile/debug/global: redir:/core
   Sitefile/info: sitefile.info:#
 
   Sitefile/core/auto: core.autocomplete:#

@@ -138,8 +138,7 @@ load_config = ( ctx={} ) ->
     ctx.config_envs = require rc
     ctx.config = ctx.config_envs[ctx.envname]
     _.defaultsDeep ctx, ctx.config
-    if ctx.verbose
-      ctx.log "Loaded user config for #{ctx.envname}"
+    debug "Loaded user config for #{ctx.envname}"
 
   ctx.config
 
@@ -159,6 +158,8 @@ load_packages = ( ctx ) ->
 
   ctx.modules ?= []
   ctx.middleware ?= []
+
+  # Load packages: middleware or some other component types
   for sf_package_name in ctx.packages
     sf_package = load_package ctx, sf_package_name
     if sf_package
@@ -169,10 +170,10 @@ load_packages = ( ctx ) ->
     if not sf_mod
       log "Ingored empty module #{sf_package_name}"
       continue
+
     if sf_mod.type == 'pre-context-init'
       sf_mod
     if sf_mod.type == 'context-prototype'
-      console.log "Extending context prototype"
       _.extend(Context::, sf_mod.prototype)
     if sf_mod.type == 'middleware'
       if not _.isFunction sf_mod.passthrough
@@ -180,7 +181,11 @@ load_packages = ( ctx ) ->
       ctx.middleware.push sf_mod
 
 
-# Turn options dict into root context instance, a rather long process
+# Turn options dict into root context instance, a rather long routine. During
+# this phase all the static components are loaded, inlcuding global and local
+# configs, then sitefile.yaml/json itself, all values are parsed and merged
+# into the proto-context. Then all required sitefile components as defined by
+# packages are loaded and prepared.
 prepare_context = ( ctx={} ) ->
 
   # Apply all static properties (set ctx.static too)
@@ -195,9 +200,7 @@ prepare_context = ( ctx={} ) ->
     envname: process.env.NODE_ENV ? 'development'
     log: log
     warn: warn
-    verbose: false
-
-  ctx.verbose = ctx.envname is 'development'
+    verbose: ctx.envname is 'development'
 
   _.defaultsDeep ctx,
     pkg_file: path.join ctx.noderoot, 'package.json'
@@ -226,12 +229,20 @@ prepare_context = ( ctx={} ) ->
       'include-sf-title': true
       backtraces: true
       'data-resolve-limit': 5 # number of recursions allowd in sitefile.Router.resolve_resource_data
+      # See Express app.engine for use, here map filename-ext to engine
+      engines: [
+        'pug'
+        'handlebars' # XXX: unused, like app.render ...
+        #{ hbs: 'handlebars' }
+        #{ html: 'ejs' }
+      ]
 
     paths: # TODO: configure lookup paths
       routers: [
         'sitefile:lib/sitefile/routers'
         'sitefile:var/sitefile/routers'
       ]
+      # TODO: improved extension components
       bundles: [
         'sitefile:lib/sitefile/bundles'
         'sitefile:var/sitefile/bundles'
@@ -241,7 +252,13 @@ prepare_context = ( ctx={} ) ->
         'sitefile:lib'
       ]
 
-    packages: [ "sitefile/context.coffee", "context.coffee" ]
+    packages: [
+      "sitefile/context/core.coffee",
+      "sitefile/context/couchdb.coffee",
+      "cors.coffee"
+      "metadata.coffee"
+    ]
+
     modules: []
     middleware: []
 
@@ -253,8 +270,7 @@ prepare_context = ( ctx={} ) ->
   # Load packages: initialize from sitefile.packages (set ctx.packages)
   load_packages ctx
 
-  if ctx.verbose
-    ctx.log "Creating new context for #{ctx.envname}"
+  debug "Creating new context for #{ctx.envname}"
   new Context ctx
 
 
@@ -290,12 +306,12 @@ class Routers
     # XXX:
     if @ctx._routers then throw new Error "_routers"
     @ctx._routers = @
-    @data = {}
+    @router_cache = {}
 
   get: ( name ) ->
-    if name not of @data
+    if name not of @router_cache
       throw new Error "No such router loaded: #{name}"
-    return @data[ name ].object
+    return @router_cache[ name ].object
 
   generator: ( name, rctx=null, ctx=null ) ->
     if name.startsWith '.'
@@ -306,13 +322,13 @@ class Routers
     else
       handler = 'default'
 
-    if name not of @data
+    if name not of @router_cache
       throw new Error "No router for #{name}"
     if not handler or \
-        handler not of @data[name].object.generate
+        handler not of @router_cache[name].object.generate
       throw new Error "No router generate handler #{handler} for #{name}"
 
-    @data[ name ].object.generate[ handler ]
+    @router_cache[ name ].object.generate[ handler ]
 
   find: ( name ) ->
     router_cb = null
@@ -358,7 +374,7 @@ class Routers
         warn "Failed to initialize #{name} router"
         continue
 
-      @data[name] =
+      @router_cache[name] =
         module: router_cb
         object: Router.define router_obj
 
@@ -426,7 +442,7 @@ class Sitefile
       if router_name of Router.builtin
         router_type = Router.Base
       else
-        if router_name not of @routers.data
+        if router_name not of @routers.router_cache
           warn "Missing router #{router_name}"
           continue
         router_type = @routers.get router_name
@@ -470,7 +486,6 @@ class Sitefile
           #else
           if rs.ref+rs.extname != rs.ref
             Router.builtin.redir rctx, rs.ref+rs.extname, null, rs.ref
-            # DEBUG: ctx.log 'redir', rs.ref+rs.extname, rs.ref
 
         # Finally let routers generate or add routes to ctx.app Express instance
         if router_name of Router.builtin
@@ -500,7 +515,7 @@ class Sitefile
           warn "Cannot choose default dir index for #{url}"
           continue
         ctx.redir url, url+'/'+defleaf
-        # DEBUG: log "Dir", url: "#{url}/{->#{defleaf}}"
+        #ctx.debug "Dir", url: "#{url}/{->#{defleaf}}"
 
 
 
@@ -565,6 +580,12 @@ log_line = ( v, out=[] ) ->
       out.push JSON.stringify o
   out
 
+debug = ->
+  if 'config' of @
+    if @config.verbose
+      log.apply null, arguments
+  else if module.verbose
+    log.apply null, arguments
 
 
 Router.log = log
@@ -588,6 +609,8 @@ module.exports =
     log_enabled: true
     log_error_enabled: true
     log: log
+    verbose: false
+    debug: debug
     warn: warn
   }
 

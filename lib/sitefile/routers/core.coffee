@@ -1,5 +1,5 @@
 _ = require 'lodash'
-
+nodelib = require 'nodelib-mpe'
 
 
 jQuery_autocomplete_api = ( req, rctx ) ->
@@ -14,9 +14,8 @@ jQuery_autocomplete_api = ( req, rctx ) ->
 
   prefix = req.query.prefix
   term = req.query.term
-
-  if ( term or prefix ) and rctx.verbose
-    rctx.log "looking for paths with #{term} and/or in #{prefix}"
+  if ( term or prefix )
+    rctx.debug "looking for paths with #{term} and/or in #{prefix}"
 
   retdata = []
   matches = []
@@ -84,7 +83,24 @@ module.exports = ( ctx ) ->
   generate:
 
     routes: ( rctx ) ->
-      res: data: rctx.context.routes
+      d = {}
+      for k of rctx.context.routes.resources
+        v = rctx.context.routes.resources[k]
+        d[k] = v._data
+      res: data: d
+
+    route: ( rctx ) ->
+      ( req, res ) ->
+        rs = rctx.context.routes.resources
+        ref = req.query.url
+        if ref of rs
+          res.type 'json'
+          res.write JSON.stringify rs[ref]._data
+        else
+          # FIXME: no go with parameterized or regex Express routes
+          res.status 500
+          res.write "No endpoint found for #{ref}"
+        res.end()
 
     autocomplete: ( rctx ) ->
       ( req, res ) ->
@@ -92,5 +108,4 @@ module.exports = ( ctx ) ->
         res.type 'json'
         res.write JSON.stringify data
         res.end()
-
 
