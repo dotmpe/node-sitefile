@@ -15,6 +15,7 @@
         "chai": "node_modules/chai/chai",
         "sinon": "node_modules/sinon/pkg/sinon",
         "cookies-js": "node_modules/cookies-js/dist/cookies"
+
       }
     },
     "http": {
@@ -69,8 +70,11 @@
         "bootstrap": "/npm/packages/bootstrap/dist/js/bootstrap.min",
         "bootstrap-": "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min",
         "bootstrap-table": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min",
+        "event-signal": "//rawgit.com/r-park/event-signal/master/dist/event-signal.min",
+        "bluebird": "//cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.0/bluebird.min",
 
         "source-map-support": "/npm/packages/source-map-support/browser-source-map-support"
+
       }
     }
   },

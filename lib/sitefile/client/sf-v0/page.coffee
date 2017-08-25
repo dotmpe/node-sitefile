@@ -16,6 +16,8 @@ define 'sf-v0/page', [ 'lodash',
 
 ], ( _, DocumentPage, ToggleScript, crossroads, hasher, jqui, cookies ) ->
 
+  console.log 'Loading Page'
+
   # coffeelint: disable=max_line_length
   #bootstrap_glyphicons = require('../../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff');
   #bootstrap_glyphicons = require('../../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf');
@@ -44,8 +46,24 @@ define 'sf-v0/page', [ 'lodash',
       @init_options()
 
       if @options.search
-        unless $( '#search.placeholder' ).length
-          @add_search '.header'
+        # FIXME: new app/document layout
+        nav = $ """
+          <nav class="navbar navbar-default navbar-fixed-top" id="undefined">
+            <div class="container-fluid">
+              <div class="collapse navbar-collapse">
+                <!--
+                <form id="search" class="form-inline navbar-form ">
+                  <input class="form-control mr-sm-2"
+                      type="text" placeholder="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0"
+                      type="submit">Search</button>
+                </form>-->
+              </div>
+            </div>
+          </nav>"""
+        $('body').prepend nav
+        unless $( '#search' ).length
+          @add_search 'body > .header'
         @init_search()
 
       if @options.hnav
@@ -68,17 +86,18 @@ define 'sf-v0/page', [ 'lodash',
 
     # coffeelint: disable=max_line_length
     add_search: ( c ) ->
-      x='<input class="form-control placeholder" id="search" placeholder="Search"/>'
-      $(c).append $ x
+      x=$ '<div id="search"><input class="form-control" placeholder="Search"/></div>'
+      $(c).append x
+      console.log "Added search DOM"
 
     init_search: ->
-      placeholder = $ '#search.placeholder'
+      placeholder = $ '#search'
       if not placeholder.length
         console.warn "Search requires placeholder"
         return
         
       self = @
-      $( "#search" ).autocomplete
+      $( "#search .form-control" ).autocomplete
         source: @options.search.source
         select: ( evt, ui ) ->
           hasher.setHash ui.item.label.substr 1
@@ -124,4 +143,11 @@ define 'sf-v0/page', [ 'lodash',
       history_fwd.insertBefore '.document'
 
     # coffeelint: enable=max_line_length
+
+  SitefilePage: SitefilePage
+  DocumentPage: DocumentPage
+  init_client_module: ( ready_cb, loader ) ->
+    page = new SitefilePage $('body'), {}
+    ready_cb( page )
+    page
 

@@ -59,10 +59,20 @@ add_client = ( rawhtml, client ) ->
 
   sitefile.log "rst2html:addclient", client.main
   script_tag = '<script type="text/javascript"
-      id="'+client.id+'" 
-      data-main="'+client.main+'" 
+      id="'+client.id+'"
+      data-main="'+client.main+'"
       src="'+client.href+'" ></script>'
   rawhtml.replace '</head>', script_tag+' </head>'
+
+
+add_meta = ( rawhtml, meta ) ->
+
+  tags = ''
+  for item in meta
+    for key, value of item
+      tags += '<meta name="'+key+'" content="'+value+'" /> '
+
+  rawhtml.replace '</head>', tags+' </head>'
 
 
 ###
@@ -77,6 +87,14 @@ rst2html = ( out, params={} ) ->
     link_stylesheets: false
     stylesheets: []
     scripts: []
+    clients: []
+    meta: [
+      #  name: "application-name"
+      #  content: "Sitefile/"+context.version
+      #,
+        name: "sitefile-router"
+        content: "rsr2html"
+    ]
 
   cmdflags = rst2html_flags prm
 
@@ -105,12 +123,13 @@ rst2html = ( out, params={} ) ->
         out.type 'html'
         scripts = if 'urls' of prm.scripts and prm.scripts.urls then \
           prm.scripts.urls else prm.scripts
-        # coffeelint: disable=ensure_comprehensions,max_line_length
-        stdout = add_script(stdout, script) for script in scripts # coffeelint: ignore:line
-        # coffeelint: disable=ensure_comprehensions,max_line_length
+        # coffeelint: disable=ensure_comprehensions
+        stdout = add_script(stdout, script) for script in scripts
         if prm.clients
-          stdout = add_client(stdout, client) for client in prm.clients # coffeelint: ignore:line
-        # coffeelint: enable=ensure_comprehensions,max_line_length
+          stdout = add_client(stdout, client) for client in prm.clients
+        if prm.meta
+          stdout = add_meta(stdout, prm.meta)
+        # coffeelint: enable=ensure_comprehensions
         out.write stdout
 
       else if prm.format == 'pseudoxml'
@@ -152,7 +171,7 @@ module.exports = ( ctx ) ->
       extra = (
         docpath: path.join(  ctx.cwd, rctx.res.path ),
         src: format: rctx.res.extname.substr 1
-        dest: format: 'html' 
+        dest: format: 'html'
         # FIXME path.extname(rctx.res.ref)?.substr(1) or 'html'
       )
       rctx.prepare_from_obj extra

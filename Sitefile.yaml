@@ -140,7 +140,7 @@ routes:
   # Three seperate resources, layered for the RequireJS client.
   # The JSON is a path object extracted from cdn.json, and a shim and map and
   # other RequireJS option objects.
-  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;shim={"bootstrap":["jquery"],"jquery-ui":["jquery"]};deps=["require-css","cs!sf-v0"];baseUrl=/app;map={"*":{"sitefile":"sf-v0","css":"require-css","cs":"require-cs","text":"require-text"}}
+  app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;shim=$ref:cdn-deps.json#/shim;deps=["require-css","cs!sf-v0"];baseUrl=/app;map=$ref:cdn-deps.json#/map
   # The JSON is wrapped in a script to initialize RequireJS
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
   # Finally a specific router is wired to display a pug template with all of the
@@ -189,6 +189,9 @@ options:
         stylesheets: [] # $ref: '#/defs/stylesheets/default'
         clients:
           $ref: '#/defs/app/v0/clients'
+        meta:
+          - sitefile.main: 'sitefile'
+          - sitefile-client-modules: 'cs!sf-v0/page,cs!sf-v0/tilda'
 
   local:
     app/v0:
@@ -237,7 +240,9 @@ options:
           $ref: '#/defs/stylesheets/default'
         clients:
           $ref: '#/defs/app/v0/clients'
-
+        meta:
+          - sitefile.main: 'sitefile'
+          - sitefile-client-modules: 'cs!sf-v0/page.coffee,cs!sf-v0/tilda.coffee'
 
 defs:
   scripts:

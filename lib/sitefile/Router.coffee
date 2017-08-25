@@ -127,17 +127,17 @@ builtin =
       rctx.context.static_proto src for src in srcs
     ]
 
-    rctx.context.debug 'Static', url: url, '=', path: rctx.route.spec
+    #rctx.debug 'Static', url: url, '=', path: rctx.route.spec
 
 
   # Take care of rendering from a rctx with data, for a (data) handler that does
   # not care too itself since it is a very common task.
   data: ( rctx ) ->
     name = "generator '#{rctx.route.name}.#{rctx.route.handler}'"
-    rctx.context.debug \
+    rctx.debug \
     "Primed built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
     ( req, res ) ->
-      rctx.context.debug \
+      rctx.debug \
       "Running built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
       writer = if rctx.res.fmt? then rctx.res.fmt else 'json'
       deferred = promise_resource_data rctx
@@ -148,10 +148,10 @@ builtin =
         res.end
       .then ( data ) ->
         if writer == 'json'
-          rctx.context.debug 'dumping json'
+          rctx.debug 'dumping json'
           output = JSON.stringify data
         else if writer in ['yaml', 'yml']
-          rctx.context.debug 'dumping yaml'
+          rctx.debug 'dumping yaml'
           output = yaml.safeDump data
         else
           throw new Error "No writer #{writer}"
@@ -231,7 +231,7 @@ Base =
       rctx.res.ref = \
         "#{ctx.site.base}#{rctx.res.dirname}/#{rctx.res.basename}"
       dirurl = ctx.site.base + rctx.res.dirname
-      # XXX: dir tracking 
+      # XXX: dir tracking
       if not ctx.routes.directories.hasOwnProperty dirurl
         ctx.routes.directories[ dirurl ] = [ rctx.res.basename ]
       else

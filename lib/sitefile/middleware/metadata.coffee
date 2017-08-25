@@ -1,5 +1,6 @@
 path = require 'path'
 
+
 module.exports = ( ctx ) ->
 
   name: 'metadata'
@@ -7,7 +8,8 @@ module.exports = ( ctx ) ->
   type: 'middleware'
 
   description: "Load additional data from YML/JSN as-is files at routes"
-  usage: "Add path to this module to Sitefile paths.packages, and configure package"
+  usage: "Add path to this module to Sitefile paths.packages, \
+ and configure package"
 
   passthrough: ( req, res, next ) ->
 
@@ -26,5 +28,4 @@ module.exports = ( ctx ) ->
     #  console.log 'TODO: fetch metadata for', path.join m, req.originalUrl
 
     next()
-
 

@@ -7,7 +7,7 @@ _ = require 'lodash'
 # Extension prototypes for sitefile's Context
 module.exports = ( ctx ) ->
   
-  name: 'sf-context-proto'
+  name: 'sf-couchdb-context-proto'
   type: 'context-prototype'
 
   prototype:

@@ -82,11 +82,8 @@ class PM2Manager
 
 module.exports = ( ctx ) ->
 
-  try
-    pug = require 'pug'
-    pm2 = require 'pm2'
-  catch
-    return
+  pug = require 'pug'
+  pm2 = require 'pm2'
 
   httprouter = require('./http') ctx
   pugrouter = require('./pug') ctx
@@ -236,7 +233,8 @@ module.exports = ( ctx ) ->
               context: rctx
               apps: data[0]
               links: []
-              stylesheets: rctx.resolve('sitefile.defs.stylesheets.default') ? []
+              stylesheets: \
+                rctx.resolve('sitefile.defs.stylesheets.default') ? []
               scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
               clients: []
           }
@@ -266,7 +264,8 @@ module.exports = ( ctx ) ->
               context: rctx
               app: data[0]
               links: []
-              stylesheets: rctx.resolve('sitefile.defs.stylesheets.default') ? []
+              stylesheets: \
+                rctx.resolve('sitefile.defs.stylesheets.default') ? []
               scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
               clients: []
           }

@@ -8,21 +8,18 @@ define 'sf-v0/mixin.du-page', [
 
 ], ( $ ) ->
 
+
   DocutilsPage:
     includes:
-      ready: [
-        'init_document'
-      ]
+      ready: [ 'init_document' ]
 
     init_document: ->
-
       @document = @container.children '.document'
       unless @document.length
         @document = $ '<div class="document"><hr/></div>'
         @container.append @document
 
       du = $('.document').duPage()
-
       require [
         'cs!./dhtml/jquery-sf-proc'
         'cs!./dhtml/jquery-sf-anchorspage'
@@ -34,7 +31,10 @@ define 'sf-v0/mixin.du-page', [
 
         $('.document').proc()
 
-        navBar = $('.epilogue').navMenu()
+        navBar = $('body').navMenu()
+        #navBar.mouseleave ->
+        #  $(".dropdown").removeClass("open")
+
         nav = navBar.container()
 
         title = $('title').text()
@@ -63,7 +63,7 @@ define 'sf-v0/mixin.du-page', [
               ,
                 type: "separator"
               ,
-                label : "Dev"
+                label: "Dev"
                 type: "header"
               ,
                 label: "jQuery Terminal"

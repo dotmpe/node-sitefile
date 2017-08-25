@@ -2,7 +2,7 @@
 Initial incarnation of core util, merged directly into context prototype.
 
 of sf-context-proto:
-sitefile/context.coffee. 
+sitefile/context.coffee.
 ###
 
 _ = require 'lodash'
@@ -14,7 +14,7 @@ Router = require '../Router'
 # Extension prototypes for sitefile's Context
 module.exports = ( ctx ) ->
   
-  name: 'sf-context-proto'
+  name: 'sf-core-context-proto'
   type: 'context-prototype'
 
   prototype:
@@ -40,7 +40,8 @@ module.exports = ( ctx ) ->
         # By default merge req.params from route onto options
         _.defaults options, request.params
 
-      # import-query: merge all or selected keys from query, resolve keys as path-refs
+      # import-query: merge all or selected keys from query, resolve keys as
+      # path-refs
       if @route['import-query']?
         mq = @route['import-query']
         if 'bool' is not typeof mq

@@ -80,15 +80,15 @@ sitefile_cli = module.exports =
     if ctx.verbose
       console.log "Starting server at localhost:#{ctx.site.port}"
     return if ctx.site.host
-        ctx.server.listen ctx.site.port, ctx.site.host, ->
-          if ctx.verbose
-            lib.log "Listening", "Express server on port #{ctx.site.port}. "
-          !done || done()
-      else
-        ctx.server.listen ctx.site.port, ->
-          if ctx.verbose
-            lib.log "Listening", "Express server on port #{ctx.site.port}. "
-          !done || done()
+      ctx.server.listen ctx.site.port, ctx.site.host, ->
+        if ctx.verbose
+          lib.log "Listening", "Express server on port #{ctx.site.port}. "
+        !done || done()
+    else
+      ctx.server.listen ctx.site.port, ->
+        if ctx.verbose
+          lib.log "Listening", "Express server on port #{ctx.site.port}. "
+        !done || done()
 
   export: ( ctx, map ) ->
     for attr in [ "host", "port", "path", "netpath" ]
@@ -140,7 +140,7 @@ if process.argv[1].endsWith('sitefile') \
     --bwc <bwc-version>      Run at backward-compatible version, iso. version
                              in Sitefile [env: SITEFILE_VERSION]
                              [default: '#{lib.version}']
-    --monitor <pmx-on>       Enable PM2 monitor extension, this initalizes 
+    --monitor <pmx-on>       Enable PM2 monitor extension, this initalizes
                              a probe with internal metrics of the sitefile
                              process. [env: SITEFILE_PM2_MON]
     --quiet                  Be quiet.
@@ -167,7 +167,7 @@ else if process.env.NODE_ENV == 'testing'
 
 
 else if process.env.NODE_ENV == 'development'
-  lib.log_error_enabled = true 
+  lib.log_error_enabled = true
   lib.log_enabled = false
 
 

@@ -16,7 +16,7 @@ define 'sf-v0/mixin.breadcrumb', [
         paths = path.split /[#]/
         aspects = paths.length
         while paths.length
-          location_ol = $ '<ol class="breadcrumb"/>'
+          location_ol = $ '<ol class="breadcrumb header"/>'
           p = paths.pop()
           pels = p.split /[\/]/
           depth = pels.length
@@ -47,7 +47,7 @@ define 'sf-v0/mixin.breadcrumb', [
 
             li.prependTo location_ol
 
-          $('.header').prepend location_ol
+          $('body > .header').prepend location_ol
 
       # coffeelint: disable=max_line_length
       location_edit = $ '<span class="edit-breadcrumb"><input class="form-control" id="breadcrumb"/>/</span>'

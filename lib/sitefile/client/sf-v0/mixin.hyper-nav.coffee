@@ -8,9 +8,12 @@ define 'sf-v0/mixin.hyper-nav', [
 
 
   dirname = ( str ) ->
-    new String(str).substring 0, str.lastIndexOf('/')
-  baseName = ( str ) ->
-    base = new String(str).substring str.lastIndexOf('/') + 1
+    str = new String(str)
+    str.substring 0, str.lastIndexOf('/')
+
+  basename = ( str ) ->
+    str = new String(str)
+    base = str.substring str.lastIndexOf('/') + 1
     if -1 is not base.lastIndexOf "."
       base = base.substring 0, base.lastIndexOf "."
     base
@@ -67,7 +70,7 @@ define 'sf-v0/mixin.hyper-nav', [
       # update URL fragment generating new history record
       #hasher.setHash window.location.hash
 
-    resolve_page:  ( ref, baseref ) ->
+    resolve_page: ( ref, baseref ) ->
       if ref.substr(0,1) == '#'
         return baseref+ref
       if ref.substr(0,1) == '/'
@@ -84,8 +87,9 @@ define 'sf-v0/mixin.hyper-nav', [
       #console.log 'route_page A', @, ref, cref
       ref = @resolve_page ref, cref
       console.log 'resolved', ref
-      # Clean listeners on element by dropping
-      #$('.placeholder').replaceWith('<div class="container placeholder"></div>')
+      # XXX: Clean listeners on element by dropping
+      #$('.placeholder')
+      #.replaceWith('<div class="container placeholder"></div>')
       $('.placeholder').off 'click'
       # Load content
       # FIXME: catch all URL types
@@ -106,14 +110,9 @@ define 'sf-v0/mixin.hyper-nav', [
           console.log "Loaded", ref
           self.init_placeholder ref
           self.run_scripts rsTxt
-
       #crossroads.parse newHash
-
 
     run_scripts: ( html ) ->
       el = $.parseHTML html, true
       $('script', el).each ->
         $.globalEval @text || @textContent || @innerHtml || ''
-
-
-

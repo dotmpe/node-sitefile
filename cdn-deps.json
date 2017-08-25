@@ -1,0 +1,27 @@
+{
+  "shim": {
+    "bootstrap": ["jquery"],
+    "jquery-ui": ["jquery"],
+
+    "backbone": ["underscore"],
+    "backgrid": ["backbone"],
+    "backgrid-filter": ["backgrid"],
+    "backgrid-moment-cell": ["backgrid"],
+    "backgrid-text-cell": ["backgrid"],
+    "backgrid-object-cell": ["backgrid"],
+    "backgrid-select2-cell": ["backgrid"],
+    "backgrid-sizeable-columns": ["backgrid"],
+    "backgrid-grouped-columns": ["backgrid"],
+    "backgrid-orderable-columns": ["backgrid"],
+    "backgrid-paginator": ["backgrid"],
+    "backgrid-select-all": ["backgrid-paginator"]
+  },
+  "map": {
+    "*": {
+      "sitefile": "sf-v0",
+      "css": "require-css",
+      "cs": "require-cs",
+      "text": "require-text"
+    }
+  }
+}

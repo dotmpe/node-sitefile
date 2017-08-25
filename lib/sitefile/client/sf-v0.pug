@@ -4,14 +4,13 @@ extends base
 block head
   +std-html-client("Sitefile RJS Client")
   +html-meta("application-name", "Sitefile/"+context.version)
-  +html-meta("sitefile-client-modules", "page,profiles,tilda,menu")
+  +html-meta("sitefile-client-modules", "cs!sf-v0/page,cs!sf-v0/tilda")
 
 block prologue
   .prologue
-block header
-  input.form-control#search(placeholder="Search").placeholder
 block main
-  .container.placeholder.main.docutils-document-contents
+  //- main.docutils-document-contents
+  .container.placeholder.document
 block document
 block footer
 block epilogue

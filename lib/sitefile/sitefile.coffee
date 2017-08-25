@@ -228,7 +228,10 @@ prepare_context = ( ctx={} ) ->
       'use-sf-title': true
       'include-sf-title': true
       backtraces: true
-      'data-resolve-limit': 5 # number of recursions allowd in sitefile.Router.resolve_resource_data
+
+      'data-resolve-limit': 5 # number of recursions allowed in
+      # sitefile.Router.resolve_resource_data
+
       # See Express app.engine for use, here map filename-ext to engine
       engines: [
         'pug'
@@ -253,8 +256,8 @@ prepare_context = ( ctx={} ) ->
       ]
 
     packages: [
-      "sitefile/context/core.coffee",
-      "sitefile/context/couchdb.coffee",
+      "sitefile/context/core.coffee"
+      "sitefile/context/couchdb.coffee"
       "cors.coffee"
       "metadata.coffee"
     ]
@@ -461,7 +464,8 @@ class Sitefile
 
         # Merge router local defaults onto global sitefile context.
 
-        # Then update rctx.route with local and global sitefile and router defaults.
+        # Then update rctx.route with local and global sitefile and router
+        # defaults.
 
         if router_type.defaults?
           # Add global and local router context defaults now.
@@ -581,7 +585,7 @@ log_line = ( v, out=[] ) ->
   out
 
 debug = ->
-  if 'config' of @
+  if @ and 'config' of @
     if @config.verbose
       log.apply null, arguments
   else if module.verbose

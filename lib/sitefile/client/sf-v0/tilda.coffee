@@ -1,28 +1,35 @@
 define 'sf-v0/tilda', [
 
   'jquery'
-	'jquery-terminal'
- 'css!/vendor/jquery-terminal'
- 'css!/media/style/jquery-terminal-animated-cursor'
+  'jquery-terminal'
+  'css!/vendor/jquery-terminal'
+  'css!/media/style/jquery-terminal-animated-cursor'
 
 ], ( $ ) ->
 
-  require [ 'cs!./dhtml/jquery-sf-tilda' ], ->
-
-    $(document).ready ->
-
-      if not $('#tilda').length
-        if $('.epilogue').length
-          $('.epilogue').prepend $ '<div id="tilda"></div> '
-        else
+  class TildaClientModule
+    constructor: ( ready, loader ) ->
+      # Note: this hooks in with SitefilePage/Htd epilogue class, so wait
+      # for it to possibly load.
+      loader.events.ready.addListener ({ name }) ->
+        if name != 'all'
           return
+        
+        require [ 'cs!./dhtml/jquery-sf-tilda' ], ->
+          #console.log 'Tilda DHTML included'
 
-      console.log 'Initializing Tilda'
+          if not $('#tilda').length
+            if $('.epilogue').length
+              $('.epilogue').prepend $ '<div id="tilda"></div> '
+            else
+              console.log 'Nothing to init tilda from'
+              return
 
-      try
-        sf.term = $('#tilda').tilda()
-      catch e
-        console.error "Failed initalizing Sitefile-Main Tilda", e
+          console.log 'Initializing Tilda'
 
-  null
+          try
+            term = $('#tilda').tilda()
+          catch e
+            console.error "Failed initalizing Sitefile-Main Tilda", e
+      ready()
 

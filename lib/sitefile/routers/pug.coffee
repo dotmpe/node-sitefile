@@ -77,12 +77,15 @@ module.exports = ( ctx ) ->
   defaults:
     global:
       default:
-        # sitefile.context.query_path_export settings: override res.path with query key
+        # sitefile.context.query_path_export settings: override res.path with
+        # query key
         'export-query-path': 'tpl'
         # Use sitefile.context.req_opts to parse router options from context
-        # export-context: deep-merge everything at global context path to options
+        # export-context: deep-merge everything at global context path to
+        # options
         'export-context': 'merge.context'
-        # import-query: merge selected keys from query, resolve keys as path-refs
+        # import-query: merge selected keys from query, resolve keys as
+        # path-refs
         'import-query': [ 'merge.format', 'merge.scripts', 'merge.stylesheets' ]
         options:
           tpl: null

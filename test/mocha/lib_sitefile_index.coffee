@@ -80,9 +80,11 @@ describe 'Module sitefile', ->
       ctx = {}
       lib.prepare_context ctx
       sfctx = ( "backtraces basename bundles config config_envs config_name "+
-        "cwd data-resolve-limit envname ext exts fn lfn log middleware "+
-        "modules noderoot packages paths pkg pkg_file proc routes "+
-        "site sitefile sitefilerc static verbose version warn"
+        "cwd data-resolve-limit debug default_profile engines envname ext "+
+        "exts fn include-sf-title lfn log metadata middleware modules "+
+        "noderoot packages paths pkg pkg_file proc routes show-stack-trace "+
+        "site sitefile sitefilerc static title use-sf-title verbose version "+
+        "warn"
       ).split ' '
       ctxkys = _.keys( ctx )
       ctxkys.sort()
@@ -180,15 +182,15 @@ describe 'Module sitefile', ->
 
       ac_simple = stu.schema.ac_simple
       expect( ac_simple ["string"] ).to.equal true
-      expect( ac_simple [{"foo":"string"}] ).to.equal false
-      expect( ac_simple [{"label":"Foo"}] ).to.equal false
+      expect( ac_simple [{"foo": "string"}] ).to.equal false
+      expect( ac_simple [{"label": "Foo"}] ).to.equal false
 
       ac_full = stu.schema.ac_full
       expect( ac_full ["string"] ).to.equal true
-      expect( ac_full [{"foo":"string"}] ).to.equal false
-      expect( ac_full [{"label":"Foo"}] ).to.equal true
-      expect( ac_full [{"category":"Foo"}] ).to.equal false
-      expect( ac_full [{"label":"Foo", "category":"Notes"}] ).to.equal true
+      expect( ac_full [{"foo": "string"}] ).to.equal false
+      expect( ac_full [{"label": "Foo"}] ).to.equal true
+      expect( ac_full [{"category": "Foo"}] ).to.equal false
+      expect( ac_full [{"label": "Foo", "category": "Notes"}] ).to.equal true
 
 
     it "to validate AC data (Simple)", -> stu.req_json_file_valid \

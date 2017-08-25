@@ -3,7 +3,10 @@ $.fn.navMenu = ( ev, options ) ->
   settings = $.extend {
     align: 'left'
     data: {}
+    navBarStyle: 'navbar-fixed-top'
+    #navBarStyle: 'navbar-static-top'
   }, options
+  style = settings.navBarStyle
   navId = settings.data.id
   nav = $ 'nav#'+navId
   el = this
@@ -11,7 +14,7 @@ $.fn.navMenu = ( ev, options ) ->
     _initNavMenu: ->
       unless nav.length
         nav = $ """
-          <nav class="navbar navbar-default navbar-fixed-top" id="#{navId}">
+          <nav class="navbar navbar-default #{style}" id="#{navId}">
             <div class="container-fluid">
               <div class="collapse navbar-collapse">
               </div>
