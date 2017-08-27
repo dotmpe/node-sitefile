@@ -1,4 +1,11 @@
+DHTML Build Feature
+====================
 .. include:: .defaults.rst
+
+This is on the design regarding client-centric, HTTP/web-tech supported client
+and how to build it. For the current sf-v0 Require.js app, see `HTML5 Client
+Feature`_ (`features/client`_).
+
 
 [2017-07-15]
 
@@ -58,11 +65,9 @@ Addons
 
   Invariably the packagers (webpack, require.js) tend to be a bit smartypants
   and not always easily tamed. But the goal is the same: resolve dependencies,
-  and can we please handle js/css/fonts/... UI-parts transparently.
+  and can we please handle js/css/fonts/... UI-parts transparently as a resource
+  too.
 
   app/v0 (`features/rjs`_) does at least part of the require-js fest.
   But no fonts, css.
-
-
-
 

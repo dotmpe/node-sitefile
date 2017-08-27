@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const config = {}
 
-config.entry = [ './bin/sitefile.coffee' ]
+config.entry = [ './bin/sitefile-cli.coffee' ]
 
 // Node module dependencies should not be bundled
 config.externals = fs.readdirSync("node_modules")

@@ -80,7 +80,7 @@ describe 'Module sitefile', ->
       ctx = {}
       lib.prepare_context ctx
       sfctx = ( "backtraces basename bundles config config_envs config_name "+
-        "cwd data-resolve-limit debug default_profile engines envname ext "+
+        "cwd data-resolve-limit debug default_profile domain engines envname ext "+
         "exts fn include-sf-title lfn log metadata middleware modules "+
         "noderoot packages paths pkg pkg_file proc routes show-stack-trace "+
         "site sitefile sitefilerc static title use-sf-title verbose version "+

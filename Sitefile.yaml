@@ -9,7 +9,10 @@ sitefile: 0.0.7-dev
 config:
   'show-stack-trace': true
   metadata: '/data/meta'
-  debug: false
+  debug: true
+  verbose: true
+  #verbose: true
+  domain: 'sf-sf.wtwta.lan'
 upstream: # Grant CORS (for async data requests) to these hosts
 - 'http://localhost'
 - 'http://localhost:2000'
@@ -24,8 +27,8 @@ paths: # Additional routers to test local router include path extension
 #  - 'sitefile:lib/sitefile/middleware'
 #  - 'sitefile:lib'
 #packages: 
-#  - 'sitefile/context/core.coffee'
-#  - 'sitefile/context/couchdb.coffee'
+#  - 'sitefile/context/ctx-core.coffee'
+#  - 'sitefile/context/ctx-couchdb.coffee'
 #  - 'cors.coffee'
 #  - 'metadata.coffee'
 

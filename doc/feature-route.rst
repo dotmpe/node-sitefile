@@ -1,4 +1,5 @@
-
+Route Feature
+=============
 .. include:: .defaults.rst
 
 
@@ -72,9 +73,11 @@ Routers or Middleware
   Whereas routers are characterized by the requirement that they have to finish
   some kind of response (or the app hangs).
 
-  To the framework there is no difference between the two (XXX: or is there,
-  what does it do with return values?) the only difference is that a middleware
-  chooses the utilize the third argument. See also [#]_ and [#]_.
+  To the framework there is no difference between the two, but note the
+  lifecycle: with middlewares e.g. the ``req.route`` will not have been resolved
+  yet.
+
+  See also [#]_ and [#]_.
 
 
 Mount
@@ -220,7 +223,7 @@ Rather would abstract ideas presented in syntax a bit, extend existing ideas.
 Before making Sf more complex in features by bringing in new ideas..
 
 
-
+Middleware and mounting
   1. default routes, perhaps per profile too.. Something more fancy than
      just `sitefile ./my/alt/Sitefile.yaml`?
 
@@ -257,20 +260,6 @@ Before making Sf more complex in features by bringing in new ideas..
      default: ``sitefile --default-routes --routers=du --classic``.
 
 
-
-
-Packaging
-  Not sure yet about the Sitefile dev setup even, but may integrate part of it
-  with core Sitefile. Its about prototyping the very thing it is written in
-  after all.
-
-  But see other places that concern packing:
-
-  - `features/dhtml`_ Addons
-  - `features/documentation`_
-  - `features/rjs`_
-
-
 Versioning
 ~~~~~~~~~~
 While introducing new behaviour, the old should be deprecated with
@@ -290,6 +279,12 @@ Adding the ``bwc`` attribute::
 The ``bwc`` is not supported yet (0.0.7-dev).
 Looking at versioning the interface, important is the stability of the dev
 versions. Added ``0.1`` prefix to experiment with a more modular interface.
+
+
+See also:
+
+- `Packaging Feature`_
+- `Build Feature`_
 
 
 JSON API
@@ -442,45 +437,54 @@ the resource context to return the instance data per route request.
 
 Resources
 ~~~~~~~~~
-TODO: attribute resources, get back at simplicity of::
 
-  /url/path: router:my/files/*.xxx
+  TODO: attribute resources, get back at simplicity of::
 
-But with a little extra: a seperate data and renderer instance.
-Using the `meta.type` router context defined in Generator_, the data
-can define its own API type.
+    /url/path: router:my/files/*.xxx
 
-So that sitefile can do basic rendering or actions given the proper
-type metadata, or router can customize.
+  But with a little extra: a seperate data and renderer instance.
+  Using the `meta.type` router context defined in Generator_, the data
+  can define its own API type.
 
-And routers can re-use existing data endpoints.
+  So that sitefile can do basic rendering or actions given the proper
+  type metadata, or router can customize.
 
-But need to encapsulate this in a terse syntax structure.
+  And routers can re-use existing data endpoints.
 
-This must work::
+  But need to encapsulate this in a terse syntax structure.
 
-  _id_1: du.html:**/*.md
-  _id_rst_custom_ext: du.html:**/*.rest
-  _id_rst_default: du.html:
+  This must work::
 
-So iso.::
+    _id_1: du.html:**/*.md
+    _id_rst_custom_ext: du.html:**/*.rest
+    _id_rst_default: du.html:
 
-  _foo: foo:**/*.foo
+  So iso.::
 
-maybe::
+    _foo: foo:**/*.foo
 
-  **/*.foo: foo:?meta.type=foo.Foo
-  **/*.foo: foo.view:?strip-ext=true;data=.
+  maybe::
 
-  **/*.bar: bar.view:?strip-ext=false;data=**/*.foo
+    **/*.foo: foo:?meta.type=foo.Foo
+    **/*.foo: foo.view:?strip-ext=true;data=.
 
-Leave URL path out for 1-on-1 mappins to filesystem.
-Ie. the router spec first argument is taken from the `rctx.name`, and the spec
-(a file glob) used ID name.
+    **/*.bar: bar.view:?strip-ext=false;data=**/*.foo
 
-See `Base.resources`__ comment too.
+  Leave URL path out for 1-on-1 mappins to filesystem.
+  Ie. the router spec first argument is taken from the `rctx.name`, and the spec
+  (a file glob) used ID name.
+
+  See `Base.resources`__ comment too.
 
 .. __: http:/doc/literate/Router.html#section-6
+
+..
+
+  TODO: metadata for resources by URL, see
+  `Sitefile Metadata Middleware`_ and
+  `Sitefile Core Context-Prototype Mixin`_
+  `Sitefile CouchDB Metadata Context-Prototype Mixin`_
+
 
 
 builtin.data
@@ -502,9 +506,9 @@ Use cases
 
 1. Static files. (Uses Express middleware.)
 
-   TODO: support/test:
+     TODO: support/test::
 
-     <dynamic-part>: static:<fnmatch>
+       <dynamic-part>: static:<fnmatch>
 
 
 2. Third-party Content Delivery: redirect or proxy requests elsewhere.
@@ -520,7 +524,4 @@ Use cases
    path.
 
    "bootstrap": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min"
-
-
-
 

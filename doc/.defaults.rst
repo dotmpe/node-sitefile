@@ -5,52 +5,82 @@
    expressiveness: all relative path references need to be pre-processed per
    including document.
 
-.. Global
+.. Doc parts
 .. _changelog: /Changelog.rst
 .. _examples: /example/main
 .. _ToDo: /TODO.md
+.. _Sitefile Planet: /doc/sitefile-planet.rst
+.. _Development Docs: dev_
+.. _dev: /doc/dev.rst
+.. _Documentation Overview: /doc/index.rst
+.. _User Manual: /doc/manual.rst
+.. _Getting Started Guide: /doc/guide/1-getting-started.rst
+.. _First Extension Guide: /doc/guide/2-first-extension.rst
 
-.. Local
-.. _manual: manual.rst
+.. Topics
+.. _Resources: feature-route.rst#resources
+.. _Last-Modified: feature-http.rst#last-modified
 
-.. Branches
-.. _Router Feature: feature-route.rst
+.. Source ID's
+.. _`Sitefile Metadata Middleware`: /doc/literate/metadata.html
+.. _`Sitefile Core Context-Prototype Mixin`: /doc/literate/core.html
+.. _`Sitefile CouchDB Metadata Context-Prototype Mixin`: /doc/literate/couchdb.html
+
+.. Build docs parts
+.. _docco docs: /doc/literate
+.. _Mocha Router docstrings: /doc/literate/mocha.html
+
+.. Templates
+.. _feature doc form: /doc/_feature-form.rst
+.. _release doc form: /doc/dev/_form.rst
+
+.. Branche and non-branch features
+.. _Route Feature: feature-route.rst
 .. _DB Feature: feature-db.rst
 .. _RequireJS Feature: feature-rjs.rst
 .. _Text Markup Feature: feature-text.rst
-.. _Testing Feature: feature-testing.rst
-.. _Documentation Feature: feature-documentation.rst
 .. _HTML5 Client Feature: feature-client.rst
-.. _Gherkin Feature: feature-gherkin.rst
-.. _DHTML Client Feature: feature-dhtml.rst
-.. _Process Manager Feature: feature-pm2.rst
+.. _Gherkin BDD Feature: feature-gherkin.rst
+.. _DHTML Build Feature: feature-dhtml.rst
+.. _Process Manager Feature: feature-pm.rst
+.. _HTTP Feature: feature-http.rst
+.. _Build Feature: feature-build.rst
+.. _Graphics Feature: feature-graphics.rst
+.. _Packaging Feature: feature-packaging.rst
 .. _features/route: feature-route.rst
 .. _features/db: feature-db.rst
 .. _features/rjs: feature-rjs.rst
+.. _features/build: feature-build.rst
 .. _features/text: feature-text.rst
-.. _features/testing: feature-testing.rst
-.. _features/documentation: feature-documentation.rst
 .. _features/client: feature-client.rst
 .. _features/gherkin: feature-gherkin.rst
 .. _features/dhtml: feature-dhtml.rst
-
-.. _dev: /doc/dev.rst
-
-.. _Mocha Router docstrings: /doc/literate/mocha.html
+.. _features/pm: feature-pm.rst
+.. _features/http: feature-http.rst
+.. _features/graphics: feature-graphics.rst
+.. _features/packaging: feature-packaging.rst
 
 .. Releases
-.. _r0.0.1: /doc/dev/0.0.6.rst
+.. _r0.0.1: /doc/dev/0.0.1.rst
 .. _v0.0.1: Changelog.rst#0.0.1
 
 .. _r0.0.3: /doc/dev/0.0.3.rst
+.. _v0.0.3: Changelog.rst#0.0.3
+
 .. _r0.0.4: /doc/dev/0.0.4.rst
 .. _v0.0.4: Changelog.rst#0.0.4
 
+.. _v0.0.5: Changelog.rst#0.0.5
 .. _r0.0.5: /doc/dev/0.0.5.rst
+.. _v0.0.6: Changelog.rst#0.0.6
 .. _r0.0.6: /doc/dev/0.0.6.rst
+.. _v0.0.7: Changelog.rst#0.0.7
 .. _r0.0.7: /doc/dev/0.0.7.rst
-.. _r0.1.0: /doc/dev/0.1.0.rst
 
+.. _v0.1.0: Changelog.rst#0.1.0
+.. .. _r0.1.0: /doc/dev/0.1.0.rst
+
+.. _v1.0.0: Changelog.rst#1.0.0
 
 .. External
 .. _jsonary: http://jsonary.com/
@@ -61,4 +91,5 @@
 .. _json-editor: https://github.com/jdorn/json-editor
 .. _List of Mocha reporters: https://github.com/mochajs/mocha/tree/master/lib/reporters
 .. _neodoc: //github.com/felixSchl/neodoc
+.. _ansigarden.com: //ansigarden.com
 

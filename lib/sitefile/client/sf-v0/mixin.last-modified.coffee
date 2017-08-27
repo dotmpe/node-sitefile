@@ -6,22 +6,35 @@ define 'sf-v0/mixin.last-modified', [
 
 
   DocumentLastModified:
-    includes:
-      ready: [ 'add_dates' ]
 
-    add_dates: ( path = window.location.href ) ->
+    ###
+    On page load, add a date-time to the footer, using as value the
+    first field found and not empty for the list of HTTP headers.
+    ###
+
+    includes:
+      ready: [ 'add_date' ]
+
+    # Scan these headers and in this sequence
+    headers: [ 'last-modified', 'date' ]
+
+    # Map header to string to use for class attribute
+    classes:
+      date: 'date server-time'
+      'last-modified': 'date last-modified'
+
+    add_date: ( path = window.location.href ) ->
+      self = @
       $.ajax(
         type: 'POST'
         url: path
         data: {}
         success: (data, textStatus, request) ->
-          lm = request.getResponseHeader('last-modified')
-          if lm
-            date = lm
-          else
-            date = request.getResponseHeader('date')
-
-          date_span = $('<span class="date"/>')
+          klass = null; date = null
+          for hd in self.headers
+            date = request.getResponseHeader(hd)
+            klass = self.classes[hd]
+          date_span = $("<span class=\"#{klass} date\"/>")
           date_span.append(date)
 
           $('.footer').append date_span

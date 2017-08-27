@@ -16,7 +16,7 @@ fs.readdirSync('node_modules')
   });
 
 var config = {
-  entry: [ './bin/sitefile.coffee' ],
+  entry: [ './bin/sitefile-cli.coffee' ],
   target: 'node',
   output: {
     path: path.join(__dirname, 'dist'),

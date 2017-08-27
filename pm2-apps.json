@@ -2,8 +2,8 @@
   "apps" : [
 		{
 			"name"        : "sf-sf",
-			"script"      : "/opt/node-sitefile/bin/sitefile.coffee",
-			"interpreter" : "coffee",
+			"script"      : "/opt/node-sitefile/bin/sitefile-cli.coffee",
+			"interpreter" : "/Users/berend/.nvm/versions/node/v6.0.0/bin/coffee",
 			"merge_logs"  : true,
 			"cwd"         : "/opt/node-sitefile",
 			"env": {

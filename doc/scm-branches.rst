@@ -105,7 +105,7 @@ master [*]_
 
       require-js
         - Setting up for integrated module configuration. Want to get stack up
-          using require-js. See `Router Feature`_ and `RequireJS Feature`_
+          using require-js. See `Route Feature`_ and `RequireJS Feature`_
           docs.
 
       api-docs
@@ -118,7 +118,7 @@ master [*]_
         - The `Gherkin Feature`_ is for routing gherkin test specifications.
           Only generating JSON.
         - Added behat initially. But later found cucumber-js.
-	      - Maybe combine JSON with Pug.
+        - Maybe combine JSON with Pug.
           For now installed grunt gherkin_report for HTML but its not pretty.
 
       selenium

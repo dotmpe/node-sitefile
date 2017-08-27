@@ -224,6 +224,7 @@ prepare_context = ( ctx={} ) ->
     config:
       default_profile: "http://wtwta.org/project/sitefile#base:v0"
       title: 'title+" - Sitefile "+context.version'
+      domain: 'untitled-sitefile.local'
       'show-stack-trace': false
       'use-sf-title': true
       'include-sf-title': true
@@ -256,8 +257,8 @@ prepare_context = ( ctx={} ) ->
       ]
 
     packages: [
-      "sitefile/context/core.coffee"
-      "sitefile/context/couchdb.coffee"
+      "sitefile/context/ctx-core.coffee"
+      "sitefile/context/ctx-couchdb.coffee"
       "cors.coffee"
       "metadata.coffee"
     ]

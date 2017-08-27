@@ -9,6 +9,8 @@
   Initially targetted to keep support for ``routes`` schema stable, see
   `features/route`_ on `Versioning`, `BWC-mode`.
 - Using `neodoc`_ for argument parser now.
+- Started on extending r.js client features, dependencies.
+- Brought main feature categories back to 3 but added a deeper level.
 
 
 Wanted

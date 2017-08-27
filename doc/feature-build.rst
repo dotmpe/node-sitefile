@@ -1,6 +1,41 @@
-
+Build Feature
+=============
 .. include:: .defaults.rst
 
+Everything related to the project build and packaging, dist plans.
+
+
+Documentation
+-------------
+- Want to look at JSDoc features. http:/doc/api
+
+See also
+  - `Gherkin BDD Feature`_
+
+Literate and Annotated Source
+_____________________________
+Using Docco to generate side-by-side HTML views of source code and comments.
+
+Note: This is not implemented as router but special build setup and route config.
+
+Multi-Line comments
+''''''''''''''''''''
+Docco does not support CoffeeScript multi-lines. [#]_
+Giving issues with many comments currently.
+
+.. [#] 2012, wrt. to CoffeeScript multi-line or block comment support
+   <https://github.com/jashkenas/docco/pull/72#issuecomment-8199556>
+   <https://github.com/jashkenas/docco/issues/29>
+
+Document ID's
+'''''''''''''
+Docco uses the file basename as unique identifier, overwriting previous refs.
+I like this, but need to draw the line at different extensions. ``docco-plus``
+supports multiple extensions, but also seems to add/keep the full path.
+
+
+Testing
+-------
 Mocha Router Examples
   Both the client and server tests have hardcoded dependencies. The client can
   get off without dependency management, simply by loading additional script
@@ -35,7 +70,7 @@ Mocha Router Examples
   - See `Mocha Router docstrings`_ for annotated source.
   - TODO `app_base_sitefile Mocha test docstrings`_.
 
-  * See also `Gherkin Feature`_ for docs on related specification markup
+  * See also `Gherkin BDD Feature`_ for docs on related specification markup
     format.
 
   The same Mocha client example, but included statically as reStructuredText raw HTML:

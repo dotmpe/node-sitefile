@@ -131,7 +131,7 @@ sitefile_cli = module.exports =
 
 
 if process.argv[1].endsWith('sitefile') \
-    or process.argv[1].endsWith 'sitefile.coffee'
+    or process.argv[1].endsWith 'sitefile-cli.coffee'
   opts = neodoc.run """
 
   Usage: sitefile [--version] [--help] [options]

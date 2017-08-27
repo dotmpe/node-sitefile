@@ -51,7 +51,7 @@ class SitefileTestUtils
   before: ( done ) ->
     if not _.isEmpty @server
       throw new Error "Already initialized a server"
-    @server = require '../bin/sitefile'
+    @server = require '../bin/sitefile-cli'
     if @dir
       process.chdir @dir
     [ @sf, @ctx, @proc ] = @server.run_main done, {

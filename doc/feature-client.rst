@@ -1,5 +1,11 @@
-
+HTML5 Client Feature
+====================
 .. include:: .defaults.rst
+
+
+This is on building the current sf-v0 Require.Js based app.
+For thoughts on the project build setup see `DHTML Build Feature`_
+(`features/dhtml`_).
 
 
 - Added Bower. Experimenting with polymer.
@@ -55,6 +61,15 @@ Option 3.b. is in place, sort of.
 r0.0.7 has other client scripts though, and it would be nice to unify the
 setup for so far possible, re-use stuff, have SPR, and do something sensible,
 transparant and understandable.
+
+[2017-08-26] the work in progress client is not behaving very beautifully, but
+functioning well enough for mixing per project-defined client components and
+thus has lots of potential application. Failing that the data and cache is
+solved, well enough to prevent too many ad-hoc sitefile routers and local
+extensions.
+
+
+
 
 Branches
 ---------

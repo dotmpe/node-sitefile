@@ -40,8 +40,9 @@ Node Sitefile
 
 .. include:: doc/.defaults.rst
 
-Intro
-------
+
+Summary
+-------
 Sitefile is a local website server for (project) documentation or notebooks.
 It is targetted at users/authors of plain-text, file-based content. It aims to
 add hypertext capabilities to documents of the literal kind, and any other
@@ -56,7 +57,6 @@ The main documentation is written in reStructuredText format for the Python
 Docutils publisher. But as many other formats are available as `routers` can be
 written for, currently: Markdown, Stylus, SASS/SCSS, Coffee Script, Graphviz and
 others.
-
 
 
 Quickstart
@@ -90,7 +90,6 @@ Behind the scenes better documentation and testing is being setup. See the
 dev_ docs.
 
 
-
 .. important::
 
    The syntax will change for 0.1 and/or 1.0
@@ -122,28 +121,13 @@ Test specifications are in ``test/mocha/``.
 
 
 
-Versions
---------
-See changelog_.
-
-
-
 Documentation
 -------------
-- `Docco docs`__
+There is no manual or futher guide as of now. Making Sitefile in its current
+state primarily an Express based website prototype platform aimed at developers.
 
-- `Development Docs <doc/dev.rst>`_
-
-
-.. __: /doc/literate
-
-
-Further reading
----------------
-
-- `Sitefile planet <doc/sitefile-planet.rst>`_ on alternatives, similar ideas;
-  status quo and prior art.
-
+Versions, features, development notes and all further reading is in the
+`Development Docs`_.
 
 
 .. This is a reStructuredText document.
