@@ -46,10 +46,11 @@ Main Features
 --------------
 These are features in development for the v0.1/v0.0.1 roadmap.
 
-.. important::
+.. note::
 
   All of this is revised regularly and will change before 0.1 and 1.0.
-  Below are the working parts listed, or progress notes with links to dev docs.
+  Below are the working parts listed, with issues, notes on progress with links
+  to dev docs.
 
 
 1. .. _feature-1:
@@ -122,8 +123,12 @@ These are features in development for the v0.1/v0.0.1 roadmap.
         non-router packages, container either ``context-protype`` mixins or
         ``middeware`` components.
 
+      ..
+
         Work-in-progress: user-defined addons, extendable resources/routers,
         customizations (`features/route`_).
+
+        Also, abstract resources (ie. `features/http`_, `features/db`_).
 
       ..
 
@@ -147,15 +152,19 @@ These are features in development for the v0.1/v0.0.1 roadmap.
         context's path option, along with ``cdn-deps.json`` as shims to
         map our library dependencies.
 
-      Work-in-progress: this setup does not allow for extensions (routers, other
-      components) to register for certain prerequisites.
+      ..
 
-      XXX: register JS/CSS/media/... dependencies with components. Built more
-      of a framework for vendor/rjs-root context within sitefile than a simple
-      static JSON.
+        Work-in-progress: this setup does not allow for extensions (routers, other
+        components) to register for certain prerequisites.
 
-      Depends on build/packaging process and DHTML/Client and would influence
-      current rjs setup. (`features/rjs`)
+      ..
+
+        XXX: register JS/CSS/media/... dependencies with components. Built more
+        of a framework for vendor/rjs-root context within sitefile than a simple
+        static JSON.
+
+        Depends on build/packaging process and DHTML/Client and would influence
+        current rjs setup. (`features/rjs`)
 
 
    5. work in progress: a default or 'base' client,

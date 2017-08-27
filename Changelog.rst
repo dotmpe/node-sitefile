@@ -65,8 +65,11 @@ r0.0.4_
   - Removed ``http.site`` router.
   - Started ``0.1`` version prefix to experiment with component versioning.
   - Using `neodoc`_ for argument parser now.
+  - Added config for remote sites, to set CORS.
   - Started on extending r.js client features, dependencies.
-  - Brought main feature categories back to 3 but added a deeper level.
+  - New extension types: ``middleware`` and ``context-prototype``.
+  - Doc updates. Revision and reshuffle for some docs. Brought main feature
+    categories back to 3.
 
 (0.1.0)
   .. _0.1.0:

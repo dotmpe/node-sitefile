@@ -9,22 +9,43 @@
   Initially targetted to keep support for ``routes`` schema stable, see
   `features/route`_ on `Versioning`, `BWC-mode`.
 - Using `neodoc`_ for argument parser now.
+- Added config for remote sites, to set CORS. Allowing to run client script or
+  get data.
 - Started on extending r.js client features, dependencies.
-- Brought main feature categories back to 3 but added a deeper level.
+  Client config and routes now allow for local extensions, and mixin components
+  from different remote sites (given CORS).
+- Now loading more extension components besides ``router`` type: moved some
+  util. to ``context-prototype`` mixins, and using ``middleware`` for
+  experimenting with Connect.js middleware handlers.
+- Restructured docs to better reflect current efforts, and allow for
+  ideas and planning. Brought main feature categories back to 3 but added a
+  deeper level.
 
 
 Wanted
-  Timeline
-    - https://developers.google.com/chart/interactive/docs/gallery/timeline
-  Treemap
-    - http://js-treemap.sourceforge.net/
-    - https://philogb.github.io/jit/static/v20/Docs/files/Visualizations/Treemap-js.html
-    - https://github.com/philogb/dom-treemap#readme
-  (Network) Graphs
-    - http://js.cytoscape.org/
-    - https://www.opengraphiti.com/
-    - https://www.graphdracula.net/
-  Sunburst?
-    - http://philogb.github.io/blog/2009/10/05/sunburst-visualization/
+  Metadata
+    - Started looking for best way to integrate metadata stores.
+
+      Ie. for Resources_.
+
+      Affects
+      `features/http`_
+      `features/db`_
+      `features/route`_
+
+  Rich data widgets
+    Timeline
+      - https://developers.google.com/chart/interactive/docs/gallery/timeline
+    Treemap
+      - http://js-treemap.sourceforge.net/
+      - https://philogb.github.io/jit/static/v20/Docs/files/Visualizations/Treemap-js.html
+      - https://github.com/philogb/dom-treemap#readme
+    Graphx
+      (Network) Graphs
+        - http://js.cytoscape.org/
+        - https://www.opengraphiti.com/
+        - https://www.graphdracula.net/
+      Sunburst?
+        - http://philogb.github.io/blog/2009/10/05/sunburst-visualization/
 
 

@@ -1,9 +1,8 @@
-###
-Initial incarnation of core util, merged directly into context prototype.
-
-of sf-context-proto:
-sitefile/context.coffee.
-###
+# ## Sitefile Core Context-Prototype Mixin Module
+#
+# Initial incarnation of core util, merged directly into context prototype.
+# of sf-context-proto:
+# sitefile/context.coffee.
 
 _ = require 'lodash'
 
@@ -11,9 +10,10 @@ libsf = require '../sitefile'
 Router = require '../Router'
 
 
-# Extension prototypes for sitefile's Context
 module.exports = ( ctx ) ->
   
+  # ### Static module
+  # configured using pre-constructor ctx object
   name: 'sf-core-context-proto'
   type: 'context-prototype'
 
@@ -23,13 +23,30 @@ module.exports = ( ctx ) ->
       if @config.verbose
         @log.apply null, arguments
 
-    # TODO: auto-export
+
+    # See where to fetch more data, and populate context. Track and cache
+    # for each resource in a map on context. Allow to override map by
+    # another context-prototype, e.g. to persist or sync data with store.
+    # This data should be flushable
+    resolve_resource: ( req ) ->
+      if req.route?
+        d = @resource_group req
+
+
+    # Return data for group
+    resource_group: ( req ) ->
+      unless req.route?
+        throw new Error "Router context required"
+      app.get 'route:'+req.route.path
+
+
+    # TODO: auto-export routes given paths or globs, and extension map
     get_auto_export: ( router_name ) ->
+
 
     # Use router setings to determine opts per request (ie. to override from
     # query)
     req_opts: ( request, opts={} ) ->
-
       options = _.defaults opts, @route.options
 
       if 'query' of @route
@@ -88,6 +105,4 @@ module.exports = ( ctx ) ->
 
       # Resolve to existing path
       return Router.expand_path @res.path, @
-
-
 

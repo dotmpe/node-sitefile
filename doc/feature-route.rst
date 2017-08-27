@@ -5,7 +5,10 @@ Route Feature
 
 Notes on the `route` attribute, and on the routing concepts of sitefile.
 
-[2017-06-11] Lots is sayed below an all kinds
+
+[2017-08-27] Started the Implementation section to home extraneous source docs.
+
+[2017-06-11] Lots is said below an all kinds
 of related or unrelated aspects, of dense concept of routes, and packing.
 
 Meanwhile 1. routes implementation still needs revision, 2. are not adequate to
@@ -32,6 +35,7 @@ parallel route-router-file chain setup in the end.
 
 ----
 
+.. contents::
 
 .. TODO: Probably consolidate with Sitefile 0.0.5 `route` scheme.
 
@@ -378,6 +382,17 @@ core/routes/api.json.yaml::
     rctx.site.base + rctx.res.name
 
 
+Implementation
+--------------
+
+Context
+-------
+
+  TODO: add IoC to replace mixin component structure, and cleanup context
+  implementation in nodelib.
+
+  Add functions to do lib to module mapping, and lib deps.
+
 
 Resolver
 ~~~~~~~~
@@ -478,19 +493,33 @@ Resources
 
 .. __: http:/doc/literate/Router.html#section-6
 
+
+Associating metadata with instances and sets of router contexts is not entirely
+straightforward in the current setup. Ideally the data is put to the headers
+of the response, and ready when the router handler starts.
+
+Trying to solve this in middleware will need a separate resolve loop to get at
+the context instance in case of pattern routes. Because the route is not
+resolved yet at middleware time. And I could not find any Connect.js event that
+would. Except ``end``, which is too late.
+
+Also, serializing to headers may not be the best way to keep the data. Rather
+integrating a new prototype and/or structure with the router context is a better
+fit for the setup.
+
 ..
 
-  TODO: metadata for resources by URL, see
-  `Sitefile Metadata Middleware`_ and
-  `Sitefile Core Context-Prototype Mixin`_
-  `Sitefile CouchDB Metadata Context-Prototype Mixin`_
+  TODO: metadata for resources by URL.
+
+  See `Sitefile Metadata Middleware`_.
+
+  Depends on `Sitefile CouchDB Metadata Context-Prototype Mixin`_.
 
 
 
 builtin.data
 ~~~~~~~~~~~~
 Simply serve ``rctx.res.data`` using JSON.stringify.
-
 
 
 ----

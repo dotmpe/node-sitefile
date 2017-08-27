@@ -5,7 +5,7 @@ using bookshelf-api, ontop of Knex and BookshelfJS. It leverages REST from
 Knex databases with objects defined in JS. Knex also features migration tooling.
 
 cons
-  - dont want dependencies
+  - dont want dependencies. sqlite3..
   - rework, redesign for core to use backend
 
 pro
@@ -16,21 +16,18 @@ pro
     Ie. proper HTTP headers for the entity content; language, format, encoding,
     also links (rev/rel; prev/next) etc.
 
-
-
 Data
-  See also x-loopback. Maybe keep al backend/auth/data-proxy-middleware out
-  of Sitefile. Express is better for other middleware.
-  Maybe some simple
-  standardized data API, ie. the odata for the TODO app.
+  x-loopback
+    API framework.
+  ember.js
+    another
 
-  But need bigger toolkit too:
+  Tools
+    - TODO: YAML, JSON validation. Schema viewing. tv4, jsonary.
+    - TODO: JSON editor, backends, schema and hyper-schema
 
-  - TODO: YAML, JSON validation. Schema viewing. tv4, jsonary.
-  - TODO: JSON editor, backends, schema and hyper-schema
   - Book `Understanding JSON Schema`_
   - Article `Elegant APIs with JSON Schema`_
-
 
 
 [2017-08-26] Meanwhile progress with above is minimal. Most recent focus:
@@ -53,9 +50,11 @@ Last-Modified
   ..
 
     XXX: The HtD extensions plan to use one JSON document DB for annotations to
-    URL's. This schema is also usable to turn Sitefile routes into resources
-    with metadata. Making Last-Modified_ a sitefile case study to get Metadata
-    middleware and CouchDB metadata interface going. See Resources_ section
-    within the `Route Feature`_ docs.
+    URL's. Such store is also usable to turn Sitefile routes into resources
+    with metadata.
+
+    Making Last-Modified_ a sitefile case study to get Metadata interface from CouchDB going.
+    See Resources_ section within the `Route Feature`_ docs.
+
 
 .. include:: .defaults.rst

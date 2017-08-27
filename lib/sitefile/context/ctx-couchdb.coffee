@@ -1,4 +1,4 @@
-# Sitefile CouchDB metadata context.
+# ## Sitefile CouchDB Metadata Context-Prototype Mixin Module
 # 
 # Aim is to abstract both access to a generic URL-JSON document store, and to
 # Offer modes of resource request 
@@ -9,6 +9,7 @@ _ = require 'lodash'
 # Extension prototypes for sitefile's Context
 module.exports = ( ctx ) ->
   
+  # ### Static module
   name: 'sf-couchdb-context-proto'
   type: 'context-prototype'
 
@@ -19,6 +20,7 @@ module.exports = ( ctx ) ->
       ref = req.originalUrl
 
       console.log 'get_metadata_express', ref, @res.ref
+
       return
 
       # Look for URL path ref, but ...
