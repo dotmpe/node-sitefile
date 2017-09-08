@@ -67,7 +67,7 @@ E.g. to serve a simple little site::
 
   sitefile: 0.0.5-dev
   routes:
-    _my_markdown_routes: md:**/*.md
+    _my_markdown_routes: markdown:**/*.md
     _my_stylus_routes: styl:**/*.styl
     media: static:media/
     ChangeLog: du.rst2html:ChangeLog.rst

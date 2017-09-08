@@ -79,8 +79,8 @@ routes:
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
-  _markdown: md:*.md
-  _markdown_1: md:example/**/*.md
+  _markdown: markdown:*.md
+  _markdown_1: markdown:example/**/*.md
   _sh: sh:example/*.sh
   _gv: graphviz:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
@@ -194,7 +194,7 @@ options:
           $ref: '#/defs/app/v0/clients'
         meta:
           - sitefile.main: 'sitefile'
-          - sitefile-client-modules: 'cs!sf-v0/page,cs!sf-v0/tilda'
+          - sitefile-client-modules: 'cs!sf-v0/page,cs!sf-v0/code,cs!sf-v0/tilda'
 
   local:
     app/v0:
@@ -245,7 +245,7 @@ options:
           $ref: '#/defs/app/v0/clients'
         meta:
           - sitefile.main: 'sitefile'
-          - sitefile-client-modules: 'cs!sf-v0/page.coffee,cs!sf-v0/tilda.coffee'
+          - sitefile-client-modules: 'cs!sf-v0/page,cs!sf-v0/tilda'
 
 defs:
   scripts:

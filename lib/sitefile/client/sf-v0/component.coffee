@@ -1,6 +1,7 @@
 ###
 
-Component allows several independent mixins to merge into a single class, and to synchronise construction.
+Component allows several independent mixins to merge into a single class, and 
+to synchronise construction.
 
 ###
 define 'sf-v0/component', [ 'lodash', 'cs!./module' ], ( _, Module ) ->
@@ -43,5 +44,3 @@ define 'sf-v0/component', [ 'lodash', 'cs!./module' ], ( _, Module ) ->
         for fn in field_names
           if proto.includes[fn]?
             @::[fn] = @::[fn].concat proto.includes[fn]
-
-

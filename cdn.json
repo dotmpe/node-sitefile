@@ -124,5 +124,40 @@
         "backgrid-select-all": "//rawgit.com/cloudflare/backgrid-select-all/master/backgrid-select-all.min"
       }
     }
+  },
+  "web-font": {
+    "local": {
+      "ext": ".woff",
+      "packages": {
+      }
+    },
+    "http": {
+      "ext": ".woff",
+      "packages": {
+        "glyphicons-halflings-regular": "/npm/bootstrap/dist/fonts/glyphicons-halflings-regular"
+      }
+    }
+  },
+  "true-font": {
+    "local": {
+      "ext": ".ttf",
+      "packages": {
+        "glyphicons-halflings-regular": "/npm/bootstrap/dist/fonts/glyphicons-halflings-regular"
+      }
+    },
+    "http": {
+      "ext": ".ttf",
+      "packages": {
+      }
+    }
+  },
+  "svg": {
+    "local": {
+    },
+    "http": {
+      "ext": ".svg",
+      "packages": {
+      }
+    }
   }
 }

@@ -17,12 +17,12 @@ module.exports = ( ctx={} ) ->
 
 
   name: 'markdown'
-  aliases: 'md' # XXX: cannot use alias while only required routers are loaded.
+  aliases: 'markdown' # XXX: cannot use alias while only required routers are loaded.
   # Iow. some config/install process or action needs to set the explicit
   # alias-router map per instance.
   label: 'Markdown HTML publisher'
   usage: """
-    md:**/*.md
+    markdown:**/*.md
   """
 
   defaults:

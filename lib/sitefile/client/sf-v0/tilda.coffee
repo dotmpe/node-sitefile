@@ -7,8 +7,11 @@ define 'sf-v0/tilda', [
 
 ], ( $ ) ->
 
+
   class TildaClientModule
+
     constructor: ( ready, loader ) ->
+
       # Note: this hooks in with SitefilePage/Htd epilogue class, so wait
       # for it to possibly load.
       loader.events.ready.addListener ({ name }) ->
@@ -31,5 +34,5 @@ define 'sf-v0/tilda', [
             term = $('#tilda').tilda()
           catch e
             console.error "Failed initalizing Sitefile-Main Tilda", e
-      ready()
 
+      ready()

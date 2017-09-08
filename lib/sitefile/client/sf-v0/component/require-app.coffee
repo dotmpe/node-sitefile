@@ -1,8 +1,11 @@
 ###
 
 Using Require.js for dependency management is great, until your design wants to
-create composite apps. Allowing for extensions requires a dynamic approach
-to loading dependencies, and to still sychronize their lifecycle.
+create dynamic, composite apps. Without a build system, the app cannot deal with
+dynamic dependecies (ie. extensions) except by creating a require.js sub-context.
+
+This sets up a simple modularized app, and uses events to synchronize the
+sub-contexts created per loaded module.
 
 Events:
   require
@@ -16,7 +19,8 @@ Events:
   ready
     Triggered once the module signals its init callback is complete.
 
-Note: the module names carried with the events are unnormalized.
+Note: the module names carried with the events are not normalized.
+
 ###
 
 define 'sf-v0/component/require-app', [
@@ -55,8 +59,6 @@ define 'sf-v0/component/require-app', [
           # to signal ready state, and a reference to the app object
           if mod.init_client_module?
             init_cb = mod.init_client_module
-          else if "[object Function]" == toString.call(mod)
-            init_cb = mod
           else
             init_cb = ( ready_cb ) ->
               new mod ready_cb, self

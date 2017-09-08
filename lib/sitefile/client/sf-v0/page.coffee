@@ -16,20 +16,15 @@ define 'sf-v0/page', [ 'lodash',
 
 ], ( _, DocumentPage, ToggleScript, crossroads, hasher, jqui, cookies ) ->
 
-  console.log 'Loading Page'
 
-  # coffeelint: disable=max_line_length
-  #bootstrap_glyphicons = require('../../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff');
-  #bootstrap_glyphicons = require('../../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf');
-  # coffeelint: enable=max_line_length
+  console.log 'Loading Page'
 
   class SitefilePage extends DocumentPage
 
+    ready: [ 'init_sfpage_html' ]
+
     constructor: ( @container=$('body'), @options = {} ) ->
       super @container, @options
-      self = @
-      $(document).ready ->
-        self.init_sfpage_html()
 
     init_sfpage_html: ->
       $('.document', @container).addClass 'container'
@@ -84,9 +79,9 @@ define 'sf-v0/page', [ 'lodash',
         hnav: false
         margin: false
 
-    # coffeelint: disable=max_line_length
     add_search: ( c ) ->
-      x=$ '<div id="search"><input class="form-control" placeholder="Search"/></div>'
+      x=$ '<div id="search">'+
+        '<input class="form-control" placeholder="Search"/></div>'
       $(c).append x
       console.log "Added search DOM"
 
@@ -104,6 +99,7 @@ define 'sf-v0/page', [ 'lodash',
         close: ( evt, ui ) ->
           this.value = ""
 
+    # coffeelint: disable=max_line_length
     add_margins: ->
 
       margin_left = $ '<div class="margin left"/>'
@@ -148,6 +144,7 @@ define 'sf-v0/page', [ 'lodash',
   DocumentPage: DocumentPage
   init_client_module: ( ready_cb, loader ) ->
     page = new SitefilePage $('body'), {}
-    ready_cb( page )
+    loader.events.ready.addListener ( evt ) ->
+      if evt.name is 'sf-page'
+        ready_cb( page )
     page
-

@@ -27,4 +27,3 @@ define 'sf-v0/document', [
   mixins.all DocumentPage
 
   DocumentPage
-

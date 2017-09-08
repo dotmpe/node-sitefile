@@ -1,3 +1,10 @@
+###
+
+Set up a RequireApp, loading modules specified by::
+
+  meta[name='sitefile-client-modules']
+
+###
 define 'sf-v0/component/client-modules', [
 
   'cs!sf-v0/component/require-app'
@@ -33,7 +40,6 @@ define 'sf-v0/component/client-modules', [
       @client_modules = new ClientModulesMeta().get()
       ready_on = @client_modules.length
       self = @
-      console.log 'Sitefile v0 r.js loading client-modules:', @client_modules
 
       @events.ready.addListener ( { name } ) ->
         self.loaded.push name
@@ -46,6 +52,7 @@ define 'sf-v0/component/client-modules', [
       This assumes no module has been loaded yet.
       ###
       for name in @client_modules
+        console.log 'Sitefile v0 r.js loading client-module', name
         @require name
 
       self

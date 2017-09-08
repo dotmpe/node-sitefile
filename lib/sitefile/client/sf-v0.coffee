@@ -15,5 +15,5 @@ define 'sf-v0', [
 
 ], ( ClientModules ) ->
 
-  new ClientModules().start()
 
+  new ClientModules().start()

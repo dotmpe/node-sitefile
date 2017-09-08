@@ -4,5 +4,6 @@ define 'sf-v0/togglescript', [
 
 ], ( Component ) ->
 
+
   class ToggleScript extends Component
 
