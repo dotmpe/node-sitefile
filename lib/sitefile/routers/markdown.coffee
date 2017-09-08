@@ -17,9 +17,12 @@ module.exports = ( ctx={} ) ->
 
 
   name: 'markdown'
+  aliases: 'md' # XXX: cannot use alias while only required routers are loaded.
+  # Iow. some config/install process or action needs to set the explicit
+  # alias-router map per instance.
   label: 'Markdown HTML publisher'
   usage: """
-    markdown:**/*.md
+    md:**/*.md
   """
 
   defaults:
@@ -27,6 +30,7 @@ module.exports = ( ctx={} ) ->
       default:
         options:
           pug:
+            'export-context': 'merge.context'
             compile:
               pretty: false
               debug: false
@@ -47,6 +51,7 @@ module.exports = ( ctx={} ) ->
       pug = ctx._routers.get 'pug'
       ( req, res ) ->
         sitefile.log 'Markdown default html publish', rctx.res.path
+
         data = fs.readFileSync rctx.res.path
         doc = md.toHTML data.toString()
         pugOpts = _.defaultsDeep rctx.route.options.pug, {
@@ -57,6 +62,7 @@ module.exports = ( ctx={} ) ->
               main: ''
               document: doc
               footer: ''
+            context: ctx
         }
         res.type 'html'
         res.write pug.compile pugOpts

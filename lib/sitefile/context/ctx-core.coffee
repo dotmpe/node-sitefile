@@ -79,7 +79,8 @@ module.exports = ( ctx ) ->
       # Merge everything under the context path with options
       if @route['export-context']
         key = @route['export-context']
-        _.defaultsDeep options, libsf.expand_obj_paths "#{key}": @
+        o = libsf.expand_obj_paths "#{key}": @
+        _.defaultsDeep options, o
 
       return options
 

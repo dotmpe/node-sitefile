@@ -77,8 +77,9 @@ sitefile_cli = module.exports =
     [ sf, ctx, proc ]
 
   serve: ( done, ctx ) ->
-    if ctx.verbose
-      console.log "Starting server at localhost:#{ctx.site.port}"
+    #if ctx.verbose
+    console.log "Starting server at localhost:#{ctx.site.port}"
+
     return if ctx.site.host
       ctx.server.listen ctx.site.port, ctx.site.host, ->
         if ctx.verbose

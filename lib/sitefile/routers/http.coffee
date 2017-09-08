@@ -110,12 +110,12 @@ module.exports = ( ctx ) ->
       if not fs.existsSync cdnjson
         cdnjson = path.join ctx.sfdir, rctx.route.spec
       if not fs.existsSync cdnjson
-        log.warn "CDN requires JSON config"
+        rctx.warn "CDN requires JSON config"
         return
       cdn = require cdnjson
       if not cdn
         cdn = {}
-        log.warn "CDN config is empty"
+        rctx.warn "CDN config is empty"
       ( req, res ) ->
         f = _.defaultsDeep {}, req.params
         if f.format not of cdn
@@ -132,5 +132,3 @@ module.exports = ( ctx ) ->
           throw new Error err
         ext = cdn[f.format].http.ext
         res.redirect cdn[f.format].http.packages[f.package]+ext
-
-

@@ -83,6 +83,22 @@ Compound Graphs
 .. __: https://stackoverflow.com/questions/37958198/how-to-represent-a-compound-graph-using-uml-notations-diagrams
 
 
+Network Graphs
+  - Neo4J (Java Based) graphs for D3 <https://github.com/eisman/neo4jd3>
+
+D3
+  - D3 tutorials <https://github.com/d3/d3/wiki/Tutorials>
+  - D3 for mere mortals <http://www.recursion.org/d3-for-mere-mortals/>
+
+
+GIT DAG
+  - Visualizing Git Concepts with D3 [2014]
+    <http://onlywei.github.io/explain-git-with-d3/>
+    <http://boylesoftware.com/blog/visualizing-git/>
+  - Visualizing Git’s Merkle DAG With D3.Js [2014]
+    <https://tylercipriani.com/blog/2016/03/21/Visualizing-Git-Merkle-DAG-with-D3.js/>
+  - Learn Git Branching
+    <http://learngitbranching.js.org/>
 
 Appendix
 ========

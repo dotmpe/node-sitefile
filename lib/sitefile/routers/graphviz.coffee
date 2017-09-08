@@ -16,12 +16,12 @@ module.exports = ( ctx={} ) ->
     png: 'image/png'
   }
 
-  name: 'gv'
+  name: 'graphviz'
   label: 'Graphviz Publisher'
   usage: """
-    gv:**/*.dot.gv
-    gv:**/*.neato.gv
-    gv:**/*.twopi.gv
+    graphviz:**/*.dot.gv
+    graphviz:**/*.neato.gv
+    graphviz:**/*.twopi.gv
   """
 
   promise:
@@ -62,7 +62,7 @@ module.exports = ( ctx={} ) ->
 
       # PNG handler
       ctx.app.get rctx.res.ref+'.png', ( req, res ) ->
-        ctx._routers.get('gv').promise.resource(
+        ctx._routers.get('graphviz').promise.resource(
           src: rctx.res.path
           format: 'png'
         )

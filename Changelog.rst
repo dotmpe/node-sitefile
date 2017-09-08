@@ -63,6 +63,12 @@ r0.0.4_
       a builtin ``data``)
 
   - Removed ``http.site`` router.
+  - Renamed routers:
+
+    - ``{du->docutils}``
+    - ``{md->markdown}``
+    - ``{gv->graphviz}``
+
   - Started ``0.1`` version prefix to experiment with component versioning.
   - Using `neodoc`_ for argument parser now.
   - Added config for remote sites, to set CORS.
@@ -70,6 +76,7 @@ r0.0.4_
   - New extension types: ``middleware`` and ``context-prototype``.
   - Doc updates. Revision and reshuffle for some docs. Brought main feature
     categories back to 3.
+  - Added CDN entries for THREE.js, D3.
 
 (0.1.0)
   .. _0.1.0:

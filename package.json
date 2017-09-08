@@ -2,7 +2,7 @@
   "name": "node-sitefile",
   "description": "Bootstrap Express webserver for misc. resources using Sitefile",
   "version": "0.0.7-dev",
-  "homepage": "https://github.com/dotmpe/node-sitefile",
+  "homepage": "https://github.com/bvberkum/node-sitefile",
   "author": {
     "name": "B. van Berkum",
     "email": "dev@dotmpe.com"
@@ -15,16 +15,16 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dotmpe/node-sitefile.git"
+    "url": "https://github.com/bvberkum/node-sitefile.git"
   },
   "bugs": {
-    "url": "https://github.com/dotmpe/node-sitefile/issues"
+    "url": "https://github.com/bvberkum/node-sitefile/issues"
   },
   "license": "GPL-3.0",
   "licenses": [
     {
       "type": "GPL-3.0",
-      "url": "https://github.com/dotmpe/node-sitefile/raw/master/LICENSE"
+      "url": "https://github.com/bvberkum/node-sitefile/raw/master/LICENSE"
     }
   ],
   "contributors": [],
@@ -40,8 +40,8 @@
     "install": " ./configure && grunt build-test",
     "test": "./configure && export NODE_ENV=testing && grunt test",
     "start": "NODE_ENV=acc coffee bin/sitefile-cli.coffee",
-    "dev": "nodemon -w Sitefile.yaml -w lib/ -w bin/ -- bin/sitefile-cli.coffee",
-    "strict": "NODE_ENV=acc nodemon --use_strict -w Sitefile.yaml -w lib/ -w bin/ -- bin/sitefile-cli.coffee --verbose",
+    "dev": "nodemon -w Sitefile.yaml -w lib/ -w bin/ -w example/ -- bin/sitefile-cli.coffee",
+    "strict": "NODE_ENV=acc nodemon --use_strict -w Sitefile.yaml -w lib/ -w bin/ -w example/ -- bin/sitefile-cli.coffee --verbose",
     "check": "grunt check",
     "build": "grunt build",
     "vulnerabilities": "snyk test",

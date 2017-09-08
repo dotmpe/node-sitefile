@@ -67,6 +67,7 @@ add_client = ( rawhtml, client ) ->
 
 add_meta = ( rawhtml, meta ) ->
 
+  sitefile.log "rst2html:addmeta", String(meta)
   tags = ''
   for item in meta
     for key, value of item
@@ -148,10 +149,10 @@ module.exports = ( ctx ) ->
     return
 
   # Return obj. w/ metadata & functions
-  name: 'du'
+  name: 'docutils'
   label: 'Docutils Publisher'
   usage: """
-    du.rst2html:**/*.rst
+    docutils.rst2html:**/*.rst
   """
   
   prereqs:

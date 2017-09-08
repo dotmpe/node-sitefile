@@ -22,6 +22,8 @@
       "ext": ".js",
       "packages": {
 
+        "sf-v0": "/app/sf-v0",
+
         "require": "//cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min",
         "require-text": "//cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text.min",
         "require-css": "//cdnjs.cloudflare.com/ajax/libs/require-css/0.1.10/css.min",
@@ -63,6 +65,19 @@
         "Handlebars": "//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min",
         "hbars": "//cdnjs.cloudflare.com/ajax/libs/requirejs-handlebars/0.0.2/hbars.min",
         "cookies-js": "//cdnjs.cloudflare.com/ajax/libs/Cookies.js/1.2.1/cookies.min",
+
+        "three-cdn": "//cdnjs.cloudflare.com/ajax/libs/three.js/87/three.min",
+
+        "three": "//rawgit.com/mrdoob/three.js/dev/build/three",
+        "stats": "//rawgit.com/mrdoob/stats.js/master/build/stats.min",
+        "three.css3drenderer": "//rawgit.com/mrdoob/three.js/dev/examples/js/renderers/CSS3DRenderer",
+        "three.trackballcontrols": "//rawgit.com/mrdoob/three.js/dev/examples/js/controls/TrackballControls",
+        "three.orbitcontrols": "//rawgit.com/mrdoob/three.js/dev/examples/js/controls/OrbitControls",
+        "threex.text": "//rawgit.com/jeromeetienne/threex.text/master/threex.text",
+
+        "tween": "//cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.0/Tween.min",
+        "d3": "//cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min",
+	      "rickshaw": "//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min",
 
         "1-coffees-cript": "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.12.1/coffee-script.min",
         "coffee-script": "//rawgit.com/yyfearth/coffee-script/extras/extras/coffee-script",

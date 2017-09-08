@@ -3,8 +3,11 @@
     "bootstrap": ["jquery"],
     "jquery-ui": ["jquery"],
 
-    "backbone": ["underscore"],
-    "backgrid": ["backbone"],
+    "d3": { "exports": "d3" },
+    "rickshaw": { "exports": "Rickshaw", "deps": [ "d3" ] },
+
+    "backbone": [ "underscore" ],
+    "backgrid": [ "backbone" ],
     "backgrid-filter": ["backgrid"],
     "backgrid-moment-cell": ["backgrid"],
     "backgrid-text-cell": ["backgrid"],

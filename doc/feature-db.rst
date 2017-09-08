@@ -16,6 +16,8 @@ pro
     Ie. proper HTTP headers for the entity content; language, format, encoding,
     also links (rev/rel; prev/next) etc.
 
+    See also note on links_
+
 Data
   x-loopback
     API framework.

@@ -87,6 +87,12 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
           rjs_config.baseUrl ?= rctx.res.ref
           rjs_config
 
+    define: ( rctx ) ->
+      ( req, res ) ->
+        res.write "define('', [], function() {"
+        res.write
+        res.write "});"
+
     main: ( rctx ) ->
       ( req, res ) ->
 

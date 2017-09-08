@@ -79,10 +79,10 @@ routes:
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
-  _markdown: markdown:*.md
-  _markdown_1: markdown:example/**/*.md
+  _markdown: md:*.md
+  _markdown_1: md:example/**/*.md
   _sh: sh:example/*.sh
-  _gv: gv:example/*.gv
+  _gv: graphviz:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
   _pu: plantuml:example/*.plantuml
   _pu_dev_doc: plantuml:doc/dev/*.plantuml
@@ -96,16 +96,16 @@ routes:
   mocha/server/*: mocha.test:#
 
   # Example routes for ReadMe
-  #ReadMe: du:ReadMe.rst # Du defaults to HTML
+  #ReadMe: docutils:ReadMe.rst # Du defaults to HTML
   #ReadMe: redir:ReadMe.html
-  #ReadMe.html: du:ReadMe.rst
-  #ReadMe.xml: du:ReadMe.rst
+  #ReadMe.html: docutils:ReadMe.rst
+  #ReadMe.xml: docutils:ReadMe.rst
 
   # Dynamic rules using glob spec
-  _du: du:**/*.rst
+  _du: docutils:**/*.rst
 
   #_rst2html: rst2html:**/*.rst
-  gitflow: du:.gitflow.rst
+  gitflow: docutils:.gitflow.rst
 
   Sitefile.yaml: static:Sitefile.yaml
   Sitefile.json: sitefile:?resolve=sitefile
@@ -148,7 +148,7 @@ routes:
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
   # Finally a specific router is wired to display a pug template with all of the
   # above.
-  app/v0/base: res.load-file:sitefile-client:sf-v0.yaml
+  #app/v0/base: res.load-file:sitefile-client:sf-v0.yaml
 
   app/v0: pug:sitefile-client:sf-v0.pug
   # Serve coffee script for RequireJS client
@@ -179,7 +179,7 @@ routes:
 
 options:
   global:
-    du:
+    docutils:
       $ref: '#/options/global/rst2html'
     rst2html:
       link_stylesheets: true

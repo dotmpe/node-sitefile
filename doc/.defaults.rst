@@ -93,3 +93,9 @@
 .. _neodoc: //github.com/felixSchl/neodoc
 .. _ansigarden.com: //ansigarden.com
 
+
+.. FIXME: refs to other sitefiles
+.. _links: htdocs:note/links
+.. _rel-values: htdocs:note/links#html-link-relations
+
+

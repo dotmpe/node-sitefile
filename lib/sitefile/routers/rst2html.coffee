@@ -4,7 +4,7 @@ path = require 'path'
 child_process = require 'child_process'
 
 sitefile = require '../sitefile'
-du_router_mod = require './du'
+du_router_mod = require './docutils'
 
 
 # Given sitefile-context, export rst2html: router module

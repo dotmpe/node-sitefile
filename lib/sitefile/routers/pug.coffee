@@ -59,6 +59,9 @@ module.exports = ( ctx ) ->
 
   compilePug = ( opts ) ->
 
+    unless opts.compile.basedir
+      opts.compile.basedir = '/'
+
     # Compile template from file
     tpl = pug.compileFile opts.tpl, opts.compile
 
