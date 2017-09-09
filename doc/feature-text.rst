@@ -33,5 +33,3 @@ Microformats
     ::
 
       radical.py lib/sitefile/*.coffee
-
-
