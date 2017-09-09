@@ -266,7 +266,7 @@ Base =
     if route.startsWith 'r:'
       init = res:
         ref: ctx.site.base + route.substr 2
-        match: new RegExp route.substr 2
+        rx: new RegExp route.substr 2
       _.defaultsDeep init, rsctxinit
       rctx = ctx.getSub init
       Base.default_resource_options rctx, ctx
@@ -318,7 +318,7 @@ Base =
     # invoke routers selected generate function, expect a route handler object
     h = g rctx
 
-    ref = if rctx.res.match then rctx.res.match else rctx.res.ref
+    ref = if rctx.res.rx? then rctx.res.rx else rctx.res.ref
 
     if 'function' is typeof h
 

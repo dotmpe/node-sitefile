@@ -75,3 +75,4 @@ define 'sf-v0/mixin.du-page', [
           error: ->
             console.error 'error loading menu.json', arguments
 
+      @app.events.ready.emit name: 'du-page', instance: @

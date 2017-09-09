@@ -8,11 +8,30 @@ Markdown
   Router for native NodeJS implementation.
 
 Gherkin
-  - `Gherkin Feature`_.
-  - `Testing Feature`_.
+  - `Gherkin BDD Feature`_.
 
 Outliner
   - Looked at h5o but only works in browser.
     To retrieve, maybe using PhantomJS, probably
     require a too complex setup for now.
+
+Microformats
+  code
+    Initial functionality to run server-side script, and write output to client.
+    Like Jupyter for Python, but only server-side Sh for now. And no process
+    management.
+
+    .. class:: sf-mf sf-code mf-sh-cmd
+
+    ::
+
+      no-such-command.exe
+
+
+    .. class:: sf-mf sf-code mf-sh-cmd
+
+    ::
+
+      radical.py lib/sitefile/*.coffee
+
 

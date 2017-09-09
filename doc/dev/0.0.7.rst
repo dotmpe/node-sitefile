@@ -20,6 +20,7 @@
 - Restructured docs to better reflect current efforts, and allow for
   ideas and planning. Brought main feature categories back to 3 but added a
   deeper level.
+- Started ``code`` microformat, probably need to rename.
 
 
 Wanted

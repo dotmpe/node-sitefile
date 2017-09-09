@@ -21,10 +21,12 @@ define 'sf-v0/page', [ 'lodash',
 
   class SitefilePage extends DocumentPage
 
-    ready: [ 'init_sfpage_html' ]
-
-    constructor: ( @container=$('body'), @options = {} ) ->
+    constructor: ( @app, @container=$('body'), @options = {} ) ->
       super @container, @options
+      self = @
+      @app.events.ready.addListener ( evt ) ->
+        if evt.name is 'du-page'
+          self.init_sfpage_html()
 
     init_sfpage_html: ->
       $('.document', @container).addClass 'container'
@@ -69,6 +71,7 @@ define 'sf-v0/page', [ 'lodash',
         @add_margins()
 
       @init_router()
+      @app.events.ready.emit name: 'sf-page', instance: @
 
     init_options: ->
       opts = cookies.get 'sf-v0', {}
@@ -143,7 +146,7 @@ define 'sf-v0/page', [ 'lodash',
   SitefilePage: SitefilePage
   DocumentPage: DocumentPage
   init_client_module: ( ready_cb, loader ) ->
-    page = new SitefilePage $('body'), {}
+    page = new SitefilePage loader, $('body'), {}
     loader.events.ready.addListener ( evt ) ->
       if evt.name is 'sf-page'
         ready_cb( page )

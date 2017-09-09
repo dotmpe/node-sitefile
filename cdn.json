@@ -110,6 +110,7 @@
         "bootstrap": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min",
         "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min",
         "bootstrap-table": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min",
+        "font-awesome": "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min",
         "jquery-terminal": "//rawgit.com/jcubic/jquery.terminal/master/css/jquery.terminal.min",
         "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui",
         "backgrid": "//rawgit.com/cloudflare/backgrid/master/src/backgrid",

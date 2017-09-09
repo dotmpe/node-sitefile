@@ -6,9 +6,11 @@ pug.rjs:<pathspec>?main=default-requirejs
 ###
 _ = require 'lodash'
 path = require 'path'
-sitefile = require '../sitefile'
-
 escape = require 'escape-html'
+
+sitefile = require '../sitefile'
+Router = require '../Router'
+
 
 pug_ext = ( pug ) ->
   pug.filters.code = ( block ) ->
@@ -109,11 +111,20 @@ module.exports = ( ctx ) ->
   generate:
     default: ( rctx ) ->
       ( req, res ) ->
+
         opts = rctx.req_opts req
+        if rctx.res.rx?
+          m = rctx.res.rx.exec req.originalUrl
+          if rctx.route.spec
+            rctx.res.path = rctx.route.spec+m[1]+'.pug'
+          else
+            rctx.res.path = m[1]+'.pug'
+        else
+          rctx.res.path = if rctx.res.path then rctx.res.path else rctx.route.spec
+        opts.tpl = Router.expand_path rctx.res.path, ctx
+
         sitefile.log \
-          "Pug compile", path: opts.tpl, '(Spec', path: rctx.res.path, ')'
+          "Pug compile", path: opts.tpl, '(Route:', path: rctx.res.ref, ' Spec:', path: rctx.res.path, ')'
         res.type opts.merge.format
         res.write compilePug opts
         res.end()
-
-

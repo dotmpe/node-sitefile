@@ -17,13 +17,35 @@ module.exports = ( ctx={} ) ->
 
   # generators for Sitefile route handlers
   generate:
+
     default: ( rctx ) ->
+      # Generic sh path invocation
       ( req, res ) ->
         sitefile.log "Sh", rctx.res.path
         exec "sh #{rctx.res.path}", (error, stdout, stderr) ->
           if error != null
             res.status(500)
           res.write(stdout)
+          res.end()
+
+    cmd: ( rctx ) ->
+      # Generic sh invocation
+      ( req, res ) ->
+        sitefile.log "Sh", req.query.cmd
+        # XXX: simple, incomplete conneg
+        if req.headers.accept? and 'text/plain' in req.headers.accept
+          out_fmt = 'plain'
+        else
+          out_fmt = 'json'
+        exec "sh -c \"#{req.query.cmd}\"", (error, stdout, stderr) ->
+          out = if out_fmt is 'json'
+              res.type('json') ; JSON.stringify
+                stdout: stdout
+                stderr: stderr
+            else if error then stderr else stdout
+          if error != null
+            res.status(500)
+          res.write(out)
           res.end()
 
     ls: ( rctx ) ->
@@ -43,6 +65,3 @@ module.exports = ( ctx={} ) ->
             res.status(500)
           res.write(stdout)
           res.end()
-
-
-

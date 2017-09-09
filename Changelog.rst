@@ -77,6 +77,7 @@ r0.0.4_
   - Doc updates. Revision and reshuffle for some docs. Brought main feature
     categories back to 3.
   - Added CDN entries for THREE.js, D3.
+  - Added ``code`` microformat to sf-v0.
 
 (0.1.0)
   .. _0.1.0:

@@ -91,6 +91,7 @@ routes:
   # XXX: direct command-line execution
   foo.ls: sh.ls:example/
   foo.tree: sh.tree:example/
+  'sh/': sh.cmd:#
 
   mocha/client/*: mocha.client:#
   mocha/server/*: mocha.test:#
@@ -154,6 +155,9 @@ routes:
   # Serve coffee script for RequireJS client
   app/: redir:app/v0
   app: static:lib/sitefile/client
+  'r:app/(.*).sass.css': sass:sitefile-lib:client/
+  'r:app/(.*).pug.html': pug:sitefile-lib:client/
+
 
   # FIXME: fonts? want to build CSS+font loading into RequireJS client
   fonts: static:node_modules/bootstrap/fonts
