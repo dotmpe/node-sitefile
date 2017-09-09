@@ -9,6 +9,8 @@ XXX: du.mpe compatible with fallback or?
 ###
 _ = require 'lodash'
 path = require 'path'
+util = require 'util'
+fs = require 'fs'
 child_process = require 'child_process'
 
 sitefile = require '../sitefile'
@@ -182,6 +184,9 @@ module.exports = ( ctx ) ->
         req.query = _.defaults req.query || {},
           format: rctx.dest.format,
           docpath: rctx.docpath
+
+        st = fs.statSync(req.query.docpath)
+        res.set 'Last-Modified', st.mtime.toUTCString()
 
         try
           rst2html res, _.merge {}, rctx.route.options, req.query

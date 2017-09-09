@@ -26,21 +26,21 @@ define 'sf-v0/mixin.last-modified', [
     add_date: ( path = window.location.href ) ->
       self = @
       $.ajax(
-        type: 'POST'
+        type: 'HEAD'
         url: path
         data: {}
         success: (data, textStatus, request) ->
           klass = null; date = null
           for hd in self.headers
             date = request.getResponseHeader(hd)
-            klass = self.classes[hd]
-          date_span = $("<span class=\"#{klass} date\"/>")
-          date_span.append(date)
+            if date
+              klass = self.classes[hd]
+              date_span = $ "<span class=\"#{klass} date\"/> "
+              date_span.append(date)
 
-          $('.footer').append date_span
+              $('.footer').append date_span
+              break
 
         error: (request, textStatus, errorThrown) ->
           console.warn errorThrown
       )
-
-

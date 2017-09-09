@@ -58,30 +58,23 @@ define 'sf-v0/code', [
         url: @options.endpoints[endpoint]+'?cmd='+encodeURI cmd
         error: ( err ) ->
           if err.responseJSON.stdout
-            self.blocks[idx].result.text err.responseJSON.stdout
+            self.blocks[idx].result.html err.responseJSON.stdout
             self.blocks[idx].result.show()
           else
             self.blocks[idx].result.hide()
           self.blocks[idx].warnings.show()
           self.blocks[idx].warnings.addClass 'alert-danger'
           if err.responseJSON.stderr
-            self.blocks[idx].warnings.text err.responseJSON.stderr
+            self.blocks[idx].warnings.html err.responseJSON.stderr
           else
-            self.blocks[idx].warnings.text arguments[2]
+            self.blocks[idx].warnings.html arguments[2]
         success: ( data ) ->
           self.blocks[idx].result.show()
-          self.blocks[idx].result.text data.stdout
+          self.blocks[idx].result.html data.stdout
           if data.stderr
-            self.blocks[idx].warnings.text data.stderr
+            self.blocks[idx].warnings.html data.stderr
             self.blocks[idx].warnings.show()
             self.blocks[idx].warnings.removeClass 'alert-danger'
           else
-            self.blocks[idx].warnings.text ''
+            self.blocks[idx].warnings.html ''
             self.blocks[idx].warnings.hide()
-###
-      @rs = $("""<div class="sf-mf sf-code-tools"></div>""")
-      @$el.after @rs
-
-      @tpl = $.parseHTML tpl
-      @$el.after @tpl
-###

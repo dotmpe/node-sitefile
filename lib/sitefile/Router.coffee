@@ -349,7 +349,7 @@ Base =
     else if not h
       module.exports.warn "Router not recognized", "Router #{rctx.route.name}
         returned nothing recognizable for #{rctx.name}, ignored"
-    
+  
 
 module.exports =
 
