@@ -20,7 +20,8 @@ rst2html_flags = ( params ) ->
 
   flags = []
 
-  if params.stylesheets? and !_.isEmpty params.stylesheets
+  # Note: link-stylsheets is only in effect if a list is given
+  if params.stylesheets? and Array.isArray params.stylesheets
     if params.link_stylesheets
       flags.push '--link-stylesheet'
       sheets = _.filter(_.map(params.stylesheets, 'url')).join ','
@@ -196,4 +197,3 @@ module.exports = ( ctx ) ->
           res.status(500)
           res.write("exec error: "+error)
           res.end()
-

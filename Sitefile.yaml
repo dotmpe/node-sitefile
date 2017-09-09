@@ -281,4 +281,3 @@ defs:
           id: require-js-sitefile-v0-app
           href: /vendor/require.js
           main: /app/rjs-sf-v0.js
-
