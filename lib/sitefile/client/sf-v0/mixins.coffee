@@ -17,4 +17,3 @@ define 'sf-v0/mixins', [
     klass.include DocumentLastModified
     klass.include DocumentBreadcrumb
     klass.include HNavDocument
-

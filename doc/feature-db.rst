@@ -36,8 +36,12 @@ Data
 
 - Bootstrap, Knockback.js, ORM; client-centric app modelling
 
-- CouchDB, PouchDB; one server-side, the other client-centric; has sync and
+- CouchDB, PouchDB_; one server-side, the other client-centric; has sync and
   REST API.
+
+  TODO: pouch-relational <https://github.com/pouchdb-community/relational-pouch>
+
+  - `Client Storage-Component docs`_
 
 - Musings on more middleware, componentized design at the backend. Initial
   moves to refactor and do away with the monolithic router.
@@ -46,6 +50,9 @@ Data
   are quite ad-hoc and project specific. Thinking about a way to expose the
   server endpoints, ie. JSON API, would help improving uniformaty at least at
   the data storage/query interface level and help structure the project.
+
+  Instead of jQuery for API endpoint access, may want start to look at Fermata_
+  or come up something similar in Sf client stack.
 
 
 Last-Modified
@@ -57,6 +64,11 @@ Last-Modified
 
     Making Last-Modified_ a sitefile case study to get Metadata interface from CouchDB going.
     See Resources_ section within the `Route Feature`_ docs.
+
+  - `Last-Modified Mixin docs`_
+
+- `sf-couchdb-context-proto docs`_
+- `Metadata Middleware docs`_
 
 
 .. include:: .defaults.rst

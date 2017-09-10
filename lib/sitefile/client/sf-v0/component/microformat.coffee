@@ -1,3 +1,7 @@
+#
+# Microformats are `attach`'ed on the sf-page ready event,
+# for each element found given a certain CSS selector.
+#
 define 'sf-v0/component/microformat', [
 
   'cs!../component'

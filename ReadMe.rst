@@ -70,17 +70,17 @@ E.g. to serve a simple little site::
     _my_markdown_routes: markdown:**/*.md
     _my_stylus_routes: styl:**/*.styl
     media: static:media/
-    ChangeLog: du.rst2html:ChangeLog.rst
+    ChangeLog: docutils.rst2html:ChangeLog.rst
 
 
 That's it! This expands to routes for all ``*.md`` and ``*.styl`` files, serves
 anything in media at ``/media/``, and has another static URL path that renders
-the changelog with Docutils.
+the changelog.
 
 The idea is to leave as much as the aspects of the resources to some
 in-filesystem object or other local service, wether a document, metadatafile or
 database. That said the ``Sitefile.yml`` can also hold options, and currently
-cat gets pretty crammed. But future plans include making it optional, and
+can get pretty crammed. Future plans include making routes optional, and
 parameterize simple Sitefile sessions through command line arguments.
 
 The ``Sitefile.yaml`` with `node-sitefile` and the list of routers in

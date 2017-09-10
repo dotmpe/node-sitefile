@@ -1,6 +1,7 @@
 define 'sf-v0/mixin.last-modified', [
 
   'jquery'
+  'css!./mixin.last-modified.sass'
 
 ], ( $ ) ->
 
@@ -35,7 +36,7 @@ define 'sf-v0/mixin.last-modified', [
             date = request.getResponseHeader(hd)
             if date
               klass = self.classes[hd]
-              date_span = $ "<span class=\"#{klass} date\"/> "
+              date_span = $ "<span class=\"resource #{klass} date\"/> "
               date_span.append(date)
 
               $('.footer').append date_span

@@ -73,11 +73,14 @@ r0.0.4_
   - Using `neodoc`_ for argument parser now.
   - Added config for remote sites, to set CORS.
   - Started on extending r.js client features, dependencies.
+    Added PouchDB component.
   - New extension types: ``middleware`` and ``context-prototype``.
   - Doc updates. Revision and reshuffle for some docs. Brought main feature
     categories back to 3.
   - Added CDN entries for THREE.js, D3.
-  - Added ``code`` microformat to sf-v0.
+  - Building out Sitefile v0 client classes.
+
+    Added microformats for ``live-code``, ``a[href]``.
 
 (0.1.0)
   .. _0.1.0:

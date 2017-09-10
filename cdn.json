@@ -65,6 +65,11 @@
         "Handlebars": "//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min",
         "hbars": "//cdnjs.cloudflare.com/ajax/libs/requirejs-handlebars/0.0.2/hbars.min",
         "cookies-js": "//cdnjs.cloudflare.com/ajax/libs/Cookies.js/1.2.1/cookies.min",
+        "pouchdb": "//cdnjs.cloudflare.com/ajax/libs/pouchdb/6.3.4/pouchdb.min",
+        "relational-pouch": "//rawgit.com/pouchdb-community/relational-pouch/master/dist/pouchdb.relational-pouch.min",
+        "pouchdb-find": "//github.com/pouchdb/pouchdb/releases/download/6.3.4/pouchdb.find.min",
+        "pouchdb-memory": "//github.com/pouchdb/pouchdb/releases/download/6.3.4/pouchdb.memory.min",
+        "pouchdb-localstorage": "//github.com/pouchdb/pouchdb/releases/download/6.3.4/pouchdb.localstorage.min",
 
         "three-cdn": "//cdnjs.cloudflare.com/ajax/libs/three.js/87/three.min",
 

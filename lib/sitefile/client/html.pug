@@ -23,12 +23,20 @@ mixin std-html-scripts()
     - else if ('object' == typeof(scr))
         script(src=scr.url)&attributes(scr)
 
+mixin std-html-meta()
+  if meta
+    each it in meta
+      if ('object' == typeof(it))
+        each value, key in it
+          meta(name=key, content=value)
+
 mixin std-html-links()
-  each link in links
-    - if ('string' == typeof(link))
-        link(href=link)
-    - else if ('object' == typeof(link))
-        link(href=link.url)&attributes(link)
+  if links
+    each link in links
+      - if ('string' == typeof(link))
+          link(href=link)
+      - else if ('object' == typeof(link))
+          link(href=link.url)&attributes(link)
 
 mixin requirejs_main(client)
   script(id=client.id, data-main=client.main, src=client.href)
@@ -43,11 +51,13 @@ mixin std-html-head(title)
     title= title
 
   if context
+    +html-meta("application-name", "Sitefile/"+context.version)
     +html-meta("sitefile", context.version)
 
   +std-html-stylesheets()
   +std-html-scripts()
   +std-html-links()
+  +std-html-meta()
 
 
 mixin std-html-client(title)

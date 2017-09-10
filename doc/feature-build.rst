@@ -34,6 +34,26 @@ I like this, but need to draw the line at different extensions. ``docco-plus``
 supports multiple extensions, but also seems to add/keep the full path.
 
 
+Stylesheets
+-----------
+Use SASS predominatly at the moment. Want to parameterize later.
+
+Note: the ``@source`` directive is left as-is by the current processor, if the
+referred path has ``.css``. Ie. use another extension (``sass``, ``css3``) to
+process server-side.
+
+
+Build system
+-------------
+Gruntfile for main targets, using gulp to test some other setups.
+
+- Code de-linting / static analysis: jshint, coffeelint, yamllint
+- Mocha test runner
+- Docco coffee to HTML documenter
+- SASS complication
+- Pass-through exec calling futher sh-based tooling
+
+
 Testing
 -------
 Mocha Router Examples

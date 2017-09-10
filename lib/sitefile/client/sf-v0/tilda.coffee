@@ -3,7 +3,6 @@ define 'sf-v0/tilda', [
   'jquery'
   'jquery-terminal'
   'css!/vendor/jquery-terminal'
-  'css!/media/style/jquery-terminal-animated-cursor'
 
 ], ( $ ) ->
 
@@ -18,9 +17,12 @@ define 'sf-v0/tilda', [
         if name != 'all'
           return
         
-        require [ 'cs!./dhtml/jquery-sf-tilda' ], ->
-          #console.log 'Tilda DHTML included'
+        require [
+          'cs!./dhtml/jquery-sf-tilda'
+          'css!./dhtml/jquery-sf-tilda.sass'
+        ], ->
 
+          console.log 'Tilda DHTML included'
           if not $('#tilda').length
             if $('.epilogue').length
               $('.epilogue').prepend $ '<div id="tilda"></div> '
@@ -29,7 +31,6 @@ define 'sf-v0/tilda', [
               return
 
           console.log 'Initializing Tilda'
-
           try
             term = $('#tilda').tilda()
           catch e

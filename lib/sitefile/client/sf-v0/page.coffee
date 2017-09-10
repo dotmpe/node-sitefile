@@ -5,7 +5,7 @@ define 'sf-v0/page', [ 'lodash',
   'cs!sf-v0/document',
 
   # XXX: another unused Sf module
-  'cs!sf-v0/togglescript',
+  'cs!sf-v0/toggle-style',
 
   'crossroads', # Unused dependency for client-side routing
   'hasher', # access to hash-location navigation triggers/events
@@ -14,7 +14,7 @@ define 'sf-v0/page', [ 'lodash',
 
   'cs!./component/page'
 
-], ( _, DocumentPage, ToggleScript, crossroads, hasher, jqui, cookies ) ->
+], ( _, DocumentPage, ToggleStyle, crossroads, hasher, jqui, cookies ) ->
 
 
   console.log 'Loading Page'
@@ -23,7 +23,7 @@ define 'sf-v0/page', [ 'lodash',
 
     constructor: ( @app, @container=$('body'), @options = {} ) ->
       super @container, @options
-      self = @
+      self = @ ; @app.page = @
       @app.events.ready.addListener ( evt ) ->
         if evt.name is 'du-page'
           self.init_sfpage_html()

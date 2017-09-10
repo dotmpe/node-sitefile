@@ -123,6 +123,7 @@ module.exports = ( ctx ) ->
           rctx.res.path = if rctx.res.path then rctx.res.path else rctx.route.spec
         opts.tpl = Router.expand_path rctx.res.path, ctx
 
+        ctx.process_meta(opts.merge.meta)
         sitefile.log \
           "Pug compile", path: opts.tpl, '(Route:', path: rctx.res.ref, ' Spec:', path: rctx.res.path, ')'
         res.type opts.merge.format

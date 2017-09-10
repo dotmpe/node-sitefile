@@ -2,6 +2,7 @@ Gherkin BDD Feature
 ===================
 .. include:: .defaults.rst
 
+
 PHP
   [2016-12-24] Initial look at JS, PHP tooling. Seems there is no common TAP-like
   test result stream. But the parser is quite nice, given AST with line/column
@@ -15,18 +16,20 @@ PHP
 
 JS
   Setup selenium webdriver using Chrome after example. [#]_
-  FIXME: not seeing how to start up server with any hooks,
-  may need to provide my own.
+
+    FIXME: not seeing how to start up server with any hooks,
+    may need to provide my own.
 
 ToDo
   - See about setting up cucumber-js thingies;
   - Need router to stream running process at backend. Can then receive JSON
-    events in client.
+    events in client. (`Sockets Feature`_)
   - Not sure about the initial client, could set up some templates though.
     Or rather loot at source highlighting router instead.
   - Maybe browser tests. But look see for current testing of sitefile in
     `Testing Feature`.
   - Other things to test?
+
 
 .. [#] https://github.com/cucumber/gherkin
 .. [#] https://packagist.org/packages/emuse/behat-html-formatter

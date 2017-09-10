@@ -51,39 +51,11 @@ test_for_fe = ( name ) ->
     return
 
 
-add_script = ( rawhtml, javascript_url ) ->
-
-  sitefile.log "rst2html:addscript", javascript_url
-  script_tag = '<script type="text/javascript" src="'+\
-      javascript_url+'" ></script>'
-  rawhtml.replace '</head>', script_tag+' </head>'
-
-add_client = ( rawhtml, client ) ->
-
-  sitefile.log "rst2html:addclient", client.main
-  script_tag = '<script type="text/javascript"
-      id="'+client.id+'"
-      data-main="'+client.main+'"
-      src="'+client.href+'" ></script>'
-  rawhtml.replace '</head>', script_tag+' </head>'
-
-
-add_meta = ( rawhtml, meta ) ->
-
-  sitefile.log "rst2html:addmeta", String(meta)
-  tags = ''
-  for item in meta
-    for key, value of item
-      tags += '<meta name="'+key+'" content="'+value+'" /> '
-
-  rawhtml.replace '</head>', tags+' </head>'
-
-
 ###
 Take parameters
 Async rst2html writes to out or throws exception
 ###
-rst2html = ( out, params={} ) ->
+rst2html = ( out, ctx, params={} ) ->
 
   prm = _.defaultsDeep params,
     format: 'pseudoxml'
@@ -128,11 +100,12 @@ rst2html = ( out, params={} ) ->
         scripts = if 'urls' of prm.scripts and prm.scripts.urls then \
           prm.scripts.urls else prm.scripts
         # coffeelint: disable=ensure_comprehensions
-        stdout = add_script(stdout, script) for script in scripts
+        stdout = ctx.rawhtml_script(stdout, script) for script in scripts
         if prm.clients
-          stdout = add_client(stdout, client) for client in prm.clients
+          stdout = ctx.rawhtml_client(stdout, client) for client in prm.clients
         if prm.meta
-          stdout = add_meta(stdout, prm.meta)
+          ctx.process_meta(prm.meta)
+          stdout = ctx.rawhtml_meta(stdout, prm.meta)
         # coffeelint: enable=ensure_comprehensions
         out.write stdout
 
@@ -190,7 +163,7 @@ module.exports = ( ctx ) ->
         res.set 'Last-Modified', st.mtime.toUTCString()
 
         try
-          rst2html res, _.merge {}, rctx.route.options, req.query
+          rst2html res, ctx, _.merge {}, rctx.route.options, req.query
         catch error
           ctx.warn error
           res.type('text/plain')

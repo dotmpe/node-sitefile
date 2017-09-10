@@ -25,6 +25,15 @@
 .. Build docs parts
 .. _docco docs: /doc/literate
 .. _Mocha Router docstrings: /doc/literate/mocha.html
+.. _live-code docs: /doc/literate/live-code.html
+.. _sh-router docs: /doc/literate/sh.html
+.. _microformat-component docs: /doc/literate/microformat.html
+.. _module docs: /doc/literate/module.html
+.. _component-module docs: /doc/literate/component.html
+.. _Last-Modified Mixin docs: /doc/literate/mixin.last-modified.html
+.. _sf-couchdb-context-proto docs: /doc/literate/ctx-couchdb.html
+.. _Metadata Middleware docs: /doc/literate/metadata.html
+.. _Client Storage-Component docs: /doc/literate/storage.html
 
 .. Templates
 .. _feature doc form: /doc/_feature-form.rst
@@ -47,6 +56,7 @@
 .. _Build Feature:           /doc/feature-build.rst
 .. _Graphics Feature:        /doc/feature-graphics.rst
 .. _Packaging Feature:       /doc/feature-packaging.rst
+.. _Sockets Feature:         /doc/feature-socket.rst
 .. _features/route:          /doc/feature-route.rst
 .. _features/db:             /doc/feature-db.rst
 .. _features/rjs:            /doc/feature-rjs.rst
@@ -59,6 +69,7 @@
 .. _features/http:           /doc/feature-http.rst
 .. _features/graphics:       /doc/feature-graphics.rst
 .. _features/packaging:      /doc/feature-packaging.rst
+.. _features/socket:         /doc/feature-socket.rst
 
 .. Releases
 .. _r0.0.1: /doc/dev/0.0.1.rst
@@ -83,19 +94,18 @@
 .. _v1.0.0: /Changelog.rst#1.0.0
 
 .. External
-.. _jsonary: http://jsonary.com/
-.. _elegant apis with json schema: https://brandur.org/elegant-apis
-.. _understanding json schema: http://spacetelescope.github.io/understanding-json-schema/index.html
-.. _semver: https://github.com/npm/node-semver
-.. _JSON API: http://jsonapi.org/format/
-.. _json-editor: https://github.com/jdorn/json-editor
-.. _List of Mocha reporters: https://github.com/mochajs/mocha/tree/master/lib/reporters
+.. _jsonary: //jsonary.com/
+.. _elegant apis with json schema: //brandur.org/elegant-apis
+.. _understanding json schema: //spacetelescope.github.io/understanding-json-schema/index.html
+.. _semver: //github.com/npm/node-semver
+.. _JSON API: //jsonapi.org/format/
+.. _json-editor: //github.com/jdorn/json-editor
+.. _List of Mocha reporters: //github.com/mochajs/mocha/tree/master/lib/reporters
 .. _neodoc: //github.com/felixSchl/neodoc
 .. _ansigarden.com: //ansigarden.com
-
+.. _Fermata: //github.com/natevw/fermata
+.. _PouchDB: //github.com/pouchdb/pouchdb
 
 .. FIXME: refs to other sitefiles
 .. _links: htdocs:note/links
 .. _rel-values: htdocs:note/links#html-link-relations
-
-

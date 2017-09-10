@@ -45,7 +45,6 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             "/vendor/bootstrap-theme.css"
             "/vendor/jquery-ui.css"
             "/vendor/jquery-terminal.css"
-            "/media/style/jquery-terminal-animated-cursor.css"
           ]
           clients = stu.ctx.resolve \
                     'sitefile.options.local.app/v0.merge.clients'

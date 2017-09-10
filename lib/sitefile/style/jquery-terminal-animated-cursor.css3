@@ -1,4 +1,4 @@
-
+/* NOTE: have a bit of an issue representing this in sass, keep as CSS */
 @keyframes blink {
     0% { opacity: 1; }
     25% { opacity: 0; }
@@ -35,4 +35,3 @@
          -o-box-shadow: 0 0 5px rgba(0,100,0,50);
             box-shadow: 0 0 5px rgba(0,100,0,50);
 }
-

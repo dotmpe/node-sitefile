@@ -16,7 +16,7 @@ Outliner
     require a too complex setup for now.
 
 Microformats
-  code
+  live-code
     Initial functionality to run server-side script, and write output to client.
     Like Jupyter for Python, but only server-side Sh for now. And no process
     management.
@@ -33,3 +33,12 @@ Microformats
     ::
 
       radical.py lib/sitefile/*.coffee
+
+    - `live-code docs`_
+    - `sh-router docs`_
+
+  - `microformat-component docs`_
+
+See also
+  - `HTML5 Client Feature`_
+

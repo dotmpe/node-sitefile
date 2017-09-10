@@ -1,4 +1,4 @@
-#_ = require 'lodash'
+_ = require 'lodash'
 fs = require 'fs'
 #path = require 'path'
 #sys = require 'sys'
@@ -35,44 +35,51 @@ module.exports = ( ctx={} ) ->
     cmd: ( rctx ) ->
       # Generic sh invocation
       ( req, res ) ->
-        sitefile.log "Sh", req.query.cmd
-        # XXX: primitive, incomplete conneg
-        if req.headers.accept? and 'text/plain' in req.headers.accept
-          out_fmt = 'plain'
-        else if req.headers.accept? and 'ansi-to-html=false' in req.headers.accept
-          out_fmt = 'json'
-        else
-          out_fmt = 'json-html'
 
+        # XXX: primitive, incomplete conneg, defaults
+        d = 'application/json;filters=ansi-to-html'
+        a = if req.headers.accept? is '*/*' then d \
+          else _.defaultTo req.headers.accept, d
+        unless a.match /filters=.*/
+          a += d.substr 16
+
+        # Conneg type/format accept
+        out_fmt =
+          if 'text/plain' in a then 'plain'
+          else if a.match /filters=.*ansi-to-html/ then 'json-html'
+          else 'json'
+        sitefile.log "Sh", req.query.cmd, out_fmt
+
+        # Execute local command
         exec "sh -c \"#{req.query.cmd}\"", (error, stdout, stderr) ->
+          code = if error?.code then error.code else 0
+          if error != null then res.status(400)
           out = if out_fmt is 'json'
               res.type 'json' ; JSON.stringify
+                code: code
                 stdout: stdout
                 stderr: stderr
             else if out_fmt is 'json-html'
               res.type 'json' ; JSON.stringify
+                code: code
                 stdout: convert.toHtml stdout
                 stderr: convert.toHtml stderr
             else if error then stderr else stdout
-          if error != null
-            res.status(500)
-          res.write(out)
+          res.write out
           res.end()
 
     ls: ( rctx ) ->
       ( req, res ) ->
         sitefile.log "Sh ls", rctx.res.path
         exec "ls -la #{rctx.res.path}", (error, stdout, stderr) ->
-          if error != null
-            res.status(500)
-          res.write(stdout)
+          if error != null then res.status(500)
+          res.write stdout
           res.end()
 
     tree: ( rctx ) ->
       ( req, res ) ->
         sitefile.log "Sh tree", rctx.res.path
         exec "tree -fgups #{rctx.res.path}", (error, stdout, stderr) ->
-          if error != null
-            res.status(500)
-          res.write(stdout)
+          if error != null then res.status(500)
+          res.write stdout
           res.end()

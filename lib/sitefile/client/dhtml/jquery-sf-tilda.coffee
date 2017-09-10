@@ -77,4 +77,3 @@ $.widget 'jquery-terminal.tilda',
         term.focus focus = !focus
     term.hide()
     term
-

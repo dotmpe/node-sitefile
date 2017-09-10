@@ -61,7 +61,7 @@ These are features in development for the v0.1/v0.0.1 roadmap.
    1. Text markup languages (md, rst, textile, mediawiki; `features/text`_)
    2. Server side templates (pug)
    3. Scripts (js, coffee, requirejs)
-   4. Stylesheets (sass, less, styl)
+   4. Stylesheets (sass `features/build`_, less, styl)
    5. Diagrams (networks, UML, GANTT; `features/graphics`_)
    6. Data cache and storage, querying (bookshelf-api, OData, Bootstrap et al.;
       `features/db`_)

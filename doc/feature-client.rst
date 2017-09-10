@@ -68,8 +68,12 @@ thus has lots of potential application. Failing that the data and cache is
 solved, well enough to prevent too many ad-hoc sitefile routers and local
 extensions.
 
+[2017-09-09]
 
 
+See also
+  - `component-module docs`_
+  - `module docs`_
 
 Branches
 ---------

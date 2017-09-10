@@ -8,6 +8,7 @@ _ = require 'lodash'
 
 libsf = require '../sitefile'
 Router = require '../Router'
+sitefile = require '../sitefile'
 
 
 module.exports = ( ctx ) ->
@@ -107,3 +108,36 @@ module.exports = ( ctx ) ->
       # Resolve to existing path
       return Router.expand_path @res.path, @
 
+
+    process_meta: ( meta ) ->
+      for item, idx in meta
+        for key, value of item
+          unless 'string' is typeof value
+            value = if Array.isArray value then value.join ',' \
+              else String(value) # FIXME: objects etc.
+          meta[idx][key] = value
+
+    rawhtml_meta: ( rawhtml, meta ) ->
+      sitefile.log "rst2html:addmeta", String(meta)
+      tags = ''
+      for item in meta
+        for key, value of item
+          tags += '<meta name="'+key+'" content="'+value+'" /> '
+
+      rawhtml.replace '</head>', tags+' </head>'
+
+    rawhtml_script: ( rawhtml, javascript_url ) ->
+      sitefile.log "rst2html:addscript", javascript_url
+      script_tag = '<script type="text/javascript" src="'+\
+          javascript_url+'" ></script>'
+
+      rawhtml.replace '</head>', script_tag+' </head>'
+
+    rawhtml_client: ( rawhtml, client ) ->
+      sitefile.log "rst2html:addclient", client.main
+      script_tag = '<script type="text/javascript"
+          id="'+client.id+'"
+          data-main="'+client.main+'"
+          src="'+client.href+'" ></script>'
+
+      rawhtml.replace '</head>', script_tag+' </head>'

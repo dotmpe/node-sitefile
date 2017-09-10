@@ -1,8 +1,9 @@
 ###
 
 Using Require.js for dependency management is great, until your design wants to
-create dynamic, composite apps. Without a build system, the app cannot deal with
-dynamic dependecies (ie. extensions) except by creating a require.js sub-context.
+create dynamic, composite apps. Without a build system, the app cannot deal
+with dynamic dependecies (ie. extensions) except by creating a require.js sub-
+context.
 
 This sets up a simple modularized app, and uses events to synchronize the
 sub-contexts created per loaded module.
@@ -44,7 +45,7 @@ define 'sf-v0/component/require-app', [
       self = @
 
     ###
-    require - create a new require.js context for the module. 
+    require - create a new require.js context for the module.
     ###
     require: ( name ) ->
 

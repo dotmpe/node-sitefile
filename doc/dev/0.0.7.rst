@@ -11,28 +11,35 @@
 - Using `neodoc`_ for argument parser now.
 - Added config for remote sites, to set CORS. Allowing to run client script or
   get data.
+
 - Started on extending r.js client features, dependencies.
   Client config and routes now allow for local extensions, and mixin components
   from different remote sites (given CORS).
 - Now loading more extension components besides ``router`` type: moved some
   util. to ``context-prototype`` mixins, and using ``middleware`` for
   experimenting with Connect.js middleware handlers.
+
 - Restructured docs to better reflect current efforts, and allow for
   ideas and planning. Brought main feature categories back to 3 but added a
   deeper level.
-- Started ``code`` microformat, probably need to rename.
+
+- Building out Sitefile v0 client classes.
+
+  Added conjured up microformats: ``live-code``.
 
 
 Wanted
   Metadata
     - Started looking for best way to integrate metadata stores.
 
-      Ie. for Resources_.
+      Ie. for Resources_
 
       Affects
       `features/http`_
       `features/db`_
       `features/route`_
+
+      Using `features/socket`_
 
   Rich data widgets
     Timeline
@@ -48,5 +55,3 @@ Wanted
         - https://www.graphdracula.net/
       Sunburst?
         - http://philogb.github.io/blog/2009/10/05/sunburst-visualization/
-
-

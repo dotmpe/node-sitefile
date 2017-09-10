@@ -12,7 +12,9 @@ config:
   debug: true
   verbose: true
   #verbose: true
-  domain: 'sf-sf.wtwta.lan'
+  domain: 'localhost'
+  aliases:
+  - 'sf-sf.wtwta.lan'
 upstream: # Grant CORS (for async data requests) to these hosts
 - 'http://localhost'
 - 'http://localhost:2000'
@@ -63,7 +65,6 @@ routes:
 
   #media/style: static:build/style
   media/style/default.css: sass:sitefile-lib:style/default.sass
-  media/style/jquery-terminal-animated-cursor.css: static:lib/sitefile/style/jquery-terminal-animated-cursor.css
 
   doc/literate: static:build/docs/docco/
 
@@ -150,7 +151,6 @@ routes:
   # Finally a specific router is wired to display a pug template with all of the
   # above.
   #app/v0/base: res.load-file:sitefile-client:sf-v0.yaml
-
   app/v0: pug:sitefile-client:sf-v0.pug
   # Serve coffee script for RequireJS client
   app/: redir:app/v0
@@ -180,7 +180,6 @@ routes:
   _pug_polymer: pug:example/polymer*.pug
   _pug_clients: pug:example/*-client*.pug
 
-
 options:
   global:
     docutils:
@@ -192,21 +191,18 @@ options:
       $ref: '#/options/global/pug/merge'
     pug:
       merge:
+        meta:
+          $ref: '#/defs/app/v0/meta'
         scripts: [] # $ref: '#/defs/scripts/default'
-        stylesheets: [] # $ref: '#/defs/stylesheets/default'
+        stylesheets:
+          $ref: '#/defs/stylesheets/default'
         clients:
           $ref: '#/defs/app/v0/clients'
-        meta:
-          - sitefile.main: 'sitefile'
-          - sitefile-client-modules: 'cs!sf-v0/page,cs!sf-v0/code,cs!sf-v0/tilda'
 
   local:
-    app/v0:
+    'app/v0':
       merge:
-        stylesheets: []
-        scripts: []
-        clients:
-          $ref: '#/defs/app/v0/clients'
+        $ref: '#/defs/app/v0'
 
     npm/node-sitefile/latest.json:
       spec:
@@ -248,8 +244,9 @@ options:
         clients:
           $ref: '#/defs/app/v0/clients'
         meta:
-          - sitefile.main: 'sitefile'
-          - sitefile-client-modules: 'cs!sf-v0/page,cs!sf-v0/tilda'
+          $ref: '#/defs/app/v0/meta'
+          #- sitefile.main: 'sitefile'
+          #- sitefile-client-modules: 'cs!sf-v0/page,cs!sf-v0/tilda'
 
 defs:
   scripts:
@@ -267,17 +264,26 @@ defs:
     default:
       - url: /vendor/jquery-ui.css
       - url: /vendor/jquery-terminal.css
-      - url: /media/style/jquery-terminal-animated-cursor.css
       - url: /vendor/bootstrap.css
       - url: /vendor/bootstrap-theme.css
       - url: /vendor/bootstrap-table.css
       - url: /media/style/default.css
         #path: build/style/default.css
-
   app:
     v0:
+      meta:
+        - sitefile.main: 'sitefile'
+        - sitefile-client-modules:
+          - 'cs!sf-v0/page'
+          - 'cs!sf-v0/storage'
+          - 'cs!sf-v0/microformats/live-code'
+          - 'cs!sf-v0/microformats/href-registry'
+          - 'cs!sf-v0/tilda'
       clients:
         - type: require-js
           id: require-js-sitefile-v0-app
           href: /vendor/require.js
           main: /app/rjs-sf-v0.js
+      stylesheets:
+        $ref: '#/defs/stylesheets/default'
+      scripts: []

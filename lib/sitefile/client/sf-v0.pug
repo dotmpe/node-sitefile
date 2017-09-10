@@ -2,12 +2,11 @@
 extends base
 
 block head
-  +std-html-client("Sitefile RJS Client")
-  +html-meta("application-name", "Sitefile/"+context.version)
-  +html-meta("sitefile-client-modules", "cs!sf-v0/page,cs!sf-v0/tilda")
+  +std-html-head("Sitefile RJS Client")
 
 block prologue
   .prologue
+block header
 block main
   //- main.docutils-document-contents
   .container.placeholder.document
