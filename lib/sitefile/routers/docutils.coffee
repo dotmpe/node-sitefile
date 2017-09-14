@@ -14,6 +14,7 @@ fs = require 'fs'
 child_process = require 'child_process'
 
 sitefile = require '../sitefile'
+Router = require '../Router'
 
 
 rst2html_flags = ( params ) ->
@@ -144,20 +145,31 @@ module.exports = ( ctx ) ->
   generate:
     rst2html: ( rctx ) ->
 
-      # FIXME: improve Context API:
-      extra = (
-        docpath: path.join(  ctx.cwd, rctx.res.path ),
-        src: format: rctx.res.extname.substr 1
-        dest: format: 'html'
-        # FIXME path.extname(rctx.res.ref)?.substr(1) or 'html'
-      )
-      rctx.prepare_from_obj extra
-      rctx.seed extra
-
       ( req, res, next ) ->
+        if rctx.res.rx?
+          m = rctx.res.rx.exec req.originalUrl
+          if rctx.route.spec
+            rstpath = rctx.route.spec+m[1]+'.rst'
+          else
+            rstpath = m[1]+'.rst'
+        else
+          rstpath = if rctx.res.path then rctx.res.path else rctx.route.spec
+        rstpath = Router.expand_path rstpath, ctx
+        sitefile.log "SASS compile", rstpath
+
+        # FIXME: improve Context API:
+        extra = (
+          docpath: rstpath # path.join(  ctx.cwd, rctx.res.path ),
+          src: format: 'rst' #rctx.res.extname.substr 1
+          dest: format: 'html'
+          # FIXME path.extname(rctx.res.ref)?.substr(1) or 'html'
+        )
+        #rctx.prepare_from_obj extra
+        #rctx.seed extra
+
         req.query = _.defaults req.query || {},
-          format: rctx.dest.format,
-          docpath: rctx.docpath
+          format: extra.dest.format,
+          docpath: extra.docpath
 
         st = fs.statSync(req.query.docpath)
         res.set 'Last-Modified', st.mtime.toUTCString()

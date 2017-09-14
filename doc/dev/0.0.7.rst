@@ -25,7 +25,8 @@
 
 - Building out Sitefile v0 client classes.
 
-  Added conjured up microformats: ``live-code``.
+  Added microformats for ``live-code``, ``a[href]``.
+
 
 
 Wanted

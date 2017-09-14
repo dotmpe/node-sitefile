@@ -39,6 +39,9 @@ module.exports = ( ctx ) ->
         sasspath = Router.expand_path sasspath, ctx
         sitefile.log "SASS compile", sasspath
 
+        st = fs.statSync(sasspath)
+        res.set 'Last-Modified', st.mtime.toUTCString()
+
         sass.render {
           file: sasspath
         }, ( err, rs ) ->

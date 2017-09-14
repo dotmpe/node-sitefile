@@ -76,4 +76,3 @@ define 'sf-v0/meta/nav', [
             self.discover_bottom_up "#{dirref}/#{self.json_api_dir}"
         else
           console.log 'no API endpoint', ref
-

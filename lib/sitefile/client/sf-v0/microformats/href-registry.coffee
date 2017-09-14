@@ -43,21 +43,22 @@ define 'sf-v0/microformats/href-registry', [
         self = @ ; @app.meta.db
         .get domain, ( res, dDoc ) ->
           if dDoc
-            self.domains[domain] = dDoc
-            console.log 'TODO: domain UI', domain, dDoc, url
+            self.set_domain idx, domain, dDoc
             self.fetch_url idx, url
           else
-            self.store_domain idx, domain, url
+            self.store_domain idx, url
       else if @domains[domain]
         @store_url @domains[domain], url
       else
         @queue.domains.push domain
+        # TODO: empty queue
+        console.log 'queue domain', domain
 
     fetch_url: ( idx, url ) ->
       self = @ ; @app.meta.db
       .get url.href, ( res, urlDoc ) ->
         if urlDoc
-          console.log 'TODO: url UI', url, urlDoc
+          self.set_url idx, urlDoc
         else
           self.store_url idx, url
 
@@ -66,17 +67,17 @@ define 'sf-v0/microformats/href-registry', [
       'https': 443
       'ftp': 21
     }
-    store_domain: ( idx, domain , url ) ->
+    store_domain: ( idx, url ) ->
       proto = url.protocol.substr 0, url.protocol.length-1
       port = if url.port then parseInt url.port else @proto_ports[proto]
       domain_obj =
-        _id: domain
+        _id: url.hostname
         protocols: [
           id: url.protocol.substr 0, url.protocol.length-1
           port: port
         ]
       self = @ ; @app.meta.db.put domain_obj, ( dDoc ) ->
-        self.domains[domain] = dDoc
+        self.set_domain idx, url.hostname, dDoc
         self.store_url idx, url
 
     store_url: ( idx, url ) ->
@@ -84,13 +85,21 @@ define 'sf-v0/microformats/href-registry', [
         _id: url.href
         domain: @domains[url.hostname]._id
       self = @ ; @app.meta.db.put url_obj, ( urlDoc ) ->
-        self.refs[idx].doc = urlDoc
+        self.set_url idx, urlDoc
 
     _get_url: ( href ) ->
       url = @app.page.resolve_page href, location.pathname
       if url.match /^\//
         url = window.location.protocol+'//'+window.location.host+url
       new URL url
+
+    set_domain: ( idx, domain, dDoc ) ->
+      @domains[domain] = dDoc
+      console.log 'TODO: domain UI', idx, domain, dDoc
+
+    set_url: ( idx, urlDoc ) ->
+      @refs[idx].doc = urlDoc
+      console.log 'TODO: url UI', idx, urlDoc
 
 ###
       @app.events.ready.addListener ( evt ) ->

@@ -113,6 +113,7 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
 
         opts = rctx.req_opts req
+
         if rctx.res.rx?
           m = rctx.res.rx.exec req.originalUrl
           if rctx.route.spec
