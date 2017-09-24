@@ -13,8 +13,9 @@ echo "ENV: $ENV"
 branch=$(git rev-parse --abbrev-ref HEAD)
 echo "Branch: $branch"
 
-echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
+echo '{ "sitefilerc": "'$version'" }' > $HOME/.sitefilerc
 
+mkdir -vp config
 (
 cat <<HEREDOC
 module.exports =

@@ -17,4 +17,3 @@ git checkout $2
 test ! -e package.json || npm install
 
 sitefile
-
