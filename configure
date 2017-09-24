@@ -15,7 +15,6 @@ echo "Branch: $branch"
 
 echo '{ "sitefilerc": "'$version'" }' > $HOME/.sitefilerc
 
-mkdir -vp config
 (
 cat <<HEREDOC
 module.exports =
