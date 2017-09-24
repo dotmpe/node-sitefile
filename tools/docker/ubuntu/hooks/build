@@ -1,0 +1,5 @@
+#!/bin/sh
+docker build \
+    --build-arg DCKR_TAG=xenial \
+    --build-arg sf_checkout=$SOURCE_BRANCH \
+    -t $IMAGE_NAME .
