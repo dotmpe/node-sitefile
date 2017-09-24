@@ -29,4 +29,6 @@
           --build-arg DCKR_TAG=$DCKR_TAG
           --build-arg sf_checkout=r0.0.7
           -t node-sitefile:$DCKR_TAG . </dev/tty
-
+    docker-run-dev:
+      - docker run -ti -p 7011:7011 \
+          node-sitefile:xenial </dev/tty
