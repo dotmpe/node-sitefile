@@ -1,16 +1,5 @@
 #!/bin/sh
-test -e ../env.sh && {
-  . ./../env.sh
-} || {
-  . ./../../build-env.sh
-}
-xtra=
-test ! -e ../build-args.sh || {
-  xtra="$(grep '=' ../build-args.sh | sed 's/.*/--build-arg & \\/')"
-}
-docker build $xtra \
-		--build-arg X_DCKR_PREFIX=$ONAME \
-		--build-arg X_DCKR_BASENAME=$LNAME \
-		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
-    --build-arg X_DCKR_TAG=$DOCKER_TAG \
+docker build \
+    --build-arg DCKR_TAG=xenial \
+    --build-arg sf_checkout=$SOURCE_BRANCH \
     -t $IMAGE_NAME .
