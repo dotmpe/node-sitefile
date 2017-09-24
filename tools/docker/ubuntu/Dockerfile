@@ -24,7 +24,9 @@ RUN USER=$(whoami) && \
   \
   sudo gem install --quiet sass && \
   sudo mkdir -vp /src/github.com/bvberkum && \
-  sudo chown $USER:$USER /src/github.com/bvberkum && \
+  sudo chown $USER:$USER /src/github.com/bvberkum
+
+RUN USER=$(whoami) && \
   git clone https://github.com/bvberkum/node-sitefile.git \
     /src/github.com/bvberkum/node-sitefile && \
   sudo chown -R $USER:$USER /home/$USER /src/github.com/bvberkum && \
