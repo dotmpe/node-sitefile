@@ -2,7 +2,7 @@ Node Sitefile
 =============
 :Version: 0.0.7-dev
 :Status: Development
-:package: Changelog_
+:package: `ChangeLog <Changelog.rst>`_
 
   .. image:: https://badge.fury.io/js/node-sitefile.png
     :target: http://badge.fury.io/js/node-sitefile
@@ -44,7 +44,6 @@ Node Sitefile
     :alt: Data by microbadger.com
 
 
-.. include:: doc/.defaults.rst
 
 
 Summary
@@ -137,5 +136,8 @@ Versions, features, development notes and all further reading is in the
 
 
 .. This is a reStructuredText document.
+
+.. _Development Docs: dev_
+.. _dev: doc/dev.rst
 
 .. Id: node-sitefile/0.0.7-dev ReadMe.rst

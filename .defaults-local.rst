@@ -1,2 +1,0 @@
-.. _dev: doc/dev.rst
-.. _changelog: Changelog.rst

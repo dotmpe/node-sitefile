@@ -1,2 +1,0 @@
-.. _Change Log: changelog_
-.. _Development Docs: dev_
