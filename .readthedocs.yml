@@ -1,0 +1,4 @@
+# Don't build any extra formats
+formats:
+    - none
+requirements_file: requirements-readthedocs.txt

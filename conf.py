@@ -1,3 +1,6 @@
+"""
+Builder for node-sitefile.readthedocs.io
+"""
 from recommonmark.parser import CommonMarkParser
 
 source_parsers = {
@@ -5,3 +8,9 @@ source_parsers = {
 }
 
 source_suffix = ['.rst', '.md']
+
+intersphinx_mapping = {
+    'python': ('http://python.readthedocs.io/en/latest/', None),
+    'django': ('http://django.readthedocs.io/en/1.8.x/', None),
+    'sphinx': ('http://sphinx.readthedocs.io/en/latest/', None),
+}
