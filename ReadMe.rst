@@ -138,6 +138,6 @@ Versions, features, development notes and all further reading is in the
 .. This is a reStructuredText document.
 
 .. _Development Docs: dev_
-.. _dev: doc/dev.rst
+.. _dev: ./doc/dev.rst
 
 .. Id: node-sitefile/0.0.7-dev ReadMe.rst

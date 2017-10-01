@@ -1,4 +1,4 @@
-.. include:: doc/.defaults.rst
+.. include:: .defaults.rst
 .. See doc/dev/<version>.rst for preliminary log with dev notes and current
    focus.
 
