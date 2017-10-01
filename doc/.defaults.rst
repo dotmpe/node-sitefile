@@ -10,7 +10,6 @@
 .. _examples: /example/main
 .. _ToDo: /TODO.md
 .. _Sitefile Planet: /doc/sitefile-planet.rst
-.. _Development Docs: dev_
 .. _dev: /doc/dev.rst
 .. _Documentation Overview: /doc/index.rst
 .. _User Manual: /doc/manual.rst
