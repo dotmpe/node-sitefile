@@ -46,4 +46,4 @@ ENV site_checkout=
 
 RUN mkdir -vp /usr/local/share/sitefile
 COPY ./entry.sh /usr/local/share/sitefile/entry.sh
-ENTRYPOINT /usr/local/share/sitefile/entry.sh "$site_src" "$site_checkout" "$site_repo"
+ENTRYPOINT /usr/local/share/sitefile/entry.sh
