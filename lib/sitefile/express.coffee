@@ -51,4 +51,3 @@ module.exports =
     query = qs.parse query_str
     parse_simple_types query
     query
-

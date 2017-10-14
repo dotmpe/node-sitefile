@@ -54,13 +54,17 @@ class SitefileTestUtils
     @server = require '../bin/sitefile-cli'
     if @dir
       process.chdir @dir
-    [ @sf, @ctx, @proc ] = @server.run_main done, {
+    self = @
+    cb = ->
+      console.log 'Test instance', self.ctx.version, 'started at', self.ctx.site.port
+      console.log 'SFPATH', self.ctx.paths.packages, 'PWD', self.ctx.sfdir
+      done()
+    [ @sf, @ctx, @proc ] = @server.run_main cb, {
       '--bwc': version, '--verbose': false
     }, {
       sfdir: process.cwd()
     }
       
-
   after: ( done ) ->
     @server.proc.close()
     process.chdir @cwd
@@ -149,9 +153,12 @@ class SitefileTestUtils
       throw new Error "No data for #{name} (#{filepath})"
     @schema[name] = ajv.compile @schemaSrcData[name]
 
+  # 2 is coincidence, 3 is a pattern: executor for tests requesting DOM
+  verify_pattern: ( f ) ->
+    for it in [0..3]
+      f()
 
 
 module.exports = {}
 
 module.exports.SitefileTestUtils = SitefileTestUtils
-

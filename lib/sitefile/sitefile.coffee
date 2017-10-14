@@ -202,10 +202,15 @@ prepare_context = ( ctx={} ) ->
     warn: warn
     verbose: ctx.envname is 'development'
 
-  _.defaultsDeep ctx,
-    pkg_file: path.join ctx.noderoot, 'package.json'
-  _.defaultsDeep ctx,
-    pkg: require ctx.pkg_file
+  express_pkg = require path.join(
+    ctx.noderoot, 'node_modules', 'express', 'package.json' )
+  pkg_file = path.join ctx.noderoot, 'package.json'
+
+  _.defaultsDeep ctx, {
+    pkg_file: pkg_file
+    pkg: require pkg_file
+    express_version: express_pkg.version
+  }
 
   load_config ctx
 
@@ -618,5 +623,3 @@ module.exports =
     debug: debug
     warn: warn
   }
-
-

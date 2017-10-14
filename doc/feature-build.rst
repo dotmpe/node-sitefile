@@ -3,6 +3,8 @@ Build Feature
 .. include:: .defaults.rst
 
 Everything related to the project build and packaging, dist plans.
+See also `features/rjs`_ for more specific, and `features/packaging`_.
+for more generic docs.
 
 
 Documentation
@@ -87,8 +89,8 @@ Mocha Router Examples
 
 
   - `List of mocha reporters`_
-  - See `Mocha Router docstrings`_ for annotated source.
-  - TODO `app_base_sitefile Mocha test docstrings`_.
+  - See `Mocha Router`_ for annotated source.
+  - TODO `app_base_sitefile Mocha test`_.
 
   * See also `Gherkin BDD Feature`_ for docs on related specification markup
     format.
@@ -109,7 +111,3 @@ Mocha Router Examples
         <script>mocha.setup('bdd')</script>
         <script src="/example/javascript-cow-class-test.js"></script>
         <script>mocha.run();</script>
-
-
-.. _app_base_sitefile Mocha test docstrings: /doc/literate/app_base_sitefile.html
-

@@ -51,6 +51,18 @@ module.exports = ( grunt ) ->
           require: 'coffee-script/register'
           captureFile: 'mocha.out'
           quiet: false
+          noFail: true # turn of for stable release again
+          clearRequireCache: false # do explicitly as needed
+        src: ['test/mocha/*.coffee']
+
+      tap:
+        options:
+          reporter: 'TAP'
+          colors: true
+          require: 'coffee-script/register'
+          captureFile: 'mocha-results.tap'
+          quiet: false
+          noFail: true # turn of for stable release again
           clearRequireCache: false # do explicitly as needed
         src: ['test/mocha/*.coffee']
 
@@ -82,6 +94,8 @@ module.exports = ( grunt ) ->
         cmd: "gulp server-build"
       spec_update:
         cmd: "sh ./tools/update-spec.sh"
+      doc_defaults_docco_refs:
+        cmd: "sh ./tools/generate-docco-rst-refs.sh > doc/.defaults-docco.rst"
 
     pkg: grunt.file.readJSON 'package.json'
 
@@ -116,8 +130,14 @@ module.exports = ( grunt ) ->
   # Documentation artefacts, some intial publishing
   grunt.registerTask 'build-dev', [
     'build-test'
+    'literate'
     'exec:gulp_dist_build'
     'exec:spec_update'
+  ]
+
+  grunt.registerTask 'literate', [
+    'exec:doc_defaults_docco_refs'
+    'docco:debug'
   ]
 
   grunt.registerTask 'client', [

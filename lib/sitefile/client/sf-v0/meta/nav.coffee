@@ -43,8 +43,7 @@ define 'sf-v0/meta/nav', [
     
     route: ( ref, baseref ) ->
 
-    head: ( ) ->
-
+    head: ->
 
     discover: ->
       baseref = window.location.pathname

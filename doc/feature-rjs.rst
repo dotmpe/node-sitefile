@@ -1,4 +1,7 @@
+.. include:: .defaults.rst
 
+Notes on config/building require.js sites. See `features/client`_ for sitefiles
+client based on rjs, and `features/build`_.
 
 Currently
 

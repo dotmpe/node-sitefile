@@ -7,16 +7,14 @@ block head
 block document
   h1 Example Pug template with Sitefile
 
-  - global_context = context.context
-
   table.docinfo
     colgroup
       col.docinfo-names
       col.docinfo-content
 
     tbody
-      +docinfo-field-tr('App', global_context.pkg.name)
-      +docinfo-field-tr('Description', global_context.pkg.description)
+      +docinfo-field-tr('App', context.pkg.name)
+      +docinfo-field-tr('Description', context.pkg.description)
 
       +docinfo-field-tr('Resource name', context.name)
       +docinfo-field-tr('Resource router name', context.route.name )

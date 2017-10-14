@@ -58,11 +58,27 @@ module.exports = ( ctx ) ->
 
   pug_ext pug
 
+  pug_def_opts =
+    tpl: null
+    compile:
+      pretty: false
+      debug: false
+      compileDebug: false
+      basedir: '/'
+      globals: []
+      filters: {}
+    merge:
+      format: 'html'
+      links: []
+      meta: []
+      stylesheets: []
+      scripts: []
+      clients: []
+      context: ctx
 
-  compilePug = ( opts ) ->
+  compilePug = ( optsIn ) ->
 
-    unless opts.compile.basedir
-      opts.compile.basedir = '/'
+    opts = _.defaultsDeep {}, optsIn, pug_def_opts
 
     # Compile template from file
     tpl = pug.compileFile opts.tpl, opts.compile
@@ -92,20 +108,7 @@ module.exports = ( ctx ) ->
         # import-query: merge selected keys from query, resolve keys as
         # path-refs
         'import-query': [ 'merge.format', 'merge.scripts', 'merge.stylesheets' ]
-        options:
-          tpl: null
-          compile:
-            pretty: false
-            debug: false
-            compileDebug: false
-            globals: []
-            filters: {}
-          merge:
-            format: 'html'
-            links: []
-            stylesheets: []
-            scripts: []
-            clients: []
+        options: pug_def_opts
 
   # generators for Sitefile route handlers
   generate:
@@ -121,12 +124,16 @@ module.exports = ( ctx ) ->
           else
             rctx.res.path = m[1]+'.pug'
         else
-          rctx.res.path = if rctx.res.path then rctx.res.path else rctx.route.spec
+          rctx.res.path = if rctx.res.path then rctx.res.path
+          else rctx.route.spec
         opts.tpl = Router.expand_path rctx.res.path, ctx
 
         ctx.process_meta(opts.merge.meta)
         sitefile.log \
-          "Pug compile", path: opts.tpl, '(Route:', path: rctx.res.ref, ' Spec:', path: rctx.res.path, ')'
+          "Pug compile", path: opts.tpl, '(Route:', path: rctx.res.ref, \
+          ' Spec:', path: rctx.res.path, ')'
+        opts.merge.context = rctx
+        data = compilePug opts
         res.type opts.merge.format
-        res.write compilePug opts
+        res.write data
         res.end()

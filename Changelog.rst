@@ -82,6 +82,9 @@ r0.0.4_
 
     Added microformats for ``live-code``, ``a[href]``.
 
+  - Added Express version to context, include with server start log line.
+  - New ``boot`` handler for `rjs`_.
+
 (0.1.0)
   .. _0.1.0:
 

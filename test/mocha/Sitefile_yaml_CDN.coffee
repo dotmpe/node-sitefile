@@ -21,7 +21,6 @@ tu = require './../test-utils'
 describe "The local Sitefile.yaml serves the local documentation, and \
  doubles as an example for all handlers. Starting a server instance", ->
 
-
   stu = new tu.SitefileTestUtils()
   this.timeout 20000
 
@@ -72,5 +71,3 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
     it "should serve sinon.js", stu.test_url_type_ok \
         "/vendor/sinon.js", "application/javascript"
-
-

@@ -16,23 +16,22 @@
 .. _Getting Started Guide: /doc/guide/1-getting-started.rst
 .. _First Extension Guide: /doc/guide/2-first-extension.rst
 
-.. Source ID's
-.. _`Sitefile Metadata Middleware`: /doc/literate/metadata.html
-.. _`Sitefile Core Context-Prototype Mixin`: /doc/literate/core.html
-.. _`Sitefile CouchDB Metadata Context-Prototype Mixin`: /doc/literate/couchdb.html
-
 .. Build docs parts
-.. _docco docs: /doc/literate
-.. _Mocha Router docstrings: /doc/literate/mocha.html
-.. _live-code docs: /doc/literate/live-code.html
-.. _sh-router docs: /doc/literate/sh.html
-.. _microformat-component docs: /doc/literate/microformat.html
-.. _module docs: /doc/literate/module.html
-.. _component-module docs: /doc/literate/component.html
-.. _Last-Modified Mixin docs: /doc/literate/mixin.last-modified.html
-.. _sf-couchdb-context-proto docs: /doc/literate/ctx-couchdb.html
-.. _Metadata Middleware docs: /doc/literate/metadata.html
-.. _Client Storage-Component docs: /doc/literate/storage.html
+.. _docco literate docs: /doc/literate
+.. _Mocha Router:                   mocha_
+.. _Sh Router:                      sh_
+.. _microformat-component:          microformat_
+.. _Last-Modified Mixin:            `mixin.last-modified`_
+.. _sf-couchdb-context-proto:       `ctx-couchdb`_
+.. _Metadata Middleware:            metadata_
+.. _Client Storage-Component:       storage_
+.. _Context Core prototype:         `ctx-core`_
+.. _`Sitefile Core Context-Prototype Mixin`: `ctx-core`_
+.. _app_base_sitefile Mocha test:   app_base_sitefile_
+.. _`Sitefile Metadata Middleware`: metadata_
+.. _`Sitefile CouchDB Metadata Context-Prototype Mixin`: `ctx-couchdb`_
+
+.. include:: .defaults-docco.rst
 
 .. Templates
 .. _feature doc form: /doc/_feature-form.rst

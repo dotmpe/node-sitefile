@@ -38,7 +38,7 @@ mixin std-html-links()
       - else if ('object' == typeof(link))
           link(href=link.url)&attributes(link)
 
-mixin requirejs_main(client)
+mixin script_client_main(client)
   script(id=client.id, data-main=client.main, src=client.href)
 
 
@@ -64,8 +64,7 @@ mixin std-html-client(title)
   +std-html-head(title)
   if clients
     each client in clients
-      if client.type == "require-js"
-        +requirejs_main(client)
+      +script_client_main(client)
       if !main
         - main = client
 
@@ -74,5 +73,3 @@ mixin docinfo-field-tr(label, value)
   tr.field
     th.docinfo-name= label
     td.field-body.app-name= value
-
-

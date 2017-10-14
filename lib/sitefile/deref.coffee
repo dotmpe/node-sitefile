@@ -3,6 +3,7 @@ http = require 'http'
 URL = require 'url'
 # TODO see if this improves things request = require 'request'
 rp = require 'request-promise'
+yaml = require 'js-yaml'
 Promise = require 'bluebird'
 
 
@@ -91,20 +92,34 @@ promise_http_get = ( deref_args ) ->
     catch err
       reject err
 
+# TODO:
+promise_file = ( fn, rctx ) ->
+  promise_metadata( fn, rctx, false )
 
-promise_file = ( rctx ) ->
-  if not rctx.sfdir or not rctx.route.spec
-    throw new Error "deref.promise.file: Base and spec required"
-  fn = rctx.sfdir+ '/'+ rctx.route.spec
+promise_metadata = ( fn, rctx, parse=true ) ->
+  if not fn
+    if not rctx.sfdir or not rctx.route.spec
+      throw new Error "deref.promise.file: Base and spec required"
+    fn = rctx.sfdir+ '/'+ rctx.route.spec
   new Promise ( resolve, reject ) ->
     fs.readFile fn, ( err, data ) ->
       if err
-        reject err
-      else
-        data = String(data)
-        resolve JSON.parse data
-    
+        return reject err
+      if parse
+        try
+          resolve parse_metadata fn, data, rctx
+        catch e
+          reject e
+      else resolve String(data)
 
+
+# XXX: may need to hook into some data handling lib from here
+parse_metadata = ( fn, data, rctx ) ->
+  if /\.json$/.test fn
+    return JSON.parse String(data)
+  if /\.yaml|yml$/.test fn
+    return yaml.safeLoad String(data)
+  else throw Error "Unparsed metadata #{fn}"
 
 local_or_remote = ( rctx ) ->
   if not rctx.res.src.host or (
@@ -113,7 +128,7 @@ local_or_remote = ( rctx ) ->
   )
     # TODO lookup router or call handler somewhere
     #rctx._routers.get('')
-    #promise_file
+    #promise_file null
   else
     promise_resource {
       url: rctx.res.src.toString()
@@ -128,5 +143,7 @@ module.exports =
     http_get: promise_http_get
     resource: promise_resource
     file: promise_file
+    metadata: promise_metadata
     local_or_remote: local_or_remote
-
+  metadata:
+    parse: parse_metadata

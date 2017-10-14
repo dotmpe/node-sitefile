@@ -40,13 +40,13 @@ sitefile_cli = module.exports =
 
     app
 
-  run_main: ( done, options={}, ctx={} ) ->
+  run_main: ( done, options={}, ctxp={} ) ->
     vOpt = String(options['--bwc'])
     switch
 
       when vOpt.startsWith '0.0'
-        # prepare context and config data, loads sitefile and packages
-        ctx = lib.prepare_context ctx
+        # prepare context instance with config data, loads sitefile and packages
+        ctx = lib.prepare_context ctxp
         if options['--verbose']
           ctx.verbose = true
         if _.isEmpty ctx.sitefile.routes
@@ -56,6 +56,7 @@ sitefile_cli = module.exports =
           ctx.site.host = options['--host']
         if options['--port']
           ctx.site.port = options['--port']
+
         # add the app where our routes go
         ctx.app = sitefile_cli.startExpress ctx
         # bootstrap app setup using sitefile
@@ -69,16 +70,15 @@ sitefile_cli = module.exports =
     # serve forever
     proc = sitefile_cli.serve done, ctx
     # export main components to module
+
     sitefile_cli.export ctx,
       root: ctx
       proc: proc
-     # TODO: return instance, sf
-    ctx #
     [ sf, ctx, proc ]
 
   serve: ( done, ctx ) ->
-    #if ctx.verbose
-    console.log "Starting server at localhost:#{ctx.site.port}"
+    console.log "Starting #{ctx.version} "+\
+      "(Express #{ctx.express_version}) server at localhost:#{ctx.site.port}"
 
     return if ctx.site.host
       ctx.server.listen ctx.site.port, ctx.site.host, ->

@@ -13,8 +13,8 @@
 #
 # Storage has a generic interface to query a URL to JSON document mapping. These
 # are absolute URL's including netpath and scheme, maybe event fragments. (The
-# sort that appear in documents as external hyperlink references or in a bookmark
-# collection).
+# sort that appear in documents as external hyperlink references or in a
+# bookmark collection).
 #
 # But from the Sitefile middleware its ofcourse only the server part (up to
 # the fragment) that is seen, and also the scheme and host parts are fixed. Next
@@ -22,8 +22,9 @@
 # the router is running. Or else ``req.route`` is not populated yet.
 #
 # E.g. the 'finish' event on the Response could access ``route.path``. XXX: idk.
-# which events Response has exactly, but 'headers' which was removed with Connect
-# 3.x seems the best fit. So using the replacement 'on-headers' module for that.
+# which events Response has exactly, but 'headers' which was removed with
+# Connect 3.x seems the best fit. So using the replacement 'on-headers' module
+# for that.
 #
 # Leaving only the problem that the middleware cannot offer the router access to
 # the middleware.
@@ -67,4 +68,3 @@ module.exports = ( ctx ) ->
     ###
 
     next()
-

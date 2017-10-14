@@ -1,4 +1,3 @@
-
 module.exports = ( ctx ) ->
 
   name: 'cors'
@@ -16,8 +15,17 @@ module.exports = ( ctx ) ->
       else
         allow_domains = [ allow_domains ]
     else
-      # NOTE: set if referer header matches upstream; not very transparent,
-      # but do not know what else to do; this or multiple headers.
+      # FIXME: normal mode allow https too if http given, https only if explicit
+      # or if left out enforced if request has it
+
+      # FIXME: compile regexes on load
+
+      # NOTE: its is not very transparent, but is the way CORS is specified:
+      # "The Access-Control-Allow-Origin header should contain the value that
+      # was sent in the request's Origin header. "
+      # [https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS]
+      # Ie. no advertising. It looks like some browser may support multiple ACAO
+      # headers, but not following up on that.
       remote = req.get 'Origin'
       unless remote
         remote = req.get 'referer'
@@ -29,5 +37,3 @@ module.exports = ( ctx ) ->
           if remote.startsWith url
             res.set 'Access-Control-Allow-Origin', url
     next()
-
-

@@ -3,11 +3,11 @@ fs = require 'fs'
 minimatch = require 'minimatch'
 glob = require 'glob'
 _ = require 'lodash'
+yaml = require 'js-yaml'
+Promise = require 'bluebird'
 
 nodelib = require 'nodelib-mpe'
 Context = nodelib.Context
-yaml = require 'js-yaml'
-Promise = require 'bluebird'
 
 
 expand_path = ( src, ctx ) ->
@@ -71,15 +71,15 @@ resolve_route_options = ( ctx, route, router_name ) ->
 
 # Wrap rctx with data resource in promise
 promise_resource_data = ( rctx ) ->
-  ctx = rctx.context
   name = "generator '#{rctx.route.name}.#{rctx.route.handler}'"
   if "function" is typeof rctx.res.data.then
-    ctx.debug "Router #{name} returned data-promise for '#{rctx.res.ref}'"
+    # FIXME: failes with mocha tests
+    #rctx.debug "Router #{name} returned data-promise for '#{rctx.res.ref}'"
     rctx.res.data
   else
-    ctx.debug "Constructing #{name} data-promise handler for '#{rctx.res.ref}'"
+    #rctx.debug "Constructing #{name} data-promise handler for '#{rctx.res.ref}'"
     new Promise ( resolve, reject ) ->
-      ctx.debug "Running #{name} data-promise handler for '#{rctx.res.ref}'"
+      #rctx.debug "Running #{name} data-promise handler for '#{rctx.res.ref}'"
       data = rctx.res.data
       r = 0
       while "function" is typeof data
@@ -91,7 +91,6 @@ promise_resource_data = ( rctx ) ->
 
 
 builtin =
-
 
   # TODO: extend redir spec for status code
   redir: ( rctx, url=null, status=302, tourl=null ) ->
@@ -126,7 +125,6 @@ builtin =
     rctx.context.app.use url, [
       rctx.context.static_proto src for src in srcs
     ]
-
     #rctx.debug 'Static', url: url, '=', path: rctx.route.spec
 
 
@@ -134,11 +132,13 @@ builtin =
   # not care too itself since it is a very common task.
   data: ( rctx ) ->
     name = "generator '#{rctx.route.name}.#{rctx.route.handler}'"
-    rctx.debug \
-    "Primed built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
+
+    # FIXME: failes with mocha tests
+    #rctx.debug \
+    #"Primed built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
     ( req, res ) ->
-      rctx.debug \
-      "Running built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
+      #rctx.debug \
+      #"Running built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
       writer = if rctx.res.fmt? then rctx.res.fmt else 'json'
       deferred = promise_resource_data rctx
       deferred
@@ -148,10 +148,10 @@ builtin =
         res.end
       .then ( data ) ->
         if writer == 'json'
-          rctx.debug 'dumping json'
+          #rctx.debug 'dumping json'
           output = JSON.stringify data
         else if writer in ['yaml', 'yml']
-          rctx.debug 'dumping yaml'
+          #rctx.debug 'dumping yaml'
           output = yaml.safeDump data
         else
           throw new Error "No writer #{writer}"
@@ -394,4 +394,3 @@ module.exports =
       e = p.shift()
       c = c[e]
     return c
-

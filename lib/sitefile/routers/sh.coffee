@@ -55,16 +55,16 @@ module.exports = ( ctx={} ) ->
           code = if error?.code then error.code else 0
           if error != null then res.status(400)
           out = if out_fmt is 'json'
-              res.type 'json' ; JSON.stringify
-                code: code
-                stdout: stdout
-                stderr: stderr
-            else if out_fmt is 'json-html'
-              res.type 'json' ; JSON.stringify
-                code: code
-                stdout: convert.toHtml stdout
-                stderr: convert.toHtml stderr
-            else if error then stderr else stdout
+            res.type 'json' ; JSON.stringify
+              code: code
+              stdout: stdout
+              stderr: stderr
+          else if out_fmt is 'json-html'
+            res.type 'json' ; JSON.stringify
+              code: code
+              stdout: convert.toHtml stdout
+              stderr: convert.toHtml stderr
+          else if error then stderr else stdout
           res.write out
           res.end()
 

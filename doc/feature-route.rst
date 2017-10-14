@@ -160,6 +160,20 @@ URL (uniform addressing)
     addressing.
 
 
+HTTP access control (CORS)
+  Browsers provide an run-time environment for remote content, with a certain
+  level of trust. This trust should be further secured by using end-to-end
+  SSL transport.
+
+  This trust only covers resources served at a specific domain. To allow
+  scripting by content from other servers, those remote sites can use the CORS
+  mechanism to inform the client to trust their content at any given or every
+  domain. It will still be up to the source domain to serve content linking to
+  the remote content.
+
+  See `features/http`_ for particulars.
+
+
 Addressing
 ~~~~~~~~~~
 Onto addressing in Sitefile.

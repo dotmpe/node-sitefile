@@ -3,77 +3,79 @@ HTML5 Client Feature
 .. include:: .defaults.rst
 
 
-This is on building the current sf-v0 Require.Js based app.
-For thoughts on the project build setup see `DHTML Build Feature`_
-(`features/dhtml`_).
+Sitefile's main HTML client work is done using Require.JS, and documented here.
+For thoughts on the project build setup see `features/dhtml`_.
 
 
+Log
+----
 - Added Bower. Experimenting with polymer.
 - Want to get Polymer core-scaffold running somehow.
   See examples_ and `Polymer Getting started <doc/polymer>`_.
 - Working to add prism.js source-viewer.
   See `Testing prism.js </src/example/polymer-custom.pug>`_
 
+- [2016-12-13] setup `app-0` router for first prototype of base client.
+- [2016-12-27] testing prism.js. Not sure how to go about upgrading polymer.
+- [2017-01-07] cleaning new sitefile v0 app a bit for use, and looking at a
+  polymer and debugging.
+  would like to start a sort of console.log with visual log polyfill
+  for the user to monitor the app is working correctly
+- [2017-02-15] Three modes of app HTML handling. [2017-10-14] Moved to
+  `features/dhtml`_. Any mode that works will do. Client is still not very
+  friendly.
+- [2017-09-09] See also `component`_ and `module`_ source docs
+- [2017-10-14] Cleaning up here, moving bits to `features/dhtml`_.
+  Now documenting main setup approaches here.
 
-[2016-12-13] setup `app-0` router for first prototype of base client.
+Design
+------
+Documenting bootstrap approaches for Require.JS clients.
 
-Maybe once (if ever) app is extensible just use `app.base:#`?
+app/v0
+  The client is enabled by:
 
-[2016-12-27] testing prism.js. Not sure how to go about upgrading polymer.
+  - add app/v0 route to rendered sf-v0.pug
+  - add rjs.config and rjs.main app routes to create require.js bootstrap JS
+  - set Sitefile options for app/v0 to the require.js app JS route
+  - add key/value meta options to sf-v0.pug tpl route, to configure app via
+    HTML(5) meta elements.
 
-[2017-01-07] cleaning new sitefile v0 app a bit for use, and looking at a
-polymer and debugging.
-would like to start a sort of console.log with visual log polyfill
-for the user to monitor the app is working correctly
+The main philosophies are:
 
-[2017-02-15] There's one or more clients to build, to enable navigation etc. on
-a page. There's three modes there:
+1. components making up the app are defined by meta settings
+2. components define their own dependencies completely
 
-1. add nav by raw HTML insert/append.
-   Could be a script, or HTML code. But cannot be very particular about where it
-   is inserted. To ``<head/>`` would be best.
+Downsides:
 
-2. add nav by router,
+1. meta values are opaque strings, requires coming up with scheme for storing
+   id's or structured data
+2. client structure is not prescribed, no framework for MVC etc.
+   Had to design for sitefile v0 some minimal lifecycle events to sync
+   components and DOM/resource loading wihtout it its just not usable.
 
-   this requires the router itself to support adding JS/CSS.
-   Like currently the markdown router uses Pug to wrap its renderings,
-   and rSt has some options. This is somewhat suboptimal, the code should have a
-   single location.
+Moving closer to modern HTML concepts like webcomponents and polyfill would
+improve the situation.
 
-   Would want to indicate 1. which resources are browser viewed (and can
-   be wrapped with HTML or have a DOM to insert HTML) and 2. which of those
-   can process their own options.stylesheets, options.scripts etc.
+app/v0-sf-rjs.html
+  Prototype for client leveraged from single as-is config (JSON/YAML).
+  Generates HTML and Require.JS config endpoints based on pattern route.
 
-3. add nav client-side,
+  [2017-10-14] Added new handler ``boot`` to `rjs`_, loading dta from
+  lib/sitefile/client/sf-v0.yaml. Moving all rjs config, and the separate
+  JS/HTML routes from Sitefile to separte file scheme.
 
-   here we miss the egg but then complete the circle of chickens and eggs,
-   iow. this only works for routers mentioned in 2. that can manage (client)
-   scripts for their renderings.
+The philosophy amends the `app/v0` setup:
 
-   This does enable to build a HTML+JS client, like app/v0 which can then
-   be used to navigate around for any resource wether HTML and with Nav or not.
-   This is an important feature, but for Sf core focus needs to stay on
-   essential tooling too, not just about pulling magic from the cloud.
+3. move configuration from Sitefile spec and options (rawhtml stuff like
+   client, script, link and meta) to as-is files.
 
+And also allows to further structure app using metadata if some scheme proves to
+be practical.
 
-So really leaves only option 1 for a simple, generic catch-all solution.
-Option 3.b. is in place, sort of.
-r0.0.7 has other client scripts though, and it would be nice to unify the
-setup for so far possible, re-use stuff, have SPR, and do something sensible,
-transparant and understandable.
+For this to happen, need to build out implementation in `deref`_ and in
+particular design for local and remote resource handling. See `features/http`_.
 
-[2017-08-26] the work in progress client is not behaving very beautifully, but
-functioning well enough for mixing per project-defined client components and
-thus has lots of potential application. Failing that the data and cache is
-solved, well enough to prevent too many ad-hoc sitefile routers and local
-extensions.
-
-[2017-09-09]
-
-
-See also
-  - `component-module docs`_
-  - `module docs`_
 
 Branches
 ---------
@@ -83,9 +85,3 @@ features/html5-client
 
 features/dhtml
   Continues the jQ plugin and widget development.
-
-
-Design
--------
-
-..

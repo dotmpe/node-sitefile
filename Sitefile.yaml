@@ -15,7 +15,8 @@ config:
   domain: 'localhost'
   aliases:
   - 'sf-sf.wtwta.lan'
-upstream: # Grant CORS (for async data requests) to these hosts
+downstream: [] # Grant sitefile derefs to these remotes
+upstream: # Grant CORS access (for local URL) to these hosts
 - 'http://localhost'
 - 'http://localhost:2000'
 - 'http://localhost:2001'
@@ -154,10 +155,11 @@ routes:
   app/v0: pug:sitefile-client:sf-v0.pug
   # Serve coffee script for RequireJS client
   app/: redir:app/v0
-  app: static:lib/sitefile/client
+  #app/v0-yaml:ext: rjs.boot:sitefile-client:sf-v0.yaml;name=yaml;
+  'r:app/v0([^\.]*)(\..*)': rjs.boot:sitefile-client:sf-v0.yaml
   'r:app/(.*).sass.css': sass:sitefile-lib:client/
   'r:app/(.*).pug.html': pug:sitefile-lib:client/
-
+  app: static:lib/sitefile/client
 
   # FIXME: fonts? want to build CSS+font loading into RequireJS client
   fonts: static:node_modules/bootstrap/fonts

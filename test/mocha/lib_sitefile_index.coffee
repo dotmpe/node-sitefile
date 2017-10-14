@@ -79,9 +79,10 @@ describe 'Module sitefile', ->
     it 'Should export options', ->
       ctx = {}
       lib.prepare_context ctx
-      sfctx = ( "backtraces basename bundles config config_envs config_name "+
-        "cwd data-resolve-limit debug default_profile domain engines envname "+
-        "ext exts fn include-sf-title lfn log metadata middleware modules "+
+      sfctx = ( "aliases backtraces basename bundles config config_envs "+
+        "config_name cwd data-resolve-limit debug default_profile domain "+
+        "engines envname express_version ext exts fn include-sf-title lfn "+
+        "log metadata middleware modules "+
         "noderoot packages paths pkg pkg_file proc routes show-stack-trace "+
         "site sitefile sitefilerc static title use-sf-title verbose version "+
         "warn"
@@ -109,7 +110,7 @@ describe 'Module sitefile', ->
     it 'contains references, globalized after loading', ->
 
       ctx = lib.prepare_context()
-      expect( ctx.get 'sitefile.options.global.rst2html.stylesheets' ).to.eql {
+      expect( ctx.get 'sitefile.options.global.pug.merge.stylesheets' ).to.eql {
         $ref: '#/sitefile/defs/stylesheets/default'
       }
       obj = ctx.resolve 'sitefile.options.global.rst2html.stylesheets'

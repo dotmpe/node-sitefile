@@ -41,11 +41,14 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             main: '/app/rjs-sf-v0.js'
           }]
           expect(obj.merge.stylesheets).to.eql [
-            "/vendor/bootstrap.css"
-            "/vendor/bootstrap-theme.css"
-            "/vendor/jquery-ui.css"
-            "/vendor/jquery-terminal.css"
+            { url: "/vendor/jquery-ui.css"}
+            { url: "/vendor/jquery-terminal.css"}
+            { url: "/vendor/bootstrap.css"}
+            { url: "/vendor/bootstrap-theme.css"}
+            { url: "/vendor/bootstrap-table.css"}
+            { url: "/media/style/default.css"}
           ]
+
           clients = stu.ctx.resolve \
                     'sitefile.options.local.app/v0.merge.clients'
           expect(clients).to.be.a 'array'
@@ -53,12 +56,13 @@ describe "The local Sitefile.yaml serves the local documentation, and \
           expect(clients[0].href).to.equal '/vendor/require.js'
           stu.test_url_type_ok(clients[0].main, "application/javascript")
 
-  
+      #stu.verify_pattern ->
+      #_loads_a_page_that stu, sewd, browser
+      #_loads_a_page_that = ( stu, sewd, browser ) ->
       describe "that loads a page that", ->
 
         sewd = require 'selenium-webdriver'
         browser = require 'selenium-webdriver/testing'
-
         before ->
           if stu.ctx.verbose
             console.log 'requesting', stu.env_browser()
@@ -78,7 +82,6 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
         after ->
           @driver?.quit()
-
 
         browser.it "has docutils elements (document/header/footer)", ->
           Promise.all [
@@ -116,9 +119,10 @@ describe "The local Sitefile.yaml serves the local documentation, and \
               ]).catch( reject ).then resolve
 
 
+      #/_loads_a_page_that
+
 
     describe "at ReadMe", ->
-
       describe "that loads a page that", ->
 
         sewd = require 'selenium-webdriver'
@@ -144,7 +148,6 @@ describe "The local Sitefile.yaml serves the local documentation, and \
         after ->
           @driver?.quit()
 
-
         browser.it "has a global menu", ->
           driver = @driver
           new Promise ( resolve, reject ) ->
@@ -167,9 +170,6 @@ describe "The local Sitefile.yaml serves the local documentation, and \
                 expect('ul.nav.menu-sites').dom.to.have.count 1
               ]).catch( reject ).then resolve
 
-
-
-
     describe "with config/init from", ->
 
       it "rjs-sf-v0.json", stu.test_url_type_ok \
@@ -177,7 +177,3 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
       it "rjs-sf-v0.js", stu.test_url_type_ok \
           "/app/rjs-sf-v0.js", "application/javascript"
-
-
-
-

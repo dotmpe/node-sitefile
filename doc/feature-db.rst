@@ -41,7 +41,7 @@ Data
 
   TODO: pouch-relational <https://github.com/pouchdb-community/relational-pouch>
 
-  - `Client Storage-Component docs`_
+  - `Client Storage-Component`_
 
 - Musings on more middleware, componentized design at the backend. Initial
   moves to refactor and do away with the monolithic router.
@@ -65,10 +65,10 @@ Last-Modified
     Making Last-Modified_ a sitefile case study to get Metadata interface from CouchDB going.
     See Resources_ section within the `Route Feature`_ docs.
 
-  - `Last-Modified Mixin docs`_
+  - `Last-Modified Mixin`_
 
-- `sf-couchdb-context-proto docs`_
-- `Metadata Middleware docs`_
+- `sf-couchdb-context-proto`_
+- `Metadata Middleware`_
 
 
 .. include:: .defaults.rst

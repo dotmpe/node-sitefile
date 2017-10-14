@@ -38,6 +38,3 @@ describe "Module conf", ->
     it "Should load the data of the nearest sitefilerc", ->
       data = libconf.load 'sitefilerc', get: suffixes: [ '' ]
       expect( data ).to.eql sitefilerc: pkg.version
-
-
-

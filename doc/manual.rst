@@ -208,7 +208,7 @@ Current situation/plan::
 
   /prefix/^: <router>:<pg>
 
-TODO: no prefixing tested yet. Also see `Router feature`_ docs.
+TODO: no prefixing tested yet. Also see `Route Feature`_ docs.
 
 
 Mapping exts:

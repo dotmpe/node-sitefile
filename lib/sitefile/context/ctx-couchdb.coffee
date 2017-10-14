@@ -1,8 +1,8 @@
 # ## Sitefile CouchDB Metadata Context-Prototype Mixin Module
-# 
+#
 # Aim is to abstract both access to a generic URL-JSON document store, and to
-# Offer modes of resource request 
-# 
+# Offer modes of resource request
+#
 _ = require 'lodash'
 
 
@@ -36,4 +36,3 @@ module.exports = ( ctx ) ->
 
     set_metadata: ->
       db.insert @_data, rctx.res.ref, ( err, body ) ->
-        

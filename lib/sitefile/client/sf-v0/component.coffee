@@ -1,5 +1,5 @@
 #
-# Component allows several independent mixins to merge into a single class, and 
+# Component allows several independent mixins to merge into a single class, and
 # to synchronise construction.
 #
 define 'sf-v0/component', [ 'lodash', 'cs!./module' ], ( _, Module ) ->

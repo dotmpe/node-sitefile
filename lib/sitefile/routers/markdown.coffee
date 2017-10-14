@@ -17,7 +17,7 @@ module.exports = ( ctx={} ) ->
 
 
   name: 'markdown'
-  aliases: 'markdown' # XXX: cannot use alias while only required routers are loaded.
+  aliases: 'markdown' # XXX: cannot use alias while only req. routers are loaded
   # Iow. some config/install process or action needs to set the explicit
   # alias-router map per instance.
   label: 'Markdown HTML publisher'
@@ -78,5 +78,3 @@ module.exports = ( ctx={} ) ->
         res.type 'html'
         res.write doc
         res.end()
-
-

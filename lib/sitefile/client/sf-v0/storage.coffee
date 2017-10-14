@@ -24,8 +24,8 @@ define 'sf-v0/storage', [
             username: 'admin'
             password: 'admin'
         )
-      @db.changes().on 'change', ->
-        console.log 'Ch-Ch-Changes', arguments
+      #@db.changes().on 'change', ->
+      #  console.log 'sf-v0/storage: Ch-Ch-Changes', arguments
 
       @app.meta = this
       @app.events.ready.emit name: 'pouch', instance: this

@@ -24,7 +24,6 @@ module.exports = ( ctx ) ->
       if @config.verbose
         @log.apply null, arguments
 
-
     # See where to fetch more data, and populate context. Track and cache
     # for each resource in a map on context. Allow to override map by
     # another context-prototype, e.g. to persist or sync data with store.

@@ -27,6 +27,15 @@
 
   Added microformats for ``live-code``, ``a[href]``.
 
+- Added Express version to context, include with server start log line.
+- New ``boot`` handler for `rjs`_.
+  Separate configuration to serve same sf-v0 app again at
+
+  <http:/app/v0-sf-rjs.html>
+  <http:/doc/literate/rjs.html#sf:xref:.container>
+
+  Can mull over the sitefile client structure a bit now:
+  <http:/app/v0-sf-rjs.app.json> <http:/app/sf-v0.yaml>
 
 
 Wanted

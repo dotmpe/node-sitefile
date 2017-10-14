@@ -1,4 +1,32 @@
+'':
+  type: sitefile-spec
+  description: |
+    Start to reak up complex spec. But for this to work need more unity
+    in route generator/handler calling. 
+  pug:
+  .js:
+    rjs.main: app/rjs-sf-v0.json
+  .json:
+    rjs.config: $ref:#/sf/config
+
+-sf-rjs:
+  name: '-sf-rjs'
+  type: sitefile-rjs-app
+  description: |
+    Initial support for in-yaml Require.JS config. 
+
+  config:
+    paths: $ref:cdn.json#/js/http/packages
+    shim: $ref:cdn-deps.json#/shim
+    deps: [ "require-css", "cs!sf-v0" ]
+    baseUrl: /app
+    map: $ref:cdn-deps.json#/map
+
+  tpl: sitefile-client:sf-v0.pug
+
 base:
+  type: mvc-isch?
+  description: In a galaxy, far, far away.
   layout:
     base:
       components:

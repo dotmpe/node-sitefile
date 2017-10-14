@@ -65,6 +65,8 @@ define 'sf-v0/component/require-app', [
               new mod ready_cb, self
 
           it = init_cb (->
-              self.events.ready.emit name: name, self: self, module: mod, args: arguments
-            ), self
-          self.events.init.emit name: name, self: self, instance: it, module: mod
+            self.events.ready.emit \
+            name: name, self: self, module: mod, args: arguments
+          ), self
+          self.events.init.emit \
+          name: name, self: self, instance: it, module: mod

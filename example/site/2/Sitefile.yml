@@ -6,4 +6,3 @@ routes:
   '': redir:main
   default.css: sass:default.sass
   default.js: coffee:default.coffee
-

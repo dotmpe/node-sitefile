@@ -34,11 +34,12 @@ Microformats
 
       radical.py lib/sitefile/*.coffee
 
-    - `live-code docs`_
-    - `sh-router docs`_
+    Source:
+      - `live-code`_
+      - `sh`_
 
-  - `microformat-component docs`_
+  Souce:
+    - `microformat-component`_
 
 See also
   - `HTML5 Client Feature`_
-
