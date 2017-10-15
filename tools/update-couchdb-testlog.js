@@ -1,8 +1,8 @@
 var fs = require('fs');
 
 var url = "https://"+process.env.CI_DB_INFO+"@"+process.env.CI_DB_HOST;
-var dbname = 'build-log';
-var key = 'node-sitefile';
+var dbname = process.env.CI_DB_NAME;
+var key = process.env.CI_DB_KEY;
 
 
 console.log("update-couchdb-doc: DB '"+dbname+"', key: "+key);
@@ -26,26 +26,22 @@ for (k in process.env) {
   }
 }
 
-// FIXME: need secure dropslot to deposit results, or whitelist travis for
-// build-log somehow.
-//
-// 52.0.0.0/8
-// ec2-52-0-0-0.compute-1.amazonaws.com/8
-//
 // Store current build
 db.insert(build, buildkey);
 
-// TODO: Set latest build info
-//buildlog = db.get(key);
-//console.log('existing', key, buildlog);
+// Set latest build info
+db.get(key, function( err, buildlog, headers ) {
 
-//db.update = function(obj, key, callback) {
-//    var db = this;
-//
-//    db.get(key, function (error, existing) {
-//        if(!error) obj._rev = existing._rev;
-//        db.insert(obj, key, callback);
-//    });
-//};
+  if (!buildlog) {
+    buildlog = {"builds": {}};
+  }
+  buildlog.builds[process.env.TRAVIS_JOB_NUMBER] = {
+    "stats": build.stats,
+    "scm": {
+      "commits": process.env.TRAVIS_COMMIT_RANGE,
+      "branch": process.env.TRAVIS_BRANCH
+    }
+  };
 
-//db.update(buildlog, key);
+  db.insert( buildlog, key );
+});

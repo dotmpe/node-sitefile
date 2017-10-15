@@ -22,5 +22,7 @@ echo
 CI_BUILD_RESULTS=$CI_BUILD_RESULTS \
 CI_DB_HOST="$CI_DB_HOST" \
 CI_DB_INFO="$CI_DB_INFO" \
-  node ./tools/update-couchdb-doc.js
+CI_DB_NAME='build-log' \
+CI_DB_KEY="$TRAVIS_REPO_SLUG" \
+  node ./tools/update-couchdb-testlog.js
 #rm mocha-results.tap $CI_BUILD_RESULTS
