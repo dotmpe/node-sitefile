@@ -179,4 +179,4 @@ else
 
 
 # vim:ft=coffee:
-# Id: node-sitefile/0.0.7-dev bin/sitefile.coffee
+# Id: node-sitefile/0.0.7-dev bin/sitefile-cli.coffee

@@ -21,3 +21,4 @@ tools/merge-upstream.sh
 #.sitefilerc
 example/site/3/Sitefile.json
 example/site/4/Sitefile.yml
+tools/update-couchdb-testlog.js

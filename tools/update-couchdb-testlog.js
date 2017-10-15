@@ -45,3 +45,6 @@ db.get(key, function( err, buildlog, headers ) {
 
   db.insert( buildlog, key );
 });
+
+// Id: node-sitefile/0.0.7-dev tools/update-couchdb-testlog.js
+// From: script-mpe/0.0.4-dev tools/update-couchdb-testlog.js
