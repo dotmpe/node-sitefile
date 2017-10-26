@@ -22,14 +22,18 @@ Node Sitefile
     :target: https://coveralls.io/r/dotmpe/node-sitefile
     :alt: Coverage
 
-  .. image:: https://secure.travis-ci.org/dotmpe/node-sitefile.png
-    :target: https://travis-ci.org/dotmpe/node-sitefile
-    :alt: Build
+  .. image:: http://img.shields.io/travis/bvberkum/node-sitefile.svg
+    :target: http://travis-ci.org/bvberkum/node-sitefile
+    :alt: Build Status
 
   ..
      .. image:: https://img.shields.io/github/issues/dotmpe/node-sitefile.svg
        :target: http://githubstats.com/dotmpe/node-sitefile/issues
        :alt: GitHub issues
+
+  .. image:: http://img.shields.io/codeclimate/github/bvberkum/node-sitefile.svg
+    :target: https://codeclimate.com/github/bvberkum/node-sitefile
+    :alt: Code Climate
 
 :repository:
 
