@@ -9,11 +9,10 @@ Branch                              | Dockerfile              | Tag
 ----------------------------------- | ------------------------| ---------------
 ``/^r([0-9\.]+[-a-z0-9+_-]*)/``     | ``tools/docker/ubuntu`` | {\1}-dev
 
-TODO: this builds from treebox:dev, update to version and continue with below
-builds
-
 Tag                                 | Dockerfile              | Tag           
 ----------------------------------- | ------------------------| ---------------
 docker-latest                       | ``tools/docker/ubuntu`` | latest      
 ``/^v([0-9\.]+[-a-z0-9+_-]*)/``     | ``tools/docker/ubuntu`` | {\1}
 
+Dev builds from ``treebox:dev``, latest from ``:latest`` and tagged releases are
+matched with the latest treebox stable version (0.0.1).
