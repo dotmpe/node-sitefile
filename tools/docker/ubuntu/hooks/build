@@ -1,8 +1,34 @@
 #!/bin/sh
 
-docker build \
-    --build-arg DCKR_TAG=dev \
-    --build-arg sf_checkout=$SOURCE_BRANCH \
-    -t $IMAGE_NAME .
+echo "SOURCE_BRANCH: $SOURCE_BRANCH"
+case "$SOURCE_BRANCH" in
+
+  docker-latest )
+      docker build \
+          --build-arg DCKR_TAG=latest \
+          --build-arg sf_checkout=$SOURCE_BRANCH \
+          -t $IMAGE_NAME .
+    ;;
+
+  r* )
+      docker build \
+          --build-arg DCKR_TAG=dev \
+          --build-arg sf_checkout=$SOURCE_BRANCH \
+          -t $IMAGE_NAME .
+    ;;
+
+  v[0-9]* )
+      docker build \
+          --build-arg DCKR_TAG=0.0.1 \
+          --build-arg sf_checkout=$SOURCE_BRANCH \
+          -t $IMAGE_NAME .
+    ;;
+
+  * )
+      echo "No build '$SOURCE_BRANCH'" >&2
+      exit 1
+    ;;
+
+esac
 
 # Id: sitefile/0.0.7-dev
