@@ -1,5 +1,8 @@
 #!/bin/sh
+
 docker build \
-    --build-arg DCKR_TAG=xenial \
+    --build-arg DCKR_TAG=dev \
     --build-arg sf_checkout=$SOURCE_BRANCH \
     -t $IMAGE_NAME .
+
+# Id: sitefile/0.0.7-dev

@@ -6,6 +6,9 @@ Structure
 ----------
 ..
 
+  TODO: replace README with one generic markdown variant.
+  Move main rSt entry to index.rst
+
   TODO: documentation wise the following should also be
   mentioned:
 

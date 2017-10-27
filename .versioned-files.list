@@ -21,3 +21,7 @@ tools/merge-upstream.sh
 #.sitefilerc
 example/site/3/Sitefile.json
 example/site/4/Sitefile.yml
+configure
+tools/docker/ubuntu/Dockerfile
+tools/docker/ubuntu/entry.sh
+tools/docker/ubuntu/hooks/build

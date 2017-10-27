@@ -1,19 +1,30 @@
 #!/bin/bash
 
-test -n "$1" || set -- "github.com/bvberkum/node-sitefile" "$2" "$3"
+# Set env, default to arguments
 
-test -d "/src/$1" || {
-  test -n "$3" || {
-    echo "Missing repo for site '$1'"
+test -n "$site_src" || site_src=github.com/bvberkum/node-sitefile
+test -n "$site_repo" || site_repo=
+test -n "$site_ver" || site_ver=
+
+test -z "$1" || site_src=$1
+test -z "$2" || site_repo=$2
+test -z "$3" || site_ver=$3
+
+test -d "/src/$site_src" || {
+  test -n "$ver" || {
+    echo "Missing src or repo for site '$site_src'"
     exit 1
   }
-  git clone $3 /src/$1
+  git clone $ver /src/$site_src
 }
 
-cd /src/$1
 
-test -z "$2" || git checkout $2
+cd /src/$site_src
+
+test -z "$repo" || git checkout $repo
 
 test ! -e package.json || npm install
 
 sitefile
+
+# Id: sitefile/0.0.7-dev

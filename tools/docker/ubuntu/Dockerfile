@@ -1,5 +1,5 @@
-ARG DCKR_TAG=latest
-FROM bvberkum/ubuntu-treebox:$DCKR_TAG
+ARG DCKR_TAG=dev
+FROM bvberkum/treebox:$DCKR_TAG
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 
@@ -30,10 +30,12 @@ RUN USER=$(whoami) && \
 
 ENV site_src=github.com/bvberkum/node-sitefile
 ENV site_repo=
-ENV site_checkout=
+ENV site_version=
 
 RUN mkdir -vp /usr/local/share/sitefile
 COPY ./entry.sh /usr/local/share/sitefile/entry.sh
 ENTRYPOINT ["/usr/local/share/sitefile/entry.sh"]
-EXPOSE 7000-7400
-CMD ["$site_src","$site_checkout","$site_repo"]
+EXPOSE 7100-7109
+CMD ["$site_src","$site_version","$site_repo"]
+
+# Id: sitefile/0.0.7-dev
