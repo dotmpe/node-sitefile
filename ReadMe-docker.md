@@ -1,4 +1,4 @@
-[comment]: # This is the hub.docker.com ReadMe.
+[comment]: # This would be the hub.docker.com ReadMe..
 
 ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/node-sitefile.svg)
 ![last commit r0.0.7](https://img.shields.io/github/last-commit/bvberkum/node-sitefile/r0.0.7.svg)
