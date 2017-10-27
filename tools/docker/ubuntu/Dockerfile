@@ -11,7 +11,7 @@ ARG username=treebox
 USER root
 
 # Prepare for Sitefile
-RUN env && \
+RUN USER=$username && \
   mkdir -vp /opt /src && \
   chmod g+rw /usr/local/* /usr/local/lib/node_modules /opt /src && \
   chgrp staff /usr/local/* /usr/local/lib/node_modules /opt /src && \
