@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
