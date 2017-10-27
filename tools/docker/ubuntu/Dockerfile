@@ -5,12 +5,17 @@ MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 ARG sf_checkout=dev
 
+#ADD sudoers-treebox /etc/sudoers.d/treebox
+USER root
+
 # Prepare for Sitefile
 RUN \
   sudo mkdir -vp /opt /src && \
   sudo chmod g+rw /usr/local/* /usr/local/lib/node_modules /opt /src && \
   sudo chgrp staff /usr/local/* /usr/local/lib/node_modules /opt /src
  
+USER treebox
+
 # Checkout Sitefile
 RUN USER=$(whoami) && \
   mkdir -vp /opt/bvberkum /src/github.com/bvberkum && \
@@ -27,6 +32,8 @@ RUN USER=$(whoami) && \
   npm install --quiet grunt coffee-script && \
   npm install --quiet -g .
 
+#RUN \
+#  rm /etc/sudoers.d/treebox
 
 ENV site_src=github.com/bvberkum/node-sitefile
 ENV site_repo=
