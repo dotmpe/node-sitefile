@@ -100,6 +100,15 @@ GIT DAG
   - Learn Git Branching
     <http://learngitbranching.js.org/>
 
+ASCII
+  - GoAT "is a Go implementation of markdeep.mini.js's ASCII diagram
+    generation." <https://github.com/blampe/goat>
+
+UML, ERD
+  - UML sequence diagrams build with Go <https://github.com/lmika/goseq>
+  - minimal ERD for DSL (Go) <https://github.com/k-kawa/erd>
+
+
 Appendix
 ========
 
