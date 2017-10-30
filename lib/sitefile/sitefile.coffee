@@ -6,8 +6,6 @@ chalk = require 'chalk'
 semver = require 'semver'
 nodelib = require 'nodelib-mpe'
 
-Context = nodelib.Context
-
 Router = require './Router'
 
 liberror = require '../error'
@@ -174,7 +172,7 @@ load_packages = ( ctx ) ->
     if sf_mod.type == 'pre-context-init'
       sf_mod
     if sf_mod.type == 'context-prototype'
-      _.extend(Context::, sf_mod.prototype)
+      _.extend(nodelib.Context::, sf_mod.prototype)
     if sf_mod.type == 'middleware'
       if not _.isFunction sf_mod.passthrough
         throw new Error("Not a function for middleware "+sf_package.name)
@@ -280,7 +278,7 @@ prepare_context = ( ctx={} ) ->
   load_packages ctx
 
   debug "Creating new context for #{ctx.envname}"
-  new Context ctx
+  new nodelib.Context ctx
 
 
 # Split sitefile router specs

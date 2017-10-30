@@ -6,8 +6,6 @@ _ = require 'lodash'
 yaml = require 'js-yaml'
 Promise = require 'bluebird'
 
-nodelib = require 'nodelib-mpe'
-Context = nodelib.Context
 
 
 expand_path = ( src, ctx ) ->

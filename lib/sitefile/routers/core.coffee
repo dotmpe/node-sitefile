@@ -1,5 +1,4 @@
 _ = require 'lodash'
-nodelib = require 'nodelib-mpe'
 
 
 jQuery_autocomplete_api = ( req, rctx ) ->
