@@ -9,7 +9,8 @@ pmx = null
 
 lib = require '../lib/sitefile'
 sf_express = require '../lib/sitefile/express'
-strutil = require '../lib/strutil'
+
+require '../lib/strutil'
 
 
 
@@ -31,7 +32,6 @@ sitefile_cli = module.exports =
     sf_express.init( app, ctx )
 
     app.set 'query parser', sf_express.query_parser
-
     ctx.static_proto = express.static
     ctx.redir = ( ref, p ) ->
       # Express redir handler

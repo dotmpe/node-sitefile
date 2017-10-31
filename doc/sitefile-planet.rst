@@ -64,6 +64,10 @@ Editors
 `Ghost <https://github.com/tryghost/Ghost>`_
   "A simple, powerful publishing platform https://ghost.org"
 
+`Hugo <https://github.com/gohugoio/hugo>`_
+  "A Fast and Flexible Static Site Generator built with love by spf13 and
+  friends in Go."
+
 
 .. _realms: https://github.com/scragg0x/realms-wiki
 .. _dillinger: http://dillinger.io/

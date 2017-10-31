@@ -26,5 +26,3 @@ define 'sf-v0/module', [], ->
 
       proto.on_module_include?.apply @, [ proto ]
       this
-
-
