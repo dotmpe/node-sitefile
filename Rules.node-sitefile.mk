@@ -85,3 +85,41 @@ publish: check
 	fi
 
 
+
+.build/js/sitefile: ./lib
+	grunt coffee:lib
+.build/js/sitefile-dev:
+	grunt coffee:dev
+.build/js/sitefile-test:
+	grunt coffee:test
+
+
+PRETTYG := ./tools/sh/prettify-madge-graph.sh
+
+assets/%-deps.dot: .build/js/% .madgerc Rules.node-sitefile.mk $(PRETTYG)
+	madge --include-npm --dot .build/js/$* | $(PRETTYG) .build/js/sitefile "sitefile" > $@
+
+assets/%.dot: .build/js/% .madgerc $(PRETTYG) Rules.node-sitefile.mk
+	madge --dot .build/js/$* | $(PRETTYG) .build/js/$* > $@
+
+assets/%-deps.svg: assets/%-deps.dot .build/js/% Rules.node-sitefile.mk
+	dot -Grankdir=LR -Tsvg assets/$*-deps.dot -Nshape=record > $@
+
+assets/%.svg: assets/%.dot .build/js/% Rules.node-sitefile.mk
+	dot -Grankdir=LR -Tsvg assets/$*.dot -Nshape=record > $@
+
+LIB_DEP_G_DOT := \
+	assets/sitefile.dot \
+	assets/sitefile-deps.dot \
+	assets/sitefile-test-deps.dot \
+	assets/sitefile-dev-deps.dot
+LIB_DEP_G_SVG := \
+	assets/sitefile.svg \
+	assets/sitefile-deps.svg \
+	assets/sitefile-test-deps.svg \
+	assets/sitefile-dev-deps.svg
+
+dep-g-dot:: $(LIB_DEP_G_DOT)
+dep-g-svg:: $(LIB_DEP_G_SVG)
+
+dep-g:: $(LIB_DEP_G_SVG) $(LIB_DEP_G_DOT)

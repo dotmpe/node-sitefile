@@ -182,6 +182,9 @@ routes:
   _pug_polymer: pug:example/polymer*.pug
   _pug_clients: pug:example/*-client*.pug
 
+  assets: static:assets
+  favicon: static:assets/favicon-file-text.ico
+
 options:
   global:
     docutils:

@@ -43,6 +43,40 @@ module.exports = ( grunt ) ->
         '**/*.meta'
       ]
 
+    coffee:
+      lib:
+        expand: true
+        cwd: "#{__dirname}/"
+        src: [
+           "bin/**/*.coffee"
+           "lib/**/*.coffee"
+        ],
+        dest: ".build/js/sitefile"
+        ext: ".js"
+
+      dev:
+        expand: true
+        cwd: "#{__dirname}/"
+        src: [
+           "bin/*.coffee"
+           "lib/**/*.coffee"
+           "*.coffee"
+           "test/mocha/**/*.coffee"
+           "example/**/*.coffee"
+        ],
+        dest: ".build/js/sitefile-dev"
+        ext: ".js"
+
+      test:
+        expand: true
+        cwd: "#{__dirname}/"
+        src: [
+           "test/mocha/**/*.coffee"
+           "example/**/*.coffee"
+        ],
+        dest: ".build/js/sitefile-test"
+        ext: ".js"
+
     mochaTest:
       test:
         options:
@@ -96,6 +130,8 @@ module.exports = ( grunt ) ->
         cmd: "sh ./tools/update-spec.sh"
       doc_defaults_docco_refs:
         cmd: "sh ./tools/generate-docco-rst-refs.sh > doc/.defaults-docco.rst"
+      deps_g:
+        cmd: "make dep-g"
 
     pkg: grunt.file.readJSON 'package.json'
 
