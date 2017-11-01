@@ -109,6 +109,9 @@ module.exports = ( ctx ) ->
 
 
     process_meta: ( meta ) ->
+      unless _.isEmpty meta
+        return
+
       for item, idx in meta
         for key, value of item
           unless 'string' is typeof value
@@ -117,6 +120,9 @@ module.exports = ( ctx ) ->
           meta[idx][key] = value
 
     rawhtml_meta: ( rawhtml, meta ) ->
+      unless _.isEmpty meta
+        return
+
       sitefile.log "rst2html:addmeta", String(meta)
       tags = ''
       for item in meta
