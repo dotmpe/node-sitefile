@@ -121,7 +121,7 @@ module.exports = ( ctx ) ->
 
     rawhtml_meta: ( rawhtml, meta ) ->
       unless _.isEmpty meta
-        return
+        return rawhtml
 
       sitefile.log "rst2html:addmeta", String(meta)
       tags = ''
@@ -132,6 +132,9 @@ module.exports = ( ctx ) ->
       rawhtml.replace '</head>', tags+' </head>'
 
     rawhtml_script: ( rawhtml, javascript_url ) ->
+      unless _.isEmpty javascript_url
+        return rawhtml
+
       sitefile.log "rst2html:addscript", javascript_url
       script_tag = '<script type="text/javascript" src="'+\
           javascript_url+'" ></script>'
@@ -139,6 +142,9 @@ module.exports = ( ctx ) ->
       rawhtml.replace '</head>', script_tag+' </head>'
 
     rawhtml_client: ( rawhtml, client ) ->
+      unless _.isEmpty client
+        return rawhtml
+
       sitefile.log "rst2html:addclient", client.main
       script_tag = '<script type="text/javascript"
           id="'+client.id+'"
