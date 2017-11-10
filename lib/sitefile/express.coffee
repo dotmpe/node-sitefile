@@ -16,6 +16,7 @@ init_express = ( app, ctx={} ) ->
   if process.env.SITEFILE_PORT
     ctx.site.port = process.env.SITEFILE_PORT
   app.set 'port', ctx.site.port
+  app.set 'host', ctx.site.host
   app.set 'showStackError', ctx.config['show-stack-trace']
   if 'metadata' of ctx.config
     app.set 'metadata', ctx.config['metadata']

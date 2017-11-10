@@ -106,7 +106,9 @@ load_sitefile = ( ctx ) ->
     ctx.packages = _.union ctx.packages, ctx.sitefile.packages
 
   if ctx.sitefile.config?
-    _.merge ctx.config, ctx.sitefile.config
+    _.defaultsDeep ctx.config, ctx.sitefile.config
+    # XXX: Overlay the user config onto context
+    _.merge ctx, ctx.config
 
   log "Loaded", path: path.relative ctx.cwd, ctx.lfn
 
@@ -122,7 +124,10 @@ load_rc = ( ctx ) ->
   ctx.static
 
 
+# user-config loads more defaults for sitefile, which need not to be inside 
+# ctx.config
 load_config = ( ctx={} ) ->
+
   if not ctx.config_name?
     ctx.config_name = 'config/config.coffee'
     # XXX config per client
@@ -133,9 +138,12 @@ load_config = ( ctx={} ) ->
 
   rc = path.join '../..', ctx.config_name
   if fs.existsSync require.resolve rc
+    # Load env
     ctx.config_envs = require rc
     ctx.config = ctx.config_envs[ctx.envname]
-    _.defaultsDeep ctx, ctx.config
+    # Merge global defaults
+    if 'default' of ctx.config_envs and ctx.config_envs.default
+      _.defaultsDeep ctx.config, ctx.config_envs.default
     debug "Loaded user config for #{ctx.envname}"
 
   ctx.config
@@ -199,6 +207,7 @@ prepare_context = ( ctx={} ) ->
     log: log
     warn: warn
     verbose: ctx.envname is 'development'
+    config: {}
 
   express_pkg = require path.join(
     ctx.noderoot, 'node_modules', 'express', 'package.json' )
@@ -213,37 +222,11 @@ prepare_context = ( ctx={} ) ->
   load_config ctx
 
   _.defaultsDeep ctx,
-    site:
-      title: 'Sitefile'
-      host: ''
-      port: 8081
-      base: '/'
-      netpath: null
-      upstream: []
+    site: {}
+    config: {}
     routes:
       resources: {}
       directories: []
-    bundles: {}
-    config:
-      default_profile: "http://wtwta.org/project/sitefile#base:v0"
-      title: 'title+" - Sitefile "+context.version'
-      domain: 'untitled-sitefile.local'
-      'show-stack-trace': false
-      'use-sf-title': true
-      'include-sf-title': true
-      backtraces: true
-
-      'data-resolve-limit': 5 # number of recursions allowed in
-      # sitefile.Router.resolve_resource_data
-
-      # See Express app.engine for use, here map filename-ext to engine
-      engines: [
-        'pug'
-        'handlebars' # XXX: unused, like app.render ...
-        #{ hbs: 'handlebars' }
-        #{ html: 'ejs' }
-      ]
-
     paths: # TODO: configure lookup paths
       routers: [
         'sitefile:lib/sitefile/routers'
@@ -259,20 +242,51 @@ prepare_context = ( ctx={} ) ->
         'sitefile:lib'
       ]
 
+    bundles: {}
+    modules: []
+    packages: []
+    middleware: []
+
     packages: [
       "sitefile/context/ctx-core.coffee"
       "sitefile/context/ctx-couchdb.coffee"
+      "http-sf-default.coffee"
       "cors.coffee"
       "metadata.coffee"
     ]
 
-    modules: []
-    middleware: []
-
-
   # Load local sitefile (set ctx.sitefile)
   unless ctx.sitefile?
     load_sitefile ctx
+
+  _.defaultsDeep ctx,
+    site:
+      title: 'Sitefile'
+      host: ''
+      port: 8081
+      base: '/'
+      netpath: null
+      upstream: []
+    config:
+      default_profile: "http://wtwta.org/project/sitefile#base:v0"
+      title: 'title+" - Sitefile "+context.version'
+      domain: 'untitled-sitefile.local'
+      'strict-domain': false
+      'advertise': true
+      'advertise-server': false
+      'show-stack-trace': false
+      'use-sf-title': true
+      'include-sf-title': true
+      backtraces: true
+      'data-resolve-limit': 5 # number of recursions allowed in
+      # sitefile.Router.resolve_resource_data
+      # See Express app.engine for use, here map filename-ext to engine
+      engines: [
+        'pug'
+        'handlebars' # XXX: unused, like app.render ...
+        #{ hbs: 'handlebars' }
+        #{ html: 'ejs' }
+      ]
 
   # Load packages: initialize from sitefile.packages (set ctx.packages)
   load_packages ctx

@@ -41,7 +41,7 @@
     "test": "./configure && export NODE_ENV=testing && grunt test",
     "test-tap": "./configure && export NODE_ENV=testing && grunt mochaTest:tap",
     "start": "NODE_ENV=acc coffee bin/sitefile-cli.coffee",
-    "dev": "nodemon -d 13 -w Sitefile.yaml -w lib/ -w bin/ -w example/ -- bin/sitefile-cli.coffee",
+    "dev": "nodemon -d 11 -w Sitefile.yaml -w lib/ -w bin/ -w example/ -- bin/sitefile-cli.coffee",
     "strict": "NODE_ENV=acc nodemon --use_strict -w Sitefile.yaml -w lib/ -w bin/ -w example/ -- bin/sitefile-cli.coffee --verbose",
     "check": "grunt check",
     "build": "grunt build",

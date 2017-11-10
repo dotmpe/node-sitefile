@@ -1,11 +1,5 @@
 ###
 Work in progress docutils router for sitefile.
-
-XXX: get all dependencies somehow, and route them?
-     (embedded references; links and includes)
-
-XXX: du.mpe compatible with fallback or?
-
 ###
 _ = require 'lodash'
 path = require 'path'

@@ -11,10 +11,12 @@ config:
   metadata: '/data/meta'
   debug: true
   verbose: true
-  #verbose: true
-  domain: 'localhost'
-  aliases:
-  - 'sf-sf.wtwta.lan'
+  domain: 'sitefile.wtwta.org'
+  strict-domain: true
+  advertise: true
+  advertise-server: true
+  #aliases:
+  #- 'sf-sf.wtwta.lan'
 downstream: [] # Grant sitefile derefs to these remotes
 upstream: # Grant CORS access (for local URL) to these hosts
 - 'http://localhost'
@@ -193,6 +195,7 @@ options:
       link_stylesheets: true
       flags:
       - "--no-toc-backlinks"
+      - '--field-name-limit=0'
       $ref: '#/options/global/pug/merge'
     pug:
       merge:
