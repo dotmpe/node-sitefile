@@ -15,7 +15,7 @@ module.exports = ( ctx ) ->
 
     if ctx.site.host
       if ctx['strict-domain'] and req.hostname != ctx.site.host
-        console.warn "Domain mismatch, redirecting #{req.hostname}.."
+        ctx.warn "Domain mismatch, redirecting #{req.hostname}.."
         res.redirect "#{req.protocol}://#{ctx.domain}"
         res.end()
 
@@ -23,7 +23,6 @@ module.exports = ( ctx ) ->
         next()
 
     else
-      if ctx.verbose
-        console.warn "Undefined ctx.site.host, skipped strict-domain check"
+      ctx.warn "Undefined ctx.site.host, skipped strict-domain check"
 
       next()

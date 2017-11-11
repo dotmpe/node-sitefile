@@ -1,6 +1,6 @@
 module.exports = ( ctx ) ->
 
-  name: 'cors'
+  name: 'http-cors-default'
   label: 'Sitefile CORS middleware'
   type: 'middleware'
 
@@ -30,8 +30,7 @@ module.exports = ( ctx ) ->
       unless remote
         remote = req.get 'referer'
       unless remote
-        if ctx.verbose
-          console.warn "Undefined remote, skipped access-control"
+        ctx.warn "Undefined remote, skipped access-control"
       else
         for url in allow_domains
           if remote.startsWith url

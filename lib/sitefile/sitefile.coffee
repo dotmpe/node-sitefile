@@ -251,7 +251,7 @@ prepare_context = ( ctx={} ) ->
       "sitefile/context/ctx-core.coffee"
       "sitefile/context/ctx-couchdb.coffee"
       "http-sf-default.coffee"
-      "cors.coffee"
+      "http-cors-default.coffee"
       "metadata.coffee"
     ]
 

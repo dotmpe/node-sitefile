@@ -58,9 +58,7 @@ paths: # Additional routers to test local router include path extension
 
 routes:
 
-  # Some defaults for root
-  '': redir:ReadMe
-  index: redir:ReadMe
+  '': redir:index
 
   # TODO: /_/.* -> /app/v0/#/... for HTML5 or JS clients
   '_': redir:app/v0
