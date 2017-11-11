@@ -11,11 +11,12 @@ test -z "$2" || site_repo=$2
 test -z "$3" || site_ver=$3
 
 test -d "/src/$site_src" || {
-  test -n "$ver" || {
+  test -n "$site_repo" || {
     echo "Missing src or repo for site '$site_src'"
     exit 1
   }
-  git clone $ver /src/$site_src
+  mkdir -vp /src/$(dirname $site_src)
+  git clone http://$site_src /src/$site_src
 }
 
 cd /src/$site_src
