@@ -15,16 +15,20 @@ echo "Branch: $branch"
 
 echo '{ "sitefilerc": "'$version'" }' > .sitefilerc
 
+test -e config/config && echo "Config exists, ok" ||
 (
 cat <<HEREDOC
 module.exports =
-  site: port: 7011
-  development: site: port: 7011
+  
+  site:
+    port: 7011
+    host: "$(hostname)"
+
+  development: {}
   testing: site: port: 7012
   production: site: port: 7013
 HEREDOC
 ) > config/config.coffee
-
 
 #[ "$ENV" == "testing" ] && {
 #}
