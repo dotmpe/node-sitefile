@@ -18,10 +18,17 @@ test -d "/src/$site_src" || {
   git clone $ver /src/$site_src
 }
 
-
 cd /src/$site_src
 
-test -z "$repo" || git checkout $repo
+test -d .git && {
+  test -z "$site_ver" || git checkout $site_ver
+  git pull
+} || {
+  test -z "$site_ver" || {
+    echo "Dir $site_src exists but is not a repository"
+    exit 1
+  }
+}
 
 test ! -e package.json || npm install
 
