@@ -1,5 +1,5 @@
-Node Sitefile
-=============
+|logo| Node Sitefile
+====================
 :Version: 0.0.7-dev
 :Status: Development
 :package: `ChangeLog <Changelog.rst>`_
@@ -44,6 +44,8 @@ Node Sitefile
     :alt: Data by microbadger.com
 
 
+.. |logo| image:: assets/logo-file-text-8bc34a.png
+           :scale: 65%
 
 
 Summary

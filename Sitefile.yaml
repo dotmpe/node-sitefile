@@ -183,7 +183,7 @@ routes:
   _pug_clients: pug:example/*-client*.pug
 
   assets: static:assets
-  favicon.ico: static:assets/favicon-file-text.ico
+  favicon.ico: static:assets/favicon-file-text-8bc34a.ico
 
 options:
   global:
