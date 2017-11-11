@@ -122,9 +122,9 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             v = validate_ac_json data
             expect(v).to.be.true
 
-            k = _.findKey( data, [ 'label', '/ReadMe' ] )
+            k = _.findKey( data, [ 'label', '/index' ] )
             expect( data[k] ).to.eql {
-              "label": "/ReadMe"
+              "label": "/index"
               "category": "File"
               "restype": "StaticPath"
               "router": "docutils.rst2html"
@@ -138,7 +138,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
     it "loading some handlers of sf-example", ->
       [
         new Promise ( resolve, reject ) ->
-          url = "http://localhost:#{stu.server.port}/sf-example/default"
+          url = "http://#{stu.server.host}:#{stu.server.port}/sf-example/default"
           request.get url, ( err, res, body ) ->
             if err then reject err
             else
@@ -148,7 +148,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
               expect( body ).to.equal "Sitefile example"
               resolve()
         new Promise ( resolve, reject ) ->
-          url = "http://localhost:#{stu.server.port}/sf-example/data1"
+          url = "http://#{stu.server.host}:#{stu.server.port}/sf-example/data1"
           request.get url, ( err, res, body ) ->
             if err then reject err
             else
@@ -159,7 +159,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
               expect( data['sf-example'] ).to.equal 'dynamic'
               resolve()
         new Promise ( resolve, reject ) ->
-          url = "http://localhost:#{stu.server.port}/sf-example/data2"
+          url = "http://#{stu.server.host}:#{stu.server.port}/sf-example/data2"
           request.get url, ( err, res, body ) ->
             if err then reject err
             else

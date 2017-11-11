@@ -216,7 +216,7 @@ module.exports = ( ctx ) ->
         httprouter.promise.resource(
           reqType: 'application/json'
           opts:
-            hostname: 'localhost'
+            hostname: ctx.site.host
             port: ctx.app.get('port')
             path: ctx.site.base+ rctx.name + '.json'
         ).then ( data ) ->
@@ -247,7 +247,7 @@ module.exports = ( ctx ) ->
         ctx.log 'PM2 View app', path: fn
         httprouter.promise.resource(
           opts:
-            hostname: 'localhost'
+            hostname: ctx.site.host
             port: ctx.app.get('port')
             path: fn
         ).then ( data ) ->

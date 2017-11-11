@@ -13,5 +13,3 @@ describe "app", ->
     describe "base", ->
       it "should load", ->
         expect(sitefile).to.be.an "object"
-
-

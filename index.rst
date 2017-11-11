@@ -45,7 +45,8 @@
 
 
 .. |logo| image:: assets/logo-file-text-8bc34a.png
-           :scale: 65%
+  :scale: 65%
+  :alt:
 
 
 Summary

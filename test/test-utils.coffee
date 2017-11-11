@@ -46,7 +46,7 @@ class SitefileTestUtils
     sitefile
 
   get_url: ->
-    "http://localhost:#{@server.port}"
+    "http://#{@server.host}:#{@server.port}"
 
   before: ( done ) ->
     if not _.isEmpty @server

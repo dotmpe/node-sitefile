@@ -78,7 +78,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
           chai.use require('chai-webdriver') @driver
 
         beforeEach ->
-          @driver.get "http://localhost:#{stu.server.port}/app/v0"
+          @driver.get "http://#{stu.server.host}:#{stu.server.port}/app/v0"
 
         after ->
           @driver?.quit()
@@ -143,7 +143,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
           chai.use require('chai-webdriver') @driver
 
         beforeEach ->
-          @driver.get "http://localhost:#{stu.server.port}/ReadMe"
+          @driver.get "http://#{stu.server.host}:#{stu.server.port}/ReadMe"
 
         after ->
           @driver?.quit()

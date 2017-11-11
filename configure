@@ -20,11 +20,11 @@ test -e config/config && echo "Config exists, ok" ||
 cat <<HEREDOC
 module.exports =
   
-  site:
-    port: 7011
-    host: "$(hostname)"
+  default:
+    site:
+      host: "$(hostname)"
 
-  development: {}
+  development: site: port: 7011
   testing: site: port: 7012
   production: site: port: 7013
 HEREDOC
