@@ -37,7 +37,7 @@
     :target: http://badge.fury.io/gh/dotmpe%2Fnode-sitefile
     :alt: GIT
 
-:autobuild: `ReadMe <ReadMe-docker.md>`_
+:autobuild: `ReadMe <README.md>`_
 
   .. image:: https://images.microbadger.com/badges/image/bvberkum/node-sitefile.svg
     :target: https://microbadger.com/images/bvberkum/node-sitefile

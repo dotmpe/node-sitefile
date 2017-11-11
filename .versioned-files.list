@@ -25,3 +25,4 @@ configure
 tools/docker/ubuntu/Dockerfile
 tools/docker/ubuntu/entry.sh
 tools/docker/ubuntu/hooks/build
+tools/update-couchdb-testlog.js
