@@ -31,13 +31,12 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
   describe "serves its own ReadMe, ChangeLog", ->
 
-    it "without problems", stu.test_url_ok "/ReadMe"
-
-    it "redirect ReadMe.rst", stu.test_url_redirected "/ReadMe.rst"
-
-    it "serve the correct type", stu.test_url_type_ok "/ReadMe", "html"
-
+    it "without problems", stu.test_url_ok "/README"
+    it "redirect index.rst", stu.test_url_redirected "/index.rst"
     it "should serve its own ChangeLog", stu.test_url_ok "/ChangeLog"
+    it "serve the correct type", stu.test_url_type_ok "/README", "html"
+    it "serve the correct type", stu.test_url_type_ok "/index", "html"
+    it "serve the correct type", stu.test_url_type_ok "/ChangeLog", "html"
 
   
   describe "has various other types", ->
