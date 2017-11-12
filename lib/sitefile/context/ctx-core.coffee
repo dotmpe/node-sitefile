@@ -109,7 +109,7 @@ module.exports = ( ctx ) ->
 
 
     process_meta: ( meta ) ->
-      unless _.isEmpty meta
+      if _.isEmpty meta
         return
 
       for item, idx in meta
@@ -120,10 +120,10 @@ module.exports = ( ctx ) ->
           meta[idx][key] = value
 
     rawhtml_meta: ( rawhtml, meta ) ->
-      unless _.isEmpty meta
+      if _.isEmpty meta
         return rawhtml
 
-      sitefile.log "rst2html:addmeta", String(meta)
+      sitefile.log "rawhtml_meta", String(meta)
       tags = ''
       for item in meta
         for key, value of item
@@ -132,20 +132,20 @@ module.exports = ( ctx ) ->
       rawhtml.replace '</head>', tags+' </head>'
 
     rawhtml_script: ( rawhtml, javascript_url ) ->
-      unless _.isEmpty javascript_url
+      if _.isEmpty javascript_url
         return rawhtml
 
-      sitefile.log "rst2html:addscript", javascript_url
+      sitefile.log "addscript", javascript_url
       script_tag = '<script type="text/javascript" src="'+\
           javascript_url+'" ></script>'
 
       rawhtml.replace '</head>', script_tag+' </head>'
 
     rawhtml_client: ( rawhtml, client ) ->
-      unless _.isEmpty client
+      if _.isEmpty client
         return rawhtml
 
-      sitefile.log "rst2html:addclient", client.main
+      sitefile.log "addclient", client.main
       script_tag = '<script type="text/javascript"
           id="'+client.id+'"
           data-main="'+client.main+'"

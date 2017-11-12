@@ -107,4 +107,3 @@ module.exports = ( ctx ) ->
         res.type 'json'
         res.write JSON.stringify data
         res.end()
-

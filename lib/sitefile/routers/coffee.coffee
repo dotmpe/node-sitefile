@@ -29,5 +29,3 @@ module.exports = ( ctx={} ) ->
         res.type 'js'
         res.write cc._compileFile cpath
         res.end()
-
-

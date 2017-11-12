@@ -122,7 +122,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
       #/_loads_a_page_that
 
 
-    describe "at ReadMe", ->
+    describe "at index", ->
       describe "that loads a page that", ->
 
         sewd = require 'selenium-webdriver'
@@ -143,7 +143,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
           chai.use require('chai-webdriver') @driver
 
         beforeEach ->
-          @driver.get "http://#{stu.server.host}:#{stu.server.port}/ReadMe"
+          @driver.get "http://#{stu.server.host}:#{stu.server.port}/index"
 
         after ->
           @driver?.quit()

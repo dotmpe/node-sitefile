@@ -141,7 +141,5 @@ module.exports = ( ctx ) ->
             test_file: dud.replace('.js', req.query.suffix+'.js')
         }
 
-        res.write pug.compile pugOpts
+        res.write pug.compile pugOpts, rctx
         res.end()
-
-

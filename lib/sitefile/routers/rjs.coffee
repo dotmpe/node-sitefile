@@ -22,6 +22,7 @@ sf_rjs_app =
         res.write pug.compile
           tpl: Router.expand_path rjs.tpl, ctx
           merge:
+            context: rctx
             ref: rctx.res.ref
             clients: [
               type: 'require-js'

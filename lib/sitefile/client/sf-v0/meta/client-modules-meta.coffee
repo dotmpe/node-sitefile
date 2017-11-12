@@ -1,4 +1,4 @@
-define 'sf-v0/meta/client-modules', [
+define 'sf-v0/meta/client-modules-meta', [
   
   'jquery'
 

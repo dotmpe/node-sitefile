@@ -1,4 +1,3 @@
-
 fs = require 'fs'
 libsitefile = require '../sitefile'
 libconf = require '../../conf'
@@ -56,4 +55,3 @@ module.exports = ( ctx ) ->
               rctx.site.base+rctx.route.spec.trim '#'
           # TODO: access other resource context by url
           #deref.promise.local_or_remote rctx
-        

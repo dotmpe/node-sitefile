@@ -25,4 +25,3 @@ module.exports = ( ctx ) ->
         res.type 'css'
         res.write stylus.render data.toString()
         res.end()
-

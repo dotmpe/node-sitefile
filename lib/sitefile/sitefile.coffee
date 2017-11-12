@@ -244,7 +244,6 @@ prepare_context = ( ctx={} ) ->
 
     bundles: {}
     modules: []
-    packages: []
     middleware: []
 
     packages: [

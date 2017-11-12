@@ -65,7 +65,7 @@ module.exports = ( ctx={} ) ->
             context: ctx
         }
         res.type 'html'
-        res.write pug.compile pugOpts
+        res.write pug.compile pugOpts, rctx
         res.end()
 
 

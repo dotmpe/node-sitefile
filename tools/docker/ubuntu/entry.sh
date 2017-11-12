@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Set env, default to arguments
 
@@ -23,7 +24,7 @@ cd /src/$site_src
 
 test -d .git && {
   test -z "$site_ver" || git checkout $site_ver
-  git pull
+  git pull || exit $?
 } || {
   test -z "$site_ver" || {
     echo "Dir $site_src exists but is not a repository"

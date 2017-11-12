@@ -4,6 +4,7 @@ path = require 'path'
 chai = require 'chai'
 expect = chai.expect
 request = require 'request'
+#request_promise = require 'request-promise'
 Promise = require 'bluebird'
 Ajv = require 'ajv'
 
@@ -56,8 +57,9 @@ class SitefileTestUtils
       process.chdir @dir
     self = @
     cb = ->
-      console.log 'Test instance', self.ctx.version, 'started at', self.ctx.site.port
-      console.log 'SFPATH', self.ctx.paths.packages, 'PWD', self.ctx.sfdir
+      console.log 'Test instance', self.ctx.version, \
+        'started at', self.ctx.site.port
+      #console.log 'SFPATH', self.ctx.paths.packages, 'PWD', self.ctx.sfdir
       done()
     [ @sf, @ctx, @proc ] = @server.run_main cb, {
       '--bwc': version, '--verbose': false
@@ -74,43 +76,70 @@ class SitefileTestUtils
   req_url_ok: ( url, self = @, cb ) ->
     request.get self.get_url()+url, cb
 
-  test_url_ok: ( url, self = @ ) ->
-    ( done ) ->
-      self.req_url_ok url, self, ( err, res, body ) ->
-        self.expect_ok res
-        done()
-
-  test_url_redirected: ( url, self = @ ) ->
-    ( done ) ->
-      request.get {
-        url: self.get_url()+url
-        followRedirect: false
-      }, ( err, res, body ) ->
-        self.expect_redirected res
-        done()
-
-  test_url_redirects: ( from, to, self = @ ) ->
-    ( done ) ->
-      request.get from, ( err, res, body ) ->
-        self.expect_redirected res
-        self.expect_url self.get_url()+to
-        done()
-
-  test_url_type_ok: ( url, type = "html", content = null, self = @ ) ->
+  test_url_ok: ( url, self=@, count=3 ) ->
     ->
-      new Promise ( resolve, reject ) ->
-        request.get self.get_url()+url, ( err, res, body ) ->
-          if err
-            reject err
-          self.expect_ok res
-          if content
-            expect( body.trim() ).to.equal content
-          self.expect_content_type res, type
-          resolve()
+      Promise.each ( i for i in [1..count] ), ->
+        new Promise ( resolve, reject ) ->
+          self.req_url_ok url, self, ( err, res, body ) ->
+            self.expect_ok res
+            expect( body.trim() ).to.not.match /.*Error:.*/
+            resolve()
+
+  test_url_redirected: ( url, self=@, count=3 ) ->
+    ->
+      Promise.each ( i for i in [1..count] ), ->
+        new Promise ( resolve, reject ) ->
+          request.get {
+            url: self.get_url()+url
+            followRedirect: false
+          }, ( err, res, body ) ->
+            expect(err).be.null
+            self.expect_redirected res
+            resolve()
+
+  test_url_redirects: ( from, to, self=@, count=3 ) ->
+    ->
+      Promise.each ( i for i in [1..count] ), ->
+        new Promise ( resolve, reject ) ->
+          request.get from, ( err, res, body ) ->
+            expect(err).be.null
+            self.expect_redirected res
+            self.expect_url self.get_url()+to
+            expect( body.trim() ).to.not.match /^[A-Za-z]*Error:.*/
+            resolve()
+
+  # Test at least 3 times to verify positive pattern
+  test_url_type_ok: ( url, type="html", content=null, self=@, count=3 ) ->
+    ->
+      Promise.each ( i for i in [1..count] ), ->
+        new Promise ( resolve, reject ) ->
+          request.get self.get_url()+url, ( err, res, body ) ->
+            expect(err).be.null
+            self.expect_ok res
+            self.expect_content_type res, type
+            if content
+              if content instanceof RegExp
+                expect( body.trim() ).to.match content
+              else expect( body.trim() ).to.equal content
+            else expect( body.trim() ).to.not.match /^[A-Za-z]*Error:.*/
+            resolve [i, url]
+
+  # negative test to 
+  test_url_not_ok: ( url, content=null, self=@, count=3 ) ->
+    ->
+      Promise.each ( i for i in [1..count] ), ->
+        new Promise ( resolve, reject ) ->
+          request.get self.get_url()+url, ( err, res, body ) ->
+            expect( res.statusMessage ).to.not.equal 'OK'
+            expect( res.statusCode ).to.not.equal 200
+            if content
+              if content instanceof RegExp
+                expect( body.trim() ).to.match content
+              else expect( body.trim() ).to.equal content
+            else expect( body.trim() ).to.not.match /^[A-Za-z]*Error:.*/
+            resolve [i, url]
 
   expect_ok: ( res ) ->
-    if res.statusMessage != 'OK'
-      console.log res.body
     expect( res.statusMessage ).to.equal 'OK'
     expect( res.statusCode ).to.equal 200
 
@@ -139,12 +168,12 @@ class SitefileTestUtils
       try
         if validator data
           if valid then resolve()
-          else reject(new Error("Validator should have passed"))
+          else reject path
         else
-          if valid then reject(new Error("Validator should have failed"))
+          if valid then reject path
           else resolve()
       catch err
-        reject(new Error("Validator exception: #{err}"))
+        reject [ path, err ]
 
   load_schema: ( name, filepath ) ->
     @schemaSrc[name] = path.join @cwd, filepath
@@ -152,11 +181,6 @@ class SitefileTestUtils
     if _.isEmpty @schemaSrcData[name]
       throw new Error "No data for #{name} (#{filepath})"
     @schema[name] = ajv.compile @schemaSrcData[name]
-
-  # 2 is coincidence, 3 is a pattern: executor for tests requesting DOM
-  verify_pattern: ( f ) ->
-    for it in [0..3]
-      f()
 
 
 module.exports = {}

@@ -1,9 +1,8 @@
-# Id: node-sitefile/0.0.7-dev test/mocha/Sitefile_yaml.coffee
-
 _ = require 'lodash'
 chai = require 'chai'
 #chai.use require 'chai-as-promised'
 expect = chai.expect
+#assert = chai.assert
 
 sewd = require 'selenium-webdriver'
 browser = require 'selenium-webdriver/testing'
@@ -12,9 +11,7 @@ request = require 'request'
 Promise = require 'bluebird'
 Ajv = require 'ajv'
 
-
 lib = require '../../lib/sitefile'
-
 tu = require './../test-utils'
 
 
@@ -29,14 +26,14 @@ describe "The local Sitefile.yaml serves the local documentation, and \
   after stu.after.bind stu
 
 
-  describe "serves its own ReadMe, ChangeLog", ->
+  describe "serves the", ->
 
-    it "without problems", stu.test_url_ok "/README"
+    it "README okay", stu.test_url_ok "/README"
     it "redirect index.rst", stu.test_url_redirected "/index.rst"
-    it "should serve its own ChangeLog", stu.test_url_ok "/ChangeLog"
-    it "serve the correct type", stu.test_url_type_ok "/README", "html"
-    it "serve the correct type", stu.test_url_type_ok "/index", "html"
-    it "serve the correct type", stu.test_url_type_ok "/ChangeLog", "html"
+    it "ChangeLog okay", stu.test_url_ok "/ChangeLog"
+    it "correct type for README", stu.test_url_type_ok "/README", "html"
+    it "correct type for index", stu.test_url_type_ok "/index", "html"
+    it "correct type for ChangeLog", stu.test_url_type_ok "/ChangeLog", "html"
 
   
   describe "has various other types", ->
@@ -44,17 +41,17 @@ describe "The local Sitefile.yaml serves the local documentation, and \
     it "should publish a CoffeeScript file to Javascript",
       stu.test_url_type_ok "/example/server-generated-javascript", "javascript"
 
-
     it "should publish a Pug file to HTML",
       stu.test_url_type_ok "/example/server-generated-page", "html"
 
+    it "should publish a Pug file to HTML (2)",
+      stu.test_url_type_ok "/example/server-generated-page-2", "html"
 
     it "should publish a SASS file to CSS file",
       stu.test_url_type_ok "/example/server-generated-stylesheet-2", "css"
 
-
     it "should serve a Stylus file to CSS file",
-      stu.test_url_type_ok "/example/server-generated-stylesheet", "css", \
+      stu.test_url_type_ok "/example/server-generated-stylesheet", "css",
         """
   .example {
     font: 14px/1.5 Helvetica, arial, sans-serif;
@@ -64,15 +61,14 @@ describe "The local Sitefile.yaml serves the local documentation, and \
   }
         """
 
-    it "should serve JSON data", stu.test_url_type_ok \
-        "/example/data.json", "application/json", """
+    it "should serve JSON data", stu.test_url_type_ok "/example/data.json",
+      "application/json", """
   {
     "data": [ {
       "value": 123
     } ]
   }
         """
-
 
     it "should publish a client css",
       stu.test_url_type_ok "/media/style/default.css", "text/css"
@@ -88,7 +84,6 @@ describe "The local Sitefile.yaml serves the local documentation, and \
     it "should redirect for PM2 client", stu.test_url_redirected "/proc/pm2"
 
 
-
   describe "has a Graphviz router for DOT diagram to PNG format", ->
 
     it "should render a PNG format", stu.test_url_type_ok \
@@ -98,11 +93,10 @@ describe "The local Sitefile.yaml serves the local documentation, and \
         "/example/graphviz-binary-search-tree-graph.dot"
 
 
-
   describe "has an auto complete API", ->
 
-    it "serves JSON", stu.test_url_type_ok \
-      "/Sitefile/core/auto", "application/json"
+    it "serves JSON",
+      stu.test_url_type_ok "/Sitefile/core/auto", "application/json"
 
     it "serves valid auto-complete JSON, non-empty, has Sitefile routes", ->
 
@@ -112,64 +106,43 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
       new Promise ( resolve, reject ) ->
         request.get url, ( err, res, body ) ->
-          if err then reject err
-          else
-            expect( res.statusMessage ).to.equal 'OK'
+          expect(err).be.null
+          expect( res.statusMessage ).to.equal 'OK'
 
-            data = JSON.parse body
-            expect(data).to.not.be.empty
+          data = JSON.parse body
+          expect(data).to.not.be.empty
 
-            v = validate_ac_json data
-            expect(v).to.be.true
+          v = validate_ac_json data
+          expect(v).to.be.true
 
-            k = _.findKey( data, [ 'label', '/index' ] )
-            expect( data[k] ).to.eql {
-              "label": "/index"
-              "category": "File"
-              "restype": "StaticPath"
-              "router": "docutils.rst2html"
-            }
-
-            resolve()
+          k = _.findKey( data, [ 'label', '/index' ] )
+          expect( data[k] ).to.eql {
+            "label": "/index"
+            "category": "File"
+            "restype": "StaticPath"
+            "router": "docutils.rst2html"
+          }
+          resolve()
 
 
-  describe "and has routes for local extensions in example/routers/..", ->
+  describe "and has local extension routes in example/routers", ->
 
-    it "loading some handlers of sf-example", ->
-      [
-        new Promise ( resolve, reject ) ->
-          url = "http://#{stu.server.host}:#{stu.server.port}/sf-example/default"
-          request.get url, ( err, res, body ) ->
-            if err then reject err
-            else
-              if res.statusMessage != 'OK' then console.log body
-              expect( res.statusMessage ).to.equal 'OK'
-              expect( res.statusCode ).to.equal 200
-              expect( body ).to.equal "Sitefile example"
-              resolve()
-        new Promise ( resolve, reject ) ->
-          url = "http://#{stu.server.host}:#{stu.server.port}/sf-example/data1"
-          request.get url, ( err, res, body ) ->
-            if err then reject err
-            else
-              if res.statusMessage != 'OK' then console.log body
-              expect( res.statusMessage ).to.equal 'OK'
-              expect( res.statusCode ).to.equal 200
-              data = JSON.parse body
-              expect( data['sf-example'] ).to.equal 'dynamic'
-              resolve()
-        new Promise ( resolve, reject ) ->
-          url = "http://#{stu.server.host}:#{stu.server.port}/sf-example/data2"
-          request.get url, ( err, res, body ) ->
-            if err then reject err
-            else
-              if res.statusMessage != 'OK' then console.log body
-              expect( res.statusMessage ).to.equal 'OK'
-              expect( res.statusCode ).to.equal 200
-              data = JSON.parse body
-              expect( data['sf-example'] ).to.equal 'static'
-              resolve()
-      ]
+    it "used by sf-example/default", stu.test_url_type_ok "/sf-example/default",
+      "text", "Sitefile example"
+
+    it "used by sf-example/data1", stu.test_url_type_ok "/sf-example/data1",
+      "json", '{"sf-example":"dynamic"}'
+      
+    it "used by sf-example/data2", stu.test_url_type_ok "/sf-example/data2",
+      "json", '{"sf-example":"static"}'
 
 
+    it "(verify test failure)", stu.test_url_not_ok "/sf-example/no-such-route",
+      /Cannot\ GET/
 
+
+  it "(verify test failure)", stu.test_url_not_ok "/sf-example/no-such-route",
+    /Cannot\ GET/
+
+
+# Id: node-sitefile/0.0.7-dev test/mocha/Sitefile_yaml.coffee

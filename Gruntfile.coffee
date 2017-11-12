@@ -85,7 +85,9 @@ module.exports = ( grunt ) ->
           require: 'coffee-script/register'
           captureFile: 'mocha.out'
           quiet: false
-          noFail: true # turn of for stable release again
+          # Slow limit at 3x1sec, to allow for 3 reasonable response 1s times
+          slow: 3000
+          #noFail: true # turn of for stable release again
           clearRequireCache: false # do explicitly as needed
         src: ['test/mocha/*.coffee']
 

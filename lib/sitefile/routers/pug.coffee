@@ -76,7 +76,7 @@ module.exports = ( ctx ) ->
       clients: []
       context: ctx
 
-  compilePug = ( optsIn ) ->
+  compilePug = ( optsIn, rctx ) ->
 
     opts = _.defaultsDeep {}, optsIn, pug_def_opts
 
@@ -84,6 +84,7 @@ module.exports = ( ctx ) ->
     tpl = pug.compileFile opts.tpl, opts.compile
 
     # Merge with options and context
+    opts.merge.context = rctx
     tpl opts.merge
 
 
@@ -114,7 +115,6 @@ module.exports = ( ctx ) ->
   generate:
     default: ( rctx ) ->
       ( req, res ) ->
-
         opts = rctx.req_opts req
 
         if rctx.res.rx?
@@ -128,12 +128,11 @@ module.exports = ( ctx ) ->
           else rctx.route.spec
         opts.tpl = Router.expand_path rctx.res.path, ctx
 
-        ctx.process_meta(opts.merge.meta)
+        ctx.process_meta opts.merge.meta
         sitefile.log \
           "Pug compile", path: opts.tpl, '(Route:', path: rctx.res.ref, \
           ' Spec:', path: rctx.res.path, ')'
-        opts.merge.context = rctx
-        data = compilePug opts
+        data = compilePug opts, rctx
         res.type opts.merge.format
         res.write data
         res.end()

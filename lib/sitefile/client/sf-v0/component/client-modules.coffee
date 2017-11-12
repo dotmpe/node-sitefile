@@ -8,7 +8,7 @@ Set up a RequireApp, loading modules specified by::
 define 'sf-v0/component/client-modules', [
 
   'cs!sf-v0/component/require-app'
-  'cs!sf-v0/meta/client-modules'
+  'cs!sf-v0/meta/client-modules-meta'
   'event-signal'
 
 ], ( RequireApp, ClientModulesMeta, EventSignal ) ->
