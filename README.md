@@ -1,7 +1,7 @@
 [comment]: # This would be the hub.docker.com ReadMe..
 
-![docker autobuild status](https://img.shields.io/docker/build/bvberkum/node-sitefile.svg)
-![last commit r0.0.7](https://img.shields.io/github/last-commit/bvberkum/node-sitefile/r0.0.7.svg)
+[![docker autobuild status](https://img.shields.io/docker/build/bvberkum/node-sitefile.svg)](https://hub.docker.com/r/bvberkum/node-sitefile/builds/)
+[![last commit r0.0.7](https://img.shields.io/github/last-commit/bvberkum/node-sitefile/r0.0.7.svg)](https://github.com/bvberkum/node-sitefile/blob/r0.0.7/index.rst)
 
 ## bvberkum/sitefile
 
