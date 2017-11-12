@@ -13,8 +13,6 @@ init_express = ( app, ctx={} ) ->
 
   # Handle some minimal Express settings
   app.set 'env', ctx.envname
-  if process.env.SITEFILE_PORT
-    ctx.site.port = process.env.SITEFILE_PORT
   app.set 'port', ctx.site.port
   app.set 'host', ctx.site.host
   app.set 'showStackError', ctx.config['show-stack-trace']

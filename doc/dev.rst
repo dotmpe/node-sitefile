@@ -171,7 +171,10 @@ These are features in development for the v0.1/v0.0.1 roadmap.
       with decent support for all routes (`features/client`_)
 
 
-----
+Issues
+------
+- Latest/r0.0.7 docker has issues with hostname in some setups.
+  Using ubuntu-xenial-r0.0.7 works until resolved.
 
 
 Appendices

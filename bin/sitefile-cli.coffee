@@ -52,6 +52,11 @@ sitefile_cli = module.exports =
         if _.isEmpty ctx.sitefile.routes
           lib.warn 'No routes'
           process.exit()
+
+        if process.env.SITEFILE_HOST
+          ctx.site.host = process.env.SITEFILE_HOST
+        if process.env.SITEFILE_PORT
+          ctx.site.port = process.env.SITEFILE_PORT
         if options['--host']
           ctx.site.host = options['--host']
         if options['--port']
