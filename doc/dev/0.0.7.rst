@@ -37,6 +37,12 @@
   Can mull over the sitefile client structure a bit now:
   <http:/app/v0-sf-rjs.app.json> <http:/app/sf-v0.yaml>
 
+- Changed mocha tests doing URL requests to make 3 samples to try to catch
+  bugs in stateless expectations.
+
+- Started working on some domain handling. Need to enable redirect ie. in case
+  of www.domain -> domain.
+
 
 Wanted
   Metadata

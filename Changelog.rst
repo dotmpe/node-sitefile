@@ -83,7 +83,7 @@ r0.0.4_
     Added microformats for ``live-code``, ``a[href]``.
 
   - Added Express version to context, include with server start log line.
-  - New ``boot`` handler for `rjs`_.
+  - New ``boot`` handler for `features/rjs`_.
 
 (0.1.0)
   .. _0.1.0:
@@ -97,3 +97,7 @@ r0.0.4_
    NB: Versions enclosed in round brackets indicate unreleased, either planned
    or missed, skipped versions.
 
+.. _DB Feature:              doc/feature-db.rst
+.. _features/rjs:            doc/feature-rjs.rst
+
+.. _neodoc: //github.com/felixSchl/neodoc
