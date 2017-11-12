@@ -1,10 +1,23 @@
 #!/bin/sh
 
 echo '---------- build env:'
-env
+#env
+vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
+other_vars="DOCKER_HOST MAX_LOG_SIZE CACHE_TAG SIGNED_URLS DOCKERCFG"
+
+for v in $vars
+do echo "$v: $(eval echo \"\$$v\")"; done
+
 echo '----------'
 
-echo "SOURCE_BRANCH: $SOURCE_BRANCH"
+# highland builder does not obey skip tag
+case "$COMMIT_MSG" in
+  *"[skip ci]"* | *"[ci skip]"* )
+    echo "Skipping build by ci-skip commit message"
+    exit 1 ;;
+esac
+
+echo "---------- SOURCE_BRANCH: $SOURCE_BRANCH"
 case "$SOURCE_BRANCH" in
 
   docker-latest )
@@ -23,7 +36,7 @@ case "$SOURCE_BRANCH" in
 
   v[0-9]* )
       docker build \
-          --build-arg DCKR_TAG=0.0.1 \
+          --build-arg DCKR_TAG="$(echo $SOURCE_BRANCH | cut -c2-)"
           --build-arg sf_checkout=$SOURCE_BRANCH \
           -t $IMAGE_NAME .
     ;;
@@ -34,5 +47,7 @@ case "$SOURCE_BRANCH" in
     ;;
 
 esac
+
+echo '---------- build hook end'
 
 # Id: sitefile/0.0.7-dev

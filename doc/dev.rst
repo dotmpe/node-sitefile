@@ -175,6 +175,10 @@ Issues
 ------
 - Latest/r0.0.7 docker has issues with hostname in some setups.
   Using ubuntu-xenial-r0.0.7 works until resolved.
+
+  Probably caused by local user config not being used, but the one included
+  with node-sitefile. Need to think about install vs. src locations a bit.
+
 - Docker entry does not have GIT LFS, assets like favicon are missing.
 
 
