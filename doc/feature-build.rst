@@ -2,9 +2,10 @@ Build Feature
 =============
 .. include:: .defaults.rst
 
-Everything related to the project build and packaging, dist plans.
-See also `features/rjs`_ for more specific, and `features/packaging`_.
-for more generic docs.
+- Everything related to the project build and packaging, dist plans.
+- Keeping docker highland build docs apart in `features/docker`_.
+- See also `features/rjs`_ for more specific, and `features/packaging`_.
+  for more generic docs.
 
 
 Documentation

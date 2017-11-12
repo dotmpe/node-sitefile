@@ -37,6 +37,8 @@
   Can mull over the sitefile client structure a bit now:
   <http:/app/v0-sf-rjs.app.json> <http:/app/sf-v0.yaml>
 
+- Added Dockerfile, building a fat image to simplify sitefile deployment.
+
 - Changed mocha tests doing URL requests to make 3 samples to try to catch
   bugs in stateless expectations.
 
