@@ -6,10 +6,17 @@ set -e
 test -n "$site_src" || site_src=github.com/bvberkum/node-sitefile
 test -n "$site_repo" || site_repo=
 test -n "$site_ver" || site_ver=
+test -n "$git_remote" || git_remote=origin
 
 test -z "$1" || site_src=$1
 test -z "$2" || site_repo=$2
 test -z "$3" || site_ver=$3
+
+stderr()
+{
+  echo "$1" >&2
+  test -z "$2" || exit $2
+}
 
 test -d "/src/$site_src" || {
   test -n "$site_repo" || {
@@ -23,13 +30,34 @@ test -d "/src/$site_src" || {
 cd /src/$site_src
 
 test -d .git && {
-  test -z "$site_ver" || git checkout $site_ver
-  git pull || exit $?
-} || {
+
   test -z "$site_ver" || {
-    echo "Dir $site_src exists but is not a repository"
-    exit 1
+
+    git show-ref --verify -q refs/tags/$site_ver && {
+
+      # Update if Site-Ver is a tag
+      git tag -d $site_ver || exit $?
+    }
+
+    git fetch $git_remote || exit $?
+    git checkout $site_ver || exit $?
+
+    git show-ref --verify -q refs/heads/$site_ver && {
+
+      # Update if Site-Ver is a branch
+      git show-ref --verify -q refs/remotes/$git_remote/$site_ver && {
+        git rev-parse --symbolic --abbrev-ref $site_ver@{u} || {
+          git branch --set-upstream-to=$git_remote/$site_ver $site_ver
+        }
+      } || stderr "No remote branch $git_remote/$site_ver"
+      git pull || exit $?
+    }
   }
+
+} || {
+
+  test -z "$site_ver" ||
+    stderr "Dir $site_src exists but is not a repository" 1
 }
 
 test ! -e package.json || npm install

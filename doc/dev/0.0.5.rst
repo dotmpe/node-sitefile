@@ -20,7 +20,7 @@
 
 - Refactored ``router.generate`` so it can 1. return data or data callbacks
   iso. Express handlers and 2. only extend the context w/o. providing any
-  handler. See `Router feature`_
+  handler. See `Route feature`_
 
 - Went through all of the ReadMe and split into Manual and Dev docs.
   Began drafting setup and customization guide.
@@ -33,10 +33,16 @@
 
 - New URL path query parsing.
 
-TODO: Preparing to add `require.js` client.
+..
 
-FIXME: Sitefile need some knowledge of Style and Script resources, both path
-and URL. Maybe bundle them. Or better use resources exported from routers.
+  TODO: Preparing to add `require.js` client.
 
-FIXME: tie to a nodelib version!
+..
+
+  FIXME: Sitefile need some knowledge of Style and Script resources, both path
+  and URL. Maybe bundle them. Or better use resources exported from routers.
+
+..
+
+  FIXME: tie to a nodelib version!
 
