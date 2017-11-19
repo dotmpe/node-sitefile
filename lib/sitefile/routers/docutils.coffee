@@ -140,6 +140,7 @@ module.exports = ( ctx ) ->
     rst2html: ( rctx ) ->
 
       ( req, res, next ) ->
+
         if rctx.res.rx?
           m = rctx.res.rx.exec req.originalUrl
           if rctx.route.spec

@@ -2,6 +2,8 @@
   "shim": {
     "bootstrap": ["jquery"],
     "jquery-ui": ["jquery"],
+    "require-cs!dhtml/jquery-sf-tilda": ["jquery-ui"],
+    "require-cs!dhtml/jquery-sf-dupage": ["jquery-ui"],
 
     "d3": { "exports": "d3" },
     "rickshaw": { "exports": "Rickshaw", "deps": [ "d3" ] },
