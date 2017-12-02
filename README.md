@@ -4,6 +4,24 @@
 A node.js + express websitebuilder. Based on a metadata file called `Sitefile`
 and regular documents, available at the filesystem.
 
+Usage:
+```
+docker run bvberkum/node-sitefile <site-src> <site-repo> <site-ver>
+```
+
+Default example:
+```bash
+docker run \
+  -p 7011:7011 \
+  -e SITEFILE_PORT=7011 \
+  --volume /srv:/srv:rw \
+  --volume /etc/localtime:/etc/localtime:ro \
+  bvberkum/node-sitefile:0.0.7-dev \
+  github.com/bvberkum/node-sitefile r0.0.7
+```
+
+Under development, see doc/feature-docker.rst docs.
+
 
 ## bvberkum/sitefile
 

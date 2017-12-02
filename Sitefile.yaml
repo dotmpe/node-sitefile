@@ -69,14 +69,6 @@ routes:
 
   doc/literate: static:build/docs/docco/
 
-  example: static:example
-  # FIXME: example/: redir:example/main
-
-  example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
-  example/bookshelf/knex: knex:example/bookshelf/knex.json
-  # Example, get data from another endpoint, the one above?
-  # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
-
   _pug: pug:example/pug-*.pug
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
@@ -169,7 +161,20 @@ routes:
   sf-example/data1: sf-example.data1:#
   sf-example/data2: sf-example.data2:#
 
+  sf-test/default: sf-test:#
+  sf-test/vendor/:package.:format: sf-test:cdn.json
+  'r:sf-example/(.*).coffee': sf-test:sitefile-lib:client/
+  _sf_test: sf-test:example/routers/**/*.*
+
   local: static:public/local
+
+  example: static:example
+  # FIXME: example/: redir:example/main
+
+  example/bookshelf/knex.sqlite/_/v1: bookshelfapi:example/bookshelf/knex.json
+  example/bookshelf/knex: knex:example/bookshelf/knex.json
+  # Example, get data from another endpoint, the one above?
+  # XXX: example/bookshelf/knex/query-1: knex.sql:example/bookshelf/sql.coffee?knex=..
 
 
   # TODO: imagemacking processing?

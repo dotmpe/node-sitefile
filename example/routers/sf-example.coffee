@@ -1,5 +1,3 @@
-
-
 module.exports = ( ctx ) ->
 
   name: 'sf-example'
@@ -25,5 +23,3 @@ module.exports = ( ctx ) ->
       res:
         data:
           'sf-example': 'static'
-      
-
