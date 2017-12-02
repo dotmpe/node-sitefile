@@ -1,4 +1,5 @@
-# ![](assets/logo-file-text-8bc34a.png) Sitefile [![docker autobuild status](https://img.shields.io/docker/build/bvberkum/node-sitefile.svg)](https://hub.docker.com/r/bvberkum/node-sitefile/builds/) [![last commit r0.0.7](https://img.shields.io/github/last-commit/bvberkum/node-sitefile/r0.0.7.svg)](https://github.com/bvberkum/node-sitefile/blob/r0.0.7/index.rst)
+# ![](assets/logo-file-text-8bc34a.png) Sitefile [![docker autobuild status](https://img.shields.io/docker/build/bvberkum/node-sitefile.svg)](https://hub.docker.com/r/bvberkum/node-sitefile/builds/) [![last commit r0.0.7](https://img.shields.io/github/last-commit/bvberkum/node-sitefile/r0.0.7.svg)](https://github.com/bvberkum/node-sitefile/blob/r0.0.7/index.rst) [![Badge Badge](http://doyouevenbadge.com/github.com/github.com/bvberkum/node-sitefile)](http://doyouevenbadge.com/report/github.com/github.com/bvberkum/node-sitefile)
+
 
 A node.js + express websitebuilder. Based on a metadata file called `Sitefile`
 and regular documents, available at the filesystem.

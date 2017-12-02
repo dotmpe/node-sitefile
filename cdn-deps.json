@@ -1,4 +1,7 @@
 {
+  "url": {
+    "sf-v0": "/app/sf-v0"
+  },
   "shim": {
     "bootstrap": ["jquery"],
     "jquery-ui": ["jquery"],
