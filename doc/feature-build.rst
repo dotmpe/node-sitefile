@@ -21,11 +21,12 @@ maybe a bit at a disadvantage.
 
 Issues:
 Sphinx leaves ``.rst`` in doc references. Cannot find any config to deal with
-this, and also using .defaults files really only works with either a fixed
+this [#]_, and also using .defaults files really only works with either a fixed
 URL base or .defaults files per-dir. Maybe better of generating them.
 FIXME: But sitefile.routes handling code is not entirely suited.. yet.
 
 
+.. [#] <http://www.sphinx-doc.org/en/stable/config.html>
 .. __: http://docs.readthedocs.io/
 
 Literate and Annotated Source
