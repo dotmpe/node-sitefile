@@ -15,6 +15,15 @@ Documentation
 See also
   - `Gherkin BDD Feature`_
 
+Using readthedocs.io for serving static docs. (docs__)
+Its a sphinx style build, whereas Markdown in general is more popular. So
+maybe a bit at a disadvantage.
+
+Issues:
+Sphinx leaves ``.rst`` in doc references..
+
+.. __: http://docs.readthedocs.io/
+
 Literate and Annotated Source
 _____________________________
 Using Docco to generate side-by-side HTML views of source code and comments.
