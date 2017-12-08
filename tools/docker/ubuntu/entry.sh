@@ -18,6 +18,8 @@ stderr()
   test -z "$2" || exit $2
 }
 
+# Use vendorized src-path as 'install dir'
+
 test -d "/src/$site_src" || {
   test -n "$site_repo" || {
     echo "Missing src or repo for site '$site_src'"
@@ -31,6 +33,7 @@ cd /src/$site_src
 
 test -d .git && {
 
+  # Update GIT if Site-Version was requested
   test -z "$site_ver" || {
 
     git show-ref --verify -q refs/tags/$site_ver && {
@@ -60,8 +63,10 @@ test -d .git && {
     stderr "Dir $site_src exists but is not a repository" 1
 }
 
+# One more step
 test ! -e package.json || npm install
 
+# Start server
 sitefile
 
 # Id: sitefile/0.0.7-dev

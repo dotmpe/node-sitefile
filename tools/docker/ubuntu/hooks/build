@@ -20,21 +20,21 @@ esac
 echo "---------- SOURCE_BRANCH: $SOURCE_BRANCH"
 case "$SOURCE_BRANCH" in
 
-  docker-latest )
+  docker-latest ) # Lightweight, moving tag
       docker build \
           --build-arg DCKR_TAG=latest \
           --build-arg sf_checkout=$SOURCE_BRANCH \
           -t $IMAGE_NAME .
     ;;
 
-  r* )
+  r* ) # A branch name
       docker build \
           --build-arg DCKR_TAG=dev \
           --build-arg sf_checkout=$SOURCE_BRANCH \
           -t $IMAGE_NAME .
     ;;
 
-  v[0-9]* )
+  v[0-9]* ) # A release tag
       docker build \
           --build-arg DCKR_TAG="$(echo $SOURCE_BRANCH | cut -c2-)"
           --build-arg sf_checkout=$SOURCE_BRANCH \
