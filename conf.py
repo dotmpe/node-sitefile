@@ -9,7 +9,9 @@ source_parsers = {
 
 source_suffix = ['.rst', '.md']
 
-rst_link_suffix = '.rst'
+#rst_link_suffix = '.rst'
+
+keep_warnings = True
 
 intersphinx_mapping = {
     'python': ('http://python.readthedocs.io/en/latest/', None),

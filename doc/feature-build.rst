@@ -20,7 +20,11 @@ Its a sphinx style build, whereas Markdown in general is more popular. So
 maybe a bit at a disadvantage.
 
 Issues:
-Sphinx leaves ``.rst`` in doc references..
+Sphinx leaves ``.rst`` in doc references. Cannot find any config to deal with
+this, and also using .defaults files really only works with either a fixed
+URL base or .defaults files per-dir. Maybe better of generating them.
+FIXME: But sitefile.routes handling code is not entirely suited.. yet.
+
 
 .. __: http://docs.readthedocs.io/
 
