@@ -3,8 +3,6 @@ _ = require 'lodash'
 
 jQuery_autocomplete_api = ( req, rctx ) ->
 
-  gctx = rctx.context
-
   if req.query.recursive
     req.query.recursive = (req.query.recursive == "true")
   _.defaults req.query,
@@ -14,7 +12,7 @@ jQuery_autocomplete_api = ( req, rctx ) ->
   prefix = req.query.prefix
   term = req.query.term
   if ( term or prefix )
-    rctx.debug "looking for paths with #{term} and/or in #{prefix}"
+    rctx.root.debug "looking for paths with #{term} and/or in #{prefix}"
 
   retdata = []
   matches = []

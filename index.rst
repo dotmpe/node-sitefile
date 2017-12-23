@@ -135,7 +135,7 @@ There is no manual or futher guide as of now. Making Sitefile in its current
 state primarily an Express based website prototype platform aimed at developers.
 
 Versions, features, development notes and all further reading is in the
-`Development Docs`_.
+`Development Docs`_. The prototype client is at `/app/v0 </app/v0>`_.
 
 
 .. This is a reStructuredText document.

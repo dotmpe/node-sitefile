@@ -68,7 +68,7 @@ Version and release docs
 (``0.0.7``) unreleased
   current release (v0.0.7_) r0.0.7_
 (``0.1.0``) first public spec
-  (v0.1.0_) r0.1.0
+  TODO: Pen down Sitefile schema and other API (v0.1.0_) r0.1.0
 
 Summarized changes per version in Changelog_ or use above version-tag or
 release-branch links.

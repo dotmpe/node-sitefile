@@ -2,6 +2,7 @@ DHTML Build Feature
 ====================
 .. include:: .defaults.rst
 
+
 This is on the design regarding client-centric, HTTP/web-tech supported client
 and how to build it. For the current sf-v0 Require.js app, see `HTML5 Client
 Feature`_ (`features/client`_).
@@ -29,17 +30,16 @@ Feature`_ (`features/client`_).
 
 Wishlist
   Stuff. Take the term 'site' very liberal.
-  Maybe interact with the shell on the host.
-  Certainly see about someway to easily configure addons.
+  See about someway to easily configure addons.
 
   - ECMAchine (LISP jQuery terminal)
     https://github.com/AlexNisnevich/ECMAchine
   - Socket.IO based in-browser (jQuery) terminal
     https://github.com/avalanche123/node-console
 
-    - If that does not work well maybe
-      https://www.npmjs.com/package/node-web-repl
+    Other ideas:
 
+    - https://www.npmjs.com/package/node-web-repl
     - Has a bunch of the shell commands
       https://agnostic.housegordon.org/
     - some cool tools https://warlab.info/
@@ -126,7 +126,11 @@ and can we please handle js/css/fonts/... UI-parts transparently as a resource
 too.
 
 
+Progress
+--------
 app/v0 (`features/rjs`_) does at least part of the require-js fest.
 But no fonts, css.
 
-[2017-10-14] See ``app/v0-yaml`` for initial upgrade to client setup
+[2017-10-14] See ``app/v0-yaml`` for initial upgrade to client setup.
+
+

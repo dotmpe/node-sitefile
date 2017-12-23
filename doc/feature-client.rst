@@ -55,7 +55,7 @@ Downsides:
    components and DOM/resource loading wihtout it its just not usable.
 
 Moving closer to modern HTML concepts like webcomponents and polyfill would
-improve the situation.
+improve the situation by deferring responsibilities.
 
 app/v0-sf-rjs.html
   Prototype for client leveraged from single as-is config (JSON/YAML).
@@ -68,13 +68,26 @@ app/v0-sf-rjs.html
 The philosophy amends the `app/v0` setup:
 
 3. move configuration from Sitefile spec and options (rawhtml stuff like
-   client, script, link and meta) to as-is files.
+   client, script, link and meta) to as-is files (esp. JSON, YAML etc.).
 
 And also allows to further structure app using metadata if some scheme proves to
 be practical.
 
 For this to happen, need to build out implementation in `deref`_ and in
 particular design for local and remote resource handling. See `features/http`_.
+
+
+Code
+-----
+sitefile.client
+  ..
+sitefile.client.sf-v0
+  Main client code (/app/v0) and support files.
+
+sitefile.client.dhtml
+  Legacy includes with jQuery widgets. Sometimes gives async load errors.
+
+TODO: fix docco / API docs, build from JS package iso. coffeescript
 
 
 Branches

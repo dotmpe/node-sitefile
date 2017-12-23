@@ -24,4 +24,3 @@ Usage::
   version of the same repo. Probably /var/www/...
 
 - Presence of ``package.json`` triggers ``npm install``.
-

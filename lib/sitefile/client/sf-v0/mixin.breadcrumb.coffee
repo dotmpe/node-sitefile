@@ -84,5 +84,3 @@ define 'sf-v0/mixin.breadcrumb', [
       for el in $('ol.breadcrumb > li').get()
         path.push el.innerText
       path.join "/"
-
-

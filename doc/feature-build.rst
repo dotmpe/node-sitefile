@@ -7,6 +7,10 @@ Build Feature
 - See also `features/rjs`_ for more specific, and `features/packaging`_.
   for more generic docs.
 
+In general either ``package.json`` scripts and/or Gruntfile take care of
+preparing any build artefacts for sitefile deployment.
+
+Default maintenance scripts are in ``package.yaml``.
 
 Documentation
 -------------
@@ -25,6 +29,10 @@ this [#]_, and also using .defaults files really only works with either a fixed
 URL base or .defaults files per-dir. Maybe better of generating them.
 FIXME: But sitefile.routes handling code is not entirely suited.. yet.
 
+However, extracting inter-document references (and cross-indexing) seems to me
+a task for another project. While sf core improves it may be a side product,
+but for now integrity checking and building x-ref files is something I'd like
+to consider from another angle.
 
 .. [#] <http://www.sphinx-doc.org/en/stable/config.html>
 .. __: http://docs.readthedocs.io/
@@ -46,8 +54,8 @@ Giving issues with many comments currently.
 
 Document ID's
 '''''''''''''
-Docco uses the file basename as unique identifier, overwriting previous refs.
-I like this, but need to draw the line at different extensions. ``docco-plus``
+Docco uses the file basename as unique identifier, overwriting
+previous refs. I like this, but need to draw the line at different extensions. ``docco-plus``
 supports multiple extensions, but also seems to add/keep the full path.
 
 

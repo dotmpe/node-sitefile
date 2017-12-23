@@ -195,5 +195,3 @@ Branch docs
 ------------
 .. include:: scm-branches.rst
    :start-line: 4
-
-
