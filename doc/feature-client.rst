@@ -36,10 +36,8 @@ app/v0
   The client is enabled by:
 
   - add app/v0 route to rendered sf-v0.pug
-  - add rjs.config and rjs.main app routes to create require.js bootstrap JS
-  - set Sitefile options for app/v0 to the require.js app JS route
-  - add key/value meta options to sf-v0.pug tpl route, to configure app via
-    HTML(5) meta elements.
+  - add rjs.config and rjs.main app routes for endpoint to bootstrap require.js
+  - set initial rjs app, and CSS/JS/meta for app/v0 route
 
 The main philosophies are:
 
@@ -53,6 +51,9 @@ Downsides:
 2. client structure is not prescribed, no framework for MVC etc.
    Had to design for sitefile v0 some minimal lifecycle events to sync
    components and DOM/resource loading wihtout it its just not usable.
+
+Also building and assembling the client entirely client-side looks choppy,
+and impedes navigation and usability.
 
 Moving closer to modern HTML concepts like webcomponents and polyfill would
 improve the situation by deferring responsibilities.

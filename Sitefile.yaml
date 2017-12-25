@@ -135,16 +135,13 @@ routes:
   'r:ref/(.*)': http.ref:#
   'r:res/(.*)': http.res:#
 
-  # Three seperate resources, layered for the RequireJS client.
-  # The JSON is a path object extracted from cdn.json, and a shim and map and
-  # other RequireJS option objects.
+  # Three seperate resources for the RequireJS client. The JSON of the jquery
+  # config options, a PUG HTML template with basic structure, and the script
+  # that makes the configure requirejs call.
   app/rjs-sf-v0.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;shim=$ref:cdn-deps.json#/shim;deps=["require-css","cs!sf-v0"];baseUrl=/app;map=$ref:cdn-deps.json#/map
-  # The JSON is wrapped in a script to initialize RequireJS
   app/rjs-sf-v0.js: rjs.main:app/rjs-sf-v0.json
-  # Finally a specific router is wired to display a pug template with all of the
-  # above.
-  #app/v0/base: res.load-file:sitefile-client:sf-v0.yaml
   app/v0: pug:sitefile-client:sf-v0.pug
+  #app/v0/base: res.load-file:sitefile-client:sf-v0.yaml
   # Serve coffee script for RequireJS client
   app/: redir:app/v0
   #app/v0-yaml:ext: rjs.boot:sitefile-client:sf-v0.yaml;name=yaml;

@@ -11,10 +11,10 @@ define 'sf-v0/tilda', [
 
     constructor: ( ready, loader ) ->
 
-      # Note: this hooks in with SitefilePage/Htd epilogue class, so wait
-      # for it to possibly load.
       loader.events.ready.addListener ({ name }) ->
-        if name != 'all'
+
+        # Wait for SitefilePage to load
+        if name != 'cs!sf-v0/page'
           return
         
         require [

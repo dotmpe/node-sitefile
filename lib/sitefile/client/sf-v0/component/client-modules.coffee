@@ -17,19 +17,9 @@ define 'sf-v0/component/client-modules', [
   class ClientModuleComponent extends RequireApp
 
     ###
-    Client Modules are r.js modules loaded and initialized by the main
-    application during page load, using names retrieved from a meta tag.
 
-    XXX: Some components could already be loaded as they are compiled into the
-    current require context, or because they are "hard-coded" into the HTML
-    page. Neither form of pre-loading is used. The difficulty is that without
-    prebuild contexts or pages the CSS loading will make it look choppy. Its
-    up to the modules need to take care that their own initialization does not
-    disturb the user experience.
-
-    It does mean that the modules can completely manage their down dependencies.
-    However to synchronize, ClientModuleComponent uses event-signal to emit
-    changes on individual and the complete list of required components.
+    Client Modules are CommonJS modules loaded and initialized by the root
+    require.js context. 
     ###
 
     start: ->
@@ -43,6 +33,8 @@ define 'sf-v0/component/client-modules', [
 
       @events.ready.addListener ( { name } ) ->
         self.loaded.push name
+
+        # Emit all ready event once all client modules are loaded
         if self.loaded.length == ready_on
           self.events.ready.emit name: 'all'
           self.events.complete.emit all: self.loaded
