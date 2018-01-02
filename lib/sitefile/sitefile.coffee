@@ -130,13 +130,11 @@ load_config = ( ctx={} ) ->
 
   if not ctx.config_name?
     ctx.config_name = 'config/config.coffee'
-    # XXX config per client
-    #scriptconfig = 'config/config-#{ctx.proc.name}'
-    #configs = glob.sync path.join ctx.noderoot, scriptconfig + '.*'
-    #if not _.isEmpty configs
-    #  ctx.config_name = scriptconfig
 
-  rc = path.join '../..', ctx.config_name
+  rc = path.join ctx.cwd, ctx.config_name
+  unless fs.existsSync rc
+    rc = path.join ctx.proc.path, ctx.config_name
+
   if fs.existsSync require.resolve rc
     # Load env
     ctx.config_envs = require rc
@@ -198,11 +196,12 @@ prepare_context = ( ctx={} ) ->
   _.merge ctx, load_rc ctx
 
   _.defaultsDeep ctx,
-    noderoot: '../../'
+    noderoot: '../../' # from within libe
     version: version
     cwd: process.cwd()
     proc:
       name: path.basename process.argv[1]
+      path: path.dirname path.dirname process.argv[1]
     envname: process.env.NODE_ENV ? 'development'
     log: log
     warn: warn
@@ -544,8 +543,10 @@ class Sitefile
 # XXX does not reload routes, code+config only
 # TODO should reload sitefilerc, should reset/apply routes
 reload_on_change = ( ctx ) ->
-  config_watch = ctx.noderoot + '/config/**/*'
-  paths = expand_globs [ config_watch ]
+  paths = expand_globs [
+    path.join ctx.cwd, 'config','**','*'
+    path.join ctx.proc.path, 'config','**','*'
+  ]
   log 'Watching configs', path: paths.join ', '
   for fn in paths
     fs.watchFile fn, ( cur, prev ) ->
