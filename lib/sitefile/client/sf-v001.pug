@@ -1,0 +1,48 @@
+extends base
+
+block head
+  +std-html-client("Sitefile RJS Client")
+  //- Polyfill Web Components for older browsers
+  script(src="/component/webcomponentsjs/webcomponents-lite.js")
+  link(rel="import",href="/component/polymer/polymer-element.html")
+  link(rel="import",href="/component/d2l-page-load-progress/d2l-page-load-progress.html")
+  link(rel="import",href="/component/d2l-button/d2l-button.html")
+  link(rel="import",href="/component/d2l-link/d2l-link.html")
+  link(rel="import",href="/component/d2l-icons/d2l-icons.html")
+
+block prologue
+  .prologue
+    d2l-page-load-progress#page-load-indicator
+
+block header
+block main
+  .container.placeholder.document
+
+block document
+  //link(rel="import",href="/component/google-map/google-map.html")
+  //google-map(latitude="37.790",longitude="-122.390")
+
+  script
+    | window.addEventListener('WebComponentsReady', function() {
+    |
+    |   var indicator = document.getElementById('page-load-indicator');
+    |   indicator.start();
+    |
+    |   // imports are loaded, elements are registered and upgraded
+    |   var button = document.getElementById('myButton');
+    |   button.addEventListener('click', function() {
+    |     alert('button clicked!');
+    |   });
+    | });
+
+  p
+    d2l-loading-spinner
+  p
+    d2l-button Hello
+  p
+    d2l-icon(icon="d2l-tier1:print")
+
+block footer
+block epilogue
+  .epilogue
+    div#tilda

@@ -1,6 +1,6 @@
 # git-versioning main: node-sitefile
 
-- type: application/x-project-mpe
+- type: application/vnd.org.wtwta.project
   main: node-sitefile
   id: node-sitefile
   version: 0.0.7-dev # node-sitefile

@@ -12,8 +12,9 @@ jQuery_autocomplete_api = ( req, rctx ) ->
   prefix = req.query.prefix
   term = req.query.term
   if ( term or prefix )
-    rctx.root.debug "looking for paths with #{term} and/or in #{prefix}"
+    rctx.root().debug "looking for paths with #{term} and/or in #{prefix}"
 
+  gctx = rctx.root()
   retdata = []
   matches = []
   for resource of gctx.routes.resources

@@ -1,8 +1,11 @@
-
 extends base
 
 block head
   +std-html-client("Sitefile RJS Client")
+
+  style
+    | // clearance for navbar-fixed-top
+    | padding-top: 70px
 
 block prologue
   .prologue
@@ -15,4 +18,3 @@ block footer
 block epilogue
   .epilogue
     div#tilda
-

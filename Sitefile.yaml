@@ -9,7 +9,7 @@ sitefile: 0.0.7-dev
 config:
   'show-stack-trace': true
   metadata: '/data/meta'
-  debug: true
+  #debug: true # XXX: interferes with context-core prototype
   verbose: true
   domain: 'sitefile.wtwta.org'
   strict-domain: true
@@ -146,6 +146,14 @@ routes:
   app/: redir:app/v0
   #app/v0-yaml:ext: rjs.boot:sitefile-client:sf-v0.yaml;name=yaml;
   'r:app/v0([^\.]*)(\..*)': rjs.boot:sitefile-client:sf-v0.yaml
+
+  # Deconstructing prototype
+  app/rjs-sf-v001.json: rjs.config:paths=$ref:cdn.json#/js/http/packages;shim=$ref:cdn-deps.json#/shim;deps=["require-css","cs!sf-v001"];baseUrl=/app;map=$ref:cdn-deps.json#/map
+  app/rjs-sf-v001.js: rjs.main:app/rjs-sf-v001.json
+  app/v001: pug:sitefile-client:sf-v001.pug
+
+  #app/stencil-starter: stencil:sitefile:stencil.config.js
+
   'r:app/(.*).sass.css': sass:sitefile-lib:client/
   'r:app/(.*).pug.html': pug:sitefile-lib:client/
   app: static:lib/sitefile/client
@@ -184,6 +192,8 @@ routes:
   _pug_polymer: pug:example/polymer*.pug
   _pug_clients: pug:example/*-client*.pug
 
+  component: static:public/components
+
   assets: static:assets
   favicon.ico: static:assets/favicon-file-text-8bc34a.ico
 
@@ -211,6 +221,10 @@ options:
     'app/v0':
       merge:
         $ref: '#/defs/app/v0'
+
+    'app/v001':
+      merge:
+        $ref: '#/defs/app/v001'
 
     npm/node-sitefile/latest.json:
       spec:
@@ -292,6 +306,15 @@ defs:
           id: require-js-sitefile-v0-app
           href: /vendor/require.js
           main: /app/rjs-sf-v0.js
+      stylesheets:
+        $ref: '#/defs/stylesheets/default'
+      scripts: []
+    v001:
+      clients:
+        - type: require-js
+          id: require-js-sitefile-v001-app
+          href: /vendor/require.js
+          main: /app/rjs-sf-v001.js
       stylesheets:
         $ref: '#/defs/stylesheets/default'
       scripts: []

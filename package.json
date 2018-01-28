@@ -64,9 +64,12 @@
     "dep-local": "echo node_modules/* | xargs basename | sort -u | awk '{print $1}'",
     "dep-local-all": "find node_modules/ -iname node_modules | xargs /bin/ls -w1 | grep -v '^$' | grep -v 'node_modules' | sort -u | awk '{print $1}'",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "npm run snyk-protect",
+    "build-components": "stencil build --prerender"
   },
   "dependencies": {
+    "@stencil/core": "next",
+    "@stencil/router": "latest",
     "ansi-to-html": "^0.6.3",
     "bluebird": "^3.5.0",
     "chalk": "^1.1.3",
@@ -79,7 +82,7 @@
     "json-stable-stringify": "^1.0.1",
     "lodash": "^4.17.4",
     "mime-types": "^2.1.13",
-    "nodelib-mpe": "0.0.7",
+    "nodelib-mpe": "git://github.com/bvberkum/nodelib.git#dev",
     "on-headers": "^1.0.1",
     "qs": "6.3.2",
     "request": "^2.83.0",
@@ -98,6 +101,8 @@
     "stylus": "^0.54.5"
   },
   "devDependencies": {
+    "@stencil/dev-server": "latest",
+    "@stencil/utils": "latest",
     "ajv": "^4.11.2",
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
