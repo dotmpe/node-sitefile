@@ -41,5 +41,16 @@ Microformats
   Souce:
     - `microformat-component`_
 
+..
+
+  TODO: fit in section(s) somewhere, here or in feature-literature, feature-style,
+  feature-build/docs
+  about literature, typesetting, layout.
+
+  <http://journals.openedition.org/questionsdecommunication/5813>
+  Example of texts with minimal paper layouts and marginal notes, footnotes
+
+
 See also
-  - `HTML5 Client Feature`_
+--------
+- `HTML5 Client Feature`_
