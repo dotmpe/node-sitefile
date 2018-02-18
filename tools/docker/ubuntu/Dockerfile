@@ -16,10 +16,12 @@ RUN \
   mkdir -vp /home/$username /opt/bvberkum /src/github.com/bvberkum && \
   chmod -R g+rw /usr/local/* /usr/local/lib/node_modules /opt/bvberkum /src/github.com/bvberkum && \
   chgrp -R staff /usr/local/* /usr/local/lib/node_modules /opt/bvberkum /src/github.com/bvberkum && \
-  chown -R $username:$username /home/$username /opt/bvberkum \
-  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+  chown -R $username:$username /home/$username /opt/bvberkum
 
 USER $username
+
+RUN USER=$username && \
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
 
 # Checkout Sitefile
 RUN USER=$username && \
