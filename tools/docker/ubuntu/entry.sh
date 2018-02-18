@@ -63,9 +63,10 @@ test -d .git && {
     stderr "Dir $site_src exists but is not a repository" 1
 }
 
-. $HOME/.nvm/nvm.sh
+n lts
 
-nvm install 7.0.0
+#. $HOME/.nvm/nvm.sh
+#nvm install 7.0.0
 
 # One more step
 test ! -e package.json || npm install
