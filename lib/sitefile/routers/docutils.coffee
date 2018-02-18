@@ -138,9 +138,7 @@ module.exports = ( ctx ) ->
   # Generators for Sitefile route handlers
   generate:
     rst2html: ( rctx ) ->
-
       ( req, res, next ) ->
-
         if rctx.res.rx?
           m = rctx.res.rx.exec req.originalUrl
           if rctx.route.spec

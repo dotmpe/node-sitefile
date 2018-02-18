@@ -11,8 +11,9 @@ config:
   metadata: '/data/meta'
   #debug: true # XXX: interferes with context-core prototype
   verbose: true
-  domain: 'sitefile.wtwta.org'
-  strict-domain: true
+  domain: 'boreas.lan'
+  #domain: 'sitefile.wtwta.org'
+  #strict-domain: true
   advertise: true
   advertise-server: true
   #aliases:
