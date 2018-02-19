@@ -20,19 +20,14 @@ RUN \
 
 USER $username
 
-# Add NVM to user-space
-RUN USER=$username && \
-  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+# Set LTS and get SASS and SQLite build
+RUN n lts && npm install -g node-sass@4.0.0 sqlite3@3.1.8 coffee-script@1.12.2
 
 # Checkout Sitefile
 RUN USER=$username && \
-  git clone https://github.com/bvberkum/node-sitefile.git \
-    /opt/bvberkum/node-sitefile && \
+  git clone https://github.com/bvberkum/node-sitefile.git /opt/bvberkum/node-sitefile && \
   cd /opt/bvberkum/node-sitefile && \
-  git checkout $sf_checkout && \
-  ln -s /opt/bvberkum/node-sitefile /src/github.com/bvberkum/
-
-#  npm install --quiet grunt coffee-script
+  git checkout $sf_checkout
 
 # Install Sitefile
 RUN USER=$username && \
