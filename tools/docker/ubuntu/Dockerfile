@@ -16,20 +16,18 @@ RUN \
   mkdir -vp /home/$username /opt/bvberkum /src/github.com/bvberkum && \
   chmod -R g+rw /usr/local/* /usr/local/lib/node_modules /opt/bvberkum /src/github.com/bvberkum && \
   chgrp -R staff /usr/local/* /usr/local/lib/node_modules /opt/bvberkum /src/github.com/bvberkum && \
-  chown -R $username:$username /home/$username /opt/bvberkum \
-  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+  chown -R $username:$username /home/$username /opt/bvberkum
 
 USER $username
 
+# Set LTS and get SASS and SQLite build
+RUN n lts && npm install -g node-sass@4.0.0 sqlite3@3.1.8 coffee-script@1.12.2
+
 # Checkout Sitefile
 RUN USER=$username && \
-  git clone https://github.com/bvberkum/node-sitefile.git \
-    /opt/bvberkum/node-sitefile && \
+  git clone https://github.com/bvberkum/node-sitefile.git /opt/bvberkum/node-sitefile && \
   cd /opt/bvberkum/node-sitefile && \
-  git checkout $sf_checkout && \
-  ln -s /opt/bvberkum/node-sitefile /src/github.com/bvberkum/
-
-#  npm install --quiet grunt coffee-script
+  git checkout $sf_checkout
 
 # Install Sitefile
 RUN USER=$username && \
