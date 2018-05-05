@@ -1,4 +1,5 @@
 # Id: node-sitefile/0.0.7-dev test/mocha/lib_dotmpe_conf.coffee
+fs = require 'fs'
 chai = require 'chai'
 expect = chai.expect
 
@@ -22,11 +23,14 @@ describe "Module conf", ->
 
     it "Should get the names of all the sitefilerc", ->
       rcs = libconf.get 'sitefilerc', suffixes: [ '' ], all: true
-      expect( rcs ).to.eql [
-        '.sitefilerc',
-      # XXX: relative path is of no use here..
-        "../..#{process.env.HOME}/.sitefilerc"
-      ]
+      if fs.existsSync process.env.HOME
+        expect( rcs ).to.eql [
+          '.sitefilerc',
+        # XXX: relative path is of no use here..
+          "../..#{process.env.HOME}/.sitefilerc"
+        ]
+      else
+        expect( rcs ).to.eql [ '.sitefilerc' ]
 
 
   describe ".load_file:", ->
