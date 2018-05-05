@@ -81,7 +81,8 @@ routes:
   # FIXME: aliases _pu: pu:example/*.pu
   _pu: plantuml:example/*.plantuml
   _pu_dev_doc: plantuml:doc/dev/*.plantuml
-  _json: data.json:example/*.json
+  # FIXME: data.json
+  #_json: data.json:example/*.json
 
   # XXX: direct command-line execution
   foo.ls: sh.ls:example/

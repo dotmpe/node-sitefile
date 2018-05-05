@@ -22,7 +22,11 @@ describe "Module conf", ->
 
     it "Should get the names of all the sitefilerc", ->
       rcs = libconf.get 'sitefilerc', suffixes: [ '' ], all: true
-      expect( rcs ).to.eql [ '.sitefilerc' ]
+      expect( rcs ).to.eql [
+        '.sitefilerc',
+      # XXX: relative path is of no use here..
+        "../..#{process.env.HOME}/.sitefilerc"
+      ]
 
 
   describe ".load_file:", ->

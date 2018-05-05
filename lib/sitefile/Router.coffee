@@ -34,23 +34,27 @@ expand_paths_spec_to_route = ( rctx ) ->
   return srcs
 
 
+_router_global_opts_cache = {}
+
 # Load default options from Sitefile
 resolve_route_options = ( ctx, route, router_name ) ->
   opts = {}
-
   if 'options' of ctx.sitefile
 
     # Global sitefile options (per router)
     if ctx.sitefile.options.global and router_name
       if router_name of ctx.sitefile.options.global
-        global_opts = null
-        #ctx.get "sitefile.options.global.#{router_name}"
-        try
-          global_opts = ctx.resolve "sitefile.options.global.#{router_name}"
-        catch error
-          null
-        if global_opts
-          opts = _.defaults {}, global_opts, opts
+        if router_name of _router_global_opts_cache
+          opts = _router_global_opts_cache[router_name]
+        else
+          global_opts = null
+          try
+            global_opts = ctx.resolve "sitefile.options.global.#{router_name}"
+          catch error
+            null
+          if global_opts
+            opts = _.defaults {}, global_opts, opts
+          _router_global_opts_cache[router_name] = opts
 
     # Local (per route) sitefile options
     if ctx.sitefile.options.local and route

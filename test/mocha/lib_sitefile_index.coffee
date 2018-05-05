@@ -81,7 +81,7 @@ describe 'Module sitefile', ->
       lib.prepare_context ctx
       sfctx = ( "advertise advertise-server backtraces basename bundles "+
         "config config_envs config_name cwd "+
-        "data-resolve-limit debug default_profile domain "+
+        "data-resolve-limit default_profile domain "+
         "engines envname express_version ext exts fn include-sf-title "+
         "lfn log metadata middleware modules "+
         "noderoot packages paths pkg pkg_file proc routes show-stack-trace "+

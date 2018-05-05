@@ -56,7 +56,7 @@ promise_http_get = ( deref_args ) ->
           if statusCode != 200
             error = new Error("Request Failed.\n" +
                               "Status Code: #{statusCode}")
-          else if opts.reqType and contentType != opts.reqType
+          else if opts.reqType and not contentType.startsWith opts.reqType
             error = new Error("Invalid content-type.\n" +
                         "Expected #{opts.reqType} but received #{contentType}")
           if error
