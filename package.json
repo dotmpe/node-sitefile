@@ -61,7 +61,9 @@
     "git-loc": "git ls-files | grep -v plantuml.jar | xargs cat | grep -v '^\\s*$' | wc -l ",
     "git-src": "git ls-files | grep -v plantuml.jar",
     "dep-local": "echo node_modules/* | xargs basename | sort -u | awk '{print $1}'",
-    "dep-local-all": "find node_modules/ -iname node_modules | xargs /bin/ls -w1 | grep -v '^$' | grep -v 'node_modules' | sort -u | awk '{print $1}'"
+    "dep-local-all": "find node_modules/ -iname node_modules | xargs /bin/ls -w1 | grep -v '^$' | grep -v 'node_modules' | sort -u | awk '{print $1}'",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "bluebird": "^3.4.6",
@@ -76,7 +78,8 @@
     "nodelib-mpe": "^0.0.6",
     "qs": "6.3.0",
     "request-promise": "^4.1.1",
-    "semver": "^5.3.0"
+    "semver": "^5.3.0",
+    "snyk": "^1.88.4"
   },
   "optionalDependencies": {
     "bookshelf": "^0.10.2",
@@ -130,5 +133,6 @@
     "text-table": "latest",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
-  }
+  },
+  "snyk": true
 }
