@@ -129,25 +129,26 @@ builtin =
     ]
     #rctx.debug 'Static', url: url, '=', path: rctx.route.spec
 
-
   # Take care of rendering from a rctx with data, for a (data) handler that does
   # not care too itself since it is a very common task.
   data: ( rctx ) ->
     name = "generator '#{rctx.route.name}.#{rctx.route.handler}'"
 
-    # FIXME: failes with mocha tests
+    # FIXME: fails with mocha tests
     #rctx.debug \
     #"Primed built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
     ( req, res ) ->
       #rctx.debug \
-      #"Running built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
+      console.log
+      "Running built-in Route.data handler for #{name} to '#{rctx.res.ref}'"
       writer = if rctx.res.fmt? then rctx.res.fmt else 'json'
       deferred = promise_resource_data rctx
       deferred
       .catch ( err ) ->
         res.status 500
         res.write err
-        res.end
+        res.end()
+
       .then ( data ) ->
         if writer == 'json'
           #rctx.debug 'dumping json'

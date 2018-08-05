@@ -1,5 +1,4 @@
 
-
 mixin html-meta(key, value, scheme)
   //- Scheme is deprecated in HTML5. There does not seem to be any predescribed
   //- way to use/interpret meta[name,content] in any particular profile context.
@@ -7,7 +6,6 @@ mixin html-meta(key, value, scheme)
     meta(name=key, content=value, scheme=scheme)
   else
     meta(name=key, content=value)
-
 
 mixin std-html-stylesheets()
   each href in stylesheets

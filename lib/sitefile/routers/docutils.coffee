@@ -76,7 +76,7 @@ rst2html = ( out, ctx, params={} ) ->
     out.end()
 
   else
-    cmd = "rst2#{prm.format} #{cmdflags} '#{prm.docpath}'"
+    cmd = "rst2#{prm.format}.py #{cmdflags} '#{prm.docpath}'"
     sitefile.log "Du.rst2html", cmd
 
     child_process.exec cmd, maxBuffer: 1024*1024, (error, stdout, stderr) ->

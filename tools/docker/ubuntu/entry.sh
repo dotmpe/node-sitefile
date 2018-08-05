@@ -25,46 +25,53 @@ test -d "/src/$site_src" || {
     echo "Missing src or repo for site '$site_src'"
     exit 1
   }
-  mkdir -vp /src/$(dirname $site_src)
+  mkdir -vp /src/$(dirname $site_src) &&
   git clone http://$site_src /src/$site_src
 }
 
 cd /src/$site_src
 
-test -d .git && {
+test -w . && {
 
-  # Update GIT if Site-Version was requested
-  test -z "$site_ver" || {
+  test -d .git && {
 
-    git show-ref --verify -q refs/tags/$site_ver && {
+    # Update GIT if Site-Version was requested
+    test -z "$site_ver" || {
 
-      # Update if Site-Ver is a tag
-      git tag -d $site_ver || exit $?
+      git show-ref --verify -q refs/tags/$site_ver && {
+
+        # Update if Site-Ver is a tag
+        git tag -d $site_ver || exit $?
+      }
+
+      git fetch $git_remote || exit $?
+      git checkout $site_ver || exit $?
+
+      git show-ref --verify -q refs/heads/$site_ver && {
+
+        # Update if Site-Ver is a branch
+        git show-ref --verify -q refs/remotes/$git_remote/$site_ver && {
+          git rev-parse --symbolic --abbrev-ref $site_ver@{u} || {
+            git branch --set-upstream-to=$git_remote/$site_ver $site_ver
+          }
+        } || stderr "No remote branch $git_remote/$site_ver"
+        git pull || exit $?
+      }
     }
 
-    git fetch $git_remote || exit $?
-    git checkout $site_ver || exit $?
+  } || {
 
-    git show-ref --verify -q refs/heads/$site_ver && {
-
-      # Update if Site-Ver is a branch
-      git show-ref --verify -q refs/remotes/$git_remote/$site_ver && {
-        git rev-parse --symbolic --abbrev-ref $site_ver@{u} || {
-          git branch --set-upstream-to=$git_remote/$site_ver $site_ver
-        }
-      } || stderr "No remote branch $git_remote/$site_ver"
-      git pull || exit $?
-    }
+    test -z "$site_ver" ||
+      stderr "Dir $site_src exists but is not a repository, no SCM updates" 1
   }
+
+  # One more env preparation step
+  test ! -e package.json || npm install
 
 } || {
 
-  test -z "$site_ver" ||
-    stderr "Dir $site_src exists but is not a repository" 1
+  stderr "Source dir is not writable to server, skipped env preparation"
 }
-
-# One more step
-test ! -e package.json || npm install
 
 # Start server
 sitefile
