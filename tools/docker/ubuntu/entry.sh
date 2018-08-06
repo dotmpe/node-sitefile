@@ -28,7 +28,9 @@ test -d "/src/$site_src" || {
   mkdir -vp /src/$(dirname $site_src) &&
   git clone $site_repo /src/$site_src &&
   cd /src/$site_src &&
-  git checkout $site_ver || stderr "Checkout error $?" 1
+  test -z "$site_ver" || {
+    git checkout $site_ver || stderr "Checkout error $?" 1
+  }
 }
 
 test -w /src/$site_src -o "$site_update" = "0" ||
@@ -91,6 +93,8 @@ test -w . -a "$src_update" = "1" && {
       stderr "No update requested, version $real_ver does not match requested $site_ver"
   }
 }
+
+git status
 
 # Start server
 sitefile
