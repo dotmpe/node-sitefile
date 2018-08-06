@@ -81,21 +81,25 @@ module.exports = ( ctx ) ->
     'sites-to-menu': ( rctx ) ->
       res:
         data: ->
-          fn = if rctx.res.path then rctx.res.path \
-            else if rctx.route.spec.trim '#' \
-            then rctx.route.spec else 'sites.json'
-          fn = Router.expand_path fn, ctx
+          fn = Router.expand_path ( if rctx.res.path \
+            then rctx.res.path else rctx.route.spec ), ctx
           srcfmt = path.extname(fn).substring 1
-          data = libconf.load_file fn, ext: ".#{srcfmt}"
-          nested_dicts_to_menu_outline \
-            data, label: 'key()', items: 'names', href: 'base'
+          console.log 'sites', fn, srcfmt
 
           ###
+          FIXME
           # TODO: access other resource context by url
           if not rctx.res.src
             rctx.res.src = URL.parse \
               rctx.site.base+rctx.route.spec.trim '#'
           deref.promise.local_or_remote rctx
+          data = libconf.load_file fn, ext: ".#{srcfmt}"
+          console.log 'sites', data
+
+          nested_dicts_to_menu_outline \
+            data, label: 'key()', items: 'names', href: 'base'
+
+          p = path.join(rctx.cwd, fn)
+          console.log p
           ###
-
-
+          libconf.load_file fn #, ext: ".#{srcfmt}"
