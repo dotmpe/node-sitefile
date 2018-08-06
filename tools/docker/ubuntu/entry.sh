@@ -13,7 +13,7 @@ test -n "$site_ver" || site_ver=master
 
 test -n "$git_remote" || git_remote=origin
 # Ether to update SCM/NPM before starting server
-test -n "$site_update" || site_update=1
+test -n "$src_update" || site_update=1
 
 
 stderr()
@@ -31,7 +31,7 @@ test -d "/src/$site_src" || {
 
 cd /src/$site_src
 
-test -w . -a "$src_site_update" = "1" && {
+test -w . -a "$src_update" = "1" && {
 
   test -d .git && {
 
@@ -74,7 +74,7 @@ test -w . -a "$src_site_update" = "1" && {
 
 } || {
 
-  test "$src_site_update" = "1" &&
+  test "$src_update" = "1" &&
     stderr "Source dir is not writable to server, skipped env preparation" || {
 
     real_ver="$(git show-ref --head HEAD -s)" # XXX: misses tags
