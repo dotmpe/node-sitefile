@@ -29,6 +29,9 @@ test -d "/src/$site_src" || {
   git clone $site_repo /src/$site_src
 }
 
+test -w /src/$site_src -o "$site_update" = "0" ||
+  stderr "Cannot write to /src/$site_src" 1
+
 cd /src/$site_src
 
 test -w . -a "$src_update" = "1" && {
@@ -61,6 +64,9 @@ test -w . -a "$src_update" = "1" && {
       }
     }
 
+    test ! -e .gitmodules || {
+      git submodule update --init || stderr "GIT submodules error $?" 1
+    }
   } || {
 
     test -z "$site_ver" ||
