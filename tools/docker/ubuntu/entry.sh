@@ -74,7 +74,14 @@ test -w . -a "$src_site_update" = "1" && {
 
 } || {
 
-  stderr "Source dir is not writable to server, skipped env preparation"
+  test "$src_site_update" = "1" &&
+    stderr "Source dir is not writable to server, skipped env preparation" || {
+
+    real_ver="$(git show-ref --head HEAD -s)" # XXX: misses tags
+    test -z "$site_ver" -o "$real_ver" = "$site_ver" &&
+      stderr "No update requested, version $site_ver OK" ||
+      stderr "No update requested, version $real_ver does not match requested $site_ver"
+  }
 }
 
 # Start server
