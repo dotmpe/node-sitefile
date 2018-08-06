@@ -26,7 +26,8 @@ stderr()
 
 test -d "/src/$site_src" || {
   mkdir -vp /src/$(dirname $site_src) &&
-  git clone $site_repo /src/$site_src
+  git clone $site_repo /src/$site_src &&
+  cd /src/$site_src &&
   git checkout $site_ver || stderr "Checkout error $?" 1
 }
 
