@@ -13,7 +13,7 @@ test -n "$site_ver" || site_ver=master
 
 test -n "$git_remote" || git_remote=origin
 # Ether to update SCM/NPM before starting server
-test -n "$src_update" || site_update=1
+test -n "$src_update" || src_update=1
 
 
 stderr()
@@ -29,11 +29,11 @@ test -d "/src/$site_src" || {
   git clone $site_repo /src/$site_src &&
   cd /src/$site_src &&
   test -z "$site_ver" || {
-    git checkout $site_ver || stderr "Checkout error $?" 1
+    git checkout $site_ver -- || stderr "Checkout error $?" 1
   }
 }
 
-test -w /src/$site_src -o "$site_update" = "0" ||
+test -w /src/$site_src -o "$src_update" = "0" ||
   stderr "Cannot write to /src/$site_src" 1
 
 cd /src/$site_src
@@ -45,6 +45,7 @@ test -w . -a "$src_update" = "1" && {
     # Update GIT if Site-Version was requested
     test -z "$site_ver" &&
       stderr "No SCM updates" || {
+      stderr "Running SCM updates..."
 
       git show-ref --verify -q refs/tags/$site_ver && {
 
@@ -53,7 +54,7 @@ test -w . -a "$src_update" = "1" && {
       }
 
       git fetch $git_remote || stderr "Fetch error $?" 1
-      git checkout $site_ver || stderr "Checkout error $?" 1
+      git checkout $site_ver -- || stderr "Checkout error $?" 1
 
       git show-ref --verify -q refs/heads/$site_ver && {
 
@@ -64,11 +65,13 @@ test -w . -a "$src_update" = "1" && {
           }
         } || stderr "No remote branch $git_remote/$site_ver"
 
+        stderr "Pulling..."
         git pull || stderr "Pull error $?" 1
       }
     }
 
     test ! -e .gitmodules || {
+      stderr "Updating submodules..."
       git submodule update --init || stderr "GIT submodules error $?" 1
     }
   } || {
@@ -79,6 +82,7 @@ test -w . -a "$src_update" = "1" && {
 
   # One more env preparation step
   test ! -e package.json || {
+    stderr "Installing local node packages..."
     npm install || stderr "NPM install error $?" 1
   }
 
@@ -87,16 +91,27 @@ test -w . -a "$src_update" = "1" && {
   test "$src_update" = "1" &&
     stderr "Source dir is not writable to server, skipped env preparation" || {
 
-    real_ver="$(git show-ref --head HEAD -s)" # XXX: misses tags
-    test -z "$site_ver" -o "$real_ver" = "$site_ver" &&
-      stderr "No update requested, version $site_ver OK" ||
-      stderr "No update requested, version $real_ver does not match requested $site_ver"
+    test -d .git && {
+      real_ver="$(git show-ref --head HEAD -s)"
+
+      test -z "$site_ver" -o "$real_ver" = "$site_ver" &&
+        stderr "No update requested, version $site_ver OK" ||
+        stderr "No update requested, version $real_ver does not match requested $site_ver"
+    }
   }
 }
 
+whoami
+hostname
+echo '--------- env'
+env | grep -i sitefile
+echo '--------- git status'
 git status
 
+
 # Start server
+echo '--------- starting server'
 sitefile
+
 
 # Id: sitefile/0.0.7-dev
