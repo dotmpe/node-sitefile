@@ -208,7 +208,14 @@ options:
       flags:
       - "--no-toc-backlinks"
       - '--field-name-limit=0'
-      $ref: '#/options/global/pug/merge'
+      # FIXME: $ref: '#/options/global/pug/merge'
+      meta:
+        $ref: '#/defs/app/v0/meta'
+      scripts: [] # $ref: '#/defs/scripts/default'
+      stylesheets:
+        $ref: '#/defs/stylesheets/default'
+      clients:
+        $ref: '#/defs/app/v0/clients'
     pug:
       merge:
         meta:
