@@ -91,7 +91,7 @@ test -w . -a "$src_update" = "1" && {
   test "$src_update" = "1" &&
     stderr "Source dir is not writable to server, skipped env preparation" || {
 
-    test -d .git && {
+    test ! -d .git || {
       real_ver="$(git show-ref --head HEAD -s)"
 
       test -z "$site_ver" -o "$real_ver" = "$site_ver" &&
