@@ -29,7 +29,7 @@ test -d "/src/$site_src" || {
   git clone $site_repo /src/$site_src &&
   cd /src/$site_src &&
   test -z "$site_ver" -o "$site_ver" = "master" || {
-    git checkout $site_ver -- || stderr "Checkout error $?" 1
+    git checkout -t origin/$site_ver -b $site_ver || stderr "Checkout error $?" 1
   }
 }
 
@@ -54,7 +54,12 @@ test -w . -a "$src_update" = "1" && {
       } || true
 
       git fetch $git_remote || stderr "Fetch error $?" 1
-      git checkout $site_ver -- || stderr "Checkout error $?" 1
+
+      git show-ref --verify -q refs/heads/$site_ver && {
+        git checkout $site_ver -- || stderr "Checkout error $?" 1
+      } || {
+        git checkout -t origin/$site_ver -b $site_ver || stderr "Checkout error $?" 1
+      }
 
       git show-ref --verify -q refs/heads/$site_ver && {
 
