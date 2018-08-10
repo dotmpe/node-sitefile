@@ -51,7 +51,7 @@ test -w . -a "$src_update" = "1" && {
 
         # Update if Site-Ver is a tag
         git tag -d $site_ver || exit $?
-      }
+      } || true
 
       git fetch $git_remote || stderr "Fetch error $?" 1
       git checkout $site_ver -- || stderr "Checkout error $?" 1
