@@ -82,7 +82,7 @@ sitefile_cli = module.exports =
 
   serve: ( done, ctx ) ->
     console.log "Starting #{ctx.version} "+\
-      "(Express #{ctx.express_version})"+\
+      "(Express #{ctx.express_version}) "+\
       "server at #{ctx.site.host}:#{ctx.site.port}"
 
     return if ctx.site.host
