@@ -47,7 +47,7 @@ test -w . -a "$src_update" = "1" && {
       stderr "No SCM updates" || {
       stderr "Running SCM updates..."
 
-      git show-ref --verify -q refs/tags/$site_ver && {
+      git show-ref --verify refs/tags/$site_ver && {
 
         # Update if Site-Ver is a tag
         git tag -d $site_ver || exit $?
@@ -55,16 +55,16 @@ test -w . -a "$src_update" = "1" && {
 
       git fetch $git_remote || stderr "Fetch error $?" 1
 
-      git show-ref --verify -q refs/heads/$site_ver && {
+      git show-ref --verify refs/heads/$site_ver && {
         git checkout $site_ver -- || stderr "Checkout error $?" 1
       } || {
         git checkout -t origin/$site_ver -b $site_ver || stderr "Checkout error $?" 1
       }
 
-      git show-ref --verify -q refs/heads/$site_ver && {
+      git show-ref --verify refs/heads/$site_ver && {
 
         # Update if Site-Ver is a branch
-        git show-ref --verify -q refs/remotes/$git_remote/$site_ver && {
+        git show-ref --verify refs/remotes/$git_remote/$site_ver && {
           git rev-parse --symbolic --abbrev-ref $site_ver@{u} || {
             git branch --set-upstream-to=$git_remote/$site_ver $site_ver
           }
