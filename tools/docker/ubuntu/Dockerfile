@@ -6,17 +6,17 @@ MAINTAINER B. van Berkum <dev@dotmpe.com>
 ARG sf_checkout=dev
 
 ADD sudoers-treebox /etc/sudoers.d/treebox-2
-RUN cat /etc/sudoers.d/* || true
 ARG username=treebox
 
 USER root
 
 # Prepare for Sitefile
+ARG userdirs="/usr/local/lib/node_modules /opt/bvberkum /src/bitbucket.org/bvberkum /src/github.com/bvberkum "
 RUN \
-  mkdir -vp /home/$username /opt/bvberkum /src/github.com/bvberkum && \
-  chmod -R g+rw /usr/local/* /usr/local/lib/node_modules /opt/bvberkum /src/github.com/bvberkum && \
-  chgrp -R staff /usr/local/* /usr/local/lib/node_modules /opt/bvberkum /src/github.com/bvberkum && \
-  chown -R $username:$username /home/$username /opt/bvberkum
+  mkdir -vp /home/$username $userdirs && \
+  chmod -R g+rw /usr/local/* $userdirs && \
+  chgrp -R staff /usr/local/* $userdirs && \
+  chown -R $username:$username /home/$username $userdirs
 
 USER $username
 
