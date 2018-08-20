@@ -10,6 +10,8 @@ do echo "$v: $(eval echo \"\$$v\")"; done
 
 echo '----------'
 
+BUILD_DATE="$(date --rfc-3339=seconds)"
+
 # highland builder does not obey skip tag
 case "$COMMIT_MSG" in
   *"[skip ci]"* | *"[ci skip]"* )
@@ -23,21 +25,24 @@ case "$SOURCE_BRANCH" in
   docker-latest ) # Lightweight, moving tag
       docker build \
           --build-arg DCKR_TAG=latest \
-          --build-arg sf_checkout=$SOURCE_BRANCH \
+          --build-arg BUILD_DATE="$BUILD_DATE" \
+          --build-arg sf_build_ver=$SOURCE_BRANCH \
           -t $IMAGE_NAME .
     ;;
 
   r* ) # A branch name
       docker build \
           --build-arg DCKR_TAG=dev \
-          --build-arg sf_checkout=$SOURCE_BRANCH \
+          --build-arg BUILD_DATE="$BUILD_DATE" \
+          --build-arg sf_build_ver=$SOURCE_BRANCH \
           -t $IMAGE_NAME .
     ;;
 
   v[0-9]* ) # A release tag
       docker build \
           --build-arg DCKR_TAG="$(echo $SOURCE_BRANCH | cut -c2-)"
-          --build-arg sf_checkout=$SOURCE_BRANCH \
+          --build-arg BUILD_DATE="$BUILD_DATE" \
+          --build-arg sf_build_ver=$SOURCE_BRANCH \
           -t $IMAGE_NAME .
     ;;
 

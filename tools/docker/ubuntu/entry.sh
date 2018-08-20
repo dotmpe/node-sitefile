@@ -24,6 +24,11 @@ stderr()
 
 # Use vendorized src-path as 'install dir'
 
+test -w /src/ || {
+	sudo -n chown -R $USER /src/
+}
+test -w /src/ || stderr "Cannot write to /src/" 1
+
 test -d "/src/$site_src" || {
   mkdir -vp /src/$(dirname $site_src) &&
   git clone $site_repo /src/$site_src &&

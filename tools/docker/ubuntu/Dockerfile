@@ -3,7 +3,7 @@ FROM bvberkum/treebox:$DCKR_TAG
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 
-ARG sf_checkout=dev
+ARG sf_build_ver=dev
 
 ADD sudoers-treebox /etc/sudoers.d/treebox-2
 ARG username=treebox
@@ -27,7 +27,7 @@ RUN n lts && npm install -g node-sass@4.0.0 sqlite3@3.1.8 coffee-script@1.12.2
 RUN USER=$username && \
   git clone https://github.com/bvberkum/node-sitefile.git /opt/bvberkum/node-sitefile && \
   cd /opt/bvberkum/node-sitefile && \
-  git checkout $sf_checkout
+  git checkout $sf_build_ver
 
 # Install Sitefile
 RUN USER=$username && \
@@ -48,5 +48,14 @@ COPY ./entry.sh /usr/local/share/sitefile/entry.sh
 ENTRYPOINT ["/usr/local/share/sitefile/entry.sh"]
 EXPOSE 7000-7099
 CMD ["","",""]
+
+LABEL \
+    org.label-schema.name="$IMAGE_NAME:$DOCKER_TAG" \
+    org.label-schema.build-date="$BUILD_DATE" \
+    org.label-schema.version="0.0.7-dev" \
+    org.label-schema.vcs-ref=$GIT_COMMIT \
+    org.label-schema.vcs-url="https://github.com/bvberkum/node-sitefile" \
+    org.label-schema.schema-version="1.0"
+
 
 # Id: sitefile/0.0.7-dev
