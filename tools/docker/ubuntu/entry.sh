@@ -25,7 +25,9 @@ stderr()
 # Use vendorized src-path as 'install dir'
 
 test -w /src/ || {
-	sudo -n chown -R $USER /src/
+  ls -la /src/
+  sudo -n chown -R $(whoami):staff /src/
+  ls -la /src/
 }
 test -w /src/ || stderr "Cannot write to /src/" 1
 
