@@ -9,25 +9,31 @@ test -z "$3" || site_ver=$3
 
 test -n "$site_src" || site_src=github.com/bvberkum/node-sitefile
 test -n "$site_repo" || site_repo=http://$site_src
-test -n "$site_ver" || site_ver=master
+test -n "$site_ver" || site_ver=r0.0.7
 
 test -n "$git_remote" || git_remote=origin
 # Ether to update SCM/NPM before starting server
 test -n "$src_update" || src_update=1
+test -n "$src_submodules" || src_submodules=1
 
+user=$(whoami)
+host=$(hostname -s)
 
 stderr()
 {
-  echo "$1" >&2
+  echo "[$user@$host:$(date)] $1" >&2
   test -z "$2" || exit $2
 }
+
+stderr "Sitefile container starting at /src/$site_src <$site_repo> $site_ver"
+
 
 # Use vendorized src-path as 'install dir'
 
 test -d "/src/$site_src" || {
 
   test -w /src/ -o "$src_update" = "0" || {
-    sudo -n chown -R $(whoami):staff /src/
+    sudo -n chown -R $user:staff /src/
     test -w /src/ || stderr "Cannot write to /src/" 1
   }
 
@@ -44,7 +50,13 @@ test -w /src/$site_src -o "$src_update" = "0" ||
 
 cd /src/$site_src
 
+stderr "Sitefile container now in $(pwd) site root"
+
+
+# Update from GIT if needed FIXME: install
+
 test -w . -a "$src_update" = "1" && {
+  stderr "Sitefile src-update requested"
 
   test -d .git && {
 
@@ -81,7 +93,7 @@ test -w . -a "$src_update" = "1" && {
       }
     }
 
-    test ! -e .gitmodules || {
+    test ! -e .gitmodules -o $src_submodules -eq 0 || {
       stderr "Updating submodules..."
       git submodule update --init || stderr "GIT submodules error $?" 1
     }
@@ -97,11 +109,13 @@ test -w . -a "$src_update" = "1" && {
     npm install || stderr "NPM install error $?" 1
   }
 
+  stderr "Sitefile src-update done"
+
 } || {
 
+  # No-op but some verbosity about src-update=0
   test "$src_update" = "1" &&
     stderr "Source dir is not writable to server, skipped env preparation" || {
-
     test ! -d .git || {
       real_ver="$(git show-ref --head HEAD -s)"
 
@@ -112,16 +126,18 @@ test -w . -a "$src_update" = "1" && {
   }
 }
 
-whoami
-hostname
-echo '--------- env'
+
+stderr "OS release info:"
+cat /etc/os-release
+
+stderr 'Server env'
 env | grep -i sitefile
-echo '--------- git status'
+
+stderr 'Checkout status'
 git status
 
-
 # Start server
-echo '--------- starting server'
+stderr 'Sitefile server starting'
 sitefile
 
 
