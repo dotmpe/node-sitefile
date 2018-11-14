@@ -15,6 +15,7 @@ module.exports = ( ctx={} ) ->
       return {}
     throw err
 
+  template = Router.expand_path 'sitefile-client:view.pug', ctx
 
   name: 'markdown'
   aliases: 'markdown' # XXX: cannot use alias while only req. routers are loaded
@@ -65,7 +66,7 @@ module.exports = ( ctx={} ) ->
         data = fs.readFileSync rctx.res.path
         doc = md.toHTML data.toString()
         pugOpts = _.defaultsDeep rctx.route.options.pug, {
-          tpl: Router.expand_path 'sitefile-client:view.pug', ctx
+          tpl: template
           merge:
             ref: rctx.res.ref
             html:
@@ -74,8 +75,9 @@ module.exports = ( ctx={} ) ->
               footer: ''
             context: ctx
         }
+
         res.type 'html'
-        res.write pug.compile pugOpts, rctx
+        res.write pug.render pugOpts, rctx
         res.end()
 
 

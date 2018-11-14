@@ -19,7 +19,7 @@ sf_rjs_app =
       when '.html'
         res.type 'html'
         pug = ctx._routers.get 'pug'
-        res.write pug.compile
+        res.write pug.render
           tpl: Router.expand_path rjs.tpl, ctx
           merge:
             context: rctx
