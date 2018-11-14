@@ -49,6 +49,16 @@ module.exports = ( ctx={} ) ->
 
     default: ( rctx ) ->
       pug = ctx._routers.get 'pug'
+      # FIXME: cleanup schema checking to somewhere..
+      if rctx.route.options.compile or rctx.route.options.merge
+        ctx.warn "Sitefile.options.global", \
+          "markdown should not have compile/merge. Use 'pug' sub-options."
+      if not rctx.route.options.pug
+        ctx.warn "Sitefile.options.global", \
+          "No markdown.pug global options in Sitefile, used for markdown envelope"
+        # XXX: should provide Pug compile/merge options or maybe use pug router
+        # global settings...
+
       ( req, res ) ->
         sitefile.log 'Markdown default html publish', rctx.res.path
 
