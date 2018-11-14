@@ -16,8 +16,8 @@ module.exports = ( ctx={} ) ->
   name: 'sh'
   label: 'Shell publisher'
   usage: """
-    sh:**/*.sh
-  """
+      sh:**/*.sh
+    """
 
   # generators for Sitefile route handlers
   generate:
