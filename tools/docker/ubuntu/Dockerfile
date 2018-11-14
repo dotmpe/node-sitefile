@@ -21,7 +21,7 @@ RUN \
 USER $username
 
 # Set LTS and get SASS and SQLite build
-RUN n lts && npm install -g node-sass@4.0.0 sqlite3@3.1.8 coffee-script@1.12.2
+RUN n lts && npm install -g node-sass@4.10.0 sqlite3@4.0.4 coffee-script@1.12.7
 
 # Checkout Sitefile
 RUN USER=$username && \
