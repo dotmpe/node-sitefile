@@ -79,10 +79,10 @@ module.exports = ( ctx ) ->
     opts = _.defaultsDeep {}, optsIn, pug_def_opts
 
     # Compile template from file
-    pug.compileFile opts.tpl, opts.compile
+    [ opts, pug.compileFile opts.tpl, opts.compile ]
 
   renderPug = ( optsIn, rctx ) ->
-    tpl = compilePug optsIn, rctx
+    [ opts, tpl ] = compilePug optsIn, rctx
 
     # Merge with options and context
     opts.merge.context = rctx
@@ -90,7 +90,7 @@ module.exports = ( ctx ) ->
     tpl opts.merge
 
   publishExpress = ( res, template, parts, rctx ) ->
-    pugOpts = _.defaultsDeep rctx.route.options.pug, {
+    pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
       merge:
         ref: rctx.res.ref
         html: parts

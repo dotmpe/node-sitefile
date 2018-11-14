@@ -17,6 +17,19 @@ module.exports = ( ctx={} ) ->
 
   hljs = require 'highlight.js'
 
+  markdownIt = new markdown_it {
+    langPrefix: 'hljs '
+    highlight: (string, lang) =>
+      try
+        if lang
+          return hljs.highlight(lang, string).value
+
+        return hljs.highlightAuto(string).value
+      catch err
+        console.error err
+      return ''
+  }
+
   template = Router.expand_path 'sitefile-client:view.pug', ctx
 
   name: 'markdown-it'
@@ -37,6 +50,7 @@ module.exports = ( ctx={} ) ->
             compile:
               pretty: false
               debug: false
+              cache: false
               compileDebug: false
               globals: []
               filters: []
@@ -52,28 +66,16 @@ module.exports = ( ctx={} ) ->
     default: ( rctx ) ->
       pug = ctx._routers.get 'pug'
 
-      pugOpts = _.defaultsDeep rctx.route.options.pug, {
+      pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
         tpl: template
       }
-      markdownItTpl = pug.compile pugOpts, rctx
+      [ opts, markdownItTpl ] = pug.compile pugOpts, rctx
 
       ( req, res ) ->
         sitefile.log 'Markdown-It default HTML publish', rctx.res.path
 
-        markdownIt = new markdown_it {
-          langPrefix: 'hljs '
-          highlight: (string, lang) =>
-            try
-              if lang
-                return hljs.highlight(lang, string).value
-
-              return hljs.highlightAuto(string).value
-            catch err
-              console.error err
-            return ''
-        }
-
         data = fs.readFileSync rctx.res.path
+
         pug.publish res, markdownItTpl, {
             main: ''
             document: markdownIt.render data.toString()
