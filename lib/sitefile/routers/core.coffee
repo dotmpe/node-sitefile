@@ -66,20 +66,20 @@ module.exports = ( ctx ) ->
 
   # Basic attributes
   name: 'core'
-  label: 'Sitefile API service'
+  label: 'Sitefile internal routers and API service'
   usage: """
     core:
   """
 
+  # Additional (user/Sitefile) configuration defaults for this module
   defaults:
     handler: 'routes'
-
-  # Additional (user/Sitefile) configuration defaults for this module
 
   # Generate router API is free to either return an function to handle a
   # resource request context, or add Express handlers directly.
   generate:
 
+    # core.routes instances render the global routes mapping
     routes: ( rctx ) ->
       d = {}
       for k of rctx.context.routes.resources
@@ -87,6 +87,7 @@ module.exports = ( ctx ) ->
         d[k] = v._data
       res: data: d
 
+    # core.route instances return one route given uri query param
     route: ( rctx ) ->
       ( req, res ) ->
         rs = rctx.context.routes.resources
@@ -100,6 +101,7 @@ module.exports = ( ctx ) ->
           res.write "No endpoint found for #{ref}"
         res.end()
 
+    # core.autocomplete instances list items for partial path
     autocomplete: ( rctx ) ->
       ( req, res ) ->
         data = jQuery_autocomplete_api req, rctx

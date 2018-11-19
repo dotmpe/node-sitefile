@@ -11,7 +11,7 @@ config:
   metadata: '/data/meta'
   #debug: true # XXX: interferes with context-core prototype
   verbose: true
-  domain: 'boreas.lan'
+  domain: 'notus.lan'
   #domain: 'sitefile.wtwta.org'
   #strict-domain: true
   advertise: true
@@ -74,8 +74,8 @@ routes:
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
   _coffee: coffee:example/**/*.coffee
-  _markdown: markdown:*.md
-  _markdown_1: markdown:example/**/*.md
+  _markdown: markdown-it:*.md
+  _markdown_1: markdown-it:example/**/*.md
   _sh: sh:example/*.sh
   _gv: graphviz:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
@@ -83,6 +83,9 @@ routes:
   _pu_dev_doc: plantuml:doc/dev/*.plantuml
   # FIXME: data.json
   #_json: data.json:example/*.json
+
+  # Dynamic rules using glob spec
+  _du: docutils:**/*.rst
 
   # XXX: direct command-line execution
   foo.ls: sh.ls:example/
@@ -98,9 +101,6 @@ routes:
   #ReadMe.html: docutils:ReadMe.rst
   #ReadMe.xml: docutils:ReadMe.rst
 
-  # Dynamic rules using glob spec
-  _du: docutils:**/*.rst
-
   #_rst2html: rst2html:**/*.rst
   gitflow: docutils:.gitflow.rst
 
@@ -108,10 +108,10 @@ routes:
   Sitefile.json: sitefile:?resolve=sitefile
   Sitefile/json: redir:Sitefile.json
   Sitefile/debug: redir:Sitefile/debug/resource
+  Sitefile/debug/resource/pug-opts: sitefile.pug-opts:#
   Sitefile/debug/resource: sitefile.rctx:#
-  Sitefile/debug/global: redir:/core
+  Sitefile/debug/global: redir:Sitefile/core
   Sitefile/info: sitefile.info:#
-
   Sitefile/core/auto: core.autocomplete:#
   Sitefile/core: core:#
 
@@ -225,6 +225,15 @@ options:
           $ref: '#/defs/stylesheets/default'
         clients:
           $ref: '#/defs/app/v0/clients'
+    markdown:
+      pug:
+        merge:
+          scripts:
+            $ref: '#/defs/scripts/default'
+          stylesheets:
+            $ref: '#/defs/stylesheets/default'
+    markdown-it:
+      $ref: '#/options/global/markdown'
 
   local:
     'app/v0':
@@ -291,6 +300,8 @@ defs:
       - /vendor/bootstrap.js
       - /vendor/bootstrap-table.js
       - /vendor/coffee-script.js
+      - /vendor/highlight-js.js
+      - /vendor/highlight-js-lang-vim.js
   stylesheets:
     default:
       - url: /vendor/jquery-ui.css
@@ -300,6 +311,7 @@ defs:
       - url: /vendor/bootstrap-table.css
       - url: /media/style/default.css
         #path: build/style/default.css
+      - url: /vendor/highlight-js-style-xcode.css
   app:
     v0:
       meta:

@@ -8,9 +8,12 @@ module.exports = ( ctx ) ->
 
   name: 'res'
   label: 'JSON/YAML/...'
+  # see also http and core attempts to serve data
   usage: """
     json:**/*.json
-    yaml:**/*.yaml
+    load-file:<>
+    TODO: json/load:<>:...
+    TODO: json/xform:<>:<>
   """
 
   defaults:

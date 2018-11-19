@@ -19,18 +19,35 @@ nested_dicts_to_menu_outline = ( data, map, name='' ) ->
 module.exports = ( ctx ) ->
 
   name: 'sitefile'
-  label: ''
+  label: 'Built-in routers serve sitefile parts, see core for internal API routes'
   usage: """
-    sitefile:**/*.json
+    sitefile.info:
+    sitefile.info:
+    sitefile.rctx:
+    sitefile.ctx:
+    sitefile.menu:
+    sitefile.sites-to-menu:
+    sitefile.sites:
   """
 
   defaults:
+    global:
+      default:
+        options:
+          pug:
+            merge:
+              scripts: []
+              stylesheets: []
+              clients: []
+
     default:
       route:
         options:
           sitefile_default_route_option_example_key: 1
 
   generate:
+
+    # XXX: hardcoded redir for node-sitefile project
     default: ( rctx ) ->
       ( req, res ) ->
         # FIXME: want to query for mount point of handler(s), redirect there
@@ -51,13 +68,25 @@ module.exports = ( ctx ) ->
           res.type 'json'
           res.write JSON.stringify d
         res.end()
-      
+     
+    'pug-opts': ( rctx ) ->
+      pugOpts = _.defaultsDeep {}, rctx.route.options.sitefile, {}
+      pug = ctx._routers.get 'pug'
+      opts = _.defaultsDeep {}, pugOpts, pug.defaults
+
+      res:
+        data: opts
+
+    # sitefile.rctx - resource context
     rctx: ( rctx ) ->
+      opts = _.defaultsDeep {}, rctx.route.options.sitefile, {}
+
       res:
         data: rctx._data
 
+    # sitefile.ctx - global context including static sitefile, rc, modules and instances
     ctx: ( rctx ) ->
-      throw Error("FIXME rctx.route.resource to JSON, see core.routes")
+      #throw Error("FIXME rctx.route.resource to JSON, see core.routes")
       res:
         # FIXME: this used to be possible, back when rctx.route.resource did not
         # have all SubContext instances

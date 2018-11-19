@@ -76,7 +76,7 @@ module.exports = ( ctx ) ->
       context: ctx
 
   compilePug = ( optsIn, rctx ) ->
-    opts = _.defaultsDeep {}, optsIn, pug_def_opts
+    opts = _.defaultsDeep optsIn, pug_def_opts
 
     # Compile template from file
     [ opts, pug.compileFile opts.tpl, opts.compile ]
@@ -109,6 +109,7 @@ module.exports = ( ctx ) ->
     pug:**/*.pug
   """
 
+  defaults: pug_def_opts
   compile: compilePug
   render: renderPug
   publish: publishExpress

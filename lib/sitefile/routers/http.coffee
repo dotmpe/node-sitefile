@@ -15,6 +15,13 @@ module.exports = ( ctx ) ->
 
   # Return obj. w/ metadata & functions
   name: 'http'
+  label: "Helper for proxied HTTP"
+  usage: """
+    http.default:<url.json>
+    http.ref:<url>
+    http.res:<url>
+    http.vendor:<local-path-to-cdn.json>
+  """
 
   defaults:
     route:

@@ -64,18 +64,20 @@ module.exports = ( ctx={} ) ->
   generate:
 
     default: ( rctx ) ->
-      pug = ctx._routers.get 'pug'
-
-      pugOpts = _.defaultsDeep {}, rctx.route.options.pug, {
+      pugOpts = _.merge {}, rctx.route.options.pug, {
         tpl: template
       }
-      [ opts, markdownItTpl ] = pug.compile pugOpts, rctx
 
+      # Prepare to wrap markdown output with template using pug router
+      pug = ctx._routers.get 'pug'
+      [ opts, markdownItTpl ] = pug.compile pugOpts, rctx
+      sitefile.log 'Markdown-It default publisher'
+
+      # Respond to request and finish response using pug.publish helper
       ( req, res ) ->
         sitefile.log 'Markdown-It default HTML publish', rctx.res.path
 
         data = fs.readFileSync rctx.res.path
-
         pug.publish res, markdownItTpl, {
             main: ''
             document: markdownIt.render data.toString()
