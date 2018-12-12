@@ -49,7 +49,7 @@ module.exports = ( ctx={} ) ->
   generate:
 
     default: ( rctx ) ->
-      pug = ctx._routers.get 'pug'
+      sfpug = ctx._routers.get 'pug'
       # FIXME: cleanup schema checking to somewhere..
       if rctx.route.options.compile or rctx.route.options.merge
         ctx.warn "Sitefile.options.global", \
@@ -65,7 +65,7 @@ module.exports = ( ctx={} ) ->
 
         data = fs.readFileSync rctx.res.path
         doc = md.toHTML data.toString()
-        pugOpts = _.defaultsDeep rctx.route.options.pug, {
+        sfpugOpts = _.defaultsDeep rctx.route.options.pug, {
           tpl: template
           merge:
             ref: rctx.res.ref
@@ -77,7 +77,7 @@ module.exports = ( ctx={} ) ->
         }
 
         res.type 'html'
-        res.write pug.render pugOpts, rctx
+        res.write sfpug.render sfpugOpts, rctx
         res.end()
 
 

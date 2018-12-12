@@ -116,7 +116,7 @@ module.exports = ( ctx ) ->
           res.end()
 
     client: ( rctx ) ->
-      pug = ctx._routers.get 'pug'
+      sfpug = ctx._routers.get 'pug'
       ( req, res ) ->
 
         # Test file
@@ -141,5 +141,5 @@ module.exports = ( ctx ) ->
             test_file: dud.replace('.js', req.query.suffix+'.js')
         }
 
-        res.write pug.render pugOpts, rctx
+        res.write sfpug.render pugOpts, rctx
         res.end()

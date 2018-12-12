@@ -18,8 +18,8 @@ sf_rjs_app =
     switch ext
       when '.html'
         res.type 'html'
-        pug = ctx._routers.get 'pug'
-        res.write pug.render
+        sfpug = ctx._routers.get 'pug'
+        res.write sfpug.render
           tpl: Router.expand_path rjs.tpl, ctx
           merge:
             context: rctx

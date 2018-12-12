@@ -28,6 +28,7 @@ define 'sf-v0/component/client-modules', [
 
       # Construct instance and start loading.
       @client_modules = new ClientModulesMeta().get()
+      console.log 'Start: modules', @client_modules
       ready_on = @client_modules.length
       self = @
 

@@ -1,0 +1,13 @@
+extends ../client/view
+
+
+block head
+  +std-html-client( "TODO.txt" )
+
+block header
+block document
+  div
+    each it in todos
+      p= it.text
+
+block footer

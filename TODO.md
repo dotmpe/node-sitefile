@@ -120,6 +120,7 @@ Want most features of 0.1.0 soonish.
 - TODO: directory index/tree router
 - TODO: Want shadows for DOT diagrams too.
   Probably router to run scripts around imagemagick, see router features.
+- TODO: router demo with possible usage scenario's of a router
 
 
 ### Documents
@@ -199,6 +200,8 @@ Want most features of 0.1.0 soonish.
 - TODO: cucumber-js coffee-script setup.
 - https://codeclimate.com/ "Automated code review for Ruby, JS, and PHP."
 - TODO: have a look again at Express middleware
+- Improve TODO.txt render, edit/update
+- Integrate Webdav on Express with webdav-server, Ymacs.
 
     "connect-flash": "latest",
     "method-override": "^2.3.2",

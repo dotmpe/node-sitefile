@@ -75,14 +75,14 @@ module.exports = ( ctx ) ->
       clients: []
       context: ctx
 
-  mergePug = ( optsIn, rctx ) ->
+  newPug = ( optsIn, rctx ) ->
     opts = _.defaultsDeep optsIn, pug_def_opts
 
     # Compile template from file
     [ opts, pug.compileFile opts.tpl, opts.compile ]
 
   renderPug = ( optsIn, rctx ) ->
-    [ opts, tpl ] = mergePug optsIn, rctx
+    [ opts, tpl ] = newPug optsIn, rctx
 
     # Merge with options and context
     opts.merge.context = rctx
@@ -110,7 +110,8 @@ module.exports = ( ctx ) ->
   """
 
   defaults: pug_def_opts
-  compile: mergePug # TODO rename every compile->merge
+  compile: newPug # TODO rename every compile->merge
+  init: newPug # TODO rename every compile->merge
   render: renderPug
   publish: publishExpress
 
@@ -128,6 +129,8 @@ module.exports = ( ctx ) ->
         # path-refs
         'import-query': [ 'merge.format', 'merge.scripts', 'merge.stylesheets' ]
         options: pug_def_opts
+      html: {}
+      text: {}
 
   # generators for Sitefile route handlers
   generate:
@@ -150,7 +153,11 @@ module.exports = ( ctx ) ->
         sitefile.log \
           "Pug compile", path: opts.tpl, '(Route:', path: rctx.res.ref, \
           ' Spec:', path: rctx.res.path, ')'
-        [pugOpts, tpl] = mergePug opts, rctx
+        console.log 'pug.default: pug.merge', opts.merge.clients
+
+        [pugOpts, tpl] = newPug opts, rctx
+        console.log 'pug.default: pug.merge', pugOpts.merge.clients
+
         res.type opts.merge.format
         res.write tpl pugOpts.merge
         res.end()

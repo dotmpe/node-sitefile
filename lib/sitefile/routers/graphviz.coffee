@@ -58,6 +58,8 @@ module.exports = ( ctx={} ) ->
 
   # generators for Sitefile route handlers
   generate:
+
+    # A null-return style Sf router that adds its own Express routes
     default: ( rctx ) ->
 
       # PNG handler
