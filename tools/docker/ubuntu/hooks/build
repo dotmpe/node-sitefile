@@ -38,6 +38,14 @@ case "$SOURCE_BRANCH" in
           -t $IMAGE_NAME .
     ;;
 
+  test-* ) # A testing pre-release
+      docker build \
+          --build-arg DCKR_TAG=latest \
+          --build-arg BUILD_DATE="$BUILD_DATE" \
+          --build-arg sf_build_ver=$SOURCE_BRANCH \
+          -t $IMAGE_NAME .
+    ;;
+
   v[0-9]* ) # A release tag
       docker build \
           --build-arg DCKR_TAG="$(echo $SOURCE_BRANCH | cut -c2-)"

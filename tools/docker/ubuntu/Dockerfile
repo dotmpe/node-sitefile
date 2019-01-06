@@ -2,13 +2,12 @@ ARG DCKR_TAG=dev
 FROM bvberkum/treebox:$DCKR_TAG
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
-
 ARG sf_build_ver=dev
-
-ADD sudoers-treebox /etc/sudoers.d/treebox-2
 ARG username=treebox
 
 USER root
+
+ADD sudoers-treebox /etc/sudoers.d/treebox-2
 
 # Prepare for Sitefile
 ARG userdirs="/usr/local/lib/node_modules /opt/bvberkum /src/bitbucket.org/bvberkum /src/github.com/bvberkum "
@@ -37,7 +36,7 @@ RUN USER=$username && \
   npm install --quiet -g .
 
 
-RUN sudo rm /etc/sudoers.d/$username
+#RUN sudo rm /etc/sudoers.d/$username
 
 ENV site_src=github.com/bvberkum/node-sitefile
 ENV site_repo=
