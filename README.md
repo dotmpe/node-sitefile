@@ -17,7 +17,9 @@ docker run \
   --volume /srv:/srv:rw \
   --volume /etc/localtime:/etc/localtime:ro \
   bvberkum/node-sitefile:0.0.7-dev \
-  github.com/bvberkum/node-sitefile r0.0.7
+    github.com/bvberkum/node-sitefile \
+    https://github.com/bvberkum/node-sitefile \
+    r0.0.7
 ```
 
 Under development, see doc/feature-docker.rst docs.
