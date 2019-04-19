@@ -96,7 +96,9 @@
         "source-map-support": "/npm/packages/source-map-support/browser-source-map-support",
 
         "highlight-js": "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min",
-        "highlight-js-lang-vim": "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/vim.min"
+        "highlight-js-lang-vim": "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/vim.min",
+
+        "mathjax": "V/cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax"
       }
     }
   },

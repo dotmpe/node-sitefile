@@ -193,6 +193,7 @@ Want most features of 0.1.0 soonish.
 - ReadMe.rst:- ``redir``\ specify a redirect FIXME glob behaviour?
 - ReadMe.rst:- module.export callback receives sitefile context, XXX should return::
 
+- TODO: Get some Math thing working; MathML, MathJax etc.
 
 # Project tooling
 - PLAN: make some guards to determine version increment, maybe some gherkin specs.
