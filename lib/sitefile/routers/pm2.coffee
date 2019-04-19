@@ -92,8 +92,8 @@ module.exports = ( ctx ) ->
   listPugFn = path.join( __dirname, 'pm2/view/list.pug' )
   listCoffeeFn = path.join( __dirname, 'pm2/view/list.coffee' )
 
-  ### TODO: PM2Manager dump/config loader
   m = new PM2Manager ctx.cwd
+  ### TODO: PM2Manager dump/config loader
   # If given, use spec for JSON config file
   if rctx.route.spec and rctx.route.spec != '#'
     m.load rctx.route.spec
@@ -113,7 +113,7 @@ module.exports = ( ctx ) ->
 
       route =
         '.json': get: generators.list
-        '-data.json': get: generators.data
+        '-data.json': get: generators.data # XXX: data from PM2 manager (empty now)?
         '.js': get: generators.script
         '.html': get: generators.view
         '/:pm_id.html': get: generators['view/app']
@@ -153,6 +153,19 @@ module.exports = ( ctx ) ->
         res.write JSON.stringify m.procs
         res.end()
 
+    list: ( rctx ) ->
+      (req, res) ->
+        new Promise ( resolve, reject ) ->
+          pm2.list ( err, ps_list ) ->
+            if err
+              reject err
+            else
+              res.type 'json'
+              res.write JSON.stringify ps_list
+              res.end()
+              resolve()
+
+    ###
     list:
       res:
         data: ( rctx ) ->
@@ -162,6 +175,7 @@ module.exports = ( ctx ) ->
                 reject err
               else
                 resolve ps_list
+    ###
 
     # Describe single PM2 proc in JSON
     'data/app': ( rctx ) ->
@@ -221,23 +235,23 @@ module.exports = ( ctx ) ->
             path: ctx.site.base+ rctx.name + '.json'
         ).then ( data ) ->
           res.type 'html'
-          res.write pugrouter.compile {
-            tpl: listPugFn
-            compile: rctx.route.options.compile
-            merge:
-              pid: process.pid
-              pm2_base: ctx.site.base+rctx.name
-              script: ctx.site.base+rctx.name+'.js'
-              options: rctx.options
-              query: req.query
-              context: rctx
-              apps: data[0]
-              links: []
-              stylesheets: \
-                rctx.resolve('sitefile.defs.stylesheets.default') ? []
-              scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
-              clients: []
-          }
+          res.write pugrouter.render {
+              tpl: listPugFn
+              compile: rctx.route.options.compile
+              merge:
+                pid: process.pid
+                pm2_base: ctx.site.base+rctx.name
+                script: ctx.site.base+rctx.name+'.js'
+                options: rctx.options
+                query: req.query
+                context: rctx
+                apps: data[0]
+                links: []
+                stylesheets: \
+                  rctx.resolve('sitefile.defs.stylesheets.default') ? []
+                scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
+                clients: []
+            }, rctx
           res.end()
 
     # Serve PM2 proc HTML details
@@ -270,7 +284,6 @@ module.exports = ( ctx ) ->
               clients: []
           }
           res.end()
-
 
   ### # TODO: see r0.0.6
   route:

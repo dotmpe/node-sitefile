@@ -75,14 +75,15 @@ resolve_route_options = ( ctx, route, router_name ) ->
 promise_resource_data = ( rctx ) ->
   name = "generator '#{rctx.route.name}.#{rctx.route.handler}'"
   if "function" is typeof rctx.res.data.then
-    # FIXME: failes with mocha tests
-    #rctx.debug "Router #{name} returned data-promise for '#{rctx.res.ref}'"
+    # FIXME: fails with mocha tests
+    rctx.log "Router #{name} returned data-promise for '#{rctx.res.ref}'"
     rctx.res.data
   else
-    #rctx.debug "Constructing #{name} data-promise handler for '#{rctx.res.ref}'"
+    rctx.log "Constructing #{name} data-promise handler for '#{rctx.res.ref}'"
     new Promise ( resolve, reject ) ->
-      #rctx.debug "Running #{name} data-promise handler for '#{rctx.res.ref}'"
+      rctx.log "Running #{name} data-promise handler for '#{rctx.res.ref}'"
       data = rctx.res.data
+      rctx.log(data)
       r = 0
       while "function" is typeof data
         if r == rctx.config['data-resolve-limit']

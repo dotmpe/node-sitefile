@@ -46,7 +46,8 @@ case "$SOURCE_BRANCH" in
           -t $IMAGE_NAME .
     ;;
 
-  v[0-9]* ) # A release tag
+  v[0-9]* ) # A release tag, matching treebox..
+     #     --build-arg DCKR_TAG="$(echo $SOURCE_BRANCH | cut -c2-)"
       docker build \
           --build-arg DCKR_TAG="$(echo $SOURCE_BRANCH | cut -c2-)"
           --build-arg BUILD_DATE="$BUILD_DATE" \
