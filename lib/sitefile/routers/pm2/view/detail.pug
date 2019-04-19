@@ -30,24 +30,25 @@ block main
 
     table.table
       tr
-        th Id
+        th(title="PM2 numeric id for process") Id
         th
           a(href=context.base+context.name+"/"+app.pm_id+".json")= app.pm_id
       tr
-        th Name
+        th(title="Name for process") Name
         th
           a(href=context.base+context.name+"/"+app.pm_id+".html")= app.name
       tr
-        th Status
+        th(title="Current PM2 status for process") Status
         td(class=states[st])= app.pm2_env.status
       tr
         th CWD
-        td= app.pm2_env.cwd
+        td
+          code.code= app.pm2_env.cwd
       tr
         th CMD
-        td= app.pm2_env.pm_exec_path
+        td.code.proc.cmd= app.pm2_env.pm_exec_path + ( app.pm2_env.args.join(' ') )
       tr
-        th ENV
+        th(title="Path or name for environent profile") ENV
         td= app.pm2_env.ENV
       tr
         th PID
@@ -72,10 +73,10 @@ block main
             tr
               th Branch
               td= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
-            // tr
-            //   th (raw)
-            //   td
-            //     code.code.versioning-value= JSON.stringify(app.pm2_env.versioning)
+            tr
+              th (raw)
+              td
+                code.code.versioning-value= JSON.stringify(app.pm2_env.versioning)
 
       tr
         th Env
@@ -87,11 +88,11 @@ block main
                 td
                   code.code.env-value= value
 
-      // tr
-      //   th (raw)
-      //   td
-      // 
-      //     code.code.env-value= JSON.stringify(app.pm2_env)
+      tr
+        th (raw)
+        td
+      
+          code.code.env-value= JSON.stringify(app.pm2_env)
 
 
 

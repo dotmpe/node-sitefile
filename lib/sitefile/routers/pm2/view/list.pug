@@ -9,7 +9,7 @@ block head
 block prologue
 block header
 block main
-  .container.main.pm2-list(data-urlbase=pm2_base)
+  .container.main.sf-pm2-list(data-urlbase=pm2_base)
 
     h3 PM2 process List
 
@@ -62,9 +62,10 @@ block main
               span= app.name
           td(class= states[st])= app.pm2_env.status
           td(data-proc-id=app.pid).proc.pid= app.pid
-          td.proc.cwd= app.pm2_env.cwd
-          td.proc.cmd= app.pm2_env.pm_exec_path
-          td= app.pm2_env.ENV
+          td
+            code.proc.cwd= app.pm2_env.cwd
+          td.code.proc.cmd= app.pm2_env.pm_exec_path + ( app.pm2_env.args.join(' ') )
+          td.proc.env= app.pm2_env.ENV
           td.git.branch= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
           td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 1000).toLocaleString( 'en-us', {maximumSignificantDigits: 3})
           td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 60 / 1000 ).toLocaleString( 'en-us', {maximumSignificantDigits: 3})

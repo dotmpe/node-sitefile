@@ -11,8 +11,9 @@ class StaticFile
   load: ->
     fd = fs.openSync @path, 'r'
     @stat = fs.fstatSync fd
-    [ @data, @len ] = fs.readSync fd, @stat.size
+    @len = @stat.size
     fs.closeSync fd
+    @data = fs.readFileSync @path
   reload: ->
     nstat = fs.statSync @path
     if nstat.mtimeMs > @stat.mtimeMs
@@ -38,7 +39,10 @@ module.exports = ( ctx ) ->
   generate:
 
     html: ( rctx ) ->
-      sfmod = ctx._routers.get('file')
+      #sfmod = ctx._routers.get('file')
       #sfmod.load(rctx.route.spec)
+      ( req, res ) ->
+        res.type 'html'
+        res.end()
 
   StaticFile: StaticFile

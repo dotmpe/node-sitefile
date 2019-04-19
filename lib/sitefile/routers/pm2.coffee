@@ -242,6 +242,7 @@ module.exports = ( ctx ) ->
                 pid: process.pid
                 pm2_base: ctx.site.base+rctx.name
                 script: ctx.site.base+rctx.name+'.js'
+                stylesheet: ctx.site.base+rctx.name+'.'
                 options: rctx.options
                 query: req.query
                 context: rctx
@@ -266,23 +267,23 @@ module.exports = ( ctx ) ->
             path: fn
         ).then ( data ) ->
           res.type 'html'
-          res.write pugrouter.compile {
-            tpl: detailPugFn
-            compile: rctx.route.options.compile
-            merge:
-              pid: process.pid
-              pm2_base: ctx.site.base+rctx.name
-              script: ctx.site.base+rctx.name+'.js'
-              options: rctx.route.options
-              query: req.query
-              context: rctx
-              app: data[0]
-              links: []
-              stylesheets: \
-                rctx.resolve('sitefile.defs.stylesheets.default') ? []
-              scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
-              clients: []
-          }
+          res.write pugrouter.render {
+              tpl: detailPugFn
+              compile: rctx.route.options.compile
+              merge:
+                pid: process.pid
+                pm2_base: ctx.site.base+rctx.name
+                script: ctx.site.base+rctx.name+'.js'
+                options: rctx.route.options
+                query: req.query
+                context: rctx
+                app: data[0]
+                links: []
+                stylesheets: \
+                  rctx.resolve('sitefile.defs.stylesheets.default') ? []
+                scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
+                clients: []
+            }, rctx
           res.end()
 
   ### # TODO: see r0.0.6

@@ -1,7 +1,7 @@
 
 $(document).ready ->
 
-  appid_base = $('.container.pm2-list').data('urlbase')
+  appid_base = $('.container.sf-pm2-list').data('urlbase')
 
   $("button.start").each ( idx, el ) ->
     appid = $(el).data('appid')
