@@ -21,21 +21,22 @@ define 'sf-v0/mixin.hyper-nav', [
 
   HNavDocument:
 
-    init_placeholder: ( homeref, self=@ ) ->
+    # TODO: move breakcrumb handling to Du-Page comps
+    init_hnav_placeholder: ( homeref, self=@ ) ->
       @init_placeholder_a_href homeref, self
       @init_placeholder_img_src homeref, self
-      $('ol.breadcrumb').remove()
-      @init_breadcrumb()
+      #$('ol.breadcrumb').remove()
+      #@init_breadcrumb()
 
     # Update image src attribute while embedded at another base
     init_placeholder_img_src: ( homeref, self=@ ) ->
-      $(".placeholder img").each ->
+      $("#hnav.placeholder img").each ->
         ref = self.resolve_page $(this).attr("src"), homeref
         $(this).attr "src", ref
 
     # Update a href onclick for embedded use
     init_placeholder_a_href: ( homeref, self=@ ) ->
-      $(".placeholder").on "click", "a", (evt) ->
+      $("#hnav.placeholder").on "click", "a", (evt) ->
         evt.preventDefault()
         ref = self.resolve_page $(this).attr("href"), homeref
         console.log 'href onclick', $(this).attr("href"), ref, homeref
@@ -45,7 +46,7 @@ define 'sf-v0/mixin.hyper-nav', [
           hasher.setHash ref
         return true
 
-    init_router: ( self=@ ) ->
+    init_hnav_router: ( self=@ ) ->
       # setup crossroads
       #crossroads.addRoute 'foo'
       #crossroads.addRoute 'lorem/ipsum'
@@ -90,7 +91,7 @@ define 'sf-v0/mixin.hyper-nav', [
       # XXX: Clean listeners on element by dropping
       #$('.placeholder')
       #.replaceWith('<div class="container placeholder"></div>')
-      $('.placeholder').off 'click'
+      $('#hnav.placeholder').off 'click'
       # Load content
       # FIXME: catch all URL types
       x = ref.indexOf '#sf:xref:'
@@ -103,12 +104,12 @@ define 'sf-v0/mixin.hyper-nav', [
       # Use jQuery.load to get at content at other resource
       console.log "Loading xref #{xref}"
       self = @
-      $('.placeholder').load xref, ( rsTxt, txtStat, jqXhr ) ->
+      $('#hnav.placeholder').load xref, ( rsTxt, txtStat, jqXhr ) ->
         if txtStat not in [ "success", "notmodified" ]
           console.log 'jQ.load fail, TODO', arguments
         else
           console.log "Loaded", ref
-          self.init_placeholder ref
+          self.init_hnav_placeholder ref
           self.run_scripts rsTxt
       #crossroads.parse newHash
 

@@ -397,7 +397,7 @@ class Routers
         module: router_cb
         object: Router.define router_obj
 
-      log "Loaded router", name: name, c.sc, router_obj.label, path: router_path
+      log("Loaded router", name: name, c.sc, router_obj.label, path: router_path)
 
 
 class Sitefile
@@ -450,7 +450,7 @@ class Sitefile
       [ router_name, handler_name, handler_spec ] = split_spec strspec, ctx
 
       if router_name not of Router.builtin and router_name not in @routers.names
-        warn "Skipping route", name: router_name, c.sc, path: handler_spec
+        warn("Skipping route", name: router_name, c.sc, path: handler_spec)
         continue
 
       if route.startsWith '/' or route.startsWith ctx.site.base

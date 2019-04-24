@@ -64,7 +64,7 @@ block main
           td(data-proc-id=app.pid).proc.pid= app.pid
           td
             code.proc.cwd= app.pm2_env.cwd
-          td.code.proc.cmd= app.pm2_env.pm_exec_path + ( app.pm2_env.args.join(' ') )
+          td.code.proc.cmd= app.pm2_env.pm_exec_path
           td.proc.env= app.pm2_env.ENV
           td.git.branch= app.pm2_env.versioning ? app.pm2_env.versioning.branch : ''
           td= ( ( Date.now() - app.pm2_env.pm_uptime ) / 1000).toLocaleString( 'en-us', {maximumSignificantDigits: 3})

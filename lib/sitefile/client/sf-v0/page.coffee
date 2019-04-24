@@ -70,7 +70,7 @@ define 'sf-v0/page', [ 'lodash',
       else if @options.margin
         @add_margins()
 
-      @init_router()
+      @init_hnav_router()
       @app.events.ready.emit name: 'sf-page', instance: @
 
     init_options: ->

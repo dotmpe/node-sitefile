@@ -46,7 +46,7 @@ block main
           code.code= app.pm2_env.cwd
       tr
         th CMD
-        td.code.proc.cmd= app.pm2_env.pm_exec_path + ( app.pm2_env.args.join(' ') )
+        td.code.proc.cmd= app.pm2_env.pm_exec_path
       tr
         th(title="Path or name for environent profile") ENV
         td= app.pm2_env.ENV

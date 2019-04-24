@@ -36,7 +36,7 @@ module.exports = ( grunt ) ->
         'example/**/*.coffee'
       ]
 
-    yamllint:
+    yaml_validator:
       all: [
         'Sitefile.yaml'
         'package.yaml'
@@ -143,7 +143,7 @@ module.exports = ( grunt ) ->
     'coffeelint'
     'jshint:all'
     'jshint:examples'
-    'yamllint'
+    'yaml_validator'
   ]
 
   grunt.registerTask 'check', [
