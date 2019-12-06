@@ -2,7 +2,7 @@
   "name": "node-sitefile",
   "description": "Bootstrap Express webserver for misc. resources using Sitefile",
   "version": "0.0.7-dev",
-  "homepage": "https://github.com/bvberkum/node-sitefile",
+  "homepage": "https://github.com/dotmpe/node-sitefile",
   "author": {
     "name": "B. van Berkum",
     "email": "dev@dotmpe.com"
@@ -15,16 +15,16 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/bvberkum/node-sitefile.git"
+    "url": "https://github.com/dotmpe/node-sitefile.git"
   },
   "bugs": {
-    "url": "https://github.com/bvberkum/node-sitefile/issues"
+    "url": "https://github.com/dotmpe/node-sitefile/issues"
   },
   "license": "GPL-3.0",
   "licenses": [
     {
       "type": "GPL-3.0",
-      "url": "https://github.com/bvberkum/node-sitefile/raw/master/LICENSE"
+      "url": "https://github.com/dotmpe/node-sitefile/raw/master/LICENSE"
     }
   ],
   "contributors": [],
@@ -84,7 +84,7 @@
     "lodash": "^4.17.11",
     "markdown-it": "^8.4.2",
     "mime-types": "^2.1.21",
-    "nodelib-mpe": "git://github.com/bvberkum/nodelib.git#dev",
+    "nodelib-mpe": "git://github.com/dotmpe/nodelib.git#dev",
     "on-headers": "^1.0.1",
     "qs": "6.3.2",
     "request-promise": "^4.2.1",
@@ -110,7 +110,7 @@
     "chai": "^3.5.0",
     "chai-webdriver": "^1.2.0",
     "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.12.2",
+    "coffeescript": "^1.12.2",
     "coffeelint": "^1.15.7",
     "cucumber": "^2.0.0-rc.6",
     "gherkin": "^4.0.0",

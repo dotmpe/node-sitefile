@@ -7,7 +7,7 @@ test -z "$1" || site_src=$1
 test -z "$2" || site_repo=$2
 test -z "$3" || site_ver=$3
 
-test -n "$site_src" || site_src=github.com/bvberkum/node-sitefile
+test -n "$site_src" || site_src=github.com/dotmpe/node-sitefile
 test -n "$site_repo" || site_repo=http://$site_src
 test -n "$site_ver" || site_ver=r0.0.7
 
@@ -26,6 +26,20 @@ stderr()
 }
 
 stderr "Sitefile container starting at /src/$site_src <$site_repo> $site_ver"
+
+
+npm uninstall -g coffee-script
+npm install -g coffeescript
+
+cd /opt/bvberkum/node-sitefile
+git checkout -- .
+git checkout r0.0.7
+git pull origin r0.0.7
+#npm install --quiet .
+#npm install --quiet -g .
+
+PATH=$PATH:/usr/local/n/versions/node/9.11.2/bin
+./bin/sitefile-cli.coffee --version
 
 
 # Use vendorized src-path as 'install dir'

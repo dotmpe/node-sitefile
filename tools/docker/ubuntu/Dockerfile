@@ -1,5 +1,5 @@
 ARG DCKR_TAG=dev
-FROM bvberkum/treebox:$DCKR_TAG
+FROM dotmpe/treebox:$DCKR_TAG
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 ARG sf_build_ver=dev
@@ -10,7 +10,7 @@ USER root
 ADD sudoers-treebox /etc/sudoers.d/treebox-2
 
 # Prepare for Sitefile
-ARG userdirs="/usr/local/lib/node_modules /opt/bvberkum /src/bitbucket.org/bvberkum /src/github.com/bvberkum "
+ARG userdirs="/usr/local/lib/node_modules /opt/dotmpe /src/bitbucket.org/dotmpe /src/github.com/dotmpe "
 RUN \
   mkdir -vp /home/$username $userdirs && \
   chmod -R g+rw /usr/local/* $userdirs && \
@@ -20,25 +20,25 @@ RUN \
 USER $username
 
 # Set LTS and get SASS and SQLite build
-RUN n lts && npm install -g node-sass@4.10.0 sqlite3@4.0.4 coffee-script@1.12.7
+RUN n lts && npm install -g node-sass@4.10.0 sqlite3@4.0.4 coffeescript@1.12.7
 
 # Checkout Sitefile
 RUN USER=$username && \
-  git clone https://github.com/bvberkum/node-sitefile.git /opt/bvberkum/node-sitefile && \
-  cd /opt/bvberkum/node-sitefile && \
+  git clone https://github.com/dotmpe/node-sitefile.git /opt/dotmpe/node-sitefile && \
+  cd /opt/dotmpe/node-sitefile && \
   git checkout $sf_build_ver
 
 # Install Sitefile
 RUN USER=$username && \
-  npm install -g grunt coffee-script && \
-  cd /opt/bvberkum/node-sitefile && \
+  npm install -g grunt coffeescript && \
+  cd /opt/dotmpe/node-sitefile && \
   npm install --quiet . && \
   npm install --quiet -g .
 
 
 #RUN sudo rm /etc/sudoers.d/$username
 
-ENV site_src=github.com/bvberkum/node-sitefile
+ENV site_src=github.com/dotmpe/node-sitefile
 ENV site_repo=
 ENV site_version=
 
@@ -53,7 +53,7 @@ LABEL \
     org.label-schema.build-date="$BUILD_DATE" \
     org.label-schema.version="0.0.7-dev" \
     org.label-schema.vcs-ref=$GIT_COMMIT \
-    org.label-schema.vcs-url="https://github.com/bvberkum/node-sitefile" \
+    org.label-schema.vcs-url="https://github.com/dotmpe/node-sitefile" \
     org.label-schema.schema-version="1.0"
 
 

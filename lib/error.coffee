@@ -1,4 +1,6 @@
-class NoFilesException extends Error then constructor: -> super
+class NoFilesException extends Error
+#  constructor: ->
+#    super
 
 module.exports =
   types:
