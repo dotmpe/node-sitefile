@@ -11,7 +11,9 @@ class StaticFile
   load: ->
     fd = fs.openSync @path, 'r'
     @stat = fs.fstatSync fd
-    [ @data, @len ] = fs.readSync fd, @stat.size
+    buffer = Buffer.alloc(@stat.size)
+    @len = fs.readSync fd, buffer, 0, @stat.size
+    @data = buffer.toString()
     fs.closeSync fd
   reload: ->
     nstat = fs.statSync @path

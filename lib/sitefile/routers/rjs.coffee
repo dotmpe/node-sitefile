@@ -114,12 +114,12 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
   """
 
   defaults: _.defaultsDeep autoExport, \
-    handler: 'main'
+    handler: 'main', \
     routes: """
       #{mount}/main.js: rjs.main:#{mount}/json
       #{mount}/json: rjs.config:paths=;map=;main=;baseUrl=
       #{mount}: pug:tpl=sitefile-client:rjs.pug
-    """
+    """, \
     global: {}
     ### FIXME: would want to set defaults for pug view. but setup auto-export
       first
