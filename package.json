@@ -64,6 +64,7 @@
     "dep-local": "echo node_modules/* | xargs basename | sort -u | awk '{print $1}'",
     "dep-local-all": "find node_modules/ -iname node_modules | xargs /bin/ls -w1 | grep -v '^$' | grep -v 'node_modules' | sort -u | awk '{print $1}'",
     "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect",
     "build-components": "stencil build --prerender"
   },
   "dependencies": {
@@ -147,5 +148,5 @@
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
   },
-  "snyk": false
+  "snyk": true
 }
