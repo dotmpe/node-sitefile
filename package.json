@@ -122,7 +122,7 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-exec": "^0.4.6",
     "grunt-mocha-test": "^0.12.7",
-    "grunt-sass": "^1.2.1",
+    "grunt-sass": "~3.1.0",
     "grunt-webpack": "~1.0.0",
     "grunt-yamllint": "^0.2.0",
     "gulp-chmod": "^2.0.0",
