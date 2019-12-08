@@ -10,7 +10,7 @@ USER root
 ADD sudoers-treebox /etc/sudoers.d/treebox-2
 
 # Prepare for Sitefile
-ARG userdirs="/usr/local/lib/node_modules /opt/dotmpe /src/bitbucket.org/dotmpe /src/github.com/dotmpe "
+ARG userdirs="/usr/local/lib/node_modules /opt/dotmpe /src/bitbucket.org/dotmpe /src/github.com/dotmpe"
 RUN \
   mkdir -vp /home/$username $userdirs && \
   chmod -R g+rw /usr/local/* $userdirs && \
@@ -20,7 +20,7 @@ RUN \
 USER $username
 
 # Set LTS and get SASS and SQLite build
-RUN n lts && npm install -g node-sass@4.10.0 sqlite3@4.0.4 coffeescript@1.12.7
+RUN n lts
 
 # Checkout Sitefile
 RUN USER=$username && \
