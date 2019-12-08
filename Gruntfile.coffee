@@ -1,4 +1,4 @@
-
+sass = require 'node-sass'
 
 module.exports = ( grunt ) ->
 
@@ -117,6 +117,7 @@ module.exports = ( grunt ) ->
       options:
         outputStyle: 'expanded'
         sourceMap: true
+        implementation: sass
       dist:
         files:
           'build/style/default.css': 'lib/sitefile/style/default.sass'
