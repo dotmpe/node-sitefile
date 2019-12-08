@@ -16,6 +16,7 @@ urlsafe_datetime()
 abort_build()
 {
   e=$?
+  test $e -eq 0 && return
   { cat <<EOM
 Error $e at $BASH_COMMAND :$BASH_LINENO
 EOM
