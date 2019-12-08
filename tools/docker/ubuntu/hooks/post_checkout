@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+. ./env.sh
+
+curl -sSf -X POST \
+  "https://dotmpe.com/build.php?i=${BUILD_KEY}&SCM_REF=$GIT_SHA1&BUILD_ID=${BUILD_CODE}&START=$(urlsafe_datetime)&SCM_CT=$(urlsafe_datetime "$X_DCKR_CI_TIME")&SCM_AT=$(urlsafe_datetime "$X_DCKR_AI_TIME")"

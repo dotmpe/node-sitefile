@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+. ./env.sh
+
+curl -sSf -X POST \
+  "https://dotmpe.com/build.php?i=${BUILD_KEY}&TAGS=${DOCKER_TAG}&BUILD_ID=${BUILD_CODE}&END=$(urlsafe_datetime)"
