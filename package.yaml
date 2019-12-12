@@ -29,20 +29,20 @@
 
     # Run containerized sitefile, from hub.docker.com repo
     docker-runcompiled:
-      - test -n \"\\$1\" || set -- github.com/bvberkum/node-sitefile \"\" r0.0.7
+      - test -n \"\\$1\" || set -- github.com/dotmpe/node-sitefile \"\" r0.0.7
       - docker run -ti --rm -P
           --env src_update=0
           --volume $(pwd -P)/tools/docker/ubuntu/entry.sh:/usr/local/share/sitefile/entry.sh
           --volume $(pwd -P)/tmp/node-gyp:/home/treebox/.node-gyp/
-          --volume $(pwd -P)/tmp/src:/src/github.com/bvberkum
-          bvberkum/node-sitefile:0.0.7-dev \"\\$@\" </dev/tty
+          --volume $(pwd -P)/tmp/src:/src/github.com/dotmpe
+          dotmpe/node-sitefile:0.0.7-dev \"\\$@\" </dev/tty
     docker-run:
-      - test -n "$1" || set -- github.com/bvberkum/node-sitefile "" r0.0.7
+      - test -n "$1" || set -- github.com/dotmpe/node-sitefile "" r0.0.7
       - docker run -ti --rm -P
           --volume $(pwd -P)/tools/docker/ubuntu/entry.sh:/usr/local/share/sitefile/entry.sh
           --volume $(pwd -P)/tmp/home:/home/treebox/
-          --volume $(pwd -P)/tmp/src-github-bvb:/src/github.com/bvberkum
-          bvberkum/node-sitefile:0.0.7-dev "$@" </dev/tty
+          --volume $(pwd -P)/tmp/src-github-bvb:/src/github.com/dotmpe
+          dotmpe/node-sitefile:0.0.7-dev "$@" </dev/tty
 
     # Build/run local dev container
     docker-build-dev:
@@ -55,12 +55,12 @@
 # FIXME: concatenates to docker-run
 # Docker-run-dev:
           #      - docker run -ti -p 7011:7011
-          #          -v $(pwd -P):/src/github.com/bvberkum/node-sitefile-dev
+          #          -v $(pwd -P):/src/github.com/dotmpe/node-sitefile-dev
           #          node-sitefile:ubuntu-xenial-r0.0.7
-          #          github.com/bvberkum/node-sitefile-dev </dev/tty
+          #          github.com/dotmpe/node-sitefile-dev </dev/tty
 
 #  repositories:
 #    bb: dotmpe@bitbucket.org:dotmpe-personal/node-sitefile.git
-#    notus.16-4: /srv/scm-git-24-2-notus-brix/bvberkum/node-sitefile.git
+#    notus.16-4: /srv/scm-git-24-2-notus-brix/dotmpe/node-sitefile.git
 #    dotmpe: domains/dotmpe.com/htdocs/git/node-sitefile.git
-#    github.origin: git@github.com:bvberkum/node-sitefile.git
+#    github.origin: git@github.com:dotmpe/node-sitefile.git

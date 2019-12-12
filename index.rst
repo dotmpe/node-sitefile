@@ -39,8 +39,8 @@
 
 :autobuild: `ReadMe <README.md>`_
 
-  .. image:: https://images.microbadger.com/badges/image/bvberkum/node-sitefile.svg
-    :target: https://microbadger.com/images/bvberkum/node-sitefile
+  .. image:: https://images.microbadger.com/badges/image/dotmpe/node-sitefile.svg
+    :target: https://microbadger.com/images/dotmpe/node-sitefile
     :alt: Data by microbadger.com
 
 

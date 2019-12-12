@@ -1,4 +1,4 @@
-# ![](assets/logo-file-text-8bc34a.png) Sitefile [![docker autobuild status](https://img.shields.io/docker/build/bvberkum/node-sitefile.svg)](https://hub.docker.com/r/bvberkum/node-sitefile/builds/) [![last commit r0.0.7](https://img.shields.io/github/last-commit/dotmpe/node-sitefile/r0.0.7.svg)](https://github.com/dotmpe/node-sitefile/blob/r0.0.7/index.rst) [![Badge Badge](http://doyouevenbadge.com/github.com/github.com/dotmpe/node-sitefile)](http://doyouevenbadge.com/report/github.com/github.com/dotmpe/node-sitefile)
+# ![](assets/logo-file-text-8bc34a.png) Sitefile [![docker autobuild status](https://img.shields.io/docker/build/dotmpe/node-sitefile.svg)](https://hub.docker.com/r/dotmpe/node-sitefile/builds/) [![last commit r0.0.7](https://img.shields.io/github/last-commit/dotmpe/node-sitefile/r0.0.7.svg)](https://github.com/dotmpe/node-sitefile/blob/r0.0.7/index.rst) [![Badge Badge](http://doyouevenbadge.com/github.com/github.com/dotmpe/node-sitefile)](http://doyouevenbadge.com/report/github.com/github.com/dotmpe/node-sitefile)
 
 
 A node.js + express websitebuilder. Based on a metadata file called `Sitefile`
@@ -6,7 +6,7 @@ and regular documents, available at the filesystem.
 
 Usage:
 ```
-docker run bvberkum/node-sitefile <site-src> <site-repo> <site-ver>
+docker run dotmpe/node-sitefile <site-src> <site-repo> <site-ver>
 ```
 
 Default example:
@@ -16,7 +16,7 @@ docker run \
   -e SITEFILE_PORT=7011 \
   --volume /srv:/srv:rw \
   --volume /etc/localtime:/etc/localtime:ro \
-  bvberkum/node-sitefile:0.0.7-dev \
+  dotmpe/node-sitefile:0.0.7-dev \
     github.com/dotmpe/node-sitefile \
     https://github.com/dotmpe/node-sitefile \
     r0.0.7
@@ -25,7 +25,7 @@ docker run \
 Under development, see doc/feature-docker.rst docs.
 
 
-## bvberkum/sitefile
+## dotmpe/sitefile
 
 Branch                              | Dockerfile              | Tag           
 ----------------------------------- | ------------------------| ---------------

@@ -12,7 +12,7 @@ ubuntu-xenial-r0.0.7   415 MB
 
 Usage::
 
-	docker run bvberkum/node-sitefile <site-src> <site-repo> <site-ver>
+	docker run dotmpe/node-sitefile <site-src> <site-repo> <site-ver>
 
 
 - Entrypoint allows to serve from a GIT repository, and updates it (on start) if

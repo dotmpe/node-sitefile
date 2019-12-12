@@ -31,7 +31,7 @@ stderr "Sitefile container starting at /src/$site_src <$site_repo> $site_ver"
 npm uninstall -g coffee-script
 npm install -g coffeescript
 
-cd /opt/bvberkum/node-sitefile
+cd /opt/dotmpe/node-sitefile
 git checkout -- .
 git checkout r0.0.7
 git pull origin r0.0.7
