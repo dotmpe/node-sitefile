@@ -2,6 +2,8 @@
 # To skip builds use [ci ckip] in GIT commit-msg
 
 language: node_js
+dist: trusty
+#dist: xenial
 
 node_js:
   # Note: selenium-webdriver does not support node <4. Would need to degrade tests.
@@ -9,17 +11,19 @@ node_js:
   # Note: >=4 seems to be working like 6.0
   #- "4.4"
   #- "5.11"
-  - "6.1"
+  - "6.12"
+  - "8.9"
 
 addons:
   apt:
     packages:
       - python-docutils
       - graphviz
-  firefox: "45.0"
+  firefox: "71.0"
 
 before_install:
-  - npm install -g bower
+  - nvm list
+  - npm install -g bower grunt coffeescript
 
 before_script:
   # Note Se not working in mocha - test "$TRAVIS_NODE_VERSION" != "0.12" || { npm uninstall selenium-webdriver; npm install selenium-webdriver@2.53.3; }

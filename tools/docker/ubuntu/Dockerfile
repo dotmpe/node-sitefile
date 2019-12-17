@@ -19,9 +19,6 @@ RUN \
 
 USER $username
 
-# Set LTS and get SASS and SQLite build
-RUN n lts
-
 # Checkout Sitefile
 RUN USER=$username && \
   git clone https://github.com/dotmpe/node-sitefile.git /opt/dotmpe/node-sitefile && \
@@ -32,9 +29,10 @@ RUN USER=$username && \
 RUN USER=$username && \
   npm install -g grunt coffeescript && \
   cd /opt/dotmpe/node-sitefile && \
-  npm install --quiet -g . && \
-  ls -la /usr/local/n/versions/node/9.11.2/bin/
-
+  npm install --quiet && \
+  npm install --quiet -g && \
+  mkdir -vp /usr/local/share/sitefile && \
+  cp ./tools/docker/ubuntu/entry.sh /usr/local/share/sitefile/entry.sh
 
 #RUN sudo rm /etc/sudoers.d/$username
 
@@ -42,8 +40,6 @@ ENV site_src=github.com/dotmpe/node-sitefile
 ENV site_repo=
 ENV site_version=
 
-RUN mkdir -vp /usr/local/share/sitefile
-COPY ./entry.sh /usr/local/share/sitefile/entry.sh
 ENTRYPOINT ["/usr/local/share/sitefile/entry.sh"]
 EXPOSE 7000-7099
 CMD ["","",""]
