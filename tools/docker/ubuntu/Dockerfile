@@ -32,8 +32,8 @@ RUN USER=$username && \
 RUN USER=$username && \
   npm install -g grunt coffeescript && \
   cd /opt/dotmpe/node-sitefile && \
-  npm install --quiet . && \
-  npm install --quiet -g .
+  npm install --quiet -g . && \
+  ls -la /usr/local/n/versions/node/9.11.2/bin/
 
 
 #RUN sudo rm /etc/sudoers.d/$username

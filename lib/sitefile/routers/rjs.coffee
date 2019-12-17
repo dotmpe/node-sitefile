@@ -112,6 +112,20 @@ module.exports = ( ctx, auto_export=false, base=ctx.base ) ->
   """
   usage: """
   """
+  doc: """The `rjs` router handles reading of Sitefile metadata and output
+  of the appropiate files for require.js.
+
+  ``rjs.main``:
+  		Serves the ``requirejs.config(...)`` invocation, wrapped around the
+  		JSON compiled by ``rjs.config``.
+  ``rjs.config``:
+  		Output a JSON with the given attributes. The values can be JSON-paths,
+  		and so point into other parts of the Sitefile, or literal JSON
+  		fragments.
+
+  TODO: rjs.boot docs, testing
+  TODO: rjs.define impl.
+  """
 
   defaults: _.defaultsDeep autoExport, \
     handler: 'main', \
