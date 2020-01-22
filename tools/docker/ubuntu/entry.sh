@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 test -n "$1" || set -- "github.com/bvberkum/node-sitefile" "$2" "$3"
 
 test -d "/src/$1" || {

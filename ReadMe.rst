@@ -12,6 +12,10 @@ Node Sitefile
     :target: https://gemnasium.com/dotmpe/node-sitefile
     :alt: Dependencies
 
+  .. image:: https://david-dm.org/dotmpe/node-sitefile.svg?style=flat-square
+    :target: https://david-dm.org/dotmpe/node-sitefile
+    :alt: Dependencies
+
   .. image:: https://snyk.io/package/npm/name/badge.svg
     :target: https://snyk.io/package/npm/name
     :alt: Vulnerabilities
@@ -22,14 +26,18 @@ Node Sitefile
     :target: https://coveralls.io/r/dotmpe/node-sitefile
     :alt: Coverage
 
-  .. image:: https://secure.travis-ci.org/dotmpe/node-sitefile.png
-    :target: https://travis-ci.org/dotmpe/node-sitefile
-    :alt: Build
+  .. image:: http://img.shields.io/travis/bvberkum/node-sitefile.svg
+    :target: http://travis-ci.org/bvberkum/node-sitefile
+    :alt: Build Status
 
   ..
      .. image:: https://img.shields.io/github/issues/dotmpe/node-sitefile.svg
        :target: http://githubstats.com/dotmpe/node-sitefile/issues
        :alt: GitHub issues
+
+  .. image:: http://img.shields.io/codeclimate/github/bvberkum/node-sitefile.svg
+    :target: https://codeclimate.com/github/bvberkum/node-sitefile
+    :alt: Code Climate
 
 :repository:
 
@@ -37,8 +45,7 @@ Node Sitefile
     :target: http://badge.fury.io/gh/dotmpe%2Fnode-sitefile
     :alt: GIT
 
-:autobuild:
-
+:autobuild: `ReadMe <ReadMe-docker.md>`_
   .. image:: https://images.microbadger.com/badges/image/bvberkum/node-sitefile.svg
     :target: https://microbadger.com/images/bvberkum/node-sitefile
     :alt: Data by microbadger.com
