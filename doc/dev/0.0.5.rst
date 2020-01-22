@@ -9,7 +9,7 @@
 
 - Rewrite of all contexts: handler/resolver are merged now. Root context has
   new structures ``paths`` and ``site``. ``paths.routers`` makes it possible
-  to load extension routers from custom paths.
+  to load addon routers from custom paths.
 
   Router initialization extends on regular objects until router is initialized,
   then creates proper subContext. It uses new attributes ``methods`` and
