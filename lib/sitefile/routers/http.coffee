@@ -126,11 +126,11 @@ module.exports = ( ctx ) ->
       ( req, res ) ->
         f = _.defaultsDeep {}, req.params
         if f.format not of cdn
-          err = "No format #{f.format}"
+          err = "No format #{f.format} for '#{req.originalUrl}' at '#{rctx.route.spec}'"
           res.status 404
           res.write err
           res.end()
-          throw new Error err
+  				return
         if f.package not of cdn[f.format].http.packages
           err = "No #{f.format} package #{f.package}"
           res.status 500

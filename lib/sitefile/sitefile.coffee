@@ -577,6 +577,7 @@ log = ->
     out = [ chalk.blue(header) + c.sc ]
     console.log.apply null, log_line( v, out )
 
+# Return objects in v formatted to array out
 log_line = ( v, out=[] ) ->
   while v.length
     o = v.shift()

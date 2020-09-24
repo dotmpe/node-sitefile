@@ -87,7 +87,7 @@
     "mime-types": "^2.1.21",
     "nodelib-mpe": "git://github.com/dotmpe/nodelib.git#dev",
     "on-headers": "^1.0.1",
-    "qs": "6.3.2",
+    "qs": ">=6.3.2",
     "request-promise": "^4.2.1",
     "semver": "^5.6.0",
     "snyk": "^1.108.2",
