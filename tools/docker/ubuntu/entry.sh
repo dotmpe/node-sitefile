@@ -23,7 +23,7 @@ host=$(hostname -s)
 stderr()
 {
   echo "[$user@$host:$(date)] $1" >&2
-  test -z "$2" || exit $2
+  test -z "${2-}" || exit $2
 }
 
 # Use vendorized src-path as 'install dir'
