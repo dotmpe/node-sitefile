@@ -127,7 +127,7 @@ module.exports = ( ctx ) ->
         f = _.defaultsDeep {}, req.params
         if f.format not of cdn
           err = "No format #{f.format}"
-          res.status 500
+          res.status 404
           res.write err
           res.end()
           throw new Error err

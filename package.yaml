@@ -9,7 +9,7 @@
   pd-meta:
     run:
       cruft: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools"
-      tags-scm-sh: "g_f='XXX\\|FIXME\\|TODO';git ls-files|while read f;do grep -n $g_f $f|grep -v 'task.*ignore'|sed 's#^#'\"$f\"'#';done" # tasks:ignore
+      # tags-scm-sh: "g_f='XXX\\|FIXME\\|TODO';git ls-files|while read f;do grep -n \$g_f $f|grep -v 'task.*ignore'|sed 's#^#'\"\$f\"'#';done" # tasks:ignore
     init: "sh:./configure grunt:build-test"
     test: "sh:./configure npm:run:test"
     check: "sh:./tools/tags.sh:*.*:bin:config:doc:example:lib:test:tools htd:gitflow-check-doc :git:status grunt:check"
@@ -17,7 +17,8 @@
 
   scripts:
     init:
-      #- htd package remotes-reset
+      - htd package update
+      - htd package remotes-reset
       - vc regenerate
       #- htd package sh-scripts docker-runcompiled
     install:
@@ -25,33 +26,34 @@
     test:
       - NODE_ENV=development npm run test
     mocha-test:
-      - NODE_ENV=development npm run mocha-test "$@"
+      - NODE_ENV=development npm run mocha-test "\$@"
 
     # Run containerized sitefile, from hub.docker.com repo
-    docker-runcompiled:
-      - test -n \"\\$1\" || set -- github.com/dotmpe/node-sitefile \"\" r0.0.7
-      - docker run -ti --rm -P
-          --env src_update=0
-          --volume $(pwd -P)/tools/docker/ubuntu/entry.sh:/usr/local/share/sitefile/entry.sh
-          --volume $(pwd -P)/tmp/node-gyp:/home/treebox/.node-gyp/
-          --volume $(pwd -P)/tmp/src:/src/github.com/dotmpe
-          dotmpe/node-sitefile:0.0.7-dev \"\\$@\" </dev/tty
-    docker-run:
-      - test -n "$1" || set -- github.com/dotmpe/node-sitefile "" r0.0.7
-      - docker run -ti --rm -P
-          --volume $(pwd -P)/tools/docker/ubuntu/entry.sh:/usr/local/share/sitefile/entry.sh
-          --volume $(pwd -P)/tmp/home:/home/treebox/
-          --volume $(pwd -P)/tmp/src-github-bvb:/src/github.com/dotmpe
-          dotmpe/node-sitefile:0.0.7-dev "$@" </dev/tty
+    #docker-runcompiled:
+    #  - test -n \"\\$1\" || set -- github.com/dotmpe/node-sitefile \"\" r0.0.7
+    #  - docker run -ti --rm -P
+    #      --env src_update=0
+    #      --volume $(pwd -P)/tools/docker/ubuntu/entry.sh:/usr/local/share/sitefile/entry.sh
+    #      --volume $(pwd -P)/tmp/node-gyp:/home/treebox/.node-gyp/
+    #      --volume $(pwd -P)/tmp/src:/src/github.com/dotmpe
+    #      dotmpe/node-sitefile:0.0.7-dev \"\\$@\" </dev/tty
+    #docker-run:
+    #  - test -n "$1" || set -- github.com/dotmpe/node-sitefile "" r0.0.7
+    #  - docker run -ti --rm -P
+    #      --volume $(pwd -P)/tools/docker/ubuntu/entry.sh:/usr/local/share/sitefile/entry.sh
+    #      --volume $(pwd -P)/tmp/home:/home/treebox/
+    #      --volume $(pwd -P)/tmp/src-github-bvb:/src/github.com/dotmpe
+    #      dotmpe/node-sitefile:0.0.7-dev "$@" </dev/tty
 
-    # Build/run local dev container
-    docker-build-dev:
-      - cd tools/docker/ubuntu;
-        DCKR_TAG=xenial;
-        docker build
-          --build-arg DCKR_TAG=$DCKR_TAG
-          --build-arg sf_build_ver=r0.0.7
-          -t node-sitefile:$DCKR_TAG . </dev/tty
+    ## Build/run local dev container
+    #docker-build-dev:
+    #  - cd tools/docker/ubuntu;
+    #    DCKR_TAG=xenial;
+    #    docker build
+    #      --build-arg DCKR_TAG=\$DCKR_TAG
+    #      --build-arg sf_build_ver=r0.0.7
+    #      -t node-sitefile:\$DCKR_TAG . </dev/tty
+    #
 # FIXME: concatenates to docker-run
 # Docker-run-dev:
           #      - docker run -ti -p 7011:7011
@@ -59,8 +61,7 @@
           #          node-sitefile:ubuntu-xenial-r0.0.7
           #          github.com/dotmpe/node-sitefile-dev </dev/tty
 
-#  repositories:
-#    bb: dotmpe@bitbucket.org:dotmpe-personal/node-sitefile.git
-#    notus.16-4: /srv/scm-git-24-2-notus-brix/dotmpe/node-sitefile.git
-#    dotmpe: domains/dotmpe.com/htdocs/git/node-sitefile.git
-#    github.origin: git@github.com:dotmpe/node-sitefile.git
+  repositories:
+    bb: git@bitbucket.org:dotmpe/node-sitefile.git
+    dotmpe: dotmpe:git-repos/node-sitefile.git
+    github.origin: git@github.com:dotmpe/node-sitefile.git
