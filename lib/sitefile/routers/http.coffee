@@ -130,7 +130,7 @@ module.exports = ( ctx ) ->
           res.status 404
           res.write err
           res.end()
-  				return
+          return
         if f.package not of cdn[f.format].http.packages
           err = "No #{f.format} package #{f.package}"
           res.status 500
