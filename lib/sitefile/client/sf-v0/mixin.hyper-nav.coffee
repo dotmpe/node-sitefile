@@ -24,8 +24,9 @@ define 'sf-v0/mixin.hyper-nav', [
     init_placeholder: ( homeref, self=@ ) ->
       @init_placeholder_a_href homeref, self
       @init_placeholder_img_src homeref, self
-      $('ol.breadcrumb').remove()
-      @init_breadcrumb()
+      if 'init_breadcrumb' in @
+        $('ol.breadcrumb').remove()
+        @init_breadcrumb()
 
     # Update image src attribute while embedded at another base
     init_placeholder_img_src: ( homeref, self=@ ) ->
