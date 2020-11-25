@@ -74,8 +74,11 @@ module.exports = ( ctx ) ->
       scripts: []
       clients: []
       context: ctx
+    # insert require or other function(s) as local while merging pug template
+    'insert-local': false
 
   newPug = ( optsIn, rctx ) ->
+    # Should already be there, but just in case some got lost somewhere
     opts = _.defaultsDeep optsIn, pug_def_opts
 
     # Compile template from file
@@ -118,6 +121,8 @@ module.exports = ( ctx ) ->
   defaults:
     global:
       default:
+        # defaults for Route.options
+        options: pug_def_opts
         # sitefile.context.query_path_export settings: override res.path with
         # query key
         'export-query-path': 'tpl'
@@ -128,20 +133,18 @@ module.exports = ( ctx ) ->
         # import-query: merge selected keys from query, resolve keys as
         # path-refs
         'import-query': [ 'merge.format', 'merge.scripts', 'merge.stylesheets' ]
-        # insert require or other function(s) as local while merging pug template
-        'insert-local': false
-        # defaults for Route.options
-        options: pug_def_opts
       html: {}
       text: {}
 
   # generators for Sitefile route handlers
   generate:
     default: ( rctx ) ->
+      if 'route' of rctx.route.options
+        _.merge rctx.route, rctx.route.options.route
       ( req, res ) ->
         opts = rctx.req_opts req
         # XXX: if pug debug:
-        # console.log 'pug.default: opts', opts
+        #console.log 'pug.default: opts', opts
 
         if rctx.res.rx?
           m = rctx.res.rx.exec req.originalUrl
@@ -159,15 +162,16 @@ module.exports = ( ctx ) ->
           "Pug compile", path: opts.tpl, '(Route:', path: rctx.res.ref, \
           ' Spec:', path: rctx.res.path, ')'
 
-        [pugOpts, tpl] = newPug opts, rctx
+        #[pugOpts, tpl] = newPug opts, rctx
+        tpl = pug.compileFile opts.tpl, opts.compile
 
         # Templates can log to console. 
         # But can't read files or import data on its own.
-        if opts.pug['insert-local']
-          if 'bool' is typeof opts.pug['insert-local']
-            pugOpts.merge['require'] = require
+        if opts['insert-local']
+          if 'bool' is typeof opts['insert-local']
+            opts.merge['require'] = require
           else
-            for func_name in opts.pug['insert-local']
+            for func_name in opts['insert-local']
               if 'undefined' is typeof module[func_name]
                 if func_name not in global
                   throw new Error "Cannot find function #{func_name}" # TODO: resolve function
@@ -175,12 +179,12 @@ module.exports = ( ctx ) ->
                   func = global[func_name]
               else
                 func = module[func_name]
-              pugOpts.merge[func_name] = func
+              opts.merge[func_name] = func
 
         # if pug debug:
-        # console.log 'pug.default: pug.merge', opts.merge
+        #console.log 'pug.default: opts', opts
 
         # Finish response
         res.type opts.merge.format
-        res.write tpl pugOpts.merge
+        res.write tpl opts.merge
         res.end()

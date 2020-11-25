@@ -76,7 +76,7 @@ module.exports = ( ctx ) ->
           options[key] = @route.spec.trim('#')
         options[key] = @query_path_export key, request, options[key]
 
-      # Merge everything under the context path with options
+      # Merge everything under the (resource) context path with route options
       if @route['export-context']
         key = @route['export-context']
         o = libsf.expand_obj_paths "#{key}": @
