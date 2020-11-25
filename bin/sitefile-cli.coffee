@@ -149,8 +149,8 @@ if process.argv[1].endsWith('sitefile') \
     --monitor <pmx-on>       Enable PM2 monitor extension, this initalizes
                              a probe with internal metrics of the sitefile
                              process. [env: SITEFILE_PM2_MON]
-    --quiet                  Be quiet.
-    --verbose                .
+    --quiet                  Be quiet, disable console log
+    --verbose                Set verbose console log
     --host NAME              .
     --port NUM               .
 

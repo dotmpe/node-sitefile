@@ -128,6 +128,9 @@ module.exports = ( ctx ) ->
         # import-query: merge selected keys from query, resolve keys as
         # path-refs
         'import-query': [ 'merge.format', 'merge.scripts', 'merge.stylesheets' ]
+        # insert require or other function(s) as local while merging pug template
+        'insert-local': false
+        # defaults for Route.options
         options: pug_def_opts
       html: {}
       text: {}
@@ -137,6 +140,8 @@ module.exports = ( ctx ) ->
     default: ( rctx ) ->
       ( req, res ) ->
         opts = rctx.req_opts req
+        # XXX: if pug debug:
+        # console.log 'pug.default: opts', opts
 
         if rctx.res.rx?
           m = rctx.res.rx.exec req.originalUrl
@@ -153,11 +158,23 @@ module.exports = ( ctx ) ->
         sitefile.log \
           "Pug compile", path: opts.tpl, '(Route:', path: rctx.res.ref, \
           ' Spec:', path: rctx.res.path, ')'
-        console.log 'pug.default: pug.merge', opts.merge.clients
 
         [pugOpts, tpl] = newPug opts, rctx
-        console.log 'pug.default: pug.merge', pugOpts.merge.clients
+        # if pug debug:
+        # console.log 'pug.default: pug.merge', opts.merge
 
+        # Templates can log to console. 
+        # But can't read files or import data on its own.
+        if opts['insert-local']
+          if 'bool' is typeof opts['insert-local']
+            pugOpts['require'] = require
+          else
+            for func_name in opts['insert-local']
+              #if func_name not in global
+              #  throw # TODO: resolve function
+              pugOpts[func_name] = global[func_name]
+
+        # Finish response
         res.type opts.merge.format
         res.write tpl pugOpts.merge
         res.end()
