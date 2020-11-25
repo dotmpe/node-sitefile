@@ -160,19 +160,25 @@ module.exports = ( ctx ) ->
           ' Spec:', path: rctx.res.path, ')'
 
         [pugOpts, tpl] = newPug opts, rctx
-        # if pug debug:
-        # console.log 'pug.default: pug.merge', opts.merge
 
         # Templates can log to console. 
         # But can't read files or import data on its own.
-        if opts['insert-local']
-          if 'bool' is typeof opts['insert-local']
-            pugOpts['require'] = require
+        if opts.pug['insert-local']
+          if 'bool' is typeof opts.pug['insert-local']
+            pugOpts.merge['require'] = require
           else
-            for func_name in opts['insert-local']
-              #if func_name not in global
-              #  throw # TODO: resolve function
-              pugOpts[func_name] = global[func_name]
+            for func_name in opts.pug['insert-local']
+              if 'undefined' is typeof module[func_name]
+                if func_name not in global
+                  throw new Error "Cannot find function #{func_name}" # TODO: resolve function
+                else
+                  func = global[func_name]
+              else
+                func = module[func_name]
+              pugOpts.merge[func_name] = func
+
+        # if pug debug:
+        # console.log 'pug.default: pug.merge', opts.merge
 
         # Finish response
         res.type opts.merge.format
