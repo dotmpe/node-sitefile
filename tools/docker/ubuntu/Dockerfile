@@ -32,7 +32,9 @@ RUN USER=$username && \
   npm install --quiet && \
   npm install --quiet -g && \
   mkdir -vp /usr/local/share/sitefile && \
-  cp ./tools/docker/ubuntu/entry.sh /usr/local/share/sitefile/entry.sh
+  cp ./tools/docker/ubuntu/entry.sh /usr/local/share/sitefile/entry.sh && \
+  ln -s /usr/local/lib/node_modules/node-sitefile ~/sf-installed && \
+  ln -s /usr/local/share/sitefile ~/sf-shared
 
 #RUN sudo rm /etc/sudoers.d/$username
 

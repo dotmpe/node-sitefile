@@ -196,7 +196,7 @@ prepare_context = ( ctx={} ) ->
   _.merge ctx, load_rc ctx
 
   _.defaultsDeep ctx,
-    noderoot: '../../' # from within libe
+    noderoot: '../../' # from within lib
     version: version
     cwd: process.cwd()
     proc:

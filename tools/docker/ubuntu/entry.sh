@@ -2,6 +2,11 @@
 set -e -o nounset -o pipefail
 test -z "${DEBUG-}" || set -x
 
+# Startup script for docker container.
+# Tries to clone and serve from repository given on arguments, or given the
+# right arguments and options tries to serve sitefile from existing
+# checkout.
+
 # Set env, use first three arguments for src-path/repo/version
 
 test -z "${1-}" || site_src=$1
@@ -142,15 +147,6 @@ case "$site_src" in
     ;;
 esac
 
-#cd /opt/dotmpe/node-sitefile
-#git checkout -- .
-#git checkout r0.0.7
-#git pull origin r0.0.7
-#npm install --quiet .
-#npm install --quiet -g .
-
-PATH=$PATH:/usr/local/n/versions/node/9.11.2/bin
-#./bin/sitefile-cli.coffee --version
 sitefile --version
 
 stderr "OS release info:"
@@ -167,4 +163,4 @@ stderr 'Sitefile server starting'
 sitefile
 
 
-# Id: sitefile/0.0.7-dev
+# Id: sitefile/0.0.7-dev <tools/docker/ubuntu/entry.sh>

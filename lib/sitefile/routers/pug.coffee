@@ -139,14 +139,17 @@ module.exports = ( ctx ) ->
   # generators for Sitefile route handlers
   generate:
     default: ( rctx ) ->
+      #console.log "rctx.route.spec, rctx.route", rctx.route.spec, rctx.route
       if 'route' of rctx.route.options
         _.merge rctx.route, rctx.route.options.route
+
       ( req, res ) ->
         opts = rctx.req_opts req
         # XXX: if pug debug:
         #console.log 'pug.default: opts', opts
 
         if rctx.res.rx?
+          # Handle regex from routes with 'r:' prefix
           m = rctx.res.rx.exec req.originalUrl
           if rctx.route.spec
             rctx.res.path = rctx.route.spec+m[1]+'.pug'
@@ -168,21 +171,22 @@ module.exports = ( ctx ) ->
         # Templates can log to console. 
         # But can't read files or import data on its own.
         if opts['insert-local']
+          # XXX: why wont this work; opts.compile.globals = opts['insert-local']
           if 'bool' is typeof opts['insert-local']
             opts.merge['require'] = require
           else
+            # There are no aliases, or function imports. Only modules. Use
+            # 'locals' to access module names that do not map to a valid
+            # variable. E.g. li = locals['lorem-ipsum'].
             for func_name in opts['insert-local']
               if 'undefined' is typeof module[func_name]
-                if func_name not in global
-                  throw new Error "Cannot find function #{func_name}" # TODO: resolve function
-                else
-                  func = global[func_name]
+                func = require(func_name)
               else
                 func = module[func_name]
               opts.merge[func_name] = func
 
         # if pug debug:
-        #console.log 'pug.default: opts', opts
+        #console.log 'pug.default: opts.merge', opts.merge
 
         # Finish response
         res.type opts.merge.format

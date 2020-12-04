@@ -10,15 +10,15 @@ Router = require '../Router'
 module.exports = ( ctx ) ->
 
   try
-    sass = require 'node-sass'
+    sass = require 'sass'
   catch
     return
 
   name: 'sass'
-  label: 'SASS/SCSS publisher'
+  label: 'SASS publisher'
   usage: """
     /static/path: sass:file-path.sass
-    _dynamic: sass:**/*.sass
+    _dynamic_id: sass:**/*.sass
     r:/path(.*)regex: sass:path-prefix/
   """
 
@@ -29,6 +29,7 @@ module.exports = ( ctx ) ->
 
       ( req, res ) ->
         if rctx.res.rx?
+          # Handle regex from routes with 'r:' prefix
           m = rctx.res.rx.exec req.originalUrl
           if rctx.route.spec
             sasspath = rctx.route.spec+m[1]+'.sass'
