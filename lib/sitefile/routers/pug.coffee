@@ -62,7 +62,7 @@ module.exports = ( ctx ) ->
     compile:
       pretty: false
       debug: false
-      compileDebug: false
+      #compileDebug: false # makes things worse 'TypeError: str.split is not a function'
       basedir: '/'
       globals: []
       filters: {}
@@ -190,5 +190,14 @@ module.exports = ( ctx ) ->
 
         # Finish response
         res.type opts.merge.format
-        res.write tpl opts.merge
+        try
+          doc = tpl opts.merge
+        catch error
+          console.error(error.toString())
+          res.status 500
+          res.type 'txt'
+          res.write error.toString()
+          res.end()
+          return
+        res.write doc
         res.end()

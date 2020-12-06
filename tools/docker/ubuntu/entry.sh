@@ -160,7 +160,8 @@ git status
 
 # Start server
 stderr 'Sitefile server starting'
-sitefile
+NODE_PATH=$PWD/node_modules:/usr/local/lib/node_modules/node-sitefile/lib \
+  sitefile
 
 
 # Id: sitefile/0.0.7-dev <tools/docker/ubuntu/entry.sh>
