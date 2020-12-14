@@ -18,7 +18,7 @@ really simple HTTP server to use for example to read documentation of a project.
 Maybe as a sketchpad for Pug, Stylus and Coffee-Script experiments.
 
 Focus for upcoming features in on microformats to tie things together and enable
-richer presentation while keeping appropiatly simple plain text file-based
+richer presentation while keeping appropriately simple plain text file-based
 content. Possibilities for future development are maybe a sort of mixed content
 -type wiki.
 
@@ -28,7 +28,7 @@ content. Possibilities for future development are maybe a sort of mixed content
 Intro
 -----
 The primary idea is to to look at a file folder as a set of hyperlinked documents,
-formatted in various ways as appropiate to the task ie. some project.
+formatted in various ways as appropriate to the task ie. some project.
 Sitefile turns each file into a URL and a handler instance, based on
 filepath and name patterns from the Sitefile.
 
@@ -83,7 +83,12 @@ Usage
 ------
 In a directory containing a ``Sitefile.*``, run `sitefile` to start the server.
 
-There are no further command line options.
+There are no further command line options and only a few env settings.
+``config/config.coffee`` is required and can be used to set the sites hostname/port as well::
+
+  module.exports =
+    default: site: {}
+
 
 
 Configuration

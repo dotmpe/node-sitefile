@@ -45,6 +45,7 @@ module.exports = ( ctx={} ) ->
     global:
       default:
         options:
+          # XXX: bc using pug router include pug options
           pug:
             'export-context': 'merge.context'
             compile:
