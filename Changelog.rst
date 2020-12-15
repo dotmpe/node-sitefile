@@ -85,8 +85,7 @@ r0.0.4_
   - Added Express version to context, include with server start log line.
   - New ``boot`` handler for `features/rjs`_.
 
-  - Mocha keeps giving issues with coffeescript. Maybe also grunt related?
-    Bypassing grunt plugin.
+  - Repeat of earlier issues with Mocha-Coffeescript. See doc/feature-build
 
 (0.1.0)
   .. _0.1.0:

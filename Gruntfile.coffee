@@ -136,7 +136,9 @@ module.exports = ( grunt ) ->
       deps_g:
         cmd: "make dep-g"
       mocha_test:
-      	cmd: "./node_modules/.bin/mocha --require coffeescript/register test/mocha/*.coffee"
+        cmd: "./node_modules/.bin/mocha --require coffeescript/register test/mocha/*.coffee"
+      mocha_test_tap:
+        cmd: "./node_modules/.bin/mocha -R tap --require coffeescript/register test/mocha/*.coffee"
 
     pkg: grunt.file.readJSON 'package.json'
 

@@ -111,7 +111,7 @@ Mocha Router Examples
     - `mocha server test example route (coffeescript) </mocha/server/example/javascript-bookmark-class.js?suffix=-test>`_
 
 
-  - `List of mocha reporters`_
+  - `Source for Mocha reporters`_
   - See `Mocha Router`_ for annotated source.
   - TODO `app_base_sitefile Mocha test`_.
 
@@ -134,3 +134,18 @@ Mocha Router Examples
         <script>mocha.setup('bdd')</script>
         <script src="/example/javascript-cow-class-test.js"></script>
         <script>mocha.run();</script>
+
+Issues with testing:
+  - Mocha is somewhat more picky with coffeescript. Maybe also grunt related?
+    Bypassing grunt plugin sometimes works while ``grunt test`` explodes on some
+    unexpected coffeescript. Coffeescript itself and the linter do not pick up anything.
+
+    Some kind of syntax difference. 'Mocha exploded!' example::
+
+      log "Loaded router", name: name, c.sc, router_obj.label, path: router_path
+
+    Corrected::
+
+      log "Loaded router", { name: name }, c.sc, router_obj.label, path: router_path
+
+..
