@@ -135,6 +135,8 @@ module.exports = ( grunt ) ->
         cmd: "sh ./tools/generate-docco-rst-refs.sh > doc/.defaults-docco.rst"
       deps_g:
         cmd: "make dep-g"
+      mocha_test:
+      	cmd: "./node_modules/.bin/mocha --require coffeescript/register test/mocha/*.coffee"
 
     pkg: grunt.file.readJSON 'package.json'
 
