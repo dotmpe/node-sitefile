@@ -66,7 +66,7 @@ class SitefileTestUtils
     }, {
       sfdir: process.cwd()
     }
-      
+
   after: ( done ) ->
     @server.proc.close()
     process.chdir @cwd
@@ -124,7 +124,7 @@ class SitefileTestUtils
             else expect( body.trim() ).to.not.match /^[A-Za-z]*Error:.*/
             resolve [i, url]
 
-  # negative test to 
+  # negative test too
   test_url_not_ok: ( url, content=null, self=@, count=3 ) ->
     ->
       Promise.each ( i for i in [1..count] ), ->

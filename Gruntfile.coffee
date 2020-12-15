@@ -82,7 +82,7 @@ module.exports = ( grunt ) ->
         options:
           reporter: 'spec'
           colors: true
-          require: 'coffee-script/register'
+          require: 'coffeescript/register'
           captureFile: 'mocha.out'
           quiet: false
           # Slow limit at 3x1sec, to allow for 3 reasonable response 1s times
@@ -95,7 +95,7 @@ module.exports = ( grunt ) ->
         options:
           reporter: 'TAP'
           colors: true
-          require: 'coffee-script/register'
+          require: 'coffeescript/register'
           captureFile: 'mocha-results.tap'
           quiet: false
           noFail: true # turn of for stable release again

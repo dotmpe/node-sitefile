@@ -25,7 +25,7 @@ class StaticFile
 # XXX: maybe encapsulate some built-ins differently. Ie. make them special,
 # builtin modules building on Express static or other middleware forms.
 # Load them always or slightly differently, but coded looking more like
-# regular router modules. See todo router 
+# regular router modules. See todo router
 
 module.exports = ( ctx ) ->
 

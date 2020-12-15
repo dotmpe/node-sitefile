@@ -67,6 +67,7 @@ routes:
 
   #media/style: static:build/style
   media/style/default.css: sass:sitefile-lib:style/default.sass
+  media/style/palette-tango.css: sass:sitefile-lib:style/palette-tango.sass
 
   doc/literate: static:build/docs/docco/
 

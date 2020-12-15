@@ -112,7 +112,7 @@ Something better to add client style/script than Sitefile option lists.
 A dev setup could build its assets, but other setups need dists.
 
 Cant really decide on a builder. Which may be part of considerations.
-Webpack, coffee-script, Babel etc. Thoughts on this go into features/build
+Webpack, coffeescript, Babel etc. Thoughts on this go into features/build
 
 During development, serving resources directly is most convenient.
 But building involves resolving dependencies, packaging, new files, cached

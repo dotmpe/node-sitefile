@@ -15,7 +15,7 @@ Router = require '../Router'
 pug_ext = ( pug ) ->
   pug.filters.code = ( block ) ->
     escape block
-  
+
   pug.filters['lorem-ipsum-filler-body'] = ( block ) ->
     """
    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
@@ -30,7 +30,7 @@ pug_ext = ( pug ) ->
    ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
    voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem
    eum fugiat quo voluptas nulla pariatur?</p>
-  
+
    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
    excepturi sint occaecati cupiditate non provident, similique sunt in culpa
@@ -112,7 +112,6 @@ module.exports = ( ctx ) ->
     pug:**/*.pug
   """
 
-  defaults: pug_def_opts
   compile: newPug # TODO rename every compile->merge
   init: newPug # TODO rename every compile->merge
   render: renderPug
@@ -168,7 +167,7 @@ module.exports = ( ctx ) ->
         #[pugOpts, tpl] = newPug opts, rctx
         tpl = pug.compileFile opts.tpl, opts.compile
 
-        # Templates can log to console. 
+        # Templates can log to console.
         # But can't read files or import data on its own.
         if opts['insert-local']
           # XXX: why wont this work; opts.compile.globals = opts['insert-local']

@@ -27,8 +27,10 @@ define 'sf-v0/microformats/href-registry', [
         el: @$el
         url: @_get_url @$el.attr 'href'
 
-      @fetch idx
-
+      # If meta is created, pouchdb is loaded
+      if typeof @app.meta != "undefined"
+        if typeof @app.meta.db != "undefined"
+          @fetch idx
 
     refs: []
     domains: {}

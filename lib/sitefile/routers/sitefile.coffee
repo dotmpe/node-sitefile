@@ -68,7 +68,7 @@ module.exports = ( ctx ) ->
           res.type 'json'
           res.write JSON.stringify d
         res.end()
-     
+
     'pug-opts': ( rctx ) ->
       pugOpts = _.defaultsDeep {}, rctx.route.options.sitefile, {}
       pug = ctx._routers.get 'pug'

@@ -20,6 +20,6 @@ module.exports = ( ctx ) ->
     publish: ( rctx ) ->
       # A null-return style Sf router that adds its own Express middleware
       config = stencil.loadConfig Router.expand_path rctx.route.spec, ctx
-      rctx.root().app.use stencil.ssrPathRegex, stencil.ssrMiddleware({ config })
+      rctx.root().app.use stencil.ssrPathRegex, stencil.ssrMiddleware { config }
       rctx.root().app.use express.static config.wwwDir
       null

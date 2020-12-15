@@ -42,7 +42,7 @@ Alternative solutions are explored in `Sitefile planet` section.
 Prerequisites
 -------------
 - Python docutils is not required, but is the only document format available.
-- Installed ``coffee`` (coffee-script) globally (see ``bin/sitefile`` sha-bang).
+- Installed ``coffee`` (coffeescript) globally (see ``bin/sitefile`` sha-bang).
 
 
 Description

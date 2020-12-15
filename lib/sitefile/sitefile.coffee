@@ -124,7 +124,7 @@ load_rc = ( ctx ) ->
   ctx.static
 
 
-# user-config loads more defaults for sitefile, which need not to be inside 
+# user-config loads more defaults for sitefile, which need not to be inside
 # ctx.config
 load_config = ( ctx={} ) ->
 
@@ -430,10 +430,10 @@ class Sitefile
         bundle_name = bundle.name
         bundle_obj = bundle
       @bundles[ bundle_name ] = bundle_obj
-      
+
 
   apply_routes: ( ctx ) ->
-  
+
     options = {
       routes:
         resources: {}
@@ -518,7 +518,7 @@ class Sitefile
 
     # redirect dirs to default dir-index resource
     @add_dir_redirs ctx
-  
+
   # For each given dir-name: leafs pair,
   # add a redir rule to redirect to a dir leaf
   add_dir_redirs: ( ctx ) ->

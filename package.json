@@ -88,11 +88,13 @@
     "nodelib-mpe": "git://github.com/dotmpe/nodelib.git#dev",
     "on-headers": "^1.0.1",
     "qs": ">=6.3.2",
+    "relational-pouch": "^4.0.0",
     "request-promise": "^4.2.1",
     "semver": "^5.6.0",
     "snyk": "^1.108.2",
     "sqlite3": "^4.1.1",
-    "todotxt": "^1.1.1"
+    "todotxt": "^1.1.1",
+    "wcwidth": "^1.0.1"
   },
   "optionalDependencies": {
     "bookshelf": "^0.10.2",
@@ -147,7 +149,7 @@
     "source-map-support": "^0.4.10",
     "text-table": "latest",
     "webpack": "^1.13.3",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^3.1.11"
   },
   "snyk": true
 }

@@ -32,9 +32,8 @@
         "lodash": "//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min",
         "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery",
         "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui",
-        "jquery-terminal": "//rawgit.com/jcubic/jquery.terminal/master/js/jquery.terminal",
-        "jquery-terminal-": "//rawgit.com/jcubic/jquery.terminal/master/js/jquery.terminal-1.0.6",
-        "jquery-terminal--": "//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.0.6/js/jquery.terminal.min",
+        "jquery-terminal-": "//rawgit.com/jcubic/jquery.terminal/master/js/jquery.terminal",
+        "jquery-terminal": "//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.0.6/js/jquery.terminal.min",
         "jq-console": "//cdnjs.cloudflare.com/ajax/libs/jq-console/2.7.7/jqconsole.min",
         "underscore": "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore",
         "underscore.string": "//cdnjs.cloudflare.com/ajax/libs/underscore.string/3.3.4/underscore.string.min",
@@ -66,7 +65,7 @@
         "hbars": "//cdnjs.cloudflare.com/ajax/libs/requirejs-handlebars/0.0.2/hbars.min",
         "cookies-js": "//cdnjs.cloudflare.com/ajax/libs/Cookies.js/1.2.1/cookies.min",
         "pouchdb": "//cdnjs.cloudflare.com/ajax/libs/pouchdb/6.3.4/pouchdb.min",
-        "relational-pouch": "//rawgit.com/pouchdb-community/relational-pouch/master/dist/pouchdb.relational-pouch.min",
+        "relational-pouch": "/npm/packages/relational-pouch/dist/pouchdb.relational-pouch.browser",
         "pouchdb-find": "//github.com/pouchdb/pouchdb/releases/download/6.3.4/pouchdb.find.min",
         "pouchdb-memory": "//github.com/pouchdb/pouchdb/releases/download/6.3.4/pouchdb.memory.min",
         "pouchdb-localstorage": "//github.com/pouchdb/pouchdb/releases/download/6.3.4/pouchdb.localstorage.min",
@@ -96,7 +95,9 @@
         "source-map-support": "/npm/packages/source-map-support/browser-source-map-support",
 
         "highlight-js": "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min",
-        "highlight-js-lang-vim": "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/vim.min"
+        "highlight-js-lang-vim": "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/vim.min",
+
+        "wcwidth": "/npm/packages/wcwidth/index"
       }
     }
   },
@@ -118,7 +119,8 @@
         "bootstrap-theme": "/npm/packages/bootstrap/dist/css/bootstrap-theme.min",
         "bootstrap-table": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min",
         "font-awesome": "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min",
-        "jquery-terminal": "//rawgit.com/jcubic/jquery.terminal/master/css/jquery.terminal.min",
+        "jquery-terminal-": "//rawgit.com/jcubic/jquery.terminal/master/css/jquery.terminal.min",
+        "jquery-terminal": "//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.0.6/css/jquery.terminal.min",
         "jquery-ui": "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui",
         "backgrid": "//rawgit.com/cloudflare/backgrid/master/src/backgrid",
         "backgrid-filter": "//rawgit.com/cloudflare/backgrid-filter/master/backgrid-filter.min",

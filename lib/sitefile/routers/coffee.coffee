@@ -6,7 +6,7 @@ path = require 'path'
 sitefile = require '../sitefile'
 Router = require '../Router'
 
-cc = require 'coffee-script'
+cc = require 'coffeescript'
 
 
 # Given sitefile-context, export metadata for coffee: handler

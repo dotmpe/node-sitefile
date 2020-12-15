@@ -19,7 +19,7 @@ module.exports = ( ctx={} ) ->
 
   markdownIt = new markdown_it {
     langPrefix: 'hljs '
-    highlight: (string, lang) =>
+    highlight: (string, lang) ->
       try
         if lang
           return hljs.highlight(lang, string).value
@@ -80,7 +80,7 @@ module.exports = ( ctx={} ) ->
 
         data = fs.readFileSync rctx.res.path
         sfpug.publish res, markdownItTpl, {
-            main: ''
-            document: markdownIt.render data.toString()
-            footer: ''
-          }, rctx
+          main: ''
+          document: markdownIt.render data.toString()
+          footer: ''
+        }, rctx

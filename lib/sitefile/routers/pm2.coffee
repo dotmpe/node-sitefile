@@ -1,6 +1,6 @@
 fs = require 'fs'
 path = require 'path'
-cc = require 'coffee-script'
+cc = require 'coffeescript'
 _ = require 'lodash'
 
 deref = require '../deref'

@@ -1,7 +1,6 @@
 # Installed files
 node_modules/
 public/components/
-bower_components
 # Build files
 site-build
 public/script/pkg-*.js

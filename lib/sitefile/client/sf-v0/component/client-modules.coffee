@@ -19,7 +19,7 @@ define 'sf-v0/component/client-modules', [
     ###
 
     Client Modules are CommonJS modules loaded and initialized by the root
-    require.js context. 
+    require.js context.
     ###
 
     start: ->

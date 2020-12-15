@@ -2,7 +2,7 @@
 class Bundle
 
   default: [
-    'coffee-script'
+    'coffeescript'
     'pug'
     'bluebird'
     'chalk'
