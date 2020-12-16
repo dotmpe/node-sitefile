@@ -487,12 +487,18 @@ class Sitefile
           # Add global and local router context defaults now.
           if router_type.defaults.global?
             if handler_name of router_type.defaults.global
-              _.defaultsDeep rctx.route, \
-                router_type.defaults.global[ handler_name ]
+              try
+                _.defaultsDeep rctx.route, \
+                  router_type.defaults.global[ handler_name ]
+              catch error
+                console.error "Unable to merge global options for '#{handler_name}' handler"
           if router_type.defaults.local?
             if route of router_type.defaults.local
-              _.defaultsDeep rctx.route, \
-                router_type.defaults.local[ handler_name ]
+              try
+                _.defaultsDeep rctx.route, \
+                  router_type.defaults.local[ handler_name ]
+              catch error
+                console.error "Unable to merge local options for '#{handler_name}' handler"
 
         # Detect routable extension
         rs = rctx.res

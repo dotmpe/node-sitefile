@@ -138,9 +138,9 @@ module.exports = ( grunt ) ->
       config_sites:
         cmd: "p=$PWD;for s in example/site/*;do cd $p/$s;mkdir config;../../../configure;done"
       mocha_test:
-        cmd: "./node_modules/.bin/mocha --require coffeescript/register test/mocha/*.coffee"
+        cmd: "./node_modules/.bin/mocha --exit --require coffeescript/register test/mocha/*.coffee"
       mocha_test_tap:
-        cmd: "./node_modules/.bin/mocha -R tap --require coffeescript/register test/mocha/*.coffee"
+        cmd: "./node_modules/.bin/mocha --exit -R tap --require coffeescript/register test/mocha/*.coffee"
 
     pkg: grunt.file.readJSON 'package.json'
 
