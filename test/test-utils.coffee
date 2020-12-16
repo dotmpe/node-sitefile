@@ -68,7 +68,9 @@ class SitefileTestUtils
     }
 
   after: ( done ) ->
+    console.log "Closing test instance..."
     @server.proc.close()
+    console.log "Closed test instance"
     process.chdir @cwd
     done()
 

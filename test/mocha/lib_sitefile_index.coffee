@@ -205,5 +205,3 @@ describe 'Module sitefile', ->
         stu.req_json_file_valid "../example/data.json", v, false
         stu.req_json_file_valid "../example/autocomplete-data-1.json", v, false
       ]
-
-

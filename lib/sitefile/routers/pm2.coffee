@@ -150,18 +150,23 @@ module.exports = ( ctx ) ->
     data: ( rctx ) ->
       (req, res) ->
         res.type 'json'
-        res.write JSON.stringify m.procs
+        res.write JSON.stringify [] # FIXME; PM2Manager m.procs
         res.end()
 
     list:
       res:
         data: ( rctx ) ->
           new Promise ( resolve, reject ) ->
-            pm2.list ( err, ps_list ) ->
+            pm2.connect (err) ->
               if err
                 reject err
-              else
-                resolve ps_list
+                return
+              pm2.list ( err, ps_list ) ->
+                pm2.disconnect()
+                if err
+                  reject err
+                else
+                  resolve ps_list
 
     # Describe single PM2 proc in JSON
     'data/app': ( rctx ) ->
@@ -220,24 +225,25 @@ module.exports = ( ctx ) ->
             port: ctx.app.get('port')
             path: ctx.site.base+ rctx.name + '.json'
         ).then ( data ) ->
-          res.type 'html'
-          res.write pugrouter.compile {
+          [ opts, tpl ] = pugrouter.init {
             tpl: listPugFn
             compile: rctx.route.options.compile
-            merge:
-              pid: process.pid
-              pm2_base: ctx.site.base+rctx.name
-              script: ctx.site.base+rctx.name+'.js'
-              options: rctx.options
-              query: req.query
-              context: rctx
-              apps: data[0]
-              links: []
-              stylesheets: \
-                rctx.resolve('sitefile.defs.stylesheets.default') ? []
-              scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
-              clients: []
-          }
+          }, rctx
+          res.type 'html'
+          res.write tpl {
+            pid: process.pid
+            pm2_base: ctx.site.base+rctx.name
+            script: ctx.site.base+rctx.name+'.js'
+            options: rctx.options
+            query: req.query
+            context: rctx
+            apps: data[0]
+            links: []
+            stylesheets: \
+              rctx.resolve('sitefile.defs.stylesheets.default') ? []
+            scripts: rctx.resolve('sitefile.defs.scripts.default') ? []
+            clients: []
+          }, rctx
           res.end()
 
     # Serve PM2 proc HTML details
@@ -290,4 +296,3 @@ module.exports = ( ctx ) ->
   type: 'router'
 
   generate: generators
-

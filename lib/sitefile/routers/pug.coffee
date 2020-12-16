@@ -86,10 +86,7 @@ module.exports = ( ctx ) ->
 
   renderPug = ( optsIn, rctx ) ->
     [ opts, tpl ] = newPug optsIn, rctx
-
-    # Merge with options and context
-    opts.merge.context = rctx
-
+    opts.merge.rcontext = rctx
     tpl opts.merge
 
   publishExpress = ( res, template, parts, rctx ) ->

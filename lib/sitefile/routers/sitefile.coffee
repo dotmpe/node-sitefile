@@ -113,7 +113,6 @@ module.exports = ( ctx ) ->
           fn = Router.expand_path ( if rctx.res.path \
             then rctx.res.path else rctx.route.spec ), ctx
           srcfmt = path.extname(fn).substring 1
-          console.log 'sites', fn, srcfmt
 
           ###
           FIXME
