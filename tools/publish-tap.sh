@@ -5,7 +5,7 @@ test -x "$(which tap-json)" || npm install -g tap-json
 test -e node_modules/nano || npm install nano
 
 CI_BUILD_RESULTS=mocha-results.json
-cat mocha-results.tap | tap-json > $CI_BUILD_RESULTS
+tap-json < mocha-results.tap > $CI_BUILD_RESULTS
 test -s "$CI_BUILD_RESULTS" || {
   echo No results
   exit 1

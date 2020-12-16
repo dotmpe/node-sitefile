@@ -47,6 +47,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
             { url: "/vendor/bootstrap-theme.css"}
             { url: "/vendor/bootstrap-table.css"}
             { url: "/media/style/default.css"}
+            { url: "/vendor/highlight-js-style-xcode.css"}
           ]
 
           clients = stu.ctx.resolve \
