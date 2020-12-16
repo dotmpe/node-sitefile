@@ -1,4 +1,4 @@
-  
+
 class Bundle
 
   default: [
@@ -48,5 +48,5 @@ class Bundle
 module.exports =
 
   Bundle: Bundle
-    
+
 

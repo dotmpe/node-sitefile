@@ -27,7 +27,7 @@ define 'sf-v0/profiles', [ 'lodash', 'jquery',
     for id of profiles
       if profiles[id] == uri
         return id
-    
+
   load_profile = ( root, uri ) ->
     ns_id = find_profile uri
     console.log 'Found profile: ', uri, ns_id,

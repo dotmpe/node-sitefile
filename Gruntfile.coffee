@@ -135,6 +135,8 @@ module.exports = ( grunt ) ->
         cmd: "sh ./tools/generate-docco-rst-refs.sh > doc/.defaults-docco.rst"
       deps_g:
         cmd: "make dep-g"
+      config_sites:
+        cmd: "p=$PWD;for s in example/site/*;do cd $p/$s;mkdir config;../../../configure;done"
       mocha_test:
         cmd: "./node_modules/.bin/mocha --require coffeescript/register test/mocha/*.coffee"
       mocha_test_tap:
@@ -167,7 +169,7 @@ module.exports = ( grunt ) ->
     'lint'
     'test'
   ]
-  
+
   grunt.registerTask 'build', [ 'build-dev' ]
 
   # Documentation artefacts, some intial publishing

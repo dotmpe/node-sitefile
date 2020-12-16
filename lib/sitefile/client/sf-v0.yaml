@@ -2,7 +2,7 @@
   type: sitefile-spec
   description: |
     Start to reak up complex spec. But for this to work need more unity
-    in route generator/handler calling. 
+    in route generator/handler calling.
   pug:
   .js:
     rjs.main: app/rjs-sf-v0.json
@@ -13,7 +13,7 @@
   name: '-sf-rjs'
   type: sitefile-rjs-app
   description: |
-    Initial support for in-yaml Require.JS config. 
+    Initial support for in-yaml Require.JS config.
 
   config:
     paths: $ref:cdn.json#/js/http/packages

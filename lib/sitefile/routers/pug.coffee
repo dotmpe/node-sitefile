@@ -164,6 +164,7 @@ module.exports = ( ctx ) ->
           "Pug compile", path: opts.tpl, '(Route:', path: rctx.res.ref, \
           ' Spec:', path: rctx.res.path, ')'
 
+        opts.merge['rcontext'] = rctx
         #[pugOpts, tpl] = newPug opts, rctx
         tpl = pug.compileFile opts.tpl, opts.compile
 

@@ -134,7 +134,7 @@ local_or_remote = ( rctx ) ->
       url: rctx.res.src.toString()
       accType: 'application/json'
     }
-    
+
 
 module.exports =
   client_headers:

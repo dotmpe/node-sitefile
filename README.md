@@ -27,13 +27,13 @@ Under development, see doc/feature-docker.rst docs.
 
 ## dotmpe/sitefile
 
-Branch                              | Dockerfile              | Tag           
+Branch                              | Dockerfile              | Tag
 ----------------------------------- | ------------------------| ---------------
 ``/^r([0-9\.]+[-a-z0-9+_-]*)/``     | ``tools/docker/ubuntu`` | {\1}-dev
 
-Tag                                 | Dockerfile              | Tag           
+Tag                                 | Dockerfile              | Tag
 ----------------------------------- | ------------------------| ---------------
-docker-latest                       | ``tools/docker/ubuntu`` | latest      
+docker-latest                       | ``tools/docker/ubuntu`` | latest
 ``/^v([0-9\.]+[-a-z0-9+_-]*)/``     | ``tools/docker/ubuntu`` | {\1}
 
 Dev builds from ``treebox:dev``, latest from ``:latest`` and tagged releases are

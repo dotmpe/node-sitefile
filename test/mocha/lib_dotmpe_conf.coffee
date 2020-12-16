@@ -25,9 +25,7 @@ describe "Module conf", ->
       rcs = libconf.get 'sitefilerc', suffixes: [ '' ], all: true
       if fs.existsSync process.env.HOME
         expect( rcs ).to.eql [
-          '.sitefilerc',
-        # XXX: relative path is of no use here..
-          "../..#{process.env.HOME}/.sitefilerc"
+          '.sitefilerc'
         ]
       else
         expect( rcs ).to.eql [ '.sitefilerc' ]

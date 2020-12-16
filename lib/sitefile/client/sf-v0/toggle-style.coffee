@@ -1,5 +1,5 @@
 define 'sf-v0/toggle-style', [
-  
+
   'cs!./component',
 
 ], ( Component ) ->

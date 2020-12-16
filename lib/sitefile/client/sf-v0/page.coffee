@@ -93,7 +93,7 @@ define 'sf-v0/page', [ 'lodash',
       if not placeholder.length
         console.warn "Search requires placeholder"
         return
-        
+
       self = @
       $( "#search .form-control" ).autocomplete
         source: @options.search.source

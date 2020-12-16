@@ -167,22 +167,22 @@ Base =
   name: 'Express'
   label: 'Express-Sitefile resource publisher'
   usage: """
-  
+
     Static path
       /path: <router[.handler-generator]>:<handler-spec>
 
     Leading underscore (accepts file glob handler-spec)
       _route_id: <router[.handler-generator]>:<handler-spec>
-  
+
   TODO: maybe, later:
-  
+
     Dollar path.
       /data/$record: <router[.handler-generator]>:<handler-spec>
 
     Prefix path
       /prefix$: <router[.handler-generator]>:<handler-spec>
 
-  
+
   Also: handler-spec vs. glob-spec. Routers should parse own args.
 
   Router.Base provide some standard resolvers:
@@ -301,7 +301,7 @@ Base =
       rctx = ctx.getSub init
       Base.default_resource_options rctx, ctx
       rs.push rctx
-  
+
     return rs
 
   initialize: ( router_type, rctx ) ->
@@ -336,7 +336,7 @@ Base =
       #  else res: rctx.route.name ), id: rctx.route.spec
 
     else if h and 'object' is typeof h
-  
+
       # XXX: The object could have data, meta etc. attr and play as JSON API doc
       # For now just extend the resource context with the object it returned.
       rctx.prepare_from_obj h
@@ -352,7 +352,7 @@ Base =
     else if not h
       module.exports.warn "Router not recognized", "Router #{rctx.route.name}
         returned nothing recognizable for #{rctx.name}, ignored"
-  
+
 
 module.exports =
 

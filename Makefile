@@ -4,7 +4,7 @@ BASE                := $(shell cd $(DIR);pwd)
 
 HOST                := $(shell hostname|tr '.' '-')
 
-APP_ID              := 
+APP_ID              :=
 VERSION              = 0.0.7-dev# node-sitefile
 
 # See GIT versioning project for more complete APP_ID heuristic

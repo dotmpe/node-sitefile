@@ -87,7 +87,7 @@ module.exports = ( ctx ) ->
 
   httprouter = require('./http') ctx
   pugrouter = require('./pug') ctx
-  
+
   detailPugFn = path.join( __dirname, 'pm2/view/detail.pug' )
   listPugFn = path.join( __dirname, 'pm2/view/list.pug' )
   listCoffeeFn = path.join( __dirname, 'pm2/view/list.coffee' )

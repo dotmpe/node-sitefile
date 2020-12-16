@@ -15,11 +15,12 @@ block document
     tbody
       +docinfo-field-tr('App', context.pkg.name)
       +docinfo-field-tr('Description', context.pkg.description)
+      +docinfo-field-tr('Context Name', context.name)
+      +docinfo-field-tr('Context Id', context.id())
 
-      +docinfo-field-tr('Resource name', context.name)
-      +docinfo-field-tr('Resource router name', context.route.name )
-      +docinfo-field-tr('Resource route-handler name', context.route.handler )
-      +docinfo-field-tr('Resource route-handler spec', context.route.spec )
+      +docinfo-field-tr('Resource name', rcontext.route.name )
+      +docinfo-field-tr('Resource route-handler name', rcontext.route.handler )
+      +docinfo-field-tr('Resource route-handler spec', rcontext.route.spec )
 
 
   p Also try another template at the same URL:
@@ -28,4 +29,3 @@ block document
 
 block epilogue
   // Id: node-sitefile/0.0.7-dev example/server-generated-page.pug
-

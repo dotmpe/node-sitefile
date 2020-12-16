@@ -63,7 +63,7 @@ define 'sf-v0/mixin.hyper-nav', [
             oldHash = '/'+oldHash
         console.log 'parseHash', newHash, oldHash
         self.route_page newHash, oldHash
-        
+
       hasher.initialized.add(parseHash) # parse initial hash
       hasher.changed.add(parseHash) # parse hash changes
       hasher.init() # start listening for history change

@@ -83,4 +83,3 @@ module.exports = ( ctx={} ) ->
       ctx.redir rctx.res.ref, rctx.res.ref+'.png'
 
       null
-      

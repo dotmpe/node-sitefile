@@ -20,7 +20,7 @@ module.exports = ( ctx ) ->
   auto_export:
     route:
       _plantuml: "plantuml:**/*.plantuml"
-    
+
   defaults:
     handler: 'auto'
     params: ''

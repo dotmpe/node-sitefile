@@ -30,7 +30,7 @@ module.exports = ( ctx ) ->
       todo:
         pug:
           options: todo_app_opts
-        
+
     global:
       txt: {}
       json: {}

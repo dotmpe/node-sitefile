@@ -27,7 +27,7 @@ define 'sf-v0/mixin.page', [
         @merge_page $el
       else
         @container.append $el
-    
+
     ###
     TODO: Merge in-memory temporary page with existing document.
     ###

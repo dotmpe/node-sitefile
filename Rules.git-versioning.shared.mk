@@ -17,7 +17,7 @@ check:
 patch:
 	@./bin/cli-version.sh increment
 
-release: maj := 
+release: maj :=
 release:
 	@./bin/cli-version.sh increment true $(maj)
 

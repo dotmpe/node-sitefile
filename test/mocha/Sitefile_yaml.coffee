@@ -35,7 +35,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
     it "correct type for index", stu.test_url_type_ok "/index", "html"
     it "correct type for ChangeLog", stu.test_url_type_ok "/ChangeLog", "html"
 
-  
+
   describe "has various other types", ->
 
     it "should publish a CoffeeScript file to Javascript",
@@ -76,7 +76,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
     it "should publish literate doc",
       stu.test_url_type_ok "/doc/literate/", "html"
 
-    
+
   if process.env.USER != 'travis' && stu.module_installed 'pm2'
     it "should publish a PM2 client",
       stu.test_url_type_ok "/proc/pm2.html", "text/html"
@@ -132,7 +132,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
     it "used by sf-example/data1", stu.test_url_type_ok "/sf-example/data1",
       "json", '{"sf-example":"dynamic"}'
-      
+
     it "used by sf-example/data2", stu.test_url_type_ok "/sf-example/data2",
       "json", '{"sf-example":"static"}'
 

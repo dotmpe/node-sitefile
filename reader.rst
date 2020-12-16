@@ -33,7 +33,7 @@
       margin-bottom: .2em;
     }
     div.contents .nav .nav,
-    div.contents .nav .nav .nav { 
+    div.contents .nav .nav .nav {
       display: none;
     }
     div.contents .nav .active > .nav {

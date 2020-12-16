@@ -40,7 +40,7 @@ define 'sf-v0/meta/nav', [
       if baseref != '/'
         baseref = baseref+'/'
       return baseref+ref
-    
+
     route: ( ref, baseref ) ->
 
     head: ->
@@ -51,7 +51,7 @@ define 'sf-v0/meta/nav', [
       #@discover_top_down baseref
 
     discover_top_down: ( ref ) ->
-      
+
     discover_bottom_up: ( ref ) ->
       self = @
       new Promise ( resolve, reject ) ->

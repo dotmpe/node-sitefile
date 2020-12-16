@@ -11,11 +11,11 @@ module.exports = ( ctx ) ->
     default: ( rctx ) ->
 
       # rctx.res - data for route spec
-      
+
       ( req, res ) ->
 
         # rctx.route - data for route instance, and actual request
-      
+
         data =
           req: req.params
           res: rctx.res

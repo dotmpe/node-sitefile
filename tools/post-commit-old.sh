@@ -5,7 +5,7 @@
 # https://gist.github.com/dotmpe/c24b2de68adbc72ae8ab
 
 # Generic file version GIT hook for Node/semver version tags
-# (YAML, JSON, JavaScript, CoffeeScript, reStructuredText) 
+# (YAML, JSON, JavaScript, CoffeeScript, reStructuredText)
 
 # Source: https://github.com/neilco/xcode-pre-commit/blob/master/git-init-pre-commit
 # Adjusted for Darwin (uses BSD sed)

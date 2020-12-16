@@ -1,8 +1,8 @@
 
 # Hacking
 Some guidelines:
-- Development on `dev` branch, notes in doc/dev/<version>.rst. 
-- (Semi-)Finished features in ChangeLog, unreleased versions are enclosed in 
+- Development on `dev` branch, notes in doc/dev/<version>.rst.
+- (Semi-)Finished features in ChangeLog, unreleased versions are enclosed in
   round brackets.
 - Current *Tasks and bugs* in section below.
 - Dedicated features branches for specific tasks. Maybe dev release branches
@@ -11,12 +11,12 @@ Some guidelines:
 Checklist for new features
 - Feature is placed as an addition to one main feature or sub-feature.
 
-  Mentioned in 
+  Mentioned in
 
-  First during the development in dev milestone document, and after intial 
+  First during the development in dev milestone document, and after intial
   release also in the main feature list and as items of changelog entries.
 
-- Finished feature is described 
+- Finished feature is described
 
 
 
@@ -62,8 +62,8 @@ Think about:
 
 
 # Roadmap
-Stage is in initial development. 
-Upcoming 
+Stage is in initial development.
+Upcoming
 First versions upcoming:
 
 ## 0.1.0
@@ -125,7 +125,7 @@ Want most features of 0.1.0 soonish.
 
 ### Documents
 - TODO: manage view: style and scripts. Automatic reload browser on change.
-  See also 'App platform' task. Solve some other router and configuration issues 
+  See also 'App platform' task. Solve some other router and configuration issues
   first.
 - TODO: browser reset styles, some simple local Du/rSt styles in e.g. Stylus
 - http://asciidoctor.org/
@@ -148,9 +148,9 @@ Want most features of 0.1.0 soonish.
 ## App platform
 - Fix ext-mapping in routing, and start re-using resources; build one on
   another, extend.
-- PLAN: Provide for an initial customizable app stack with RequireJS, 
-  Coffee-Script, SASS/SCSS. 
-  Think about example/demo repo and keeping files low, focus on 
+- PLAN: Provide for an initial customizable app stack with RequireJS,
+  Coffee-Script, SASS/SCSS.
+  Think about example/demo repo and keeping files low, focus on
   testing and documentation.
 - TODO: live customization of views.
 - TODO: components, should want to deal with optional deps. iso. req'ments.
@@ -179,7 +179,7 @@ Want most features of 0.1.0 soonish.
 
 ## Sitefile internals
 - src/dotmpe/sitefile/sitefile.coffee:    # TODO Also need to refactor, and scan for defaults across dirs rootward
- 
+
 - ReadMe.rst:XXX: sitefilerc will be described later, if Sitefile schema (documentation) is set up.
 - ReadMe.rst:XXX the sitefile config itself can go, be replaced by external
 - ReadMe.rst:  TODO: see also sitefilerc

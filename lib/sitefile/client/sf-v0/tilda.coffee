@@ -16,7 +16,7 @@ define 'sf-v0/tilda', [
         # Wait for SitefilePage to load
         if name != 'cs!sf-v0/page'
           return
-        
+
         require [
           'cs!./dhtml/jquery-sf-tilda'
           'css!./dhtml/jquery-sf-tilda.sass'

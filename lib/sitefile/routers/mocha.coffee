@@ -7,7 +7,7 @@ Promise = require 'bluebird'
 
 module.exports = ( ctx ) ->
 
-  
+
   try
     Mocha = require 'mocha'
   catch err
@@ -26,7 +26,7 @@ module.exports = ( ctx ) ->
       "vendor/mocha.js": "static:node_modules/mocha/mocha.js"
       "vendor/chai.js": "static:node_modules/chai/chai.js"
       "vendor/sinon.js": "static:node_modules/sinon/pkg/sinon.js"
-    
+
   defaults:
     default: 'auto'
     global:

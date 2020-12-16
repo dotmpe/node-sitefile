@@ -19,7 +19,7 @@ test -e config/config && echo "Config exists, ok" ||
 (
 cat <<HEREDOC
 module.exports =
-  
+
   default:
     site:
       host: "$(hostname)"
@@ -39,7 +39,7 @@ case "$(whoami)" in
       # FIXME: fix pm2 hanging at Tavis
       case "$branch" in
         features/pm2 ) ;;
-        * ) 
+        * )
           sed -i.bak 's/pm2//' Sitefile.yaml
         ;;
       esac

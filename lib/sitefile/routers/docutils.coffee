@@ -125,7 +125,7 @@ module.exports = ( ctx ) ->
   usage: """
     docutils.rst2html:**/*.rst
   """
-  
+
   prereqs:
     test_for_du: test_for_du
     test_for_fe: test_for_fe

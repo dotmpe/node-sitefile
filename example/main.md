@@ -31,7 +31,7 @@ Routers can inspect the entire application context.
 The resource context is initialized with a 'route.options' attribute to hold any
 custom data. The data is loaded from the Sitefile if given.
 
-Router modules have an defaults attribute, this can also provide 
+Router modules have an defaults attribute, this can also provide
 default 'route.options'.
 
 

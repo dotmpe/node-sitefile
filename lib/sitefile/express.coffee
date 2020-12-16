@@ -42,7 +42,7 @@ parse_simple_types = ( query ) ->
       query[key] = parseInt value, 10
     else if typeof value == "object"
       parse_simple_types query[key]
-        
+
 
 module.exports =
   init: init_express

@@ -1,6 +1,6 @@
 sitefile: 0.0.4
 
-routes: 
+routes:
   _du: du:**/*.rst
   _gv: gv:**/*.gv
   '': redir:main

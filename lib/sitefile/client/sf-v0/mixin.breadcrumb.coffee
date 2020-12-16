@@ -20,7 +20,7 @@ define 'sf-v0/mixin.breadcrumb', [
           p = paths.pop()
           pels = p.split /[\/]/
           depth = pels.length
-       
+
           while pels.length
             path = pels.join('/')
             el = pels.pop()
@@ -56,7 +56,7 @@ define 'sf-v0/mixin.breadcrumb', [
       $('ol.breadcrumb li').click ( evt ) ->
 
         return # FIXME ol.breadcrumb li .click
-        
+
         if $(evt.target).hasClass 'root'
           # TODO: move autocomplete here
           window.location.href = '/main'

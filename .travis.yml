@@ -13,13 +13,13 @@ node_js:
   #- "5.11"
   #- "6.12"
   #- "8.9"
-  - "11"
-  - "12"
-  - "13"
+  #- "11"
+  #- "12"
+  #- "13"
   - "14"
-  - "15"
+  # [2020-12-16] sqlite3 compile explodes; - "15"
   - "lts/*"
-  - "node"
+  # [2020-12-16] sqlite3 compile explodes; - "node"
 
 addons:
   apt:
@@ -33,7 +33,6 @@ before_install:
   #- npm install -g grunt coffeescript
 
 before_script:
-  - ./configure
   # Note Se not working in mocha - test "$TRAVIS_NODE_VERSION" != "0.12" || { npm uninstall selenium-webdriver; npm install selenium-webdriver@2.53.3; }
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
@@ -45,6 +44,8 @@ before_script:
   - rst2html --version
 
 script:
+  - ./configure
+  - ./node_modules/.bin/grunt exec:config_sites
   - npm run test-tap | tee mocha-results.tap
 
 after_script:

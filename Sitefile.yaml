@@ -32,7 +32,7 @@ paths: # Additional routers to test local router include path extension
 #  packages:
 #  - 'sitefile:lib/sitefile/middleware'
 #  - 'sitefile:lib'
-#packages: 
+#packages:
 #  - 'sitefile/context/ctx-core.coffee'
 #  - 'sitefile/context/ctx-couchdb.coffee'
 #  - 'cors.coffee'

@@ -1,5 +1,3 @@
-
-
 module.exports = ( ctx ) ->
 
   name: "jsonapi"
@@ -22,4 +20,3 @@ module.exports = ( ctx ) ->
         meta: {}
       meta:
         type: {}
-      

@@ -5,7 +5,6 @@ sitefile = require '../sitefile'
 knex_util = require '../knex'
 
 
-
 module.exports = ( ctx={} ) ->
 
   try
@@ -59,7 +58,7 @@ module.exports = ( ctx={} ) ->
       else
         res:
           data: ( rctx ) -> rctx.res.sqlcb(rctx.knex.db, rctx)
-     
+
     # Document endpont: serve config JSON
     default: ( rctx ) ->
       sitefile.log 'Knex index:', rctx.res.path
@@ -84,7 +83,5 @@ module.exports = ( ctx={} ) ->
         res.write JSON.stringify config
         res.end()
 
-
 if 'knex' is path.basename process.argv[1], '.coffee'
   console.log 'mod'
-

@@ -24,7 +24,7 @@ describe "The local Sitefile.yaml serves the local documentation, and \
 
 
   describe "has RequireJS app", ->
-  
+
     describe "at /app/v0", ->
 
       describe "with settings", ->
