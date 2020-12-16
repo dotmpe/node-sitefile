@@ -14,6 +14,8 @@ STRGT += \
 # BSD weirdness
 echo = /bin/echo
 
+grunt_bin := ./node_modules/.bin/grunt
+
 empty :=
 space := $(empty) $(empty)
 default::
@@ -28,15 +30,15 @@ install::
 	make test
 
 lint:
-	NODE_ENV=testing grunt lint
+	NODE_ENV=testing $(grunt_bin) lint
 
 TEST += jasmine
 
 jasmine:
-	NODE_ENV=testing grunt test
+	NODE_ENV=testing $(grunt_bin) test
 
 update:
-	./bin/cli-version.sh update
+	./bin/sitefile-cli.coffee update
 	npm update
 	bower update
 
@@ -49,49 +51,27 @@ TODO.list: Makefile lib ReadMe.rst reader.rst package.yaml Sitefile.yaml
 	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@
 
 info::
-	@echo "Id: "$(shell ./bin/cli-version.sh app-id)
-	@echo "Version: "$(shell ./bin/cli-version.sh version)
+	@echo "Id: "$(shell ./bin/sitefile-cli.coffee app-id)
+	@echo "Version: "$(shell ./bin/sitefile-cli.coffee version)
 	@echo "Source Files: "$(shell npm run src-files | tail -n +5 | wc -l | awk '{print $$1}')
 	@echo "Lines-of-Code: "$(shell npm run src-loc | tail -n +5 )
 	@echo "Local Node Dependencies: "$(shell npm run dep-local | tail -n +5 | wc -l | awk '{print $$1}')
 	@echo "All Local Node Packages: "$(shell npm run dep-local-all | tail -n +5 | wc -l | awk '{print $$1}')
 
 version:
-	@./bin/cli-version.sh version
+	@./bin/sitefile-cli.coffee --version
 
-check:
-	@$(echo) -n "Checking for version "
-	@./bin/cli-version.sh check
+check: version lint
 
-patch: m :=
-patch:
-	@./bin/cli-version.sh increment
-	@./tools/prep-version.sh
-	@git add -u && git ci -m '$(m)'
-
-# XXX: GIT publish
-publish: DRY := yes
-publish: check
-	@[ -z "$(VERSION)" ] && exit 1 || echo Publishing $(./bin/cli-version.sh version)
-	git push
-	@if [ $(DRY) = 'no' ]; \
-	then \
-		git tag v$(VERSION)
-		git push fury master; \
-		npm publish --tag $(VERSION); \
-		npm publish; \
-	else \
-		echo "*DRY* $(VERSION)"; \
-	fi
-
+# TODO: cleanup
 
 
 .build/js/sitefile: ./lib
-	grunt coffee:lib
+	$(grunt_bin) coffee:lib
 .build/js/sitefile-dev:
-	grunt coffee:dev
+	$(grunt_bin) coffee:dev
 .build/js/sitefile-test:
-	grunt coffee:test
+	$(grunt_bin) coffee:test
 
 
 PRETTYG := ./tools/sh/prettify-madge-graph.sh

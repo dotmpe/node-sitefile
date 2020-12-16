@@ -99,7 +99,7 @@
 .. _semver: //github.com/npm/node-semver
 .. _JSON API: //jsonapi.org/format/
 .. _json-editor: //github.com/jdorn/json-editor
-.. _List of Mocha reporters: //github.com/mochajs/mocha/tree/master/lib/reporters
+.. _Source for Mocha reporters: //github.com/mochajs/mocha/tree/master/lib/reporters
 .. _neodoc: //github.com/felixSchl/neodoc
 .. _ansigarden.com: //ansigarden.com
 .. _Fermata: //github.com/natevw/fermata

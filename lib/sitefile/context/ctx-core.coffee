@@ -12,7 +12,7 @@ sitefile = require '../sitefile'
 
 
 module.exports = ( ctx ) ->
-  
+
   # ### Static module
   # configured using pre-constructor ctx object
   name: 'sf-core-context-proto'
@@ -79,7 +79,8 @@ module.exports = ( ctx ) ->
       # Merge everything under the (resource) context path with route options
       if @route['export-context']
         key = @route['export-context']
-        o = libsf.expand_obj_paths "#{key}": @
+        # XXXX: mocha breaks on this; o = libsf.expand_obj_paths "#{key}": @
+        o = libsf.expand_obj_paths key: @
         _.defaultsDeep options, o
 
       return options
