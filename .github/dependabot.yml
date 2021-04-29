@@ -1,0 +1,43 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: ajv
+    versions:
+    - 7.0.3
+    - 7.0.4
+    - 7.1.0
+    - 7.1.1
+    - 7.2.1
+    - 7.2.3
+    - 8.0.1
+    - 8.0.5
+    - 8.1.0
+  - dependency-name: knex
+    versions:
+    - 0.21.18
+    - 0.21.19
+    - 0.95.0
+    - 0.95.1
+    - 0.95.2
+    - 0.95.3
+  - dependency-name: qs
+    versions:
+    - 6.10.0
+    - 6.9.6
+  - dependency-name: mocha
+    versions:
+    - 8.2.1
+    - 8.3.0
+    - 8.3.1
+  - dependency-name: chalk
+    versions:
+    - 4.1.0
+  - dependency-name: bookshelf
+    versions:
+    - 0.14.2
