@@ -102,16 +102,17 @@ module.exports = ( grunt ) ->
           clearRequireCache: false # do explicitly as needed
         src: ['test/mocha/*.coffee']
 
-    docco:
-      debug:
-        src: [
-          'lib/**/*.coffee'
-          'test/**/*.coffee'
-          'example/**/*.coffee'
-          'example/**/*.js'
-        ]
-        options:
-          output: 'build/docs/docco/'
+		# TODO: upgrade grunt-docco lib
+		#docco:
+    #  debug:
+    #    src: [
+    #      'lib/**/*.coffee'
+    #      'test/**/*.coffee'
+    #      'example/**/*.coffee'
+    #      'example/**/*.js'
+    #    ]
+    #    options:
+    #      output: 'build/docs/docco/'
 
     sass:
       options:
@@ -131,8 +132,8 @@ module.exports = ( grunt ) ->
         cmd: "gulp server-build"
       spec_update:
         cmd: "sh ./tools/update-spec.sh"
-      doc_defaults_docco_refs:
-        cmd: "sh ./tools/generate-docco-rst-refs.sh > doc/.defaults-docco.rst"
+			#doc_defaults_docco_refs:
+      #  cmd: "sh ./tools/generate-docco-rst-refs.sh > doc/.defaults-docco.rst"
       deps_g:
         cmd: "make dep-g"
       config_sites:
@@ -181,8 +182,8 @@ module.exports = ( grunt ) ->
   ]
 
   grunt.registerTask 'literate', [
-    'exec:doc_defaults_docco_refs'
-    'docco:debug'
+		#'exec:doc_defaults_docco_refs'
+    #'docco:debug'
   ]
 
   grunt.registerTask 'client', [
@@ -191,6 +192,6 @@ module.exports = ( grunt ) ->
 
   grunt.registerTask 'build-test', [
     'client'
-    'docco:debug'
+		#'docco:debug'
   ]
 

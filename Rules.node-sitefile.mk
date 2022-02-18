@@ -1,11 +1,12 @@
 # Makefile for personal use calling other builders, don't use in build systems but call directly
 
-# special rule targets
+# special rule targets (also PHONY)
 STRGT += \
    lint \
    test \
    update \
    global \
+   docker \
    version \
    check \
    increment \
@@ -45,7 +46,11 @@ update:
 global:
 	npm install -g
 
-build:: TODO.list
+docker:
+	cd tools/docker/ubuntu && \
+	docker build --build-arg sf_build_ver=r0.0.7 -t n-sf-dev .
+
+build:: docker TODO.list
 
 TODO.list: Makefile lib ReadMe.rst reader.rst package.yaml Sitefile.yaml
 	grep -srI 'TODO\|FIXME\|XXX' $^ | grep -v 'grep..srI..TODO' | grep -v 'TODO.list' > $@

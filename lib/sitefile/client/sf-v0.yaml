@@ -1,7 +1,7 @@
 '':
   type: sitefile-spec
   description: |
-    Start to reak up complex spec. But for this to work need more unity
+    Start to break up complex spec. But for this to work need more unity
     in route generator/handler calling.
   pug:
   .js:

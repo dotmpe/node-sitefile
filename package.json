@@ -70,7 +70,8 @@
     "build-components": "stencil build --prerender"
   },
   "dependencies": {
-    "@stencil/core": "^0.16.0-0",
+    "@sinonjs/formatio": "^6.0.0",
+    "@stencil/core": "^2.14.0",
     "@stencil/router": "^0.3.1",
     "ansi-to-html": "^0.6.8",
     "bluebird": "^3.5.3",
@@ -80,7 +81,6 @@
     "express": "^4.16.4",
     "github-markdown": "^3.2.0",
     "glob": "^7.1.3",
-    "highlight.js": "^10.4.1",
     "js-yaml": "^3.14.1",
     "json-stable-stringify": "^1.0.1",
     "lodash": "^4.17.20",
@@ -93,7 +93,7 @@
     "request-promise": "^4.2.1",
     "semver": "^5.6.0",
     "snyk": "^1.108.2",
-    "sqlite3": "^4.1.1",
+    "sqlite3": "^5.0.2",
     "todotxt": "^1.1.1",
     "wcwidth": "^1.0.1"
   },
@@ -102,13 +102,13 @@
     "bookshelf-api": "^1.7.0",
     "knex": "^0.12.3",
     "markdown": "^0.5.0",
-    "pug": "^3.0.0",
+    "pug": "^3.0.2",
     "sass": "^1.29.0",
     "scss": "^0.2.4",
     "stylus": "^0.54.5"
   },
   "devDependencies": {
-    "@stencil/core": "latest",
+    "@cucumber/cucumber": "^7.3.2",
     "@stencil/utils": "0.0.5",
     "ajv": "^4.11.2",
     "bootstrap": "^3.3.7",
@@ -117,19 +117,17 @@
     "coffee-loader": "^0.7.2",
     "coffeelint": "^1.15.7",
     "coffeescript": "^2.5.1",
-    "cucumber": "^2.0.0-rc.6",
     "gherkin": "^4.0.0",
-    "grunt": "^0.4.5",
+    "grunt": "^1.4.1",
     "grunt-cli": "^1.3.2",
     "grunt-coffeelint": "^0.0.16",
     "grunt-contrib-coffee": "^1.0.0",
     "grunt-contrib-jshint": "^1.1.0",
-    "grunt-docco": "^0.5.0",
     "grunt-exec": "^0.4.6",
     "grunt-mocha-test": "^0.13.3",
-    "grunt-sass": "~3.1.0",
+    "grunt-sass": "^3.1.0",
     "grunt-webpack": "~1.0.0",
-    "grunt-yamllint": "^0.2.0",
+    "grunt-yamllint": "^0.3.0",
     "gulp-chmod": "^2.0.0",
     "gulp-header": "^1.8.8",
     "gulp-rename": "^1.4.0",
@@ -150,8 +148,8 @@
     "sinon": "^2.3.4",
     "source-map-support": "^0.4.10",
     "text-table": "latest",
-    "webpack": "^1.13.3",
-    "webpack-dev-server": "^3.1.11"
+    "webpack": "^5.69.1",
+    "webpack-dev-server": "^4.7.4"
   },
   "snyk": true
 }
