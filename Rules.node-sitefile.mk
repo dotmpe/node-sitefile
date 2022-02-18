@@ -7,6 +7,9 @@ STRGT += \
    update \
    global \
    docker \
+   docker-pub \
+   docker-run \
+   docker-dev \
    version \
    check \
    increment \
@@ -48,7 +51,23 @@ global:
 
 docker:
 	cd tools/docker/ubuntu && \
-	docker build --build-arg sf_build_ver=r0.0.7 -t n-sf-dev .
+		docker build --build-arg sf_build_ver=r0.0.7 -t dotmpe/node-sitefile:edge .
+
+docker-pub: docker
+	docker push dotmpe/node-sitefile:edge
+
+docker-run:
+	docker run --rm -p 7011:7011 -ti \
+		dotmpe/node-sitefile:edge
+
+docker-dev: hostname := $(shell hostname -f)
+docker-dev:
+	docker run --rm -p 7011:7011 -ti \
+		--hostname sf.$(hostname) \
+		-e src_update=0 \
+		-e SITEFILE_HOST=sf.$(hostname) \
+		-v $$PWD:/src/github.com/dotmpe/node-sitefile/ \
+		dotmpe/node-sitefile:edge
 
 build:: docker TODO.list
 

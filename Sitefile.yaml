@@ -11,8 +11,8 @@ config:
   metadata: '/data/meta'
   #debug: true # XXX: interferes with context-core prototype
   verbose: true
-  domain: 'notus.lan'
-  #domain: 'sitefile.wtwta.org'
+  # FIXME: port: 7011
+  domain: 'localhost'
   #strict-domain: true
   advertise: true
   advertise-server: true

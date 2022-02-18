@@ -136,16 +136,9 @@ update_src()
 
 stderr "Sitefile container starting at /src/$site_src <$site_repo> $site_ver"
 
-case "$site_src" in
 
-  /* )
-    ;;
-
-  * )
-      init_src
-      update_src
-    ;;
-esac
+init_src
+update_src
 
 sitefile --version
 

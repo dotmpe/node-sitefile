@@ -8,14 +8,6 @@
     :target: http://badge.fury.io/js/node-sitefile
     :alt: NPM
 
-  .. image:: https://gemnasium.com/dotmpe/node-sitefile.png
-    :target: https://gemnasium.com/dotmpe/node-sitefile
-    :alt: Dependencies
-
-  .. image:: https://david-dm.org/dotmpe/node-sitefile.svg?style=flat-square
-    :target: https://david-dm.org/dotmpe/node-sitefile
-    :alt: Dependencies
-
 :project:
 
   .. image:: https://coveralls.io/repos/dotmpe/node-sitefile/badge.png

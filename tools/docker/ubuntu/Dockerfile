@@ -1,4 +1,4 @@
-ARG DCKR_TAG=dev
+ARG DCKR_TAG=edge
 FROM dotmpe/treebox:$DCKR_TAG
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
@@ -17,7 +17,14 @@ RUN \
   chgrp -R staff /usr/local/* $userdirs && \
   chown -R $username:$username /home/$username $userdirs
 
+RUN wget \
+	https://github.com/git-hooks/git-hooks/releases/download/v1.3.1/git-hooks_linux-amd64 \
+	-o /usr/bin/git-hooks-golang
+
 USER $username
+
+RUN USER=$username && \
+  npm install -g grunt coffeescript
 
 # Checkout Sitefile
 RUN USER=$username && \
@@ -25,16 +32,22 @@ RUN USER=$username && \
   cd /opt/dotmpe/node-sitefile && \
   git checkout $sf_build_ver
 
-# Install Sitefile
 RUN USER=$username && \
-  npm install -g grunt coffeescript && \
   cd /opt/dotmpe/node-sitefile && \
-  npm install --quiet && \
-  npm install --quiet -g && \
+  npm install
+
+RUN USER=$username && \
+  cd /opt/dotmpe/node-sitefile && \
+	npm install -g
+
+RUN USER=$username && \
+  cd /opt/dotmpe/node-sitefile && \
   mkdir -vp /usr/local/share/sitefile && \
-  cp ./tools/docker/ubuntu/entry.sh /usr/local/share/sitefile/entry.sh && \
+  cp tools/docker/ubuntu/entry.sh /usr/local/share/sitefile/entry.sh && \
   ln -s /usr/local/lib/node_modules/node-sitefile ~/sf-installed && \
-  ln -s /usr/local/share/sitefile ~/sf-shared
+  ln -s /usr/local/share/sitefile ~/sf-shared && \
+  mkdir -vp ~/.local/bin && \
+  ln -s /usr/bin/git-hooks-golang ~/.local/bin/git-hooks-golang
 
 #RUN sudo rm /etc/sudoers.d/$username
 
