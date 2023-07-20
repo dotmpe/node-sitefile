@@ -1,4 +1,7 @@
-
+###
+	Modify Docutils HTML output (and other text documents) with a few extra
+	elements.
+###
 $.widget 'dotmpe.duPage',
   _create: ->
     unless this.element.hasClass 'document'

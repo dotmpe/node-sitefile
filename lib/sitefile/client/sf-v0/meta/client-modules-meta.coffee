@@ -1,3 +1,6 @@
+###
+	Interface to get sitefile-client-modules meta content.
+###
 define 'sf-v0/meta/client-modules-meta', [
 
   'jquery'

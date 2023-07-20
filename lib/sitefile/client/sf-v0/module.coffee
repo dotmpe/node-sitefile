@@ -1,8 +1,10 @@
 ###
-  Module's main function is include, which allows to extend the prototype.
-  Both functions have an optional callback on the argument object, with names
-  as listed in moduleKeywords. These allow for additional customization after
-  the actual extend/include has been executed.
+  Module's main functions are `extend` and `include.
+  Extend copies copies all key, value pais of another object to `this`.
+  Include copies all to the prototype.
+
+  Both ignore keys in `@moduleKeywords`, and both also have an optional
+  call-back that is applied after the kv copy.
 ###
 define 'sf-v0/module', [], ->
 

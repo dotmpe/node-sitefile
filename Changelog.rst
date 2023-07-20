@@ -87,6 +87,9 @@ r0.0.4_
 
   - Repeat of earlier issues with Mocha-Coffeescript. See doc/feature-build
 
+(0.0.7-dev)
+  - Rewrite rawgit.com refs to cdn.jsdelivr.net
+
 (0.1.0)
   .. _0.1.0:
 

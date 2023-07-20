@@ -1,4 +1,6 @@
-
+###
+	Build CSS menu from items and groups
+###
 $.fn.navMenu = ( ev, options ) ->
   settings = $.extend {
     align: 'left'

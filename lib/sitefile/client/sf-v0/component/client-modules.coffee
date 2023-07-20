@@ -1,9 +1,18 @@
 ###
+The most simplest and first method to generate a the client for a
+Require.JS config.
 
-Set up a RequireApp, loading modules specified by::
+Here the metadata is embedded in HTML, and encoded as a list of
+modules specified by a comma-separated list of RequireJS references::
 
   meta[name='sitefile-client-modules']
 
+The default value, set in ClientModulesMeta is::
+
+  [ 'cs!sf-v0/page' ]
+
+Ofcourse this all depends on rjs config context that maps refs to paths and
+URLs.
 ###
 define 'sf-v0/component/client-modules', [
 
@@ -17,7 +26,6 @@ define 'sf-v0/component/client-modules', [
   class ClientModuleComponent extends RequireApp
 
     ###
-
     Client Modules are CommonJS modules loaded and initialized by the root
     require.js context.
     ###
@@ -28,10 +36,9 @@ define 'sf-v0/component/client-modules', [
 
       # Construct instance and start loading.
       @client_modules = new ClientModulesMeta().get()
-      console.log 'Start: modules', @client_modules
       ready_on = @client_modules.length
-      self = @
 
+      self = @
       @events.ready.addListener ( { name } ) ->
         self.loaded.push name
 

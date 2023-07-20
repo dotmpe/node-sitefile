@@ -74,9 +74,10 @@ routes:
   _pug: pug:example/pug-*.pug
   _stylus: stylus:example/**/*.styl
   _sass: sass:example/**/*.sass
-  _coffee: coffee:example/**/*.coffee
-  _markdown: markdown-it:*.md
-  _markdown_1: markdown-it:example/**/*.md
+  _coffee: coffee:example/**/*.coffee 
+  # FIXME: highlight.js is throwing sand
+  #_markdown: markdown-it:*.md
+  #_markdown_1: markdown-it:example/**/*.md
   _sh: sh:example/*.sh
   _gv: graphviz:example/*.gv
   # FIXME: aliases _pu: pu:example/*.pu
@@ -199,6 +200,8 @@ routes:
 
   assets: static:assets
   favicon.ico: static:assets/favicon-file-text-8bc34a.ico
+
+  sio: sio:null
 
 options:
   global:

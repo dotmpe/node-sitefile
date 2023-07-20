@@ -4,7 +4,7 @@ define 'sf-v0/page', [ 'lodash',
   # DocumentPage export
   'cs!sf-v0/document',
 
-  # XXX: another unused Sf module
+  # XXX: another unused Sf module. Move to jQ/DHTML?
   'cs!sf-v0/toggle-style',
 
   'crossroads', # Unused dependency for client-side routing
@@ -145,9 +145,11 @@ define 'sf-v0/page', [ 'lodash',
 
   SitefilePage: SitefilePage
   DocumentPage: DocumentPage
-  init_client_module: ( ready_cb, loader ) ->
-    page = new SitefilePage loader, $('body'), {}
-    loader.events.ready.addListener ( evt ) ->
+
+	# Object for RequireApp
+  init_client_module: ( ready_cb, require_app ) ->
+    page = new SitefilePage require_app, $('body'), {}
+    require_app.events.ready.addListener ( evt ) ->
       if evt.name is 'sf-page'
         ready_cb( page )
     page

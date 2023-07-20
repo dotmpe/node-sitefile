@@ -23,7 +23,6 @@ define 'sf-v0/document', [
     constructor: ( @container, @options ) ->
       super()
 
-  #includes.mixin DocumentPage
   mixins.all DocumentPage
 
   DocumentPage

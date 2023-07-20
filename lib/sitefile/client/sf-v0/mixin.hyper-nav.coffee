@@ -20,10 +20,16 @@ define 'sf-v0/mixin.hyper-nav', [
 
 
   HNavDocument:
+    # HNav rewrites all links to fetch a document fragment and put it in
+    # '.placeholder'. Content links can use '#sf:xref'
 
     init_placeholder: ( homeref, self=@ ) ->
+
+      # Rewrite page's A hrefs and IMG src's to new home
       @init_placeholder_a_href homeref, self
       @init_placeholder_img_src homeref, self
+
+      # Use breadcrumb if mixed in
       if 'init_breadcrumb' in @
         $('ol.breadcrumb').remove()
         @init_breadcrumb()
@@ -84,9 +90,11 @@ define 'sf-v0/mixin.hyper-nav', [
         baseref = baseref+'/'
       return baseref+ref
 
-    route_page: ( ref, cref ) ->
+    # Move from URL self to cref. Make jquery insert content at placeholder.
+    # Get body from HTTP URL. Unless the #sf:xref fragment is present.
+    route_page: ( self, cref ) ->
       #console.log 'route_page A', @, ref, cref
-      ref = @resolve_page ref, cref
+      ref = @resolve_page self, cref
       console.log 'resolved', ref
       # XXX: Clean listeners on element by dropping
       #$('.placeholder')
@@ -95,7 +103,7 @@ define 'sf-v0/mixin.hyper-nav', [
       # Load content
       # FIXME: catch all URL types
       x = ref.indexOf '#sf:xref:'
-      if ref.substr(0,4) == 'http'
+      if x == -1 && ref.substr(0,4) == 'http'
         xref = '/res/http?url='+ref+' body'
       else if x > -1
         xref = ref.substr(0,x)+' '+decodeURI ref.substr x+9
@@ -110,8 +118,27 @@ define 'sf-v0/mixin.hyper-nav', [
         else
           console.log "Loaded", ref
           self.init_placeholder ref
+          # Do our best to find a title/h1 text to use
+          self.get_title rsTxt
+          # Run scripts (if browser didn't strip them)
           self.run_scripts rsTxt
       #crossroads.parse newHash
+
+    # TODO: use events instead and let client decide what to do on xref
+    # content, what with title and wether to run scripts.
+
+    set_title: ( title ) ->
+      console.log "TODO: title", title
+
+    get_title: ( html ) ->
+      el = $.parseHTML html, true
+      titles = $('title', el)
+      if titles.length
+        @set_title(titles.text())
+      else
+        titles = $('h1', el)
+        if titles.length
+          @set_title(titles.text())
 
     run_scripts: ( html ) ->
       el = $.parseHTML html, true
