@@ -3,6 +3,7 @@ path = require 'path'
 fs = require 'fs'
 URL = require 'url'
 rp = require 'request-promise'
+request = require 'request'
 
 
 sitefile = require '../sitefile'
@@ -85,10 +86,13 @@ module.exports = ( ctx ) ->
         else
           url = req.query.url
         sitefile.log "http.res", url
+        request(url).pipe(res)
 
+        ###
         rp(
           uri: url
           transform: ( body, response, resolveWithFullResponse ) ->
+            sitefile.log "response", JSON.stringify(response.headers)
             ct = response.headers['content-type']
             for cttag in [ 'html', 'svg', 'xml' ]
               if cttag in ct
@@ -97,19 +101,22 @@ module.exports = ( ctx ) ->
         )
           .then ( [ contentType, data ], response ) ->
             res.type contentType
-            res.write data
+            res.write Buffer.from(data, 'binary')
+            #data
             res.end()
           .catch ( err ) ->
             res.status 400
             res.write String(err)
             res.end()
-          ###
+        ###
+
+        ###
           .catch rp.errors.StatusCodeError, ( data, response ) ->
           .catch rp.errors.RequestError, ( data, response ) ->
 
           TODO: replace other deref dependencies with Bluebird request
 
-          ###
+        ###
 
     # Redirect package/format to CDN or other library
     vendor: ( rctx ) ->

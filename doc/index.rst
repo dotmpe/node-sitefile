@@ -9,6 +9,8 @@ Structure
   TODO: replace README with one generic markdown variant.
   Move main rSt entry to index.rst
 
+..
+
   TODO: documentation wise the following should also be
   mentioned:
 
@@ -33,6 +35,7 @@ Also seriously draft and getting stale, unreviewed and un-updated are:
 `Getting Started Guide`_ and `First Extension Guide`_.
 .. `Providing a Custom Metadata source`
 
+For documentation wrt. to the project, see dev_.
 
 Index
 -----
@@ -72,4 +75,3 @@ Version and release docs
 
 Summarized changes per version in Changelog_ or use above version-tag or
 release-branch links.
-

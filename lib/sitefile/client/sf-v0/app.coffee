@@ -27,7 +27,7 @@ structured. This is good, but there are many ways to get towards a
 similar functional DHTML. 
 
 ###
-define 'app', [
+define 'sf-v0/app', [
   
   'cs!base'
   'cs!sf-v0/component/page'
@@ -35,10 +35,12 @@ define 'app', [
 ], ( app, PageComponent ) ->
   'use strict'
 
+  console.log 'Sitefile App loading...'
+
   class SitefileApplication extends PageComponent
     constructor: ( @app ) ->
 
-      console.log "TODO", app.meta
+      console.log "TODO Sitefile App", app, app.meta
 
     load_meta: ->
 

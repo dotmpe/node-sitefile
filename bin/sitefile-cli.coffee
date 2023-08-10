@@ -47,29 +47,41 @@ sitefile_cli = module.exports =
       when vOpt.startsWith '0.0'
         # prepare context instance with config data, loads sitefile and packages
         ctx = lib.prepare_context ctxp
+
         if options['--verbose']
           ctx.verbose = true
+
         if _.isEmpty ctx.sitefile.routes
-          lib.warn 'No routes'
+          lib.warn 'No routes, exiting'
           process.exit()
 
-        if process.env.SITEFILE_HOST
-          ctx.site.host = process.env.SITEFILE_HOST
-        if process.env.SITEFILE_PORT
-          ctx.site.port = process.env.SITEFILE_PORT
         if options['--host']
           ctx.site.host = options['--host']
+        else if process.env.SITEFILE_HOST
+          ctx.site.host = process.env.SITEFILE_HOST
+
         if options['--port']
           ctx.site.port = options['--port']
+        else if process.env.SITEFILE_PORT
+          ctx.site.port = process.env.SITEFILE_PORT
 
-        # add the app where our routes go
+        # create Express instance with HTTP server
         ctx.app = sitefile_cli.startExpress ctx
-        # bootstrap app setup using sitefile
+
+        # Bootstrap app setup using sitefile mapping and loaded router modules
         sf = new lib.Sitefile ctx
+
         # set full path for export
         ctx.site.netpath = "//"+ctx.site.host+':'+ctx.site.port+ctx.site.base
 
-      when vOpt.startsWith '0.1' then null
+      when vOpt.startsWith '0.1'
+        console.log 'XXX: if needed, per-version/backward-compat init', vOpt
+        process.exit 1
+
+      else
+        console.log 'Unknown backward-compat', vOpt
+        process.exit 3
+        
 
     # serve forever
     proc = sitefile_cli.serve done, ctx

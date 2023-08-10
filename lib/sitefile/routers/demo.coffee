@@ -5,6 +5,9 @@ Router = require '../Router'
 module.exports = ( ctx ) ->
 
   express = require 'express'
+  console.log 'Demo router module init completed'
+
+  # Return standard Sf router object
 
   name: 'demo'
   label: ''

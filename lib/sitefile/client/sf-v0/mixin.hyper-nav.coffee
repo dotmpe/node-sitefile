@@ -37,14 +37,14 @@ define 'sf-v0/mixin.hyper-nav', [
     # Update image src attribute while embedded at another base
     init_placeholder_img_src: ( homeref, self=@ ) ->
       $(".placeholder img").each ->
-        ref = self.resolve_page $(this).attr("src"), homeref
+        ref = self.resolve_pageref $(this).attr("src"), homeref
         $(this).attr "src", ref
 
     # Update a href onclick for embedded use
     init_placeholder_a_href: ( homeref, self=@ ) ->
       $(".placeholder").on "click", "a", (evt) ->
         evt.preventDefault()
-        ref = self.resolve_page $(this).attr("href"), homeref
+        ref = self.resolve_pageref $(this).attr("href"), homeref
         console.log 'href onclick', $(this).attr("href"), ref, homeref
         if '/' == ref.substr 0, 1
           hasher.setHash ref.substr 1
@@ -67,7 +67,7 @@ define 'sf-v0/mixin.hyper-nav', [
           # FIXME: catch all URL types
           unless oldHash.substr(0,4) == 'http'
             oldHash = '/'+oldHash
-        console.log 'parseHash', newHash, oldHash
+        console.log 'parseHash to', newHash, ' from ', oldHash
         self.route_page newHash, oldHash
 
       hasher.initialized.add(parseHash) # parse initial hash
@@ -77,7 +77,7 @@ define 'sf-v0/mixin.hyper-nav', [
       # update URL fragment generating new history record
       #hasher.setHash window.location.hash
 
-    resolve_page: ( ref, baseref ) ->
+    resolve_pageref: ( ref, baseref ) ->
       if ref.substr(0,1) == '#'
         return baseref+ref
       if ref.substr(0,1) == '/'
@@ -90,34 +90,63 @@ define 'sf-v0/mixin.hyper-nav', [
         baseref = baseref+'/'
       return baseref+ref
 
-    # Move from URL self to cref. Make jquery insert content at placeholder.
-    # Get body from HTTP URL. Unless the #sf:xref fragment is present.
+    # Change content from URL self to cref, do HEAD on absolut URL ref
+    # and load image or page.
     route_page: ( self, cref ) ->
       #console.log 'route_page A', @, ref, cref
-      ref = @resolve_page self, cref
-      console.log 'resolved', ref
+      # Resolve reference
+      ref = @resolve_pageref self, cref
+      # Use proxied URL to bypass XHR CORS
+      if ref.substr(0,1) != '/'
+        ref = '/res/http?url='+ref
+      # Do HEAD to determine content-type
+      self = @
+      jxr = $.ajax
+        type: 'HEAD'
+        async: true
+        url: ref
+        success: ->
+          mt = jxr.getResponseHeader 'Content-Type'
+          console.log 'resolved', mt, ref
+          if mt.indexOf('image/') == 0
+            self.resolve_img ref
+          else if mt.indexOf('html') > -1
+            self.resolve_page ref
+          else
+            console.log 'TODO', mt, ref
+
+    resolve_img: ( href ) ->
+      $('.placeholder').off 'click'
+      img = $ '<img />'
+      img.attr 'src', href
+      $('.placeholder').html('').append img
+
+    # Get body from HTTP URL. Unless the #sf:xref fragment is present.
+    # Make jquery insert content at placeholder
+    resolve_page: ( href ) ->
       # XXX: Clean listeners on element by dropping
       #$('.placeholder')
       #.replaceWith('<div class="container placeholder"></div>')
       $('.placeholder').off 'click'
       # Load content
-      # FIXME: catch all URL types
-      x = ref.indexOf '#sf:xref:'
-      if x == -1 && ref.substr(0,4) == 'http'
-        xref = '/res/http?url='+ref+' body'
+      x = href.indexOf '#sf:xref:'
+      if x == -1 && href.substr(0,4) == 'http'
+        xref = '/res/http?url='+href+' body'
       else if x > -1
-        xref = ref.substr(0,x)+' '+decodeURI ref.substr x+9
+        xref = href.substr(0,x)+' '+decodeURI href.substr x+9
       else
-        xref = ref+' .document>*'
+        xref = href+' .document>*'
       # Use jQuery.load to get at content at other resource
       console.log "Loading xref #{xref}"
       self = @
       $('.placeholder').load xref, ( rsTxt, txtStat, jqXhr ) ->
+        console.log xref, rsTxt
         if txtStat not in [ "success", "notmodified" ]
           console.log 'jQ.load fail, TODO', arguments
         else
-          console.log "Loaded", ref
-          self.init_placeholder ref
+          #mt = jqXhr.getResponseHeader 'Content-Type'
+          console.log "Loaded", href
+          self.init_placeholder href
           # Do our best to find a title/h1 text to use
           self.get_title rsTxt
           # Run scripts (if browser didn't strip them)

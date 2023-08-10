@@ -7,27 +7,6 @@ Sitefile's main HTML client work is done using Require.JS, and documented here.
 For thoughts on the project build setup see `features/dhtml`_.
 
 
-Log
-----
-- Added Bower. Experimenting with polymer.
-- Want to get Polymer core-scaffold running somehow.
-  See examples_ and `Polymer Getting started <doc/polymer>`_.
-- Working to add prism.js source-viewer.
-  See `Testing prism.js </src/example/polymer-custom.pug>`_
-
-- [2016-12-13] setup `app-0` router for first prototype of base client.
-- [2016-12-27] testing prism.js. Not sure how to go about upgrading polymer.
-- [2017-01-07] cleaning new sitefile v0 app a bit for use, and looking at a
-  polymer and debugging.
-  would like to start a sort of console.log with visual log polyfill
-  for the user to monitor the app is working correctly
-- [2017-02-15] Three modes of app HTML handling. [2017-10-14] Moved to
-  `features/dhtml`_. Any mode that works will do. Client is still not very
-  friendly.
-- [2017-09-09] See also `component`_ and `module`_ source docs
-- [2017-10-14] Cleaning up here, moving bits to `features/dhtml`_.
-  Now documenting main setup approaches here.
-
 Design
 ------
 Documenting bootstrap approaches for Require.JS clients.
@@ -99,3 +78,27 @@ features/html5-client
 
 features/dhtml
   Continues the jQ plugin and widget development.
+
+Log
+----
+- Added Bower. Experimenting with polymer.
+- Want to get Polymer core-scaffold running somehow.
+  See examples_ and `Polymer Getting started <doc/polymer>`_.
+- Working to add prism.js source-viewer.
+  See `Testing prism.js </src/example/polymer-custom.pug>`_
+
+- [2016-12-13] setup `app-0` router for first prototype of base client.
+- [2016-12-27] testing prism.js. Not sure how to go about upgrading polymer.
+- [2017-01-07] cleaning new sitefile v0 app a bit for use, and looking at a
+  polymer and debugging.
+  would like to start a sort of console.log with visual log polyfill
+  for the user to monitor the app is working correctly
+- [2017-02-15] Three modes of app HTML handling. [2017-10-14] Moved to
+  `features/dhtml`_. Any mode that works will do. Client is still not very
+  friendly.
+- [2017-09-09] See also `component`_ and `module`_ source docs
+- [2017-10-14] Cleaning up here, moving bits to `features/dhtml`_.
+  Now documenting main setup approaches here.
+- [2023-08-09] Looking to maybe move client dev out of main Sitefile project.
+
+..

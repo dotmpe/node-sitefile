@@ -201,7 +201,7 @@ routes:
   assets: static:assets
   favicon.ico: static:assets/favicon-file-text-8bc34a.ico
 
-  sio: sio:null
+  sio: sio:null # Server at /socket.io/
 
 options:
   global:

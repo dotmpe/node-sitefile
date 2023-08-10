@@ -90,7 +90,7 @@ define 'sf-v0/microformats/href-registry', [
         self.set_url idx, urlDoc
 
     _get_url: ( href ) ->
-      url = @app.page.resolve_page href, location.pathname
+      url = @app.page.resolve_pageref href, location.pathname
       if url.match /^\//
         url = window.location.protocol+'//'+window.location.host+url
       new URL url

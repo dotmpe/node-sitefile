@@ -1,17 +1,17 @@
 define 'sf-v0/component/window', [
-	"/socket.io/socket.io.js"
+  "/socket.io/socket.io.js"
 ], ( io ) ->
 
-	socket = io()
+  socket = io()
 
-	console.log "SIO conn est"
+  console.log "SIO conn est"
 
-	socket.on "connect", () ->
-		console.log "SIO conn init ##{socket.id} v#{socket.protocol}"
-		console.log socket.id, socket.protocol, socket.connected
+  socket.on "connect", ->
+    console.log "SIO conn init"+
+      "##{socket.id} v#{io.protocol} con:#{socket.connected}"
 
-	class Window
-		constructor: ->
-			super()
+  class Window
+    constructor: ->
+      super()
 
 #

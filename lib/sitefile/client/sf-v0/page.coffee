@@ -17,7 +17,7 @@ define 'sf-v0/page', [ 'lodash',
 ], ( _, DocumentPage, ToggleStyle, crossroads, hasher, jqui, cookies ) ->
 
 
-  console.log 'Loading Page'
+  console.log 'Loading Sitefile Page'
 
   class SitefilePage extends DocumentPage
 

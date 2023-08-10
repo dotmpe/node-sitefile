@@ -14,14 +14,9 @@
     :target: https://coveralls.io/r/dotmpe/node-sitefile
     :alt: Coverage
 
-  .. image:: https://secure.travis-ci.org/dotmpe/node-sitefile.png
-    :target: https://travis-ci.org/dotmpe/node-sitefile
-    :alt: Build
-
-  ..
-     .. image:: https://img.shields.io/github/issues/dotmpe/node-sitefile.svg
-       :target: http://githubstats.com/dotmpe/node-sitefile/issues
-       :alt: GitHub issues
+  .. image:: https://img.shields.io/github/issues/dotmpe/node-sitefile.svg
+    :target: http://githubstats.com/dotmpe/node-sitefile/issues
+    :alt: GitHub issues
 
 :repository:
 

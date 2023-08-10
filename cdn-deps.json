@@ -1,6 +1,5 @@
 {
   "url": {
-    "sf-v0": "/app/sf-v0"
   },
   "shim": {
     "bootstrap": ["jquery"],
@@ -27,6 +26,8 @@
   "map": {
     "*": {
       "sitefile": "sf-v0",
+      "base": "sf-v0/base",
+      "app": "sf-v0/app",
       "css": "require-css",
       "cs": "require-cs",
       "text": "require-text"

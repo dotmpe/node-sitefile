@@ -5,8 +5,8 @@ Main Development Document
 
 .. contents::
 
-This document introduces Sitefile conceptually, and then continues to outline
-its current focus, setup and results.
+This document introduces the Sitefile project conceptually, and then continues
+to outline its current focus, setup and results.
 
 
 Intro
@@ -104,11 +104,12 @@ These are features in development for the v0.1/v0.0.1 roadmap.
       ..
 
         Ideas: conglomerate's of site(file)s, nested sitefiles, syndication and
-        API exposure.
+        API exposure. See sitefile-planet on state of the art
 
    3. Data infra and metadata schema
 
-        Work in Progress:
+      TODO: should split of work for client, ie node-sf-page or dotspace project
+      to work on some data/infra specs there
 
 
 3. .. _feature-3:
@@ -180,6 +181,15 @@ Issues
   with node-sitefile. Need to think about install vs. src locations a bit.
 
 - Docker entry does not have GIT LFS, assets like favicon are missing.
+
+- Should split up projects, so Sitefile purely deals with the Sitefile server
+  setup.
+
+  Want to think about client more in 'dotspace' project, and move things there.
+  perhaps setup different node-sf-client with doc/page/... type and routines
+
+  - dotspace: "autocomplete" for sitefile, conceptual project
+  - du-page: page type and layout + chrome
 
 
 Appendices

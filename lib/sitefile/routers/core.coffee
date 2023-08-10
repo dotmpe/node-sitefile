@@ -1,5 +1,10 @@
 _ = require 'lodash'
 
+###
+Core router
+
+Provides URL endpoints to access Sitefile internals
+###
 
 jQuery_autocomplete_api = ( req, rctx ) ->
 

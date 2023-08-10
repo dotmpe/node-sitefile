@@ -116,7 +116,7 @@ module.exports = ( ctx ) ->
 
   # Block until checked for Du, else return null; no handler
   if not test_for_du()
-    sitefile.warn "No Docutils"
+    sitefile.warn "No Docutils, returning null router"
     return
 
   # Return obj. w/ metadata & functions

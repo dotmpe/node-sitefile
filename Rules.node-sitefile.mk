@@ -49,7 +49,7 @@ update:
 global:
 	npm install -g
 
-docker:
+docker-edge:
 	cd tools/docker/ubuntu && \
 		docker build --build-arg sf_build_ver=r0.0.7 -t dotmpe/node-sitefile:edge .
 
@@ -68,6 +68,9 @@ docker-dev:
 		-e SITEFILE_HOST=sf.$(hostname) \
 		-v $$PWD:/src/github.com/dotmpe/node-sitefile/ \
 		dotmpe/node-sitefile:edge
+
+docker-tags::
+	wget -q -O - "https://hub.docker.com/v2/namespaces/dotmpe/repositories/node-sitefile/tags?page_size=100" | grep -o '"name": *"[^"]*' | grep -o '[^"]*$$'
 
 build:: docker TODO.list
 

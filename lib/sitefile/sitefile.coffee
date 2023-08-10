@@ -171,19 +171,22 @@ load_packages = ( ctx ) ->
       if not sf_mod
         throw new Error("Package init returned null for #{sf_package_name}")
       ctx.modules[sf_package_name] = sf_mod
-    if not sf_mod
-      log "Ingored empty module #{sf_package_name}"
+    else
+      log "Ignored null module for #{sf_package_name}"
       continue
 
-    if sf_mod.type == 'pre-context-init'
-      sf_mod
-    if sf_mod.type == 'context-prototype'
-      _.extend(nodelib.Context::, sf_mod.prototype)
-    if sf_mod.type == 'middleware'
-      if not _.isFunction sf_mod.passthrough
-        throw new Error("Not a function for middleware "+sf_package.name)
-      ctx.middleware.push sf_mod
-
+    # XXX: some specific
+    switch
+      when sf_mod.type == 'pre-context-init'
+        sf_mod
+      when sf_mod.type == 'context-prototype'
+        _.extend(nodelib.Context::, sf_mod.prototype)
+      when sf_mod.type == 'middleware'
+        if not _.isFunction sf_mod.passthrough
+          throw new Error("Not a function for middleware "+sf_package.name)
+        ctx.middleware.push sf_mod
+      else
+        warn "Unhandled module type #{sf_mod.type}"
 
 # Turn options dict into root context instance, a rather long routine. During
 # this phase all the static components are loaded, inlcuding global and local
@@ -286,7 +289,7 @@ prepare_context = ( ctx={} ) ->
         #{ html: 'ejs' }
       ]
 
-  # Load packages: initialize from sitefile.packages (set ctx.packages)
+  # Load packages: initialize from sitefile.packages (builds ctx.packages map)
   load_packages ctx
 
   debug "Creating new context for #{ctx.envname}"

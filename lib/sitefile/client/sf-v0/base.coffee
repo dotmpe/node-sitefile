@@ -1,7 +1,7 @@
 ###
 Boilerplate context for all web Apps in Node-Sitefile.
 ###
-define 'base', [
+define 'sf-v0/base', [
   
   'jquery'
   'lodash'
